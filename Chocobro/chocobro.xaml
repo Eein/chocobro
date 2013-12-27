@@ -1,0 +1,39 @@
+﻿<Window x:Class="Chocobro.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Chocobro v0.0.1" Height="845.194" Width="620.718" ScrollViewer.HorizontalScrollBarVisibility="Auto" ResizeMode="NoResize">
+    <Grid Margin="0,0,4,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="479*"/>
+            <ColumnDefinition Width="132*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="751*"/>
+            <RowDefinition Height="65*"/>
+        </Grid.RowDefinitions>
+        <RichTextBox x:Name="console" x:FieldModifier="public" Height="682" Margin="167,59,10,0" VerticalAlignment="Top" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
+            <RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="0"/>
+                </Style>
+            </RichTextBox.Resources>
+        </RichTextBox>
+        <Button Content="Sim" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click" Height="20" Grid.Column="1" Grid.Row="1" Width="58"/>
+        <Label Content="CONSOLE" HorizontalAlignment="Left" Margin="167,28,0,0" VerticalAlignment="Top" RenderTransformOrigin="-7.754,0.442" Height="26" Width="63"/>
+        <ComboBox x:Name="job" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Width="120" Height="22"  >
+            <ComboBoxItem Content="Bard" HorizontalAlignment="Left" Width="118" IsSelected="True"/>
+            <ComboBoxItem Content="Blank" HorizontalAlignment="Left" Width="118"/>
+
+        </ComboBox>
+        <Label Content="Job:" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Height="26" Width="31"/>
+        <Menu HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="1253" Grid.ColumnSpan="2" Margin="0,0,-642,0">
+            <MenuItem Header="File" Height="22">
+                <MenuItem Header="About" HorizontalAlignment="Left" Width="140"/>
+                <MenuItem x:Name="ExitApplication" Header="Exit" HorizontalAlignment="Left" Width="140" Click="applicationExit"/>
+            </MenuItem>
+        </Menu>
+        <TextBox x:Name="fightLengthInput" HorizontalAlignment="Left" Height="22" Margin="10,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="10"/>
+        <Label Content="Fight Length:" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
