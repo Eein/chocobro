@@ -10,8 +10,7 @@ namespace Chocobro
       
     public partial class Job
     {
-        
-        const double gcd = 2.5;
+
         public string name { get; set; }
         public int STR { get; set; }
         public int DEX { get; set; }
@@ -26,10 +25,12 @@ namespace Chocobro
         public int SPS = 341;
         public int AP = 0; // Define after gear
         public int AMP = 0; // Define after gear
+        public int TP = 1000;
+        
 
         
         public double calculateGCD() {
-            var skillcalc = gcd - (Math.Round(((SKS - 341) * 0.00095308) * 100) / 100);
+            var skillcalc = MainWindow.gcd - (Math.Round(((SKS - 341) * 0.00095308) * 100) / 100);
             return skillcalc;
         }
         public void calculateSGCD(double castspeed) {
@@ -37,6 +38,6 @@ namespace Chocobro
         }
 
         public virtual void rotation() { }
-
+        
     }
 }

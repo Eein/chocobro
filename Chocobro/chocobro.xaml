@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Chocobro.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Chocobro v0.0.1" Height="845.194" Width="620.718" ScrollViewer.HorizontalScrollBarVisibility="Auto" ResizeMode="NoResize">
+        Title="Chocobro v0.0.1" Height="845.194" Width="620.718" ScrollViewer.HorizontalScrollBarVisibility="Auto" ResizeMode="NoResize" Closed="Window_Closed">
     <Grid Margin="0,0,4,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="479*"/>
@@ -32,7 +32,7 @@
                 <MenuItem x:Name="ExitApplication" Header="Exit" HorizontalAlignment="Left" Width="140" Click="applicationExit"/>
             </MenuItem>
         </Menu>
-        <TextBox x:Name="fightLengthInput" HorizontalAlignment="Left" Height="22" Margin="10,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="10"/>
+        <TextBox x:Name="fightLengthInput" HorizontalAlignment="Left" Height="22" Margin="10,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="100"/>
         <Label Content="Fight Length:" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top"/>
 
     </Grid>

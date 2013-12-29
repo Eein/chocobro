@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Collections;
  
 
 namespace Chocobro
@@ -22,50 +23,68 @@ namespace Chocobro
     /// </summary>
     
     public partial class MainWindow : Window {
-       
+        
         //Global Definition
-        static double time = 0.00;
-        static double fightlength = 0.00;
+        public static double gcd = 2.5;
+        public static double time = 0.00;
+        public static double fightlength = 0.00;
+        public static double nextability = 0.00;
+        public static double nextinstant = 0.00;
+        //temp actionmade to move along sim
+        public static bool actionmade = false;
 
-        public void scheduler() {
-            log("schedule");
-
-        }
         public void handler(ref Job p) {
-            log("handle:");
+
+            actionmade = false; //temp
+           
             p.rotation();
+
+            if (actionmade == false) { time += 0.01; time = nextability; } else { }
         }
-        //append line
+
+        // Global Math
+        public static int d100() {
+            Random rand = new Random();
+            return rand.Next(1,101);
+        }
+
+        public static double nextTime(double instant, double ability) {
+            return Math.Min(instant, ability);
+            //add cast here later.
+        }
+        public static double floored(double number){
+            var value = Math.Floor(number * 100) / 100;
+            return value;
+        }
 
                 
         // MAIN
         public MainWindow(){
             InitializeComponent();
-            SortedDictionary<double, string> queue = new SortedDictionary<double, string>(); //Initialize Queue 
             //Initialize default actions here. (autorun on load)
-            fightlength = 10.0;
-
         }
         
 
         public void simulate() {
+            
             clearLog();
             Job p = new Job();
             p.name = "Job Not Defined"; // Debug text.
             
             //Define Player Object
             createJobObject(ref p);
-
-            time = 0;
+ 
             if (p.name == "Job Not Defined") { return; }
+            
             while (time <= fightlength) {
+                //MessageBox.Show(time.ToString() + "  " + fightlength.ToString());
                 handler(ref p);
-                scheduler();
-                time += 1;
+
             }
 
             //parse log into box
             readLog();
+            resetSim();
         }
 
         public void createJobObject(ref Job p) {
@@ -91,10 +110,10 @@ namespace Chocobro
             simulate();
 
         }
+        private void Window_Closed(object sender, EventArgs e) {
+            Application.Current.Shutdown();
+        }
         
-        // Global accessors
-        public static double time_t() { return time; }
-        public static double fightlength_t() { return time; }
 
 
         // Logging
@@ -108,12 +127,21 @@ namespace Chocobro
                 sw.Write("");
                 sw.Close();
         }
+        public static void resetSim() {
+        gcd = 2.5;
+        time = 0.00;
+        fightlength = 0.00;
+        nextability = 0.00;
+        nextinstant = 0.00;
+        }
         public void readLog() {
             StreamReader sr = new StreamReader("output.txt"); //TODO allow user to rename this.
             var readContents = sr.ReadToEnd();
             console.AppendText(readContents);
             sr.Close();
         }
+
+        
  
     }
 
