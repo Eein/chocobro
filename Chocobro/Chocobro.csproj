@@ -55,7 +55,7 @@
     </ApplicationDefinition>
     <Compile Include="Job Modules\Bard.cs" />
     <Compile Include="Sim Base\Ability.cs" />
-    <Compile Include="Sim Base\Job.cs" />
+    <Compile Include="Job Modules\Job.cs" />
     <Page Include="chocobro.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

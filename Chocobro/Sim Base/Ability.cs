@@ -37,12 +37,12 @@ namespace Chocobro
         public virtual void execute() {
             if (abilityType == "Weaponskill") { 
             //If time >= next cast time and time >= nextability)
-                if (time >= nextCast && time >= nextability) {
+                if (time >= nextCast && time >= nextability && actionmade == false) {
                     time = floored(time);
                     string executestring = time.ToString("F2") + " - Executing " + name;
                     log(executestring);
                     //if doesnt miss, then impact
-                    impact();
+                    
                     //set nextCast.
                     nextCast = floored((time + recastTime));
                     
@@ -50,18 +50,27 @@ namespace Chocobro
                     nextability = floored((time + gcd));
                     nextinstant = floored((time + animationDelay));
                     
-                    time = nextTime(nextinstant, nextability);
+                    //time = nextTime(nextinstant, nextability);
                     actionmade = true;
+                    impact();
                 }
             } //else instant stuff
             
         }
         public virtual void impact() {
             //set potency for now, but change to damage later.
-            log(time.ToString("F2") + " - " + name + " Deals " + potency + " Potency Damage.");
+            log(time.ToString("F2") + " - " + name + " Deals " + potency + " Potency Damage. Next ability at: " + nextability);
         }
+        
         public virtual void expire() { }
-        public virtual void tick() { }
+        
+        public virtual void tick() {      
+                //schedule tick
+            if (MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) {
+                log(time.ToString("F2") + " - " + name + " is ticking now. servertick: " + servertick);
+            }
+        }
+
         public virtual void decrement() { }
     }
 }

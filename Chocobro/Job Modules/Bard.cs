@@ -18,12 +18,16 @@ namespace Chocobro {
         Ability heavyshot = new Heavyshot();
         
         public override void rotation() {
-            
+            //actionable
             heavyshot.execute();
-
+            //server actionable - ticks/decrements then server tick action
+            //if tick is 3
+            
+            heavyshot.tick();
+            
+            
         }
-        
-
+       
         // -------------------
         // Ability Definition
         // -------------------
