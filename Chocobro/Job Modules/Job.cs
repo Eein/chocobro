@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-namespace Chocobro
-{
-      
-    public partial class Job
-    {
+namespace Chocobro {
+
+    public partial class Job {
 
         public string name { get; set; }
         public int STR { get; set; }
@@ -26,9 +18,7 @@ namespace Chocobro
         public int AP = 0; // Define after gear
         public int AMP = 0; // Define after gear
         public int TP = 1000;
-        
 
-        
         public double calculateGCD() {
             var skillcalc = MainWindow.gcd - (Math.Round(((SKS - 341) * 0.00095308) * 100) / 100);
             return skillcalc;
@@ -38,6 +28,6 @@ namespace Chocobro
         }
 
         public virtual void rotation() { }
-        
+
     }
 }

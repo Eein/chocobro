@@ -1,23 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿
+namespace Chocobro {
 
-namespace Chocobro
-{   
-   
-    public partial class Ability : MainWindow
-    {
+    public partial class Ability : MainWindow {
 
         public string name;
         public string abilityType;
@@ -33,39 +17,39 @@ namespace Chocobro
         public double debuff;
 
         public double bonus = 0; // for abilitiy specific bonuses.x
-        
+
         public virtual void execute() {
-            if (abilityType == "Weaponskill") { 
-            //If time >= next cast time and time >= nextability)
+            if (abilityType == "Weaponskill") {
+                //If time >= next cast time and time >= nextability)
                 if (time >= nextCast && time >= nextability && actionmade == false) {
                     time = floored(time);
                     string executestring = time.ToString("F2") + " - Executing " + name;
                     log(executestring);
                     //if doesnt miss, then impact
-                    
+
                     //set nextCast.
                     nextCast = floored((time + recastTime));
-                    
+
                     //set nextability
                     nextability = floored((time + gcd));
                     nextinstant = floored((time + animationDelay));
-                    
+
                     //time = nextTime(nextinstant, nextability);
                     actionmade = true;
                     impact();
                 }
             } //else instant stuff
-            
+
         }
         public virtual void impact() {
             //set potency for now, but change to damage later.
             log(time.ToString("F2") + " - " + name + " Deals " + potency + " Potency Damage. Next ability at: " + nextability);
         }
-        
-        public virtual void expire() { }
-        
-        public virtual void tick() {      
-                //schedule tick
+
+        //public virtual void expire() { } not really needed. Maybe handle expiration in ticks? hmmm.
+
+        public virtual void tick() {
+            //schedule tick
             if (MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) {
                 log(time.ToString("F2") + " - " + name + " is ticking now. servertick: " + servertick);
             }
