@@ -13,7 +13,7 @@ using System.IO;
 
 //-------------TODO-------------------
 // 1. Make options for Logs: None - Show - Debug :: this only applies to first iteration ALWAYS.
-//
+// 2. Make streamwriter global for faster parsing.
 //
 //
 //------------------------------------
@@ -25,6 +25,7 @@ namespace Chocobro {
 
     public partial class MainWindow : Window {
         Random randtick = new Random();
+        
         //Global Definition
         public static double gcd = 2.5;
         public static double time = 0.00;
@@ -87,6 +88,7 @@ namespace Chocobro {
         public MainWindow() {
             InitializeComponent();
             servertick = randtick.Next(1, 4);
+            
             //Initialize default actions here. (autorun on load)
         }
 
@@ -94,6 +96,7 @@ namespace Chocobro {
 
             clearLog();
             Job p = new Job();
+            
             p.name = "Job Not Defined"; // Debug text.
 
             //Define Player Object
@@ -110,8 +113,9 @@ namespace Chocobro {
                 tickevent();
                 time = nextTime(nextinstant, nextability, servertime);
             }
-
+            
             //parse log into box
+            
             readLog();
             resetSim();
         }
@@ -142,9 +146,11 @@ namespace Chocobro {
 
         // Logging
         public static void log(String s) {
-            StreamWriter sw = File.AppendText("output.txt");
-            sw.WriteLine(s);
-            sw.Close();
+
+               StreamWriter sw = File.AppendText("output.txt");
+               sw.WriteLine(s);
+               sw.Close();
+            
         }
         public static void clearLog() {
             StreamWriter sw = new StreamWriter("output.txt");

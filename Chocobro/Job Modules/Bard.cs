@@ -1,14 +1,16 @@
 ﻿
 namespace Chocobro {
     public class Bard : Job {
-        Ability heavyshot = new Heavyshot();
+        
 
         public override void rotation() {
             //actionable
+            if(windbite.debuff <= MainWindow.gcd){
+                windbite.execute(); }
             heavyshot.execute();
             //server actionable - ticks/decrements then server tick action
             //if tick is 3
-            heavyshot.tick();
+            windbite.tick();
         }
 
         // -------------------
@@ -16,8 +18,8 @@ namespace Chocobro {
         // -------------------
 
         // Heavy Shot ---------------------
+        Ability heavyshot = new Heavyshot();
         public class Heavyshot : Ability {
-
             public Heavyshot() {
                 name = "Heavy Shot";
                 potency = 150;
@@ -30,14 +32,38 @@ namespace Chocobro {
                 duration = 0.0;
             }
             public override void impact() {
-                //add heavier shot stuff here
+                //add heavier shot buff activation here
                 base.impact();
             }
         }
-
         // End Heavyshot ---------------------
 
-        Ability windbite = new Ability() { name = "Windbite", potency = 60, dotPotency = 45, recastTime = 2.5, abilityCost = 80, animationDelay = 0.3, abilityType = "Weaponskill", castTime = 0.0, duration = 18 };
+        // Windbite --------------------------
+        Ability windbite = new Windbite();
+        public class Windbite : Ability {
+            public Windbite() {
+                name = "Windbite";
+                potency = 60;
+                dotPotency = 45;
+                recastTime = 2.5;
+                abilityCost = 80;
+                animationDelay = 0.3;
+                abilityType = "Weaponskill";
+                castTime = 0.0;
+                duration = 0.0;
+                
+            }
+            public override void impact() {
+                //Start ticking for 18s
+                this.debuff = 18;
+                base.impact();
+            }
+        }
+        // End Windbite --------------------------
+
+
+
+        //Ability windbite = new Ability() { name = "Windbite", potency = 60, dotPotency = 45, recastTime = 2.5, abilityCost = 80, animationDelay = 0.3, abilityType = "Weaponskill", castTime = 0.0, duration = 18 };
         Ability venomousbite = new Ability() { name = "Venomous Bite", potency = 100, dotPotency = 35, recastTime = 2.5, abilityCost = 80, animationDelay = 0.3, abilityType = "Weaponskill", castTime = 0.0, duration = 18 };
 
         //straightshot

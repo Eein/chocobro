@@ -15,6 +15,13 @@ namespace Chocobro {
         public double nextCast = 0.0;
         public double buff;
         public double debuff;
+        // COPY THIS WHEREVER BUFFED IS USED 
+        // 0 - Raging Strikes 
+        // 1 - Blood for Blood 
+        // 2 - Straighter Shot  
+        // 3 - Hawk's Eye  
+        // 4 - Internal Release  // 5 -  //
+        int[] buffed = new int[6] {0,0,0,0,0,0};
 
         public double bonus = 0; // for abilitiy specific bonuses.x
 
@@ -50,8 +57,14 @@ namespace Chocobro {
 
         public virtual void tick() {
             //schedule tick
-            if (MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) {
-                log(time.ToString("F2") + " - " + name + " is ticking now. servertick: " + servertick);
+            if (MainWindow.time == MainWindow.servertime) {
+                debuff -= 1.0;
+                if (debuff <= 0.0) {
+                    log(time.ToString("F2") + " - " + name + " has fallen off.");
+                }
+            }
+            if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && debuff > 0) {
+                log(time.ToString("F2") + " - " + name + " is ticking now. Time Left: " + debuff);
             }
         }
 
