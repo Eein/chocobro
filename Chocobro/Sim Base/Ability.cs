@@ -64,7 +64,7 @@ namespace Chocobro {
         }
       }
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && debuff > 0) {
-        log(time.ToString("F2") + " - " + name + " is ticking now. Time Left: " + debuff);
+        log(time.ToString("F2") + " - " + name + " is ticking now for " + dotPotency + " Potency Damage - Time Left: " + debuff);
       }
     }
 

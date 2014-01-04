@@ -74,7 +74,30 @@ namespace Chocobro {
     }
     // End Windbite --------------------------
 
-     // Windbite --------------------------
+    // Venomous Bite -------------------------
+    Ability venomousbite = new Venomousbite();
+    public class Venomousbite : Ability {
+      public Venomousbite() {
+        name = "Venomous Bite"; 
+        potency = 100; 
+        dotPotency = 35; 
+        recastTime = 2.5; 
+        abilityCost = 80; 
+        animationDelay = 0.3; 
+        abilityType = "Weaponskill"; 
+        castTime = 0.0; 
+        
+
+      }
+      public override void impact() {
+        //Start ticking for 18s
+        this.debuff = 18;
+        base.impact();
+      }
+    }
+    // End Venomous Bite ----------------------
+
+    // Straight Shot --------------------------
     Ability straightshot = new Straightshot();
     public class Straightshot : Ability {
       public Straightshot() {
@@ -86,8 +109,6 @@ namespace Chocobro {
         animationDelay = 0.3; 
         abilityType = "Weaponskill";
         castTime = 0.0;
-        
-
       }
       public override void impact() {
         //Start ticking for 20s
@@ -95,16 +116,7 @@ namespace Chocobro {
         base.impact();
       }
     }
-    // End Windbite --------------------------
-
-
-    //Ability windbite = new Ability() { name = "Windbite", potency = 60, dotPotency = 45, recastTime = 2.5, abilityCost = 80, animationDelay = 0.3, abilityType = "Weaponskill", castTime = 0.0, duration = 18 };
-    //Ability venomousbite = new Ability() { name = "Venomous Bite", potency = 100, dotPotency = 35, recastTime = 2.5, abilityCost = 80, animationDelay = 0.3, abilityType = "Weaponskill", castTime = 0.0, duration = 18 };
-
-  
-
-
-
+    // End Straight Shot --------------------------
 
   }
 }
