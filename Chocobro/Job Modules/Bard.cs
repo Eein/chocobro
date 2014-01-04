@@ -4,14 +4,16 @@ namespace Chocobro {
 
 
     public override void rotation() {
-      //actionable
+      var gcd = calculateGCD();
+
+      
       straightshot.execute();
 
-      if (windbite.debuff <= MainWindow.gcd) {
+      if (windbite.debuff <= gcd) {
         windbite.execute();
       }
 
-      if (venomousbite.debuff <= MainWindow.gcd) {
+      if (venomousbite.debuff <= gcd) {
         venomousbite.execute();
       }
 
