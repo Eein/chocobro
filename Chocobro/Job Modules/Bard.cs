@@ -5,13 +5,21 @@ namespace Chocobro {
 
     public override void rotation() {
       //actionable
+      straightshot.execute();
+
       if (windbite.debuff <= MainWindow.gcd) {
         windbite.execute();
       }
+
+      if (venomousbite.debuff <= MainWindow.gcd) {
+        venomousbite.execute();
+      }
+
       heavyshot.execute();
       //server actionable - ticks/decrements then server tick action
       //if tick is 3
       windbite.tick();
+      venomousbite.tick();
     }
 
     // -------------------
@@ -68,7 +76,7 @@ namespace Chocobro {
     Ability venomousbite = new Ability() { name = "Venomous Bite", potency = 100, dotPotency = 35, recastTime = 2.5, abilityCost = 80, animationDelay = 0.3, abilityType = "Weaponskill", castTime = 0.0, duration = 18 };
 
     //straightshot
-    Ability straightshot = new Ability() { name = "Straight Shot", potency = 140, dotPotency = 0, recastTime = 2.5, abilityCost = 70, animationDelay = 0.3, abilityType = "Weaponskill", castTime = 0.3, duration = 20 };
+    Ability straightshot = new Ability() { name = "Straight Shot", potency = 140, dotPotency = 0, recastTime = 2.5, abilityCost = 70, animationDelay = 0.3, abilityType = "Weaponskill", castTime = 0.0, duration = 20 };
 
 
 
