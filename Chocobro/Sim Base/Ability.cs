@@ -57,7 +57,7 @@ namespace Chocobro {
 
     public virtual void tick() {
       //schedule tick
-      if (MainWindow.time == MainWindow.servertime) {
+      if (MainWindow.time == MainWindow.servertime && debuff != 0.0) {
         debuff -= 1.0;
         if (debuff <= 0.0) {
           log(time.ToString("F2") + " - " + name + " has fallen off.");
