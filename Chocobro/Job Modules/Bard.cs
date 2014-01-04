@@ -6,8 +6,10 @@ namespace Chocobro {
     public override void rotation() {
       var gcd = calculateGCD();
 
+      if (straightshot.buff <= 0) {
+          straightshot.execute();
+      }
       
-      straightshot.execute();
 
       if (windbite.debuff <= gcd) {
         windbite.execute();
@@ -72,14 +74,34 @@ namespace Chocobro {
     }
     // End Windbite --------------------------
 
+     // Windbite --------------------------
+    Ability straightshot = new Straightshot();
+    public class Straightshot : Ability {
+      public Straightshot() {
+        name = "Straight Shot"; 
+        potency = 140; 
+        dotPotency = 0;
+        recastTime = 2.5; 
+        abilityCost = 70;
+        animationDelay = 0.3; 
+        abilityType = "Weaponskill";
+        castTime = 0.0;
+        
+
+      }
+      public override void impact() {
+        //Start ticking for 20s
+        this.buff = 20;
+        base.impact();
+      }
+    }
+    // End Windbite --------------------------
 
 
     //Ability windbite = new Ability() { name = "Windbite", potency = 60, dotPotency = 45, recastTime = 2.5, abilityCost = 80, animationDelay = 0.3, abilityType = "Weaponskill", castTime = 0.0, duration = 18 };
-    Ability venomousbite = new Ability() { name = "Venomous Bite", potency = 100, dotPotency = 35, recastTime = 2.5, abilityCost = 80, animationDelay = 0.3, abilityType = "Weaponskill", castTime = 0.0, duration = 18 };
+    //Ability venomousbite = new Ability() { name = "Venomous Bite", potency = 100, dotPotency = 35, recastTime = 2.5, abilityCost = 80, animationDelay = 0.3, abilityType = "Weaponskill", castTime = 0.0, duration = 18 };
 
-    //straightshot
-    Ability straightshot = new Ability() { name = "Straight Shot", potency = 140, dotPotency = 0, recastTime = 2.5, abilityCost = 70, animationDelay = 0.3, abilityType = "Weaponskill", castTime = 0.0, duration = 20 };
-
+  
 
 
 
