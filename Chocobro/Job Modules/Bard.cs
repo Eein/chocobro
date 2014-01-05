@@ -63,7 +63,7 @@ namespace Chocobro {
         dotPotency = 0;
         recastTime = 2.5;
         abilityCost = 60;
-        animationDelay = 0.3;
+        animationDelay = 0.8;
         abilityType = "Weaponskill";
         castTime = 0.0;
         duration = 0.0;
@@ -86,7 +86,7 @@ namespace Chocobro {
         dotPotency = 45;
         recastTime = 2.5;
         abilityCost = 80;
-        animationDelay = 0.3;
+        animationDelay = 1.3;
         abilityType = "Weaponskill";
         castTime = 0.0;
         duration = 0.0;
@@ -110,7 +110,7 @@ namespace Chocobro {
         dotPotency = 35;
         recastTime = 2.5;
         abilityCost = 80;
-        animationDelay = 0.3;
+        animationDelay = 0.7;
         abilityType = "Weaponskill";
         castTime = 0.0;
 
@@ -134,7 +134,7 @@ namespace Chocobro {
         dotPotency = 0;
         recastTime = 2.5;
         abilityCost = 70;
-        animationDelay = 0.3;
+        animationDelay = 0.8;
         abilityType = "Weaponskill";
         castTime = 0.0;
       }
@@ -156,7 +156,7 @@ namespace Chocobro {
         dotPotency = 0;
         recastTime = 15;
         abilityCost = 0;
-        animationDelay = 0.5;
+        animationDelay = 1.25;
         abilityType = "Instant";
         castTime = 0.0;
       }
@@ -173,7 +173,7 @@ namespace Chocobro {
         dotPotency = 0;
         recastTime = 12;
         abilityCost = 0;
-        animationDelay = 0.3;
+        animationDelay = 1.1;
         abilityType = "Instant";
         castTime = 0.0;
       }
@@ -194,7 +194,7 @@ namespace Chocobro {
         dotPotency = 0;
         recastTime = 30;
         abilityCost = 0;
-        animationDelay = 0.2;
+        animationDelay = 0.6;
         abilityType = "Instant";
         castTime = 0.0;
       }
@@ -210,7 +210,7 @@ namespace Chocobro {
         dotPotency = 0;
         recastTime = 30;
         abilityCost = 0;
-        animationDelay = 0.35;
+        animationDelay = 1.2;
         abilityType = "Instant";
         castTime = 0.0;
       }
@@ -226,7 +226,7 @@ namespace Chocobro {
         dotPotency = 35;
         recastTime = 60;
         abilityCost = 0;
-        animationDelay = 0.2;
+        animationDelay = 0.8;
         abilityType = "Instant";
         castTime = 0.0;
       }
@@ -244,7 +244,7 @@ namespace Chocobro {
       public Internalrelease() {
         name = "Internal Release";
         recastTime = 60;
-        animationDelay = 0.3;
+        animationDelay = 0.75;
         abilityType = "Cooldown";
       }
       public override void impact() {
@@ -261,7 +261,7 @@ namespace Chocobro {
       public Bloodforblood() {
         name = "Blood for Blood";
         recastTime = 80;
-        animationDelay = 0.3;
+        animationDelay = 0.9;
         abilityType = "Cooldown";
       }
       public override void impact() {
@@ -277,7 +277,7 @@ namespace Chocobro {
       public Ragingstrikes() {
         name = "Raging Strikes";
         recastTime = 120;
-        animationDelay = 0.3;
+        animationDelay = 0.9;
         abilityType = "Cooldown";
       }
       public override void impact() {
@@ -293,7 +293,7 @@ namespace Chocobro {
       public Hawkseye() {
         name = "Hawks Eye";
         recastTime = 90;
-        animationDelay = 0.3;
+        animationDelay = 0.7;
         abilityType = "Cooldown";
       }
       public override void impact() {
@@ -309,7 +309,7 @@ namespace Chocobro {
       public Barrage() {
         name = "Barrage";
         recastTime = 90;
-        animationDelay = 0.3;
+        animationDelay = 0.7;
         abilityType = "Cooldown";
       }
       public override void impact() {
@@ -325,7 +325,7 @@ namespace Chocobro {
       public Invigorate() {
         name = "Invigorate";
         recastTime = 120;
-        animationDelay = 0.3;
+        animationDelay = 0.8;
         abilityType = "Cooldown";
       }
       public override void execute() {
