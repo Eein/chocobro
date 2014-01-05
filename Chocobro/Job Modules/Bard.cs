@@ -10,8 +10,6 @@ namespace Chocobro {
         straightshot.execute();
       }
 
-      internalrelease.execute();
-
       if (windbite.debuff <= gcd) {
         windbite.execute();
       }
@@ -21,6 +19,14 @@ namespace Chocobro {
       }
 
       heavyshot.execute();
+
+      //invigorate.execute();  needs TP<540
+      ragingstrikes.execute();
+      hawkseye.execute();
+      bloodforblood.execute();
+      internalrelease.execute();
+      barrage.execute();
+
       miserysend.execute();
       bloodletter.execute();
       flamingarrow.execute();
@@ -238,5 +244,85 @@ namespace Chocobro {
       }
     }
 
+    // End Internal Release
+
+    // Blood for Blood
+       Ability bloodforblood = new Bloodforblood();
+    public class Bloodforblood : Ability {
+      public Bloodforblood() {
+        name = "Blood for Blood";
+        recastTime = 80;
+        animationDelay = 0.3;
+        abilityType = "Cooldown";
+      }
+      public override void impact() {
+        this.buff = 20;
+        log(time.ToString("F2") + " - " + name + " Buff has been applied. Time Left: " + buff);
+      }
+    }
+    // End Blood for Blood
+
+    // Raging Strikes
+    Ability ragingstrikes = new Ragingstrikes();
+    public class Ragingstrikes : Ability {
+      public Ragingstrikes() {
+        name = "Raging Strikes";
+        recastTime = 120;
+        animationDelay = 0.3;
+        abilityType = "Cooldown";
+      }
+      public override void impact() {
+        this.buff = 20;
+        log(time.ToString("F2") + " - " + name + " Buff has been applied. Time Left: " + buff);
+      }
+    }
+    // End Raging Strikes
+
+    // Hawks Eye
+    Ability hawkseye = new Hawkseye();
+    public class Hawkseye : Ability {
+      public Hawkseye() {
+        name = "Hawks Eye";
+        recastTime = 90;
+        animationDelay = 0.3;
+        abilityType = "Cooldown";
+      }
+      public override void impact() {
+        this.buff = 20;
+        log(time.ToString("F2") + " - " + name + " Buff has been applied. Time Left: " + buff);
+      }
+    }
+    // End Hawks Eye
+
+    // Barrage
+    Ability barrage = new Barrage();
+    public class Barrage : Ability {
+      public Barrage() {
+        name = "Barrage";
+        recastTime = 90;
+        animationDelay = 0.3;
+        abilityType = "Cooldown";
+      }
+      public override void impact() {
+        this.buff = 10;
+        log(time.ToString("F2") + " - " + name + " Buff has been applied. Time Left: " + buff);
+      }
+    }
+    // End Barrage
+
+    // Invigorate
+    Ability invigorate = new Invigorate();
+    public class Invigorate : Ability {
+      public Invigorate() {
+        name = "Invigorate";
+        recastTime = 120;
+        animationDelay = 0.3;
+        abilityType = "Cooldown";
+      }
+      public override void impact() {
+        log(time.ToString("F2") + " - " + name + " has restored 400 TP");
+      }
+    }
+    // End Invigorate
   }
 }
