@@ -25,6 +25,14 @@ namespace Chocobro {
 
       bloodletter.execute();
 
+      flamearrow.execute();
+
+      repellingshot.execute();
+
+      bluntarrow.execute();
+
+
+
       //server actionable - ticks/decrements then server tick action
       //if tick is 3
       windbite.tick();
@@ -166,6 +174,60 @@ namespace Chocobro {
         }
       }
     }
+    // End  Miserys End -------------------------------
+
+    // Blunt Arroe ------------------------------------
+    Ability bluntarrow = new Bluntarrow();
+    public class Bluntarrow : Ability {
+      public Bluntarrow() {
+        name = "Blunt Arrow";
+        potency = 50;
+        dotPotency = 0;
+        recastTime = 30;
+        abilityCost = 0.0;
+        animationDelay = 0.2;
+        abilityType = "Instant";
+        castTime = 0.0;
+      }
+    }
+    // End Blunt Arrow -------------------------------
+
+    // Repelling Shot ---------------------------------
+    Ability repellingshot = new Repellingshot();
+    public class Repellingshot : Ability {
+      public Repellingshot() {
+        name = "Repelling Shot";
+        potency = 80;
+        dotPotency = 0;
+        recastTime = 30;
+        abilityCost = 0.0;
+        animationDelay = 0.35;
+        abilityType = "Instant";
+        castTime = 0.0;
+      }
+    }
+    // End Repelling Shot ----------------------------
+
+    //Flame Arrow
+    Ability flamearrow = new Flamearrow();
+    public class Flamearrow : Ability {
+      public Flamearrow() {
+        name = "Flaming Arrow";
+        potency = 0;
+        dotPotency = 35;
+        recastTime = 60;
+        abilityCost = 0.0;
+        animationDelay = 0.2;
+        abilityType = "Instant";
+        castTime = 0.0;
+      }
+      public override void impact() {
+        this.debuff = 30;
+        base.impact();
+        log(time.ToString("F2") + " - " + name + " DoT has been applied.  Time Left: " + debuff);
+      }
+    }
+
 
   }
 }
