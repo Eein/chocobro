@@ -35,6 +35,10 @@ namespace Chocobro {
     public static int servertime = 0;
     public static int servertick = 0;
 
+    //Resources
+    public static int TP = 1000;
+    public static int MP = 1000;
+
     //temp actionmade to move along sim
     public static bool actionmade = false;
 
@@ -55,6 +59,7 @@ namespace Chocobro {
         if (servertick == 3) {
           //log("--- SERVER TICK - Next tick at " + (servertime + 3) + " st: " + servertick);
           //TP-MP
+          
           servertick = 1;
         } else {
           servertick += 1;

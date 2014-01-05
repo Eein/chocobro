@@ -5,6 +5,7 @@ namespace Chocobro {
 
     public override void rotation() {
       var gcd = calculateGCD();
+      
 
       if (straightshot.buff <= 0) {
         straightshot.execute();
@@ -41,6 +42,8 @@ namespace Chocobro {
       //decrement buffs
       straightshot.decrement();
       internalrelease.decrement();
+
+      regen();
     }
 
     // -------------------
@@ -61,9 +64,11 @@ namespace Chocobro {
         castTime = 0.0;
         duration = 0.0;
       }
+
       public override void impact() {
         //add heavier shot buff activation here
         base.impact();
+        
       }
     }
     // End Heavyshot ---------------------
@@ -184,7 +189,7 @@ namespace Chocobro {
         potency = 50;
         dotPotency = 0;
         recastTime = 30;
-        abilityCost = 0.0;
+        abilityCost = 0;
         animationDelay = 0.2;
         abilityType = "Instant";
         castTime = 0.0;
@@ -200,7 +205,7 @@ namespace Chocobro {
         potency = 80;
         dotPotency = 0;
         recastTime = 30;
-        abilityCost = 0.0;
+        abilityCost = 0;
         animationDelay = 0.35;
         abilityType = "Instant";
         castTime = 0.0;
@@ -216,7 +221,7 @@ namespace Chocobro {
         potency = 0;
         dotPotency = 35;
         recastTime = 60;
-        abilityCost = 0.0;
+        abilityCost = 0;
         animationDelay = 0.2;
         abilityType = "Instant";
         castTime = 0.0;
