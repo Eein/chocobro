@@ -50,10 +50,10 @@ namespace Chocobro {
       return rand.Next(1, 101);
     }
     public static void tickevent() {
-      log(servertime.ToString("F2") + " - current server time");
+      //log(servertime.ToString("F2") + " - current server time");
       if (servertime == time) {
         if (servertick == 3) {
-          log("--- SERVER TICK - Next tick at " + (servertime + 3) + " st: " + servertick);
+          //log("--- SERVER TICK - Next tick at " + (servertime + 3) + " st: " + servertick);
           //TP-MP
           servertick = 1;
         } else {
@@ -73,7 +73,7 @@ namespace Chocobro {
         value = Math.Min(ability, st_t);
       }
 
-      log("Next Action - " + value.ToString("F2") + " !! min value");
+      //log("Next Action - " + value.ToString("F2") + " !! min value");
       return value;
       //add cast here later.
     }
