@@ -37,6 +37,7 @@ namespace Chocobro {
           //set nextCast.
           nextCast = floored((time + recastTime));
 
+
           //set nextability
           nextability = floored((time + gcd));
           nextinstant = floored((time + animationDelay));
@@ -56,10 +57,11 @@ namespace Chocobro {
 
           //set nextCast.
           nextCast = floored((time + recastTime));
+          
 
           //set nextability
           if (time + animationDelay > nextability) {
-            nextability = floored((time + gcd));
+            nextability = floored((time + animationDelay));
           }
           
           nextinstant = floored((time + animationDelay));

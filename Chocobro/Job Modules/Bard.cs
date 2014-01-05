@@ -79,6 +79,7 @@ namespace Chocobro {
         //Start ticking for 18s
         this.debuff = 18;
         base.impact();
+        log(time.ToString("F2") + " - " + name + " DoT has been applied.  Time Left: " + debuff);
       }
     }
     // End Windbite --------------------------
@@ -102,6 +103,7 @@ namespace Chocobro {
         //Start ticking for 18s
         this.debuff = 18;
         base.impact();
+        log(time.ToString("F2") + " - " + name + " DoT has been applied.  Time Left: " + debuff);
       }
     }
     // End Venomous Bite ----------------------
@@ -141,9 +143,7 @@ namespace Chocobro {
         abilityType = "Instant";
         castTime = 0.0;
       }
-      public override void impact() {
-        base.impact();
-      }
+
     }
     // End Bloodletter ---------------------------
 
@@ -160,9 +160,9 @@ namespace Chocobro {
         abilityType = "Instant";
         castTime = 0.0;
       }
-      public override void impact() {
-        if (time >= (fightlength * 0.20)) {
-          base.impact();
+      public override void execute() {
+        if (time >= (fightlength * 0.80)) {
+          base.execute();
         }
       }
     }
