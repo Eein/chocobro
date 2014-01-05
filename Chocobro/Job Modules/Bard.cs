@@ -21,6 +21,8 @@ namespace Chocobro {
 
       heavyshot.execute();
 
+      miserysend.execute();
+
       bloodletter.execute();
 
       //server actionable - ticks/decrements then server tick action
@@ -144,6 +146,26 @@ namespace Chocobro {
       }
     }
     // End Bloodletter ---------------------------
+
+    // Miserys End -------------------------------
+    Ability miserysend = new Miserysend();
+    public class Miserysend : Ability {
+      public Miserysend() {
+        name = "Miserys End";
+        potency = 190;
+        dotPotency = 0;
+        recastTime = 12;
+        abilityCost = 0;
+        animationDelay = 0.3;
+        abilityType = "Instant";
+        castTime = 0.0;
+      }
+      public override void impact() {
+        if (time >= (fightlength * 0.20)) {
+          base.impact();
+        }
+      }
+    }
 
   }
 }
