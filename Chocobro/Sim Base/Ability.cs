@@ -45,7 +45,29 @@ namespace Chocobro {
           actionmade = true;
           impact();
         }
-      } //else instant stuff
+      }
+      if (abilityType == "Instant") {
+        //If time >= next cast time and time >= nextability)
+        if (time >= nextCast && time >= nextinstant) {
+          time = floored(time);
+          string executestring = time.ToString("F2") + " - Executing " + name;
+          log(executestring);
+          //if doesnt miss, then impact
+
+          //set nextCast.
+          nextCast = floored((time + recastTime));
+
+          //set nextability
+          if (time + animationDelay > nextability) {
+            nextability = floored((time + gcd));
+          }
+          
+          nextinstant = floored((time + animationDelay));
+
+          impact();
+        }
+      }
+      //else instant stuff
 
     }
     public virtual void impact() {
