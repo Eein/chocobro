@@ -70,6 +70,25 @@ namespace Chocobro {
         }
       }
       //else instant stuff
+      if (abilityType == "Cooldown") {
+        //If time >= next cast time and time >= nextability)
+        if (time >= nextCast && time >= nextinstant) {
+          time = floored(time);
+          string executestring = time.ToString("F2") + " - Executing " + name;
+          log(executestring);
+          //if doesnt miss, then impact
+
+          //set nextCast.
+          nextCast = floored((time + recastTime));
+
+          //set nextability
+          if (time + animationDelay > nextability) {
+            nextability = floored((time + animationDelay));
+          }
+          nextinstant = floored((time + animationDelay));
+          
+        }
+      }
 
     }
     public virtual void impact() {

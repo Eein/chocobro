@@ -7,9 +7,8 @@ namespace Chocobro {
       var gcd = calculateGCD();
 
       if (straightshot.buff <= 0) {
-          straightshot.execute();
+        straightshot.execute();
       }
-      
 
       if (windbite.debuff <= gcd) {
         windbite.execute();
@@ -20,24 +19,17 @@ namespace Chocobro {
       }
 
       heavyshot.execute();
-
       miserysend.execute();
-
       bloodletter.execute();
-
-      flamearrow.execute();
-
+      flamingarrow.execute();
       repellingshot.execute();
-
       bluntarrow.execute();
-
-
 
       //server actionable - ticks/decrements then server tick action
       //if tick is 3
       windbite.tick();
       venomousbite.tick();
-
+      flamingarrow.tick();
       //decrement buffs
       straightshot.decrement();
 
@@ -96,15 +88,15 @@ namespace Chocobro {
     Ability venomousbite = new Venomousbite();
     public class Venomousbite : Ability {
       public Venomousbite() {
-        name = "Venomous Bite"; 
-        potency = 100; 
-        dotPotency = 35; 
-        recastTime = 2.5; 
-        abilityCost = 80; 
-        animationDelay = 0.3; 
-        abilityType = "Weaponskill"; 
-        castTime = 0.0; 
-        
+        name = "Venomous Bite";
+        potency = 100;
+        dotPotency = 35;
+        recastTime = 2.5;
+        abilityCost = 80;
+        animationDelay = 0.3;
+        abilityType = "Weaponskill";
+        castTime = 0.0;
+
 
       }
       public override void impact() {
@@ -120,12 +112,12 @@ namespace Chocobro {
     Ability straightshot = new Straightshot();
     public class Straightshot : Ability {
       public Straightshot() {
-        name = "Straight Shot"; 
-        potency = 140; 
+        name = "Straight Shot";
+        potency = 140;
         dotPotency = 0;
-        recastTime = 2.5; 
+        recastTime = 2.5;
         abilityCost = 70;
-        animationDelay = 0.3; 
+        animationDelay = 0.3;
         abilityType = "Weaponskill";
         castTime = 0.0;
       }
@@ -209,9 +201,9 @@ namespace Chocobro {
     // End Repelling Shot ----------------------------
 
     //Flame Arrow
-    Ability flamearrow = new Flamearrow();
-    public class Flamearrow : Ability {
-      public Flamearrow() {
+    Ability flamingarrow = new Flamingarrow();
+    public class Flamingarrow : Ability {
+      public Flamingarrow() {
         name = "Flaming Arrow";
         potency = 0;
         dotPotency = 35;
