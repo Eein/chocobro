@@ -86,7 +86,7 @@ namespace Chocobro {
             nextability = floored((time + animationDelay));
           }
           nextinstant = floored((time + animationDelay));
-          
+          impact();
         }
       }
 

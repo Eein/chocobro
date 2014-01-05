@@ -170,7 +170,7 @@ namespace Chocobro {
     }
     // End  Miserys End -------------------------------
 
-    // Blunt Arroe ------------------------------------
+    // Blunt Arrow ------------------------------------
     Ability bluntarrow = new Bluntarrow();
     public class Bluntarrow : Ability {
       public Bluntarrow() {
@@ -232,9 +232,8 @@ namespace Chocobro {
         animationDelay = 0.3;
         abilityType = "Cooldown";
       }
-      public override void execute() {
+      public override void impact() {
         this.buff = 15;
-        base.execute();
         log(time.ToString("F2") + " - " + name + " Buff has been applied. Time Left: " + buff);
       }
     }
