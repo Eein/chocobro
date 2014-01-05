@@ -24,6 +24,10 @@ namespace Chocobro {
       //if tick is 3
       windbite.tick();
       venomousbite.tick();
+
+      //decrement buffs
+      straightshot.decrement();
+
     }
 
     // -------------------
@@ -113,6 +117,7 @@ namespace Chocobro {
       public override void impact() {
         //Start ticking for 20s
         this.buff = 20;
+        log(time.ToString("F2") + " - " + name + " has been applied.  Time Left: " + buff);
         base.impact();
       }
     }

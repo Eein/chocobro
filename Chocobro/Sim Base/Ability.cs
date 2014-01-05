@@ -68,6 +68,20 @@ namespace Chocobro {
       }
     }
 
-    public virtual void decrement() { }
+    public virtual void decrement() {
+
+      if (MainWindow.time == MainWindow.servertime && buff != 0.0) {
+        buff -= 1.0;
+        if (buff <= 0.0) {
+          log(time.ToString("F2") + " - " + name + " has fallen off.");
+        }
+      }
+
+
+      
+    }
+
   }
 }
+
+
