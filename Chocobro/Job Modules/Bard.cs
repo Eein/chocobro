@@ -20,6 +20,9 @@ namespace Chocobro {
       }
 
       heavyshot.execute();
+
+      bloodletter.execute();
+
       //server actionable - ticks/decrements then server tick action
       //if tick is 3
       windbite.tick();
@@ -122,6 +125,25 @@ namespace Chocobro {
       }
     }
     // End Straight Shot --------------------------
+
+    // Bloodletter --------------------------------
+    Ability bloodletter = new Bloodletter();
+    public class Bloodletter : Ability {
+      public Bloodletter() {
+        name = "Bloodletter";
+        potency = 150;
+        dotPotency = 0;
+        recastTime = 15;
+        abilityCost = 0;
+        animationDelay = 0.5;
+        abilityType = "Instant";
+        castTime = 0.0;
+      }
+      public override void impact() {
+        base.impact();
+      }
+    }
+    // End Bloodletter ---------------------------
 
   }
 }
