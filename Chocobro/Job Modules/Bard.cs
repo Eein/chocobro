@@ -10,6 +10,8 @@ namespace Chocobro {
         straightshot.execute();
       }
 
+      internalrelease.execute();
+
       if (windbite.debuff <= gcd) {
         windbite.execute();
       }
@@ -32,7 +34,7 @@ namespace Chocobro {
       flamingarrow.tick();
       //decrement buffs
       straightshot.decrement();
-
+      internalrelease.decrement();
     }
 
     // -------------------
@@ -200,7 +202,7 @@ namespace Chocobro {
     }
     // End Repelling Shot ----------------------------
 
-    //Flame Arrow
+    //Flaming Arrow
     Ability flamingarrow = new Flamingarrow();
     public class Flamingarrow : Ability {
       public Flamingarrow() {
@@ -219,7 +221,23 @@ namespace Chocobro {
         log(time.ToString("F2") + " - " + name + " DoT has been applied.  Time Left: " + debuff);
       }
     }
+    // End Flaming Arrow
 
+    // Internal Release
+    Ability internalrelease = new Internalrelease();
+    public class Internalrelease : Ability {
+      public Internalrelease() {
+        name = "Internal Release";
+        recastTime = 60;
+        animationDelay = 0.3;
+        abilityType = "Cooldown";
+      }
+      public override void execute() {
+        this.buff = 15;
+        base.execute();
+        log(time.ToString("F2") + " - " + name + " Buff has been applied. Time Left: " + buff);
+      }
+    }
 
   }
 }
