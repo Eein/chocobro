@@ -23,7 +23,7 @@ namespace Chocobro {
 
       if (TP() < 540) {
         invigorate.execute();
-        MainWindow.TP += 400;
+        addTP(400);
       }
 
       ragingstrikes.execute();

@@ -94,7 +94,10 @@ namespace Chocobro {
 
       //Initialize default actions here. (autorun on load)
     }
-
+    public static double calculateCrit(int crit) {
+      var value = (0.0693 * crit) - 18.486;
+      return value;
+    }
     public void simulate() {
 
       clearLog();

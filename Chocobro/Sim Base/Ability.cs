@@ -1,8 +1,9 @@
-﻿
+﻿using System;
+
 namespace Chocobro {
 
   public partial class Ability : MainWindow {
-
+    
     public string name;
     public string abilityType;
     public int potency;
@@ -27,6 +28,7 @@ namespace Chocobro {
 
     public virtual void execute() {
       if (abilityType == "Weaponskill") {
+        
         //If time >= next cast time and time >= nextability)
         if (time >= nextCast && time >= nextability && actionmade == false) {
           time = floored(time);
@@ -47,6 +49,9 @@ namespace Chocobro {
           
           //time = nextTime(nextinstant, nextability);
           actionmade = true;
+
+          //var critroll = d100.Next(1, 101);
+         // var critbonus = calculateCrit();
           impact();
         }
       }

@@ -29,6 +29,9 @@ namespace Chocobro {
     public int TP() {
       return MainWindow.TP;
     }
+    public void addTP(int amount) {
+      MainWindow.TP += amount;
+    }
 
     public virtual void rotation() { }
     public virtual void regen() {
