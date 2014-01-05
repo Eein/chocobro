@@ -40,7 +40,7 @@ namespace Chocobro {
           //set nextability
           nextability = floored((time + gcd));
           nextinstant = floored((time + animationDelay));
-
+          
           //time = nextTime(nextinstant, nextability);
           actionmade = true;
           impact();

@@ -67,8 +67,8 @@ namespace Chocobro {
     public static double nextTime(double instant, double ability, double st_t) {
       var value = 0.0;
       if (instant > time) {
-        //value = Math.Min(instant, Math.Min(ability, servertime));
-        value = Math.Min(ability, st_t);
+        value = Math.Min(instant, Math.Min(ability, servertime));
+        
       } else {
         value = Math.Min(ability, st_t);
       }
