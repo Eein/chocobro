@@ -10,7 +10,7 @@ namespace Chocobro {
     public int dotPotency;
     public double recastTime;
     public double animationDelay;
-    public int abilityCost;
+    public int TPcost;
     public double castTime;
     public double duration;
     public double nextCast = 0.0;
@@ -35,8 +35,8 @@ namespace Chocobro {
           string executestring = time.ToString("F2") + " - Executing " + name;
           log(executestring);
           // remove TP
-          TP -= abilityCost;
-          log("Cost is " + abilityCost + "TP. Current TP: " + TP); //test for tp
+          TP -= TPcost;
+          log("Cost is " + TPcost + "TP. Current TP: " + TP); //test for tp
           //if doesnt miss, then impact
 
           //set nextCast.

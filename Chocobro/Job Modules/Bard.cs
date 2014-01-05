@@ -62,7 +62,7 @@ namespace Chocobro {
         potency = 150;
         dotPotency = 0;
         recastTime = 2.5;
-        abilityCost = 60;
+        TPcost = 60;
         animationDelay = 0.8;
         abilityType = "Weaponskill";
         castTime = 0.0;
@@ -85,12 +85,11 @@ namespace Chocobro {
         potency = 60;
         dotPotency = 45;
         recastTime = 2.5;
-        abilityCost = 80;
+        TPcost = 80;
         animationDelay = 1.3;
         abilityType = "Weaponskill";
         castTime = 0.0;
         duration = 0.0;
-
       }
       public override void impact() {
         //Start ticking for 18s
@@ -109,12 +108,10 @@ namespace Chocobro {
         potency = 100;
         dotPotency = 35;
         recastTime = 2.5;
-        abilityCost = 80;
+        TPcost = 80;
         animationDelay = 0.7;
         abilityType = "Weaponskill";
         castTime = 0.0;
-
-
       }
       public override void impact() {
         //Start ticking for 18s
@@ -133,7 +130,7 @@ namespace Chocobro {
         potency = 140;
         dotPotency = 0;
         recastTime = 2.5;
-        abilityCost = 70;
+        TPcost = 70;
         animationDelay = 0.8;
         abilityType = "Weaponskill";
         castTime = 0.0;
@@ -155,7 +152,7 @@ namespace Chocobro {
         potency = 150;
         dotPotency = 0;
         recastTime = 15;
-        abilityCost = 0;
+        TPcost = 0;
         animationDelay = 1.25;
         abilityType = "Instant";
         castTime = 0.0;
@@ -172,7 +169,7 @@ namespace Chocobro {
         potency = 190;
         dotPotency = 0;
         recastTime = 12;
-        abilityCost = 0;
+        TPcost = 0;
         animationDelay = 1.1;
         abilityType = "Instant";
         castTime = 0.0;
@@ -193,7 +190,7 @@ namespace Chocobro {
         potency = 50;
         dotPotency = 0;
         recastTime = 30;
-        abilityCost = 0;
+        TPcost = 0;
         animationDelay = 0.6;
         abilityType = "Instant";
         castTime = 0.0;
@@ -209,7 +206,7 @@ namespace Chocobro {
         potency = 80;
         dotPotency = 0;
         recastTime = 30;
-        abilityCost = 0;
+        TPcost = 0;
         animationDelay = 1.2;
         abilityType = "Instant";
         castTime = 0.0;
@@ -225,7 +222,7 @@ namespace Chocobro {
         potency = 0;
         dotPotency = 35;
         recastTime = 60;
-        abilityCost = 0;
+        TPcost = 0;
         animationDelay = 0.8;
         abilityType = "Instant";
         castTime = 0.0;
@@ -252,7 +249,6 @@ namespace Chocobro {
         log(time.ToString("F2") + " - " + name + " Buff has been applied. Time Left: " + buff);
       }
     }
-
     // End Internal Release
 
     // Blood for Blood
