@@ -21,7 +21,7 @@ namespace Chocobro {
 
       heavyshot.execute();
 
-      //invigorate.execute();  needs TP<540
+      invigorate.execute();
       ragingstrikes.execute();
       hawkseye.execute();
       bloodforblood.execute();
@@ -324,8 +324,11 @@ namespace Chocobro {
         animationDelay = 0.3;
         abilityType = "Cooldown";
       }
-      public override void impact() {
-        log(time.ToString("F2") + " - " + name + " has restored 400 TP");
+      public override void execute() {
+        if (TP() < 540) {
+          base.execute();
+          log(time.ToString("F2") + " - " + name + " has restored 400 TP");
+        }
       }
     }
     // End Invigorate
