@@ -39,6 +39,7 @@ namespace Chocobro {
         //TP regen
         if (MainWindow.TP != 1000) {
           MainWindow.TP += 60;
+          if (MainWindow.TP > 1000) { MainWindow.TP = 1000; }
           MainWindow.log("TP Regen Tick - Restored 60 TP. Current TP: " + MainWindow.TP);
         }
         //MP regen (add this eventually. Check old sim for reference)

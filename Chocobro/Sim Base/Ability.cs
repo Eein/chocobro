@@ -26,7 +26,7 @@ namespace Chocobro {
 
     public double bonus = 0; // for abilitiy specific bonuses.x
 
-    protected Job _player;
+    static Job _player;
     public Ability(Job player) {
       _player = player;
     }

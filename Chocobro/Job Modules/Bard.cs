@@ -1,9 +1,9 @@
 ﻿
 namespace Chocobro {
   public class Bard : Job {
-    static Job _p;
-    public Bard(Job p){
-      _p = p;
+    static Job _player;
+    public Bard(Job player){
+      _player = player;
     }
     
     //-----------------------
@@ -62,7 +62,7 @@ namespace Chocobro {
 
     // Heavy Shot ---------------------
 
-    Ability heavyshot = new Heavyshot(_p);
+    Ability heavyshot = new Heavyshot(_player);
    
     public class Heavyshot : Ability {
       public Heavyshot(Job player) : base(player) {
@@ -79,14 +79,14 @@ namespace Chocobro {
 
       public override void impact() {
         //add heavier shot buff activation here
+        log(_player.CRIT + " <--- CRIT OMG ");
         base.impact();
-        
       }
     }
     // End Heavyshot ---------------------
 
     // Windbite --------------------------
-    Ability windbite = new Windbite(_p);
+    Ability windbite = new Windbite(_player);
     public class Windbite : Ability {
       public Windbite(Job player) : base(player){
         name = "Windbite";
@@ -109,7 +109,7 @@ namespace Chocobro {
     // End Windbite --------------------------
 
     // Venomous Bite -------------------------
-    Ability venomousbite = new Venomousbite(_p);
+    Ability venomousbite = new Venomousbite(_player);
     public class Venomousbite : Ability {
       public Venomousbite(Job player) : base(player) {
         name = "Venomous Bite";
@@ -131,7 +131,7 @@ namespace Chocobro {
     // End Venomous Bite ----------------------
 
     // Straight Shot --------------------------
-    Ability straightshot = new Straightshot(_p);
+    Ability straightshot = new Straightshot(_player);
     public class Straightshot : Ability {
       public Straightshot(Job player) : base(player) {
         name = "Straight Shot";
@@ -153,7 +153,7 @@ namespace Chocobro {
     // End Straight Shot --------------------------
 
     // Bloodletter --------------------------------
-    Ability bloodletter = new Bloodletter(_p);
+    Ability bloodletter = new Bloodletter(_player);
     public class Bloodletter : Ability {
       public Bloodletter(Job player) : base(player) {
         name = "Bloodletter";
@@ -170,7 +170,7 @@ namespace Chocobro {
     // End Bloodletter ---------------------------
 
     // Miserys End -------------------------------
-    Ability miserysend = new Miserysend(_p);
+    Ability miserysend = new Miserysend(_player);
     public class Miserysend : Ability {
       public Miserysend(Job player) : base(player) {
         name = "Miserys End";
@@ -191,7 +191,7 @@ namespace Chocobro {
     // End  Miserys End -------------------------------
 
     // Blunt Arrow ------------------------------------
-    Ability bluntarrow = new Bluntarrow(_p);
+    Ability bluntarrow = new Bluntarrow(_player);
     public class Bluntarrow : Ability {
       public Bluntarrow(Job player) : base(player) {
         name = "Blunt Arrow";
@@ -207,7 +207,7 @@ namespace Chocobro {
     // End Blunt Arrow -------------------------------
 
     // Repelling Shot ---------------------------------
-    Ability repellingshot = new Repellingshot(_p);
+    Ability repellingshot = new Repellingshot(_player);
     public class Repellingshot : Ability {
       public Repellingshot(Job player) : base(player) {
         name = "Repelling Shot";
@@ -223,7 +223,7 @@ namespace Chocobro {
     // End Repelling Shot ----------------------------
 
     //Flaming Arrow
-    Ability flamingarrow = new Flamingarrow(_p);
+    Ability flamingarrow = new Flamingarrow(_player);
     public class Flamingarrow : Ability {
       public Flamingarrow(Job player) : base(player) {
         name = "Flaming Arrow";
@@ -244,7 +244,7 @@ namespace Chocobro {
     // End Flaming Arrow
 
     // Internal Release
-    Ability internalrelease = new Internalrelease(_p);
+    Ability internalrelease = new Internalrelease(_player);
     public class Internalrelease : Ability {
       public Internalrelease(Job player) : base(player) {
         name = "Internal Release";
@@ -260,7 +260,7 @@ namespace Chocobro {
     // End Internal Release
 
     // Blood for Blood
-       Ability bloodforblood = new Bloodforblood(_p);
+       Ability bloodforblood = new Bloodforblood(_player);
     public class Bloodforblood : Ability {
       public Bloodforblood(Job player) : base(player) {
         name = "Blood for Blood";
@@ -276,7 +276,7 @@ namespace Chocobro {
     // End Blood for Blood
 
     // Raging Strikes
-    Ability ragingstrikes = new Ragingstrikes(_p);
+    Ability ragingstrikes = new Ragingstrikes(_player);
     public class Ragingstrikes : Ability {
       public Ragingstrikes(Job player) : base(player) {
         name = "Raging Strikes";
@@ -292,7 +292,7 @@ namespace Chocobro {
     // End Raging Strikes
 
     // Hawks Eye
-    Ability hawkseye = new Hawkseye(_p);
+    Ability hawkseye = new Hawkseye(_player);
     public class Hawkseye : Ability {
       public Hawkseye(Job player) : base(player) {
         name = "Hawks Eye";
@@ -308,7 +308,7 @@ namespace Chocobro {
     // End Hawks Eye
 
     // Barrage
-    Ability barrage = new Barrage(_p);
+    Ability barrage = new Barrage(_player);
     public class Barrage : Ability {
       public Barrage(Job player) : base(player) {
         name = "Barrage";
@@ -324,7 +324,7 @@ namespace Chocobro {
     // End Barrage
 
     // Invigorate
-    Ability invigorate = new Invigorate(_p);
+    Ability invigorate = new Invigorate(_player);
     public class Invigorate : Ability {
       public Invigorate(Job player) : base(player) {
         name = "Invigorate";
