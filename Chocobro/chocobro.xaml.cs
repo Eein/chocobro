@@ -26,6 +26,7 @@ namespace Chocobro {
   public partial class MainWindow : Window {
     Random randtick = new Random();
     Job p;
+    Bard bard;
     //Global Definition
     public static double gcd = 2.5;
     public static double time = 0.00;
@@ -101,12 +102,14 @@ namespace Chocobro {
     public void simulate() {
 
       clearLog();
-      //Job p = new Job();
-
-      //p.name = "Job Not Defined"; // Debug text.
+      Job p = new Job();
+      Bard b = new Bard();
+      p.name = "Job Not Defined"; // Debug text.
 
       //Define Player Object
-      createJobObject(ref p);
+      if (job.Text == "Bard") {
+        p = new Job(b) { name = "Player(Bard)", STR = 161, DEX = 224, VIT = 202, INT = 151, MND = 141, PIE = 151 };
+      }
 
       //if (p.name == "Job Not Defined") { return; }
 
@@ -126,13 +129,6 @@ namespace Chocobro {
       resetSim();
     }
 
-    public void createJobObject(ref Job p) {
-      //Dynamic Player Object Creation based on dropdown...
-      if (job.Text == "Bard") {
-        p = new Bard(p) { name = "Player(Bard)", STR = 161, DEX = 224, VIT = 202, INT = 151, MND = 141, PIE = 151 };
-        p.name = "Player(Bard)";
-      }
-    }
     //Misc GUI elements
     private void applicationExit(object sender, RoutedEventArgs e) {
       Application.Current.Shutdown();
