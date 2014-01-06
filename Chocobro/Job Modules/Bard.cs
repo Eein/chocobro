@@ -1,9 +1,9 @@
 ﻿
 namespace Chocobro {
   public class Bard : Job {
-    static Job _player;
-    public Bard(Job player){
-      _player = player;
+    static Bard _player;
+    public Bard(this){
+      _player = this;
     }
     
     //-----------------------
