@@ -1,8 +1,8 @@
 ﻿
 namespace Chocobro {
   public class Bard : Job {
-    static Job _player;
-    public Bard(Job player){
+    static Bard _player;
+    public Bard(Bard player){
       _player = player;
     }
     
@@ -65,7 +65,7 @@ namespace Chocobro {
     Ability heavyshot = new Heavyshot(_player);
    
     public class Heavyshot : Ability {
-      public Heavyshot(Job player) : base(player) {
+      public Heavyshot(Bard player) : base(player) {
         name = "Heavy Shot";
         potency = 150;
         dotPotency = 0;
@@ -79,8 +79,8 @@ namespace Chocobro {
 
       public override void impact() {
         //add heavier shot buff activation here
-        log(_player.CRIT + " <--- CRIT OMG ");
-        base.impact();
+        log(calculateCrit(_player) + "% <--Crit Chance ");
+        base.impact();  
       }
     }
     // End Heavyshot ---------------------

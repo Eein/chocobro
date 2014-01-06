@@ -10,7 +10,7 @@ namespace Chocobro {
     public int INT { get; set; }
     public int MND { get; set; }
     public int PIE { get; set; }
-    public int CRIT = 341;
+    public double CRIT = 341;
     public int DTR = 202;
     public int ACC = 341;
     public int SKS = 341;
