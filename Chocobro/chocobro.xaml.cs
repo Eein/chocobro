@@ -25,8 +25,7 @@ namespace Chocobro {
 
   public partial class MainWindow : Window {
     Random randtick = new Random();
-    Job p;
-    Bard bard;
+
     //Global Definition
     public static double gcd = 2.5;
     public static double time = 0.00;
@@ -48,7 +47,19 @@ namespace Chocobro {
       p.rotation();
 
     }
-
+     static class Factory {
+      	/// <summary>
+      	/// Decides which class to instantiate.
+      	/// </summary>
+      	public static Position Get(string s)
+      	{
+      	    switch (s)
+      	    {
+      		case "Bard": return new Bard();
+      		default:     return new Job();
+      	    }
+      	}
+    }
     // Global Math
     public static int d100() {
       Random rand = new Random();
@@ -100,10 +111,9 @@ namespace Chocobro {
       return value;
     }
     public void simulate() {
-
+      var p = Factory.Get(job.Text);
       clearLog();
-      Job p = new Job();
-      Bard bard = new Bard(p);
+      
       p.name = "Job Not Defined"; // Debug text.
 
       //Define Player Object
