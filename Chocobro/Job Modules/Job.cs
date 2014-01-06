@@ -2,7 +2,11 @@
 namespace Chocobro {
 
   public partial class Job {
-
+    static Job _player;
+    public Job(job player){
+      _player = player;
+    }
+    
     public string name { get; set; }
     public int STR { get; set; }
     public int DEX { get; set; }
