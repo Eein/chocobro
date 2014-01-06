@@ -26,6 +26,11 @@ namespace Chocobro {
 
     public double bonus = 0; // for abilitiy specific bonuses.x
 
+    protected Job _player;
+    public Ability(Job player) {
+      _player = player;
+    }
+
     public virtual void execute() {
       if (abilityType == "Weaponskill") {
         

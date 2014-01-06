@@ -25,7 +25,7 @@ namespace Chocobro {
 
   public partial class MainWindow : Window {
     Random randtick = new Random();
-
+    Job p;
     //Global Definition
     public static double gcd = 2.5;
     public static double time = 0.00;
@@ -129,7 +129,7 @@ namespace Chocobro {
     public void createJobObject(ref Job p) {
       //Dynamic Player Object Creation based on dropdown...
       if (job.Text == "Bard") {
-        p = new Bard() { name = "Player(Bard)", STR = 161, DEX = 224, VIT = 202, INT = 151, MND = 141, PIE = 151 };
+        p = new Bard(p) { name = "Player(Bard)", STR = 161, DEX = 224, VIT = 202, INT = 151, MND = 141, PIE = 151 };
         p.name = "Player(Bard)";
       }
     }

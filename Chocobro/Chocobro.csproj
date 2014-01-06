@@ -53,7 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Job Modules\blm.cs" />
+    <None Include="Job Modules\Black Mage.cs" />
     <Compile Include="Job Modules\Bard.cs" />
     <Compile Include="Sim Base\Ability.cs" />
     <Compile Include="Job Modules\Job.cs" />

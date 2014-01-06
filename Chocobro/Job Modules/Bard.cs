@@ -1,6 +1,12 @@
 ﻿
 namespace Chocobro {
   public class Bard : Job {
+    static Job _p;
+    public Bard(Job p){
+      _p = p;
+    }
+    
+    //-----------------------
 
 
     public override void rotation() {
@@ -55,9 +61,11 @@ namespace Chocobro {
     // -------------------
 
     // Heavy Shot ---------------------
-    Ability heavyshot = new Heavyshot();
+
+    Ability heavyshot = new Heavyshot(_p);
+   
     public class Heavyshot : Ability {
-      public Heavyshot() {
+      public Heavyshot(Job player) : base(player) {
         name = "Heavy Shot";
         potency = 150;
         dotPotency = 0;
@@ -78,9 +86,9 @@ namespace Chocobro {
     // End Heavyshot ---------------------
 
     // Windbite --------------------------
-    Ability windbite = new Windbite();
+    Ability windbite = new Windbite(_p);
     public class Windbite : Ability {
-      public Windbite() {
+      public Windbite(Job player) : base(player){
         name = "Windbite";
         potency = 60;
         dotPotency = 45;

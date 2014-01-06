@@ -1,7 +1,10 @@
 ﻿
 namespace Chocobro {
   public class Blackmage : Job {
-
+    static Job _p;
+    public Blackmage(Job p){
+      _p = p;
+    }
 
     public override void rotation() {
       var gcd = calculateGCD();
