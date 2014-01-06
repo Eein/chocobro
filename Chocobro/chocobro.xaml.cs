@@ -51,7 +51,7 @@ namespace Chocobro {
       	/// <summary>
       	/// Decides which class to instantiate.
       	/// </summary>
-      	public static Position Get(string s)
+      	public static Job Get(string s)
       	{
       	    switch (s)
       	    {
