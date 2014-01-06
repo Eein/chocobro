@@ -101,14 +101,14 @@ namespace Chocobro {
     public void simulate() {
 
       clearLog();
-      Job p = new Job();
+      //Job p = new Job();
 
-      p.name = "Job Not Defined"; // Debug text.
+      //p.name = "Job Not Defined"; // Debug text.
 
       //Define Player Object
       createJobObject(ref p);
 
-      if (p.name == "Job Not Defined") { return; }
+      //if (p.name == "Job Not Defined") { return; }
 
       debug(); //have option to disable TODO:
       while (time <= fightlength) {
