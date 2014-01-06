@@ -103,7 +103,7 @@ namespace Chocobro {
 
       clearLog();
       Job p = new Job();
-      Bard b = new Bard(p);
+      Bard bard = new Bard(p);
       p.name = "Job Not Defined"; // Debug text.
 
       //Define Player Object
