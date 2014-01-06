@@ -114,12 +114,12 @@ namespace Chocobro {
       var p = Factory.Get(job.Text);
       clearLog();
       
-      p.name = "Job Not Defined"; // Debug text.
+      // p.name = "Job Not Defined"; // Debug text.
 
-      //Define Player Object
-      if (job.Text == "Bard") {
-        p = new Job(b) { name = "Player(Bard)", STR = 161, DEX = 224, VIT = 202, INT = 151, MND = 141, PIE = 151 };
-      }
+      // //Define Player Object
+      // if (job.Text == "Bard") {
+      //   p = new Job(b) { name = "Player(Bard)", STR = 161, DEX = 224, VIT = 202, INT = 151, MND = 141, PIE = 151 };
+      // }
 
       //if (p.name == "Job Not Defined") { return; }
 
