@@ -55,8 +55,8 @@ namespace Chocobro {
       	{
       	    switch (s)
       	    {
-      		case "Bard": return new Bard();
-      		default:     return new Job();
+      		case "Bard": return new Bard(); break;
+      		default:     return new Job(); break;
       	    }
       	}
     }
