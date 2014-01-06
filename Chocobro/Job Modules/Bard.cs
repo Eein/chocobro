@@ -1,8 +1,8 @@
 ﻿
 namespace Chocobro {
   public class Bard : Job {
-    static Bard _player;
-    public Bard(Bard player){
+    static Job _player;
+    public Bard(Job player){
       _player = player;
     }
     
@@ -79,7 +79,7 @@ namespace Chocobro {
 
       public override void impact() {
         //add heavier shot buff activation here
-        log(calculateCrit(_player) + "% <--Crit Chance ");
+        //log(calculateCrit(_player) + "% <--Crit Chance ");
         base.impact();  
       }
     }
