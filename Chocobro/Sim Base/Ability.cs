@@ -3,7 +3,7 @@
 namespace Chocobro {
 
   public partial class Ability : MainWindow {
-    public Bard bard;
+
     public string name;
     public string abilityType;
     public int potency;
@@ -26,10 +26,6 @@ namespace Chocobro {
 
     public double bonus = 0; // for abilitiy specific bonuses.x
 
-    static Job _player;
-    public Ability(Job player) {
-      _player = player;
-    }
 
     public double calculateCrit(Job _player) { return (0.0693 * _player.CRIT - 18.486); }
 
@@ -107,8 +103,8 @@ namespace Chocobro {
 
     }
     public virtual void impact() {
-      var critchance = calculateCrit(_player);
-      if (bard.straightshot.buff > 0) {  critchance += 10; }
+      //var critchance = calculateCrit(_player);
+      //if (bard.straightshot.buff > 0) {  critchance += 10; }
       //set potency for now, but change to damage later.
       log(time.ToString("F2") + " - " + name + " Deals " + potency + " Potency Damage. Next ability at: " + nextability);
     }

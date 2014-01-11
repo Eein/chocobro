@@ -6,7 +6,7 @@ namespace Chocobro {
   //   public Job(job player){
   //     _player = player;
   //   }
-    
+    public partial class Job{
     public string name { get; set; }
     public int STR { get; set; }
     public int DEX { get; set; }

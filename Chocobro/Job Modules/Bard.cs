@@ -1,10 +1,6 @@
 ﻿
 namespace Chocobro {
   public class Bard : Job {
-    static Bard _player;
-    public Bard(this){
-      _player = this;
-    }
     
     //-----------------------
 
@@ -62,10 +58,10 @@ namespace Chocobro {
 
     // Heavy Shot ---------------------
 
-    Ability heavyshot = new Heavyshot(_player);
+    Ability heavyshot = new Heavyshot();
    
     public class Heavyshot : Ability {
-      public Heavyshot(Bard player) : base(player) {
+      public Heavyshot() {
         name = "Heavy Shot";
         potency = 150;
         dotPotency = 0;
@@ -79,16 +75,16 @@ namespace Chocobro {
 
       public override void impact() {
         //add heavier shot buff activation here
-        //log(calculateCrit(_player) + "% <--Crit Chance ");
+        //log(calculateCrit() + "% <--Crit Chance ");
         base.impact();  
       }
     }
     // End Heavyshot ---------------------
 
     // Windbite --------------------------
-    Ability windbite = new Windbite(_player);
+    Ability windbite = new Windbite();
     public class Windbite : Ability {
-      public Windbite(Bard player) : base(player){
+      public Windbite(){
         name = "Windbite";
         potency = 60;
         dotPotency = 45;
@@ -109,9 +105,9 @@ namespace Chocobro {
     // End Windbite --------------------------
 
     // Venomous Bite -------------------------
-    Ability venomousbite = new Venomousbite(_player);
+    Ability venomousbite = new Venomousbite();
     public class Venomousbite : Ability {
-      public Venomousbite(Bard player) : base(player) {
+      public Venomousbite() {
         name = "Venomous Bite";
         potency = 100;
         dotPotency = 35;
@@ -131,9 +127,9 @@ namespace Chocobro {
     // End Venomous Bite ----------------------
 
     // Straight Shot --------------------------
-    Ability straightshot = new Straightshot(_player);
+    Ability straightshot = new Straightshot();
     public class Straightshot : Ability {
-      public Straightshot(Bard player) : base(player) {
+      public Straightshot() {
         name = "Straight Shot";
         potency = 140;
         dotPotency = 0;
@@ -153,9 +149,9 @@ namespace Chocobro {
     // End Straight Shot --------------------------
 
     // Bloodletter --------------------------------
-    Ability bloodletter = new Bloodletter(_player);
+    Ability bloodletter = new Bloodletter();
     public class Bloodletter : Ability {
-      public Bloodletter(Bard player) : base(player) {
+      public Bloodletter() {
         name = "Bloodletter";
         potency = 150;
         dotPotency = 0;
@@ -170,10 +166,9 @@ namespace Chocobro {
     // End Bloodletter ---------------------------
 
     // Miserys End -------------------------------
-    Ability miserysend = new Miserysend(_player);
+    Ability miserysend = new Miserysend();
     public class Miserysend : Ability {
-      public Miserysend(Bard player)
-        : base(player) {
+      public Miserysend() {
         name = "Miserys End";
         potency = 190;
         dotPotency = 0;
@@ -192,10 +187,9 @@ namespace Chocobro {
     // End  Miserys End -------------------------------
 
     // Blunt Arrow ------------------------------------
-    Ability bluntarrow = new Bluntarrow(_player);
+    Ability bluntarrow = new Bluntarrow();
     public class Bluntarrow : Ability {
-      public Bluntarrow(Bard player)
-        : base(player) {
+      public Bluntarrow(){
         name = "Blunt Arrow";
         potency = 50;
         dotPotency = 0;
@@ -209,10 +203,9 @@ namespace Chocobro {
     // End Blunt Arrow -------------------------------
 
     // Repelling Shot ---------------------------------
-    Ability repellingshot = new Repellingshot(_player);
+    Ability repellingshot = new Repellingshot();
     public class Repellingshot : Ability {
-      public Repellingshot(Bard player)
-        : base(player) {
+      public Repellingshot(){
         name = "Repelling Shot";
         potency = 80;
         dotPotency = 0;
@@ -226,10 +219,9 @@ namespace Chocobro {
     // End Repelling Shot ----------------------------
 
     //Flaming Arrow
-    Ability flamingarrow = new Flamingarrow(_player);
+    Ability flamingarrow = new Flamingarrow();
     public class Flamingarrow : Ability {
-      public Flamingarrow(Bard player)
-        : base(player) {
+      public Flamingarrow(){
         name = "Flaming Arrow";
         potency = 0;
         dotPotency = 35;
@@ -248,10 +240,9 @@ namespace Chocobro {
     // End Flaming Arrow
 
     // Internal Release
-    Ability internalrelease = new Internalrelease(_player);
+    Ability internalrelease = new Internalrelease();
     public class Internalrelease : Ability {
-      public Internalrelease(Bard player)
-        : base(player) {
+      public Internalrelease(){
         name = "Internal Release";
         recastTime = 60;
         animationDelay = 0.75;
@@ -265,10 +256,9 @@ namespace Chocobro {
     // End Internal Release
 
     // Blood for Blood
-       Ability bloodforblood = new Bloodforblood(_player);
+       Ability bloodforblood = new Bloodforblood();
     public class Bloodforblood : Ability {
-      public Bloodforblood(Bard player)
-        : base(player) {
+      public Bloodforblood(){
         name = "Blood for Blood";
         recastTime = 80;
         animationDelay = 0.9;
@@ -282,10 +272,9 @@ namespace Chocobro {
     // End Blood for Blood
 
     // Raging Strikes
-    Ability ragingstrikes = new Ragingstrikes(_player);
+    Ability ragingstrikes = new Ragingstrikes();
     public class Ragingstrikes : Ability {
-      public Ragingstrikes(Bard player)
-        : base(player) {
+      public Ragingstrikes(){
         name = "Raging Strikes";
         recastTime = 120;
         animationDelay = 0.9;
@@ -299,10 +288,9 @@ namespace Chocobro {
     // End Raging Strikes
 
     // Hawks Eye
-    Ability hawkseye = new Hawkseye(_player);
+    Ability hawkseye = new Hawkseye();
     public class Hawkseye : Ability {
-      public Hawkseye(Bard player)
-        : base(player) {
+      public Hawkseye() {
         name = "Hawks Eye";
         recastTime = 90;
         animationDelay = 0.7;
@@ -316,10 +304,9 @@ namespace Chocobro {
     // End Hawks Eye
 
     // Barrage
-    Ability barrage = new Barrage(_player);
+    Ability barrage = new Barrage();
     public class Barrage : Ability {
-      public Barrage(Bard player)
-        : base(player) {
+      public Barrage() {
         name = "Barrage";
         recastTime = 90;
         animationDelay = 0.7;
@@ -333,10 +320,9 @@ namespace Chocobro {
     // End Barrage
 
     // Invigorate
-    Ability invigorate = new Invigorate(_player);
+    Ability invigorate = new Invigorate();
     public class Invigorate : Ability {
-      public Invigorate(Bard player)
-        : base(player) {
+      public Invigorate() {
         name = "Invigorate";
         recastTime = 120;
         animationDelay = 0.8;
