@@ -145,7 +145,7 @@ namespace Chocobro {
       if (ability.abilityType == "Cooldown") {
        
       } else {
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability) + " Potency Damage. Next ability at: " + MainWindow.nextability);
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + MainWindow.nextability);
       }
 
       // If ability has debuff, create its timer.
@@ -174,7 +174,7 @@ namespace Chocobro {
         }
       }
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + ability.dotPotency + " Potency Damage - Time Left: " + ability.debuff);
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + damage(ref ability, ability.dotPotency) + "  Damage - Time Left: " + ability.debuff);
       }
     }
 
@@ -188,12 +188,12 @@ namespace Chocobro {
       }
     }
 
-    public int damage(ref Ability ability) {
+    public int damage(ref Ability ability, int pot) {
       var damageformula = 0.0;
       var tempdex = (double)DEX;
       if (hawkseye.buff > 0){ tempdex *= 1.15; }
       if (ability.autoa == false){
-        damageformula = (ability.potency) * 0.01037485 * WEP + 0.080343406 * tempdex + 0.026212395 * WEP + 0.003889894 * WEP * tempdex + 0.000800141 * WEP * DTR;
+        damageformula = (pot/100) * 0.01037485 * WEP + 0.080343406 * tempdex + 0.026212395 * WEP + 0.003889894 * WEP * tempdex + 0.000800141 * WEP * DTR;
 
       }else{
         //Autoattack damage.
@@ -204,9 +204,10 @@ namespace Chocobro {
       if (ragingstrikes.buff > 0) { damageformula *= 1.20; }
       if (ragingstrikes.buff > 0) { damageformula *= 1.20; }
       if (ragingstrikes.buff > 0) { damageformula *= 1.20; }
-      MainWindow.log("!! DEALING " + damageformula + " DAMAGE!");
       damageformula = (int)damageformula;
-      MainWindow.log("!! TRUNCATED " + damageformula + " DAMAGE!");
+      
+      // add variance to damage.
+
       return (int)damageformula;
         
         
