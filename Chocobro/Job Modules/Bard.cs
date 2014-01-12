@@ -10,57 +10,163 @@ namespace Chocobro {
       var gcd = calculateGCD();
 
       if (heavyshot.buff > 0) {
-        straightshot.execute();
+        execute(ref straightshot);
         heavyshot.buff = 0;
       }
       if (straightshot.buff <= 0) {
-        straightshot.execute();
+        execute(ref straightshot);
       }
 
       if (windbite.debuff <= gcd) {
-        windbite.execute();
+        execute(ref windbite);
       }
 
       if (venomousbite.debuff <= gcd) {
-        venomousbite.execute();
+        execute(ref venomousbite);
       }
 
-      heavyshot.execute();
+      execute(ref heavyshot);
 
-      if (TP() < 540) {
-        invigorate.execute();
-        addTP(400);
+      if (MainWindow.TP < 540) {
+        execute(ref invigorate);
+        MainWindow.TP += 400;
       }
 
-      ragingstrikes.execute();
-      hawkseye.execute();
-      bloodforblood.execute();
-      internalrelease.execute();
-      barrage.execute();
-
-      miserysend.execute();
-      bloodletter.execute();
-      flamingarrow.execute();
-      repellingshot.execute();
-      bluntarrow.execute();
+      execute(ref ragingstrikes);
+      execute(ref hawkseye);
+      execute(ref bloodforblood);
+      execute(ref internalrelease);
+      execute(ref barrage);
+      execute(ref miserysend);
+      execute(ref bloodletter);
+      execute(ref flamingarrow);
+      execute(ref repellingshot);
+      execute(ref bluntarrow);
 
       //server actionable - ticks/decrements then server tick action
       //if tick is 3
-      windbite.tick();
-      venomousbite.tick();
-      flamingarrow.tick();
+      tick(ref windbite);
+      tick(ref venomousbite);
+      tick(ref flamingarrow);
       //decrement buffs
-      straightshot.decrement();
-      internalrelease.decrement();
-      ragingstrikes.decrement();
-      hawkseye.decrement();
-      bloodforblood.decrement();
-      barrage.decrement();
-      heavyshot.decrement();
+      decrement(ref straightshot);
+      decrement(ref internalrelease);
+      decrement(ref ragingstrikes);
+      decrement(ref hawkseye);
+      decrement(ref bloodforblood);
+      decrement(ref barrage);
+      decrement(ref heavyshot);
 
       regen();
     }
+    public void execute(ref Ability ability) {
+      if (ability.abilityType == "Weaponskill") {
+        
+        //If time >= next cast time and time >= nextability)
+        if (MainWindow.time >= ability.nextCast && MainWindow.time >= MainWindow.nextability && MainWindow.actionmade == false) {
+          MainWindow.time = MainWindow.floored(MainWindow.time);
+          string executestring = MainWindow.time.ToString("F2") + " - Executing " + ability.name;
+          MainWindow.log(executestring);
+          // remove TP
+          MainWindow.TP -= ability.TPcost;
+          MainWindow.log("Cost is " + ability.TPcost + "TP. Current TP: " + MainWindow.TP); //test for tp
+          //if doesnt miss, then impact
+         
+          //set nextCast.
+          ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
 
+
+          //set nextability
+          MainWindow.nextability = MainWindow.floored((MainWindow.time + MainWindow.gcd));
+          MainWindow.nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
+          
+          //time = nextTime(nextinstant, nextability);
+          MainWindow.actionmade = true;
+
+          //var critroll = d100.Next(1, 101);
+         // var critbonus = calculateCrit();
+          impact(ref ability);
+        }
+      }
+      if (ability.abilityType == "Instant" || ability.abilityType == "Cooldown") {
+        //If time >= next cast time and time >= nextability)
+        if (MainWindow.time >= ability.nextCast && MainWindow.time >= MainWindow.nextinstant) {
+          MainWindow.time = MainWindow.floored(MainWindow.time);
+          string executestring = MainWindow.time.ToString("F2") + " - Executing " + ability.name;
+          MainWindow.log(executestring);
+          //if doesnt miss, then impact
+
+          //set nextCast.
+          ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+          
+
+          //set nextability
+          if (MainWindow.time + ability.animationDelay > MainWindow.nextability) {
+            MainWindow.nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
+          }
+
+          MainWindow.nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
+
+          impact(ref ability);
+        }
+      }
+ 
+
+    }
+    public virtual void impact(ref Ability ability) {
+      //var critchance = calculateCrit(_player);
+      //if (bard.straightshot.buff > 0) {  critchance += 10; }
+      //set potency for now, but change to damage later.
+
+      // If ability has dot, create its timer.
+      if (ability.debuffTime > 0) {
+         
+        //If dot exists, enable its time.
+        ability.debuff = ability.debuffTime;
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " DoT has been applied.  Time Left: " + ability.debuff);
+      }
+      
+      if (ability.name == "Heavyshot"){
+          int minirand = MainWindow.d100();
+          if (20 >= minirand) {
+          ability.buff = 10;
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has procced.  Time Left: " + ability.buff + " - Rolled a " + minirand);
+        }
+      }
+      if (ability.abilityType == "Cooldown") {
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Has been activated. Next ability at: " + MainWindow.nextability);
+      } else { 
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + ability.potency + " Potency Damage. Next ability at: " + MainWindow.nextability);
+      }
+    }
+
+    //public virtual void expire() { } not really needed. Maybe handle expiration in ticks? hmmm.
+
+    public virtual void tick(ref Ability ability) {
+      //schedule tick
+      if (MainWindow.time == MainWindow.servertime && ability.debuff != 0.0) {
+        ability.debuff -= 1.0;
+        if (ability.debuff <= 0.0) {
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
+        }
+      }
+      if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + ability.dotPotency + " Potency Damage - Time Left: " + ability.debuff);
+      }
+    }
+
+    public virtual void decrement(ref Ability ability) {
+
+      if (MainWindow.time == MainWindow.servertime && ability.buff != 0.0) {
+        ability.buff -= 1.0;
+        if (ability.buff <= 0.0) {
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
+        }
+      }
+
+
+      
+    }
     // -------------------
     // Ability Definition
     // -------------------
@@ -82,17 +188,7 @@ namespace Chocobro {
         duration = 0.0;
       }
 
-      public override void impact() {
-        //add heavier shot buff activation here
-        //log(calculateCrit() + "% <--Crit Chance ");
-        int minirand = d100();
-        if (20 >= minirand) {
-          this.buff = 10;
-          log(time.ToString("F2") + " - " + name + " has procced.  Time Left: " + buff + " - Rolled a " + minirand);
-        }
 
-        base.impact();  
-      }
     }
     // End Heavyshot ---------------------
 
@@ -110,12 +206,7 @@ namespace Chocobro {
         castTime = 0.0;
         duration = 0.0;
       }
-      public override void impact() {
-        //Start ticking for 18s
-        this.debuff = 18;
-        base.impact();
-        log(time.ToString("F2") + " - " + name + " DoT has been applied.  Time Left: " + debuff);
-      }
+
     }
     // End Windbite --------------------------
 
@@ -132,12 +223,7 @@ namespace Chocobro {
         abilityType = "Weaponskill";
         castTime = 0.0;
       }
-      public override void impact() {
-        //Start ticking for 18s
-        this.debuff = 18;
-        base.impact();
-        log(time.ToString("F2") + " - " + name + " DoT has been applied.  Time Left: " + debuff);
-      }
+
     }
     // End Venomous Bite ----------------------
 
@@ -154,12 +240,7 @@ namespace Chocobro {
         abilityType = "Weaponskill";
         castTime = 0.0;
       }
-      public override void impact() {
-        //Start ticking for 20s
-        this.buff = 20;
-        log(time.ToString("F2") + " - " + name + " has been applied.  Time Left: " + buff);
-        base.impact();
-      }
+
     }
     // End Straight Shot --------------------------
 
@@ -193,11 +274,7 @@ namespace Chocobro {
         abilityType = "Instant";
         castTime = 0.0;
       }
-      public override void execute() {
-        if (time >= (fightlength * 0.80)) {
-          base.execute();
-        }
-      }
+
     }
     // End  Miserys End -------------------------------
 
@@ -246,11 +323,7 @@ namespace Chocobro {
         abilityType = "Instant";
         castTime = 0.0;
       }
-      public override void impact() {
-        this.debuff = 30;
-        base.impact();
-        log(time.ToString("F2") + " - " + name + " DoT has been applied.  Time Left: " + debuff);
-      }
+
     }
     // End Flaming Arrow
 
@@ -263,10 +336,7 @@ namespace Chocobro {
         animationDelay = 0.75;
         abilityType = "Cooldown";
       }
-      public override void impact() {
-        this.buff = 15;
-        log(time.ToString("F2") + " - " + name + " Buff has been applied. Time Left: " + buff);
-      }
+
     }
     // End Internal Release
 
@@ -279,10 +349,7 @@ namespace Chocobro {
         animationDelay = 0.9;
         abilityType = "Cooldown";
       }
-      public override void impact() {
-        this.buff = 20;
-        log(time.ToString("F2") + " - " + name + " Buff has been applied. Time Left: " + buff);
-      }
+
     }
     // End Blood for Blood
 
@@ -295,10 +362,7 @@ namespace Chocobro {
         animationDelay = 0.9;
         abilityType = "Cooldown";
       }
-      public override void impact() {
-        this.buff = 20;
-        log(time.ToString("F2") + " - " + name + " Buff has been applied. Time Left: " + buff);
-      }
+
     }
     // End Raging Strikes
 
@@ -311,10 +375,7 @@ namespace Chocobro {
         animationDelay = 0.7;
         abilityType = "Cooldown";
       }
-      public override void impact() {
-        this.buff = 20;
-        log(time.ToString("F2") + " - " + name + " Buff has been applied. Time Left: " + buff);
-      }
+
     }
     // End Hawks Eye
 
@@ -327,10 +388,7 @@ namespace Chocobro {
         animationDelay = 0.7;
         abilityType = "Cooldown";
       }
-      public override void impact() {
-        this.buff = 10;
-        log(time.ToString("F2") + " - " + name + " Buff has been applied. Time Left: " + buff);
-      }
+
     }
     // End Barrage
 
@@ -343,9 +401,7 @@ namespace Chocobro {
         animationDelay = 0.8;
         abilityType = "Cooldown";
       }
-      public override void execute() {
-        log(time.ToString("F2") + " - " + name + " has restored 400 TP");
-      }
+
     }
     // End Invigorate
   }
