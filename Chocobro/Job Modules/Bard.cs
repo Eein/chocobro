@@ -1,5 +1,6 @@
 ﻿
 namespace Chocobro {
+
   public class Bard : Job {
     
     //-----------------------
@@ -7,8 +8,11 @@ namespace Chocobro {
 
     public override void rotation() {
       var gcd = calculateGCD();
-      
 
+      if (heavyshot.buff > 0) {
+        straightshot.execute();
+        heavyshot.buff = 0;
+      }
       if (straightshot.buff <= 0) {
         straightshot.execute();
       }
@@ -48,6 +52,11 @@ namespace Chocobro {
       //decrement buffs
       straightshot.decrement();
       internalrelease.decrement();
+      ragingstrikes.decrement();
+      hawkseye.decrement();
+      bloodforblood.decrement();
+      barrage.decrement();
+      heavyshot.decrement();
 
       regen();
     }
@@ -76,6 +85,12 @@ namespace Chocobro {
       public override void impact() {
         //add heavier shot buff activation here
         //log(calculateCrit() + "% <--Crit Chance ");
+        int minirand = d100();
+        if (20 >= minirand) {
+          this.buff = 10;
+          log(time.ToString("F2") + " - " + name + " has procced.  Time Left: " + buff + " - Rolled a " + minirand);
+        }
+
         base.impact();  
       }
     }
