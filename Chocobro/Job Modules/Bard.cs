@@ -5,7 +5,19 @@ namespace Chocobro {
 
     //-----------------------
     // Make sure Flaming arrow isn't effected by Blood for Blood....
-
+    public Bard() {
+    
+      //Temporary Initiation of stats. Need to rip these from the Sim GUI.
+      WEP = 41;
+      //NEED AADAM
+      //NEED AAPOT.
+      STR = 161;
+      DEX = 224;
+      VIT = 202;
+      INT = 151;
+      MND = 141;
+      PIE = 151;
+    }
     public override void rotation() {
       var gcd = calculateGCD();
 
@@ -29,7 +41,6 @@ namespace Chocobro {
 
       if (MainWindow.TP < 540) {
         execute(ref invigorate);
-        MainWindow.TP += 400;
       }
 
       execute(ref ragingstrikes);
@@ -120,7 +131,10 @@ namespace Chocobro {
       //set potency for now, but change to damage later.
 
 
-
+      if (ability.name == "Invigorate") {
+        MainWindow.TP += 400;
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 400 TP Restored. TP: " + MainWindow.TP);
+      }
       if (ability.name == "Heavyshot") {
         int minirand = MainWindow.d100();
         if (20 >= minirand) {
@@ -131,7 +145,7 @@ namespace Chocobro {
       if (ability.abilityType == "Cooldown") {
        
       } else {
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + ability.potency + " Potency Damage. Next ability at: " + MainWindow.nextability);
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability) + " Potency Damage. Next ability at: " + MainWindow.nextability);
       }
 
       // If ability has debuff, create its timer.
@@ -172,10 +186,35 @@ namespace Chocobro {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
         }
       }
-
-
-
     }
+
+    public int damage(ref Ability ability) {
+      var damageformula = 0.0;
+      var tempdex = (double)DEX;
+      if (hawkseye.buff > 0){ tempdex *= 1.15; }
+      if (ability.autoa == false){
+        damageformula = (ability.potency) * 0.01037485 * WEP + 0.080343406 * tempdex + 0.026212395 * WEP + 0.003889894 * WEP * tempdex + 0.000800141 * WEP * DTR;
+
+      }else{
+        //Autoattack damage.
+      }
+      if (ragingstrikes.buff > 0 && ability.name != "Flaming Arrow") { damageformula *= 1.20; }
+      if (bloodforblood.buff > 0) { damageformula *= 1.10; }
+      if (ragingstrikes.buff > 0) { damageformula *= 1.20; }
+      if (ragingstrikes.buff > 0) { damageformula *= 1.20; }
+      if (ragingstrikes.buff > 0) { damageformula *= 1.20; }
+      if (ragingstrikes.buff > 0) { damageformula *= 1.20; }
+      MainWindow.log("!! DEALING " + damageformula + " DAMAGE!");
+      damageformula = (int)damageformula;
+      MainWindow.log("!! TRUNCATED " + damageformula + " DAMAGE!");
+      return (int)damageformula;
+        
+        
+      // int formulaToInt = (int) damageformula;
+    }
+
+
+
     // -------------------
     // Ability Definition
     // -------------------

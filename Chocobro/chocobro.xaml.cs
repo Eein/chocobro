@@ -34,7 +34,7 @@ namespace Chocobro {
     public static double nextinstant = 0.00;
     public static int servertime = 0;
     public static int servertick = 0;
-
+    public bool autoa = false;
     //Resources
     public static int TP = 1000;
     public static int MP = 1000;
