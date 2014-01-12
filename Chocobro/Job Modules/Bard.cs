@@ -119,17 +119,7 @@ namespace Chocobro {
       //if (bard.straightshot.buff > 0) {  critchance += 10; }
       //set potency for now, but change to damage later.
 
-      // If ability has debuff, create its timer.
-      if (ability.debuffTime > 0) {
 
-        //If dot exists, enable its time.
-        ability.debuff = ability.debuffTime;
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " DoT has been applied.  Time Left: " + ability.debuff);
-      }
-      if (ability.buffTime > 0) {
-        ability.buff = ability.buffTime;
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " buff has been activated.  Time Left: " + ability.buff);
-      }
 
       if (ability.name == "Heavyshot") {
         int minirand = MainWindow.d100();
@@ -139,10 +129,24 @@ namespace Chocobro {
         }
       }
       if (ability.abilityType == "Cooldown") {
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Has been activated. Next ability at: " + MainWindow.nextability);
+       
       } else {
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + ability.potency + " Potency Damage. Next ability at: " + MainWindow.nextability);
       }
+
+      // If ability has debuff, create its timer.
+      if (ability.debuffTime > 0) {
+
+        //If dot exists, enable its time.
+        ability.debuff = ability.debuffTime;
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " DoT has been applied.  Time Left: " + ability.debuff);
+      }
+      if (ability.buffTime > 0) {
+        ability.buff = ability.buffTime;
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " buff has been activated.  Time Left: " + ability.buff + ". Next ability at: " + MainWindow.nextability);
+      }
+
+
     }
 
     //public virtual void expire() { } not really needed. Maybe handle expiration in ticks? hmmm.
