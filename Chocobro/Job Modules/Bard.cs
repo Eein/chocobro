@@ -243,7 +243,7 @@ namespace Chocobro {
         animationDelay = 0.8;
         abilityType = "Weaponskill";
         castTime = 0.0;
-        debuffTime = 20;
+        buffTime = 20;
       }
 
     }
