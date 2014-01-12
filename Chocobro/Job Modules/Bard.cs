@@ -2,9 +2,9 @@
 namespace Chocobro {
 
   public class Bard : Job {
-    
-    //-----------------------
 
+    //-----------------------
+    // Make sure Flaming arrow isn't effected by Blood for Blood....
 
     public override void rotation() {
       var gcd = calculateGCD();
@@ -59,9 +59,10 @@ namespace Chocobro {
 
       regen();
     }
+
     public void execute(ref Ability ability) {
       if (ability.abilityType == "Weaponskill") {
-        
+
         //If time >= next cast time and time >= nextability)
         if (MainWindow.time >= ability.nextCast && MainWindow.time >= MainWindow.nextability && MainWindow.actionmade == false) {
           MainWindow.time = MainWindow.floored(MainWindow.time);
@@ -71,7 +72,7 @@ namespace Chocobro {
           MainWindow.TP -= ability.TPcost;
           MainWindow.log("Cost is " + ability.TPcost + "TP. Current TP: " + MainWindow.TP); //test for tp
           //if doesnt miss, then impact
-         
+
           //set nextCast.
           ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
 
@@ -79,12 +80,12 @@ namespace Chocobro {
           //set nextability
           MainWindow.nextability = MainWindow.floored((MainWindow.time + MainWindow.gcd));
           MainWindow.nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
-          
+
           //time = nextTime(nextinstant, nextability);
           MainWindow.actionmade = true;
 
           //var critroll = d100.Next(1, 101);
-         // var critbonus = calculateCrit();
+          // var critbonus = calculateCrit();
           impact(ref ability);
         }
       }
@@ -98,7 +99,7 @@ namespace Chocobro {
 
           //set nextCast.
           ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
-          
+
 
           //set nextability
           if (MainWindow.time + ability.animationDelay > MainWindow.nextability) {
@@ -110,7 +111,7 @@ namespace Chocobro {
           impact(ref ability);
         }
       }
- 
+
 
     }
     public virtual void impact(ref Ability ability) {
@@ -120,7 +121,7 @@ namespace Chocobro {
 
       // If ability has debuff, create its timer.
       if (ability.debuffTime > 0) {
-         
+
         //If dot exists, enable its time.
         ability.debuff = ability.debuffTime;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " DoT has been applied.  Time Left: " + ability.debuff);
@@ -129,17 +130,17 @@ namespace Chocobro {
         ability.buff = ability.buffTime;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " buff has been activated.  Time Left: " + ability.buff);
       }
-      
-      if (ability.name == "Heavyshot"){
-          int minirand = MainWindow.d100();
-          if (20 >= minirand) {
+
+      if (ability.name == "Heavyshot") {
+        int minirand = MainWindow.d100();
+        if (20 >= minirand) {
           ability.buff = 10;
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has procced.  Time Left: " + ability.buff + " - Rolled a " + minirand);
         }
       }
       if (ability.abilityType == "Cooldown") {
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Has been activated. Next ability at: " + MainWindow.nextability);
-      } else { 
+      } else {
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + ability.potency + " Potency Damage. Next ability at: " + MainWindow.nextability);
       }
     }
@@ -169,7 +170,7 @@ namespace Chocobro {
       }
 
 
-      
+
     }
     // -------------------
     // Ability Definition
@@ -178,7 +179,7 @@ namespace Chocobro {
     // Heavy Shot ---------------------
 
     Ability heavyshot = new Heavyshot();
-   
+
     public class Heavyshot : Ability {
       public Heavyshot() {
         name = "Heavy Shot";
@@ -190,16 +191,15 @@ namespace Chocobro {
         abilityType = "Weaponskill";
         castTime = 0.0;
         duration = 0.0;
+        buffTime = 10;
       }
-
-
     }
     // End Heavyshot ---------------------
 
     // Windbite --------------------------
     Ability windbite = new Windbite();
     public class Windbite : Ability {
-      public Windbite(){
+      public Windbite() {
         name = "Windbite";
         potency = 60;
         dotPotency = 45;
@@ -209,8 +209,8 @@ namespace Chocobro {
         abilityType = "Weaponskill";
         castTime = 0.0;
         duration = 0.0;
+        debuffTime = 18;
       }
-
     }
     // End Windbite --------------------------
 
@@ -226,8 +226,8 @@ namespace Chocobro {
         animationDelay = 0.7;
         abilityType = "Weaponskill";
         castTime = 0.0;
+        debuffTime = 18;
       }
-
     }
     // End Venomous Bite ----------------------
 
@@ -243,6 +243,7 @@ namespace Chocobro {
         animationDelay = 0.8;
         abilityType = "Weaponskill";
         castTime = 0.0;
+        debuffTime = 20;
       }
 
     }
@@ -285,7 +286,7 @@ namespace Chocobro {
     // Blunt Arrow ------------------------------------
     Ability bluntarrow = new Bluntarrow();
     public class Bluntarrow : Ability {
-      public Bluntarrow(){
+      public Bluntarrow() {
         name = "Blunt Arrow";
         potency = 50;
         dotPotency = 0;
@@ -301,7 +302,7 @@ namespace Chocobro {
     // Repelling Shot ---------------------------------
     Ability repellingshot = new Repellingshot();
     public class Repellingshot : Ability {
-      public Repellingshot(){
+      public Repellingshot() {
         name = "Repelling Shot";
         potency = 80;
         dotPotency = 0;
@@ -317,7 +318,7 @@ namespace Chocobro {
     //Flaming Arrow
     Ability flamingarrow = new Flamingarrow();
     public class Flamingarrow : Ability {
-      public Flamingarrow(){
+      public Flamingarrow() {
         name = "Flaming Arrow";
         potency = 0;
         dotPotency = 35;
@@ -326,6 +327,7 @@ namespace Chocobro {
         animationDelay = 0.8;
         abilityType = "Instant";
         castTime = 0.0;
+        debuffTime = 30;
       }
 
     }
@@ -334,24 +336,26 @@ namespace Chocobro {
     // Internal Release
     Ability internalrelease = new Internalrelease();
     public class Internalrelease : Ability {
-      public Internalrelease(){
+      public Internalrelease() {
         name = "Internal Release";
         recastTime = 60;
         animationDelay = 0.75;
         abilityType = "Cooldown";
+        buffTime = 15;
       }
 
     }
     // End Internal Release
 
     // Blood for Blood
-       Ability bloodforblood = new Bloodforblood();
+    Ability bloodforblood = new Bloodforblood();
     public class Bloodforblood : Ability {
-      public Bloodforblood(){
+      public Bloodforblood() {
         name = "Blood for Blood";
         recastTime = 80;
         animationDelay = 0.9;
         abilityType = "Cooldown";
+        buffTime = 20;
       }
 
     }
@@ -360,11 +364,12 @@ namespace Chocobro {
     // Raging Strikes
     Ability ragingstrikes = new Ragingstrikes();
     public class Ragingstrikes : Ability {
-      public Ragingstrikes(){
+      public Ragingstrikes() {
         name = "Raging Strikes";
         recastTime = 120;
         animationDelay = 0.9;
         abilityType = "Cooldown";
+        buffTime = 20;
       }
 
     }
@@ -378,6 +383,7 @@ namespace Chocobro {
         recastTime = 90;
         animationDelay = 0.7;
         abilityType = "Cooldown";
+        buffTime = 20;
       }
 
     }
@@ -391,6 +397,7 @@ namespace Chocobro {
         recastTime = 90;
         animationDelay = 0.7;
         abilityType = "Cooldown";
+        buffTime = 10;
       }
 
     }
