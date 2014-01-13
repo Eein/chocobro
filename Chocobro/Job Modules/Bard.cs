@@ -220,12 +220,11 @@ namespace Chocobro {
 
     public int damage(ref Ability ability, int pot) {
       double damageformula = 0.0;
-      var tempdex = (double)DEX;
+      double tempdex = DEX;
       if (hawkseye.buff > 0) { tempdex *= 1.15; }
       if (ability.abilityType != "AUTOA") {
-        MainWindow.log("POTENCY IS: " + pot);
-        damageformula = ((double)pot / 100) * (0.01037485 * WEP + 0.080343406 * tempdex + 0.026212395 * WEP + 0.003889894 * WEP * tempdex + 0.000800141 * WEP * DTR);
-        MainWindow.log("DAMFORM IS: " + damageformula);
+        damageformula = ((double)pot / 100) * (0.01037485 * WEP + 0.080343406 * tempdex + 0.026212395 * DTR + 0.003889894 * WEP * tempdex + 0.000800141 * WEP * DTR);
+ 
       } else {
         damageformula = (AAPOT) * (0.408 * WEP + 0.103262731 * tempdex + 0.003029823 * WEP * tempdex + 0.003543121 * WEP * (DTR - 202));
       }
