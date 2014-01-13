@@ -9,7 +9,7 @@ namespace Chocobro {
 
       //Temporary Initiation of stats. Need to rip these from the Sim GUI in JOB.
       WEP = 41;
-      AADMG = 44.83;
+      AADMG = 38.26;
       
       STR = 161;
       DEX = 224;
@@ -20,7 +20,7 @@ namespace Chocobro {
       //Phyre Xia
       DEX = 491;
       DTR = 305;
-      AADMG = 38.26;
+      CRIT = 538;
       
       //--aapot
       AAPOT = AADMG / System.Convert.ToDouble(WEP);
@@ -30,8 +30,10 @@ namespace Chocobro {
       var gcd = calculateGCD();
 
       if (heavyshot.buff > 0) {
-        execute(ref straightshot);
-        heavyshot.buff = 0;
+        if (straightshot.buff < 10) {
+          execute(ref straightshot);
+          heavyshot.buff = 0;
+        }
       }
       if (straightshot.buff <= 0) {
         execute(ref straightshot);
@@ -52,10 +54,12 @@ namespace Chocobro {
       }
 
       execute(ref ragingstrikes);
-      execute(ref hawkseye);
-      execute(ref bloodforblood);
-      execute(ref internalrelease);
-      execute(ref barrage);
+      if (ragingstrikes.buff > 0) {
+        execute(ref hawkseye);
+        execute(ref bloodforblood);
+        execute(ref internalrelease);
+        execute(ref barrage);
+      }
       if (MainWindow.servertime > 0.8 * MainWindow.fightlength) {
         execute(ref miserysend);
       }
@@ -221,9 +225,9 @@ namespace Chocobro {
     public int damage(ref Ability ability, int pot) {
       double damageformula = 0.0;
       double tempdex = DEX;
-      if (hawkseye.buff > 0) { tempdex *= 1.15; }
+      //if (hawkseye.buff > 0) { tempdex *= 1.15; }
       if (ability.abilityType != "AUTOA") {
-        damageformula = ((double)pot / 100) * (0.657307089 * WEP + 0.43637135 * tempdex + 0.155668927 * DTR + 0.019884333 * WEP * tempdex + 0.00224113 * WEP * DTR);
+        damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempdex + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempdex + 0.050720984 * DTR);
  
       } else {
         damageformula = (AAPOT) * (0.408 * WEP + 0.103262731 * tempdex + 0.003029823 * WEP * tempdex + 0.003543121 * WEP * (DTR - 202));
@@ -236,6 +240,17 @@ namespace Chocobro {
       var critroll = MainWindow.d100();
       var critchance = 0.0697 * (double)CRIT - 18.437;
       //MainWindow.log("CRIT CHANCE IS:" + critchance + " ROLL IS: " + critroll);
+
+      //Bloodletter procs
+      if (ability.name == "Windbite" || ability.name == "Venomous Bite" && critroll <= critchance) {
+        var dotRoll = MainWindow.d100();
+        if (dotRoll >= 50) {
+          if (bloodletter.nextCast > MainWindow.time) {
+            bloodletter.nextCast = MainWindow.time;
+           MainWindow.log("Bloodletter reset!!");
+          }
+        }
+      }
       if (straightshot.buff > 0) { critchance *= 1.10; }
       if (internalrelease.buff > 0) { critchance *= 1.30; }
 

@@ -15,7 +15,7 @@ namespace Chocobro {
     public int MND { get; set; }
     public int PIE { get; set; }
     public int WEP { get; set; }
-    public double AADMG = 0.0;
+    public double AADMG = 0;
     public double AAPOT = 0;
     public double CRIT = 341;
     public int DTR = 202;
