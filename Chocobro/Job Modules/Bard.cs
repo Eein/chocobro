@@ -224,17 +224,21 @@ namespace Chocobro {
       }
       if (ragingstrikes.buff > 0 && ability.name != "Flaming Arrow") { damageformula *= 1.20; }
       if (bloodforblood.buff > 0) { damageformula *= 1.10; }
-      if (ragingstrikes.buff > 0) { damageformula *= 1.20; }
-      if (ragingstrikes.buff > 0) { damageformula *= 1.20; }
-      if (ragingstrikes.buff > 0) { damageformula *= 1.20; }
-      if (ragingstrikes.buff > 0) { damageformula *= 1.20; }
-      damageformula = (int)damageformula;
+
+      
       //crit
+      var critroll = MainWindow.d100();
+      var critchance = 0.0697 * (double)CRIT - 18.437;
+      if (straightshot.buff > 0) { critchance *= 1.10; }
+      if (internalrelease.buff > 0) { critchance *= 1.30; }
 
-
+      if (critroll <= critchance) {
+        MainWindow.log("!!CRIT!! - ", false);
+        damageformula *= 1.5;
+      }
 
       // add variance to damage.
-
+      damageformula = (int)damageformula;
       return (int)damageformula;
 
     }

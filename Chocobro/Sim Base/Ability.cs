@@ -29,7 +29,7 @@ namespace Chocobro {
     public double bonus = 0; // for abilitiy specific bonuses.x
 
 
-    public double calculateCrit(Job _player) { return (0.0693 * _player.CRIT - 18.486); }
+    //public double calculateCrit(Job _player) { return (0.0693 * _player.CRIT - 18.486); }
 
     
 

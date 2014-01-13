@@ -25,7 +25,7 @@ namespace Chocobro {
 
   public partial class MainWindow : Window {
     Random randtick = new Random();
-
+    
     //Global Definition
     public static double gcd = 2.5;
     public static double time = 0.00;
@@ -39,7 +39,7 @@ namespace Chocobro {
     //Resources
     public static int TP = 1000;
     public static int MP = 1000;
-
+    public static string logstring = "";
     //temp actionmade to move along sim
     public static bool actionmade = false;
 
@@ -113,7 +113,6 @@ namespace Chocobro {
     }
     public void simulate() {
       var p = Factory.Get(job.Text);
-      clearLog();
       
       // p.name = "Job Not Defined"; // Debug text.
 
@@ -135,7 +134,7 @@ namespace Chocobro {
       }
 
       //parse log into box
-
+      writeLog();
       readLog();
       resetSim();
     }
@@ -147,23 +146,25 @@ namespace Chocobro {
     private void Button_Click(object sender, RoutedEventArgs e) {
       //Read Fight Length in as double.
       fightlength = Convert.ToInt16(fightLengthInput.Text);
-
       console.Document.Blocks.Clear(); // Clear Console before starting.
+      clearLog();
       console.AppendText("" + Environment.NewLine); // This is required because who knows....
       simulate();
 
     }
     private void Window_Closed(object sender, EventArgs e) {
       Application.Current.Shutdown();
-    }
+    } 
 
     // Logging
-    public static void log(String s) {
-
+    public static void log(String s, bool newline = true) {
+      logstring += s;
+      if (newline) { logstring += "\n"; }
+    }
+    public static void writeLog() {
       StreamWriter sw = File.AppendText("output.txt");
-      sw.WriteLine(s);
+      sw.WriteLine(logstring);
       sw.Close();
-
     }
     public static void clearLog() {
       StreamWriter sw = new StreamWriter("output.txt");
@@ -181,6 +182,7 @@ namespace Chocobro {
       nextinstant = 0.00;
       servertime = 0;
       servertick = 0;
+      logstring = "";
     }
     public void readLog() {
       StreamReader sr = new StreamReader("output.txt"); //TODO allow user to rename this.
