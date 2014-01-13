@@ -225,7 +225,7 @@ namespace Chocobro {
     public int damage(ref Ability ability, int pot) {
       double damageformula = 0.0;
       double tempdex = DEX;
-      //if (hawkseye.buff > 0) { tempdex *= 1.15; }
+      if (hawkseye.buff > 0) { tempdex *= 1.15; }
       if (ability.abilityType != "AUTOA") {
         damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempdex + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempdex + 0.050720984 * DTR);
  
@@ -251,6 +251,7 @@ namespace Chocobro {
           }
         }
       }
+
       if (straightshot.buff > 0) { critchance *= 1.10; }
       if (internalrelease.buff > 0) { critchance *= 1.30; }
 
