@@ -28,7 +28,7 @@ namespace Chocobro {
     Random randtick = new Random();
     private static readonly Random rand = new Random();
     //Global Definition
-
+    private bool simstarted = false;
     public static double time = 0.00;
     public static double fightlength = 0.00;
     public static int servertime = 0;
@@ -120,6 +120,8 @@ namespace Chocobro {
     }
     private void Button_Click(object sender, RoutedEventArgs e) {
       //Read Fight Length in as double.
+      if (simstarted) { return; }
+      simstarted = true;
       fightlength = Convert.ToInt16(fightLengthInput.Text);
       console.Document.Blocks.Clear(); // Clear Console before starting.
       clearLog();
@@ -155,6 +157,7 @@ namespace Chocobro {
       servertime = 0;
       servertick = 0;
       logstring = "";
+      simstarted = false;
     }
     public void readLog() {
       StreamReader sr = new StreamReader("output.txt"); //TODO allow user to rename this.
