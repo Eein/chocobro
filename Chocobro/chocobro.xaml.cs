@@ -32,6 +32,7 @@ namespace Chocobro {
     public static double fightlength = 0.00;
     public static double nextability = 0.00;
     public static double nextinstant = 0.00;
+    public static double nextauto = 0.00;
     public static int servertime = 0;
     public static int servertick = 0;
     public bool autoa = false;
@@ -81,10 +82,10 @@ namespace Chocobro {
         servertime += 1;
       }
     }
-    public static double nextTime(double instant, double ability, double st_t) {
+    public static double nextTime(double instant, double ability, double st_t, double auto) {
       var value = 0.0;
       if (instant > time) {
-        value = Math.Min(instant, Math.Min(ability, servertime));
+        value = Math.Min(instant, Math.Min(ability, Math.Min(servertime, auto)));
         
       } else {
         value = Math.Min(ability, st_t);
@@ -130,7 +131,7 @@ namespace Chocobro {
         handler(ref p);
 
         tickevent();
-        time = nextTime(nextinstant, nextability, servertime);
+        time = nextTime(nextinstant, nextability, servertime, nextauto);
       }
 
       //parse log into box

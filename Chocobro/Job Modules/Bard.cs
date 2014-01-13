@@ -84,9 +84,9 @@ namespace Chocobro {
       if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
         //Get game time (remove decimal error)
         MainWindow.time = MainWindow.floored(MainWindow.time);
-        string executestring = MainWindow.time.ToString("F2") + " - Executing " + ability.name;
-        MainWindow.log(executestring);
+        MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
         ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+        MainWindow.nextauto = MainWindow.floored((MainWindow.time + ability.recastTime));
         impact(ref ability);
       }
       if (ability.abilityType == "Weaponskill") {
@@ -95,8 +95,7 @@ namespace Chocobro {
         if (MainWindow.time >= ability.nextCast && MainWindow.time >= MainWindow.nextability && MainWindow.actionmade == false) {
           //Get game time (remove decimal error)
           MainWindow.time = MainWindow.floored(MainWindow.time);
-          string executestring = MainWindow.time.ToString("F2") + " - Executing " + ability.name;
-          MainWindow.log(executestring);
+          MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
           // remove TP
           MainWindow.TP -= ability.TPcost;
           MainWindow.log("Cost is " + ability.TPcost + "TP. Current TP: " + MainWindow.TP); //test for tp
@@ -123,8 +122,7 @@ namespace Chocobro {
         if (MainWindow.time >= ability.nextCast && MainWindow.time >= MainWindow.nextinstant) {
           //Get game time (remove decimal error)
           MainWindow.time = MainWindow.floored(MainWindow.time);
-          string executestring = MainWindow.time.ToString("F2") + " - Executing " + ability.name;
-          MainWindow.log(executestring);
+          MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
           //if doesnt miss, then impact
 
           //set nextCast.
