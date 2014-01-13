@@ -28,7 +28,7 @@ namespace Chocobro {
     Random randtick = new Random();
     private static readonly Random rand = new Random();
     //Global Definition
-    private bool simstarted = false;
+    private static bool simstarted = false;
     public static double time = 0.00;
     public static double fightlength = 0.00;
     public static int servertime = 0;
