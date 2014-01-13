@@ -49,6 +49,8 @@ namespace Chocobro {
     public virtual void rotation() { }
     public virtual void regen() {
       if (MainWindow.time == MainWindow.servertime && MainWindow.servertick == 3) {
+
+        //TODO: SOME LOGIC HERE IS WRONG.
         //TP regen
         if (TP != 1000) {
           TP += 60;

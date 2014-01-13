@@ -4,7 +4,7 @@ namespace Chocobro {
   public class Bard : Job {
     public static double AADELAY = 3.28;
     //-----------------------
-    // Make sure Flaming arrow isn't effected by Blood for Blood....
+    
     public Bard() {
 
       //Temporary Initiation of stats. Need to rip these from the Sim GUI in JOB.
@@ -223,7 +223,7 @@ namespace Chocobro {
       double tempdex = DEX;
       if (hawkseye.buff > 0) { tempdex *= 1.15; }
       if (ability.abilityType != "AUTOA") {
-        damageformula = ((double)pot / 100) * (0.01037485 * WEP + 0.080343406 * tempdex + 0.026212395 * DTR + 0.003889894 * WEP * tempdex + 0.000800141 * WEP * DTR);
+        damageformula = ((double)pot / 100) * (0.657307089 * WEP + 0.43637135 * tempdex + 0.155668927 * DTR + 0.019884333 * WEP * tempdex + 0.00224113 * WEP * DTR);
  
       } else {
         damageformula = (AAPOT) * (0.408 * WEP + 0.103262731 * tempdex + 0.003029823 * WEP * tempdex + 0.003543121 * WEP * (DTR - 202));

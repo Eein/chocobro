@@ -90,7 +90,7 @@ namespace Chocobro {
     // MAIN
     public MainWindow() {
       InitializeComponent();
-      servertick = randtick.Next(1, 4);
+      servertime = randtick.Next(1, 4);
 
       //Initialize default actions here. (autorun on load)
     }
