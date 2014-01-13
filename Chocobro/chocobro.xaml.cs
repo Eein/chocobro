@@ -28,7 +28,7 @@ namespace Chocobro {
     Random randtick = new Random();
     private static readonly Random rand = new Random();
     //Global Definition
-    private static bool simstarted = false;
+
     public static double time = 0.00;
     public static double fightlength = 0.00;
     public static int servertime = 0;
@@ -99,6 +99,7 @@ namespace Chocobro {
       return value;
     }
     public void simulate() {
+      
       var p = Factory.Get(job.Text);
       debug(); //have option to disable TODO:
       while (time <= fightlength) {
@@ -119,9 +120,9 @@ namespace Chocobro {
       Application.Current.Shutdown();
     }
     private void Button_Click(object sender, RoutedEventArgs e) {
+      //TODO: disable button
+
       //Read Fight Length in as double.
-      if (simstarted) { return; }
-      simstarted = true;
       fightlength = Convert.ToInt16(fightLengthInput.Text);
       console.Document.Blocks.Clear(); // Clear Console before starting.
       clearLog();
@@ -151,13 +152,13 @@ namespace Chocobro {
     public static void debug() {
       log("!! -- Tick Starting at: " + servertick);
     }
-    public static void resetSim() {
+    public void resetSim() {
       time = 0.00;
       fightlength = 0.00;
       servertime = 0;
       servertick = 0;
       logstring = "";
-      simstarted = false;
+     
     }
     public void readLog() {
       StreamReader sr = new StreamReader("output.txt"); //TODO allow user to rename this.
@@ -165,6 +166,8 @@ namespace Chocobro {
       console.AppendText(readContents);
       sr.Close();
     }
+
+
 
   }
 

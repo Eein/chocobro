@@ -18,7 +18,7 @@
                 </Style>
             </RichTextBox.Resources>
         </RichTextBox>
-        <Button Content="Sim" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click" Height="20" Grid.Column="1" Grid.Row="1" Width="58"/>
+        <Button x:Name="simulateButton" Content="Sim" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click" Height="20" Grid.Column="1" Grid.Row="1" Width="58" />
         <Label Content="CONSOLE" HorizontalAlignment="Left" Margin="167,28,0,0" VerticalAlignment="Top" RenderTransformOrigin="-7.754,0.442" Height="26" Width="63"/>
         <ComboBox x:Name="job" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Width="120" Height="22"  >
             <ComboBoxItem Content="Bard" HorizontalAlignment="Left" Width="118" IsSelected="True"/>

@@ -216,10 +216,10 @@ namespace Chocobro {
       var tempdex = (double)DEX;
       if (hawkseye.buff > 0) { tempdex *= 1.15; }
       if (ability.autoa == false) {
-        damageformula = (pot / 100) * 0.01037485 * WEP + 0.080343406 * tempdex + 0.026212395 * WEP + 0.003889894 * WEP * tempdex + 0.000800141 * WEP * DTR;
+        damageformula = (pot / 100) * (0.01037485 * WEP + 0.080343406 * tempdex + 0.026212395 * WEP + 0.003889894 * WEP * tempdex + 0.000800141 * WEP * DTR);
 
       } else {
-        //Autoattack damage.
+        damageformula = ((WEP/AADMG) / 100) * (0.408 * WEP + 0.103262731 * tempdex + 0.003029823 * WEP * tempdex + 0.003543121 * WEP * (DTR - 202));
       }
       if (ragingstrikes.buff > 0 && ability.name != "Flaming Arrow") { damageformula *= 1.20; }
       if (bloodforblood.buff > 0) { damageformula *= 1.10; }
@@ -496,6 +496,7 @@ namespace Chocobro {
         recastTime = AADELAY;
         animationDelay = 0;
         abilityType = "AUTOA";
+        autoa = true;
       }
 
     }
