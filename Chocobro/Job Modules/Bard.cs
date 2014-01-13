@@ -6,10 +6,10 @@ namespace Chocobro {
     //-----------------------
     // Make sure Flaming arrow isn't effected by Blood for Blood....
     public Bard() {
-    
+
       //Temporary Initiation of stats. Need to rip these from the Sim GUI in JOB.
       WEP = 41;
-      
+
       AADMG = 44.83;
       AAPOT = (int)(AADMG / AADELAY);
       STR = 161;
@@ -49,8 +49,8 @@ namespace Chocobro {
       execute(ref bloodforblood);
       execute(ref internalrelease);
       execute(ref barrage);
-      if (MainWindow.servertime > 0.8 * MainWindow.fightlength) { 
-        execute(ref miserysend); 
+      if (MainWindow.servertime > 0.8 * MainWindow.fightlength) {
+        execute(ref miserysend);
       }
       execute(ref bloodletter);
       execute(ref flamingarrow);
@@ -72,13 +72,13 @@ namespace Chocobro {
       decrement(ref bloodforblood);
       decrement(ref barrage);
       decrement(ref heavyshot);
-      
+
 
       regen();
     }
 
     public void execute(ref Ability ability) {
-      
+
 
       if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
         //Get game time (remove decimal error)
@@ -91,7 +91,7 @@ namespace Chocobro {
       if (ability.abilityType == "Weaponskill") {
 
         //If time >= next cast time and time >= nextability)
-        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && MainWindow.actionmade == false) {
+        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
           //Get game time (remove decimal error)
           MainWindow.time = MainWindow.floored(MainWindow.time);
           MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
@@ -105,11 +105,11 @@ namespace Chocobro {
 
 
           //set nextability
-          nextability = MainWindow.floored((MainWindow.time + MainWindow.gcd));
+          nextability = MainWindow.floored((MainWindow.time + gcd));
           nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
 
           //time = nextTime(nextinstant, nextability);
-          MainWindow.actionmade = true;
+          actionmade = true;
 
           //var critroll = d100.Next(1, 101);
           // var critbonus = calculateCrit();
@@ -159,10 +159,10 @@ namespace Chocobro {
         }
       }
       if (ability.abilityType == "Cooldown") {
-       
+
       }
-      if (ability.abilityType == "Weaponskill"){
-         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + nextability);
+      if (ability.abilityType == "Weaponskill") {
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + nextability);
 
       }
       if (ability.abilityType == "AUTOA") {
@@ -214,17 +214,17 @@ namespace Chocobro {
     public int damage(ref Ability ability, int pot) {
       var damageformula = 0.0;
       var tempdex = (double)DEX;
-      if (hawkseye.buff > 0){ tempdex *= 1.15; }
-      if (ability.autoa == false){
-        damageformula = (pot/100) * 0.01037485 * WEP + 0.080343406 * tempdex + 0.026212395 * WEP + 0.003889894 * WEP * tempdex + 0.000800141 * WEP * DTR;
+      if (hawkseye.buff > 0) { tempdex *= 1.15; }
+      if (ability.autoa == false) {
+        damageformula = (pot / 100) * 0.01037485 * WEP + 0.080343406 * tempdex + 0.026212395 * WEP + 0.003889894 * WEP * tempdex + 0.000800141 * WEP * DTR;
 
-      }else{
+      } else {
         //Autoattack damage.
       }
       if (ragingstrikes.buff > 0 && ability.name != "Flaming Arrow") { damageformula *= 1.20; }
       if (bloodforblood.buff > 0) { damageformula *= 1.10; }
 
-      
+
       //crit
       var critroll = MainWindow.d100();
       var critchance = 0.0697 * (double)CRIT - 18.437;

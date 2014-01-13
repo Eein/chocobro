@@ -24,40 +24,34 @@ namespace Chocobro {
   /// </summary>
 
   public partial class MainWindow : Window {
+    //Create a random tick to start on.
     Random randtick = new Random();
     private static readonly Random rand = new Random();
     //Global Definition
-    public static double gcd = 2.5;
+
     public static double time = 0.00;
     public static double fightlength = 0.00;
-
-    
     public static int servertime = 0;
     public static int servertick = 0;
-
     //Resources
-   
     public static string logstring = "";
-    //temp actionmade to move along sim
-    public static bool actionmade = false;
 
     public void handler(ref Job p) {
-      actionmade = false; //temp
+      p.actionmade = false; //temp
       p.rotation();
 
     }
-     static class Factory {
-      	/// <summary>
-      	/// Decides which class to instantiate.
-      	/// </summary>
-      	public static Job Get(string s)
-      	{
-      	    switch (s)
-      	    {
-      		case "Bard": return new Bard(); 
-      		default:     return new Job(); 
-      	    }
-      	}
+    static class Factory {
+      /// <summary>
+      /// Decides which class to instantiate.
+      /// </summary>
+      public static Job Get(string s) {
+        switch (s) {
+          case "Bard": return new Bard();
+          //case "Black Mage": return new Blackmage();
+          default: return new Job();
+        }
+      }
     }
     // Global Math
     public static int d100() {
@@ -67,15 +61,11 @@ namespace Chocobro {
       //log(servertime.ToString("F2") + " - current server time");
       if (servertime == time) {
         if (servertick == 3) {
-          //log("--- SERVER TICK - Next tick at " + (servertime + 3) + " st: " + servertick);
-          //TP-MP
-          
+          //log("--- SERVER TICK - Next tick at " + (servertime + 3) + " st: " + servertick);          
           servertick = 1;
         } else {
           servertick += 1;
         }
-        //tick event
-
         servertime += 1;
       }
     }
@@ -83,7 +73,7 @@ namespace Chocobro {
       var value = 0.0;
       if (instant > time) {
         value = Math.Min(instant, Math.Min(ability, Math.Min(servertime, auto)));
-        
+
       } else {
         value = Math.Min(ability, st_t);
       }
@@ -110,29 +100,17 @@ namespace Chocobro {
     }
     public void simulate() {
       var p = Factory.Get(job.Text);
-      
-      // p.name = "Job Not Defined"; // Debug text.
-
-      // //Define Player Object
-      // if (job.Text == "Bard") {
-      //   p = new Job(b) { name = "Player(Bard)", STR = 161, DEX = 224, VIT = 202, INT = 151, MND = 141, PIE = 151 };
-      // }
-
-      //if (p.name == "Job Not Defined") { return; }
-
       debug(); //have option to disable TODO:
       while (time <= fightlength) {
-        //MessageBox.Show(time.ToString() + "  " + fightlength.ToString());
-
         handler(ref p);
-
         tickevent();
         time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto);
       }
-
-      //parse log into box
+      //read logstring into file
       writeLog();
+      //parse log into box
       readLog();
+      //reset globals
       resetSim();
     }
 
@@ -151,7 +129,7 @@ namespace Chocobro {
     }
     private void Window_Closed(object sender, EventArgs e) {
       Application.Current.Shutdown();
-    } 
+    }
 
     // Logging
     public static void log(String s, bool newline = true) {
@@ -172,7 +150,6 @@ namespace Chocobro {
       log("!! -- Tick Starting at: " + servertick);
     }
     public static void resetSim() {
-      gcd = 2.5;
       time = 0.00;
       fightlength = 0.00;
       servertime = 0;

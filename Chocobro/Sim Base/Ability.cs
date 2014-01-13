@@ -32,7 +32,7 @@ namespace Chocobro {
 
     //public double calculateCrit(Job _player) { return (0.0693 * _player.CRIT - 18.486); }
 
-    
+
 
   }
 }

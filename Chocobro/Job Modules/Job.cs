@@ -6,7 +6,7 @@ namespace Chocobro {
   //   public Job(job player){
   //     _player = player;
   //   }
-    public partial class Job{
+  public partial class Job {
     public string name { get; set; }
     public int STR { get; set; }
     public int DEX { get; set; }
@@ -28,14 +28,15 @@ namespace Chocobro {
     public double nextability = 0.00;
     public double nextinstant = 0.00;
     public double nextauto = 0.00;
+    public bool actionmade = false;
     public int TP = 1000;
-    public int MP = 1000;
-
+    public int MP = 1000; // TODO: formulate.
+    public double gcd = 2.5;
     public int totaldamage = 0;
-    
+
 
     public double calculateGCD() {
-      var skillcalc = MainWindow.gcd - (Math.Round(((SKS - 341) * 0.00095308) * 100) / 100);
+      var skillcalc = gcd - (Math.Round(((SKS - 341) * 0.00095308) * 100) / 100);
       return skillcalc;
     }
     public void calculateSGCD(double castspeed) {
