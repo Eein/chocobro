@@ -2,7 +2,7 @@
 namespace Chocobro {
 
   public class Bard : Job {
-
+    public static double AADELAY = 3.28;
     //-----------------------
     // Make sure Flaming arrow isn't effected by Blood for Blood....
     public Bard() {
@@ -11,6 +11,7 @@ namespace Chocobro {
       WEP = 41;
 
       AADMG = 44.83;
+      
       AAPOT = (int)(AADMG / AADELAY);
       STR = 161;
       DEX = 224;
@@ -219,7 +220,7 @@ namespace Chocobro {
         damageformula = (pot / 100) * (0.01037485 * WEP + 0.080343406 * tempdex + 0.026212395 * WEP + 0.003889894 * WEP * tempdex + 0.000800141 * WEP * DTR);
 
       } else {
-        damageformula = ((WEP/AADMG) / 100) * (0.408 * WEP + 0.103262731 * tempdex + 0.003029823 * WEP * tempdex + 0.003543121 * WEP * (DTR - 202));
+        damageformula = ((AAPOT) / 100) * (0.408 * WEP + 0.103262731 * tempdex + 0.003029823 * WEP * tempdex + 0.003543121 * WEP * (DTR - 202));
       }
       if (ragingstrikes.buff > 0 && ability.name != "Flaming Arrow") { damageformula *= 1.20; }
       if (bloodforblood.buff > 0) { damageformula *= 1.10; }
