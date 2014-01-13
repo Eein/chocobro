@@ -48,7 +48,7 @@ namespace Chocobro {
       execute(ref bloodforblood);
       execute(ref internalrelease);
       execute(ref barrage);
-      execute(ref miserysend);
+      if (MainWindow.servertime > 0.8 * MainWindow.fightlength) { execute(ref miserysend); }
       execute(ref bloodletter);
       execute(ref flamingarrow);
       execute(ref repellingshot);
