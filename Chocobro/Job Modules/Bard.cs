@@ -215,7 +215,7 @@ namespace Chocobro {
       var damageformula = 0.0;
       var tempdex = (double)DEX;
       if (hawkseye.buff > 0) { tempdex *= 1.15; }
-      if (ability.name != "Auto Attack") {
+      if (ability.abilityType != "AUTOA") {
         damageformula = (pot / 100) * (0.01037485 * WEP + 0.080343406 * tempdex + 0.026212395 * WEP + 0.003889894 * WEP * tempdex + 0.000800141 * WEP * DTR);
 
       } else {
@@ -496,8 +496,6 @@ namespace Chocobro {
         recastTime = AADELAY;
         animationDelay = 0;
         abilityType = "AUTOA";
-        autoa = true;
-        potency = 112;
       }
 
     }
