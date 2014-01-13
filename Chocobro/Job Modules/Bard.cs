@@ -10,13 +10,21 @@ namespace Chocobro {
       //Temporary Initiation of stats. Need to rip these from the Sim GUI in JOB.
       WEP = 41;
       AADMG = 44.83;
-      AAPOT = AADMG / System.Convert.ToDouble(WEP);
+      
       STR = 161;
       DEX = 224;
       VIT = 202;
       INT = 151;
       MND = 141;
       PIE = 151;
+      //Phyre Xia
+      DEX = 491;
+      DTR = 305;
+      AADMG = 38.26;
+      
+      //--aapot
+      AAPOT = AADMG / System.Convert.ToDouble(WEP);
+
     }
     public override void rotation() {
       var gcd = calculateGCD();
@@ -215,6 +223,7 @@ namespace Chocobro {
       var tempdex = (double)DEX;
       if (hawkseye.buff > 0) { tempdex *= 1.15; }
       if (ability.abilityType != "AUTOA") {
+        MainWindow.log("POTENCY IS: " + pot);
         damageformula = (pot / 100) * (0.01037485 * WEP + 0.080343406 * tempdex + 0.026212395 * WEP + 0.003889894 * WEP * tempdex + 0.000800141 * WEP * DTR);
 
       } else {
@@ -237,7 +246,7 @@ namespace Chocobro {
       }
 
       // add variance to damage.
-      damageformula = (int)damageformula;
+      //damageformula = (int)damageformula;
       return (int)damageformula;
 
     }
