@@ -18,6 +18,7 @@ namespace Chocobro {
     public double debuff;
     public double buffTime;
     public double debuffTime;
+    public bool autoa = false;
     // COPY THIS WHEREVER BUFFED IS USED 
     // 0 - Raging Strikes 
     // 1 - Blood for Blood 

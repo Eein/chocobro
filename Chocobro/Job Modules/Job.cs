@@ -25,6 +25,11 @@ namespace Chocobro {
     public int SPS = 341;
     public int AP = 0; // Define after gear
     public int AMP = 0; // Define after gear
+    public double nextability = 0.00;
+    public double nextinstant = 0.00;
+    public double nextauto = 0.00;
+    public int TP = 1000;
+    public int MP = 1000;
 
     public int totaldamage = 0;
     
@@ -36,21 +41,19 @@ namespace Chocobro {
     public void calculateSGCD(double castspeed) {
       var skillcalc = castspeed - (Math.Round(((SPS - 341) * 0.00095308) * 100) / 100);
     }
-    public int TP() {
-      return MainWindow.TP;
-    }
+
     public void addTP(int amount) {
-      MainWindow.TP += amount;
+      TP += amount;
     }
 
     public virtual void rotation() { }
     public virtual void regen() {
       if (MainWindow.time == MainWindow.servertime && MainWindow.servertick == 3) {
         //TP regen
-        if (MainWindow.TP != 1000) {
-          MainWindow.TP += 60;
-          if (MainWindow.TP > 1000) { MainWindow.TP = 1000; }
-          MainWindow.log("TP Regen Tick - Restored 60 TP. Current TP: " + MainWindow.TP);
+        if (TP != 1000) {
+          TP += 60;
+          if (TP > 1000) { TP = 1000; }
+          MainWindow.log("TP Regen Tick - Restored 60 TP. Current TP: " + TP);
         }
         //MP regen (add this eventually. Check old sim for reference)
       }

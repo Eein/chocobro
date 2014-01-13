@@ -12,7 +12,6 @@ namespace Chocobro {
       
       AADMG = 44.83;
       AAPOT = (int)(AADMG / AADELAY);
-      
       STR = 161;
       DEX = 224;
       VIT = 202;
@@ -41,7 +40,7 @@ namespace Chocobro {
 
       execute(ref heavyshot);
 
-      if (MainWindow.TP < 540) {
+      if (TP < 540) {
         execute(ref invigorate);
       }
 
@@ -86,19 +85,19 @@ namespace Chocobro {
         MainWindow.time = MainWindow.floored(MainWindow.time);
         MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
         ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
-        MainWindow.nextauto = MainWindow.floored((MainWindow.time + ability.recastTime));
+        nextauto = MainWindow.floored((MainWindow.time + ability.recastTime));
         impact(ref ability);
       }
       if (ability.abilityType == "Weaponskill") {
 
         //If time >= next cast time and time >= nextability)
-        if (MainWindow.time >= ability.nextCast && MainWindow.time >= MainWindow.nextability && MainWindow.actionmade == false) {
+        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && MainWindow.actionmade == false) {
           //Get game time (remove decimal error)
           MainWindow.time = MainWindow.floored(MainWindow.time);
           MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
           // remove TP
-          MainWindow.TP -= ability.TPcost;
-          MainWindow.log("Cost is " + ability.TPcost + "TP. Current TP: " + MainWindow.TP); //test for tp
+          TP -= ability.TPcost;
+          MainWindow.log("Cost is " + ability.TPcost + "TP. Current TP: " + TP); //test for tp
           //if doesnt miss, then impact
 
           //set nextCast.
@@ -106,8 +105,8 @@ namespace Chocobro {
 
 
           //set nextability
-          MainWindow.nextability = MainWindow.floored((MainWindow.time + MainWindow.gcd));
-          MainWindow.nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
+          nextability = MainWindow.floored((MainWindow.time + MainWindow.gcd));
+          nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
 
           //time = nextTime(nextinstant, nextability);
           MainWindow.actionmade = true;
@@ -119,7 +118,7 @@ namespace Chocobro {
       }
       if (ability.abilityType == "Instant" || ability.abilityType == "Cooldown") {
         //If time >= next cast time and time >= nextability)
-        if (MainWindow.time >= ability.nextCast && MainWindow.time >= MainWindow.nextinstant) {
+        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant) {
           //Get game time (remove decimal error)
           MainWindow.time = MainWindow.floored(MainWindow.time);
           MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
@@ -130,11 +129,11 @@ namespace Chocobro {
 
 
           //set nextability
-          if (MainWindow.time + ability.animationDelay > MainWindow.nextability) {
-            MainWindow.nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
+          if (MainWindow.time + ability.animationDelay > nextability) {
+            nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
           }
 
-          MainWindow.nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
+          nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
 
           impact(ref ability);
         }
@@ -149,8 +148,8 @@ namespace Chocobro {
 
 
       if (ability.name == "Invigorate") {
-        MainWindow.TP += 400;
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 400 TP Restored. TP: " + MainWindow.TP);
+        TP += 400;
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 400 TP Restored. TP: " + TP);
       }
       if (ability.name == "Heavyshot") {
         int minirand = MainWindow.d100();
@@ -163,7 +162,7 @@ namespace Chocobro {
        
       }
       if (ability.abilityType == "Weaponskill"){
-         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + MainWindow.nextability);
+         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + nextability);
 
       }
       if (ability.abilityType == "AUTOA") {
@@ -181,7 +180,7 @@ namespace Chocobro {
       }
       if (ability.buffTime > 0) {
         ability.buff = ability.buffTime;
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " buff has been activated.  Time Left: " + ability.buff + ". Next ability at: " + MainWindow.nextability);
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " buff has been activated.  Time Left: " + ability.buff + ". Next ability at: " + nextability);
       }
 
 
@@ -229,6 +228,7 @@ namespace Chocobro {
       //crit
       var critroll = MainWindow.d100();
       var critchance = 0.0697 * (double)CRIT - 18.437;
+      //MainWindow.log("CRIT CHANCE IS:" + critchance + " ROLL IS: " + critroll);
       if (straightshot.buff > 0) { critchance *= 1.10; }
       if (internalrelease.buff > 0) { critchance *= 1.30; }
 

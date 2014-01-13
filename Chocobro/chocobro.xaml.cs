@@ -25,20 +25,18 @@ namespace Chocobro {
 
   public partial class MainWindow : Window {
     Random randtick = new Random();
-    
+    private static readonly Random rand = new Random();
     //Global Definition
     public static double gcd = 2.5;
     public static double time = 0.00;
     public static double fightlength = 0.00;
-    public static double nextability = 0.00;
-    public static double nextinstant = 0.00;
-    public static double nextauto = 0.00;
+
+    
     public static int servertime = 0;
     public static int servertick = 0;
-    public bool autoa = false;
+
     //Resources
-    public static int TP = 1000;
-    public static int MP = 1000;
+   
     public static string logstring = "";
     //temp actionmade to move along sim
     public static bool actionmade = false;
@@ -63,7 +61,6 @@ namespace Chocobro {
     }
     // Global Math
     public static int d100() {
-      Random rand = new Random();
       return rand.Next(1, 101);
     }
     public static void tickevent() {
@@ -130,7 +127,7 @@ namespace Chocobro {
         handler(ref p);
 
         tickevent();
-        time = nextTime(nextinstant, nextability, servertime, nextauto);
+        time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto);
       }
 
       //parse log into box
@@ -178,8 +175,6 @@ namespace Chocobro {
       gcd = 2.5;
       time = 0.00;
       fightlength = 0.00;
-      nextability = 0.00;
-      nextinstant = 0.00;
       servertime = 0;
       servertick = 0;
       logstring = "";
