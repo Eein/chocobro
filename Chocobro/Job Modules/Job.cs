@@ -15,7 +15,9 @@ namespace Chocobro {
     public int MND { get; set; }
     public int PIE { get; set; }
     public int WEP { get; set; }
-    public double AUTODMG { get; set; }
+    public double AADMG { get; set; }
+    public static double AADELAY = 3.28;
+    public int AAPOT { get; set; }
     public double CRIT = 341;
     public int DTR = 202;
     public int ACC = 341;
@@ -23,6 +25,8 @@ namespace Chocobro {
     public int SPS = 341;
     public int AP = 0; // Define after gear
     public int AMP = 0; // Define after gear
+
+    public int totaldamage = 0;
     
 
     public double calculateGCD() {

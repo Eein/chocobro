@@ -7,10 +7,12 @@ namespace Chocobro {
     // Make sure Flaming arrow isn't effected by Blood for Blood....
     public Bard() {
     
-      //Temporary Initiation of stats. Need to rip these from the Sim GUI.
+      //Temporary Initiation of stats. Need to rip these from the Sim GUI in JOB.
       WEP = 41;
-      //NEED AADAM
-      //NEED AAPOT.
+      
+      AADMG = 44.83;
+      AAPOT = (int)(AADMG / AADELAY);
+      
       STR = 161;
       DEX = 224;
       VIT = 202;
@@ -48,7 +50,9 @@ namespace Chocobro {
       execute(ref bloodforblood);
       execute(ref internalrelease);
       execute(ref barrage);
-      if (MainWindow.servertime > 0.8 * MainWindow.fightlength) { execute(ref miserysend); }
+      if (MainWindow.servertime > 0.8 * MainWindow.fightlength) { 
+        execute(ref miserysend); 
+      }
       execute(ref bloodletter);
       execute(ref flamingarrow);
       execute(ref repellingshot);
@@ -59,6 +63,8 @@ namespace Chocobro {
       tick(ref windbite);
       tick(ref venomousbite);
       tick(ref flamingarrow);
+      //auto
+      execute(ref autoattack);
       //decrement buffs
       decrement(ref straightshot);
       decrement(ref internalrelease);
@@ -67,15 +73,27 @@ namespace Chocobro {
       decrement(ref bloodforblood);
       decrement(ref barrage);
       decrement(ref heavyshot);
+      
 
       regen();
     }
 
     public void execute(ref Ability ability) {
+      
+
+      if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
+        //Get game time (remove decimal error)
+        MainWindow.time = MainWindow.floored(MainWindow.time);
+        string executestring = MainWindow.time.ToString("F2") + " - Executing " + ability.name;
+        MainWindow.log(executestring);
+        ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+        impact(ref ability);
+      }
       if (ability.abilityType == "Weaponskill") {
 
         //If time >= next cast time and time >= nextability)
         if (MainWindow.time >= ability.nextCast && MainWindow.time >= MainWindow.nextability && MainWindow.actionmade == false) {
+          //Get game time (remove decimal error)
           MainWindow.time = MainWindow.floored(MainWindow.time);
           string executestring = MainWindow.time.ToString("F2") + " - Executing " + ability.name;
           MainWindow.log(executestring);
@@ -103,6 +121,7 @@ namespace Chocobro {
       if (ability.abilityType == "Instant" || ability.abilityType == "Cooldown") {
         //If time >= next cast time and time >= nextability)
         if (MainWindow.time >= ability.nextCast && MainWindow.time >= MainWindow.nextinstant) {
+          //Get game time (remove decimal error)
           MainWindow.time = MainWindow.floored(MainWindow.time);
           string executestring = MainWindow.time.ToString("F2") + " - Executing " + ability.name;
           MainWindow.log(executestring);
@@ -144,8 +163,15 @@ namespace Chocobro {
       }
       if (ability.abilityType == "Cooldown") {
        
-      } else {
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + MainWindow.nextability);
+      }
+      if (ability.abilityType == "Weaponskill"){
+         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + MainWindow.nextability);
+
+      }
+      if (ability.abilityType == "AUTOA") {
+
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next AA at: " + ability.nextCast);
+
       }
 
       // If ability has debuff, create its timer.
@@ -205,13 +231,14 @@ namespace Chocobro {
       if (ragingstrikes.buff > 0) { damageformula *= 1.20; }
       if (ragingstrikes.buff > 0) { damageformula *= 1.20; }
       damageformula = (int)damageformula;
-      
+      //crit
+
+
+
       // add variance to damage.
 
       return (int)damageformula;
-        
-        
-      // int formulaToInt = (int) damageformula;
+
     }
 
 
@@ -455,6 +482,18 @@ namespace Chocobro {
         recastTime = 120;
         animationDelay = 0.8;
         abilityType = "Cooldown";
+      }
+
+    }
+    // End Invigorate
+    // Auto Attack
+    Ability autoattack = new Autoattack();
+    public class Autoattack : Ability {
+      public Autoattack() {
+        name = "Auto Attack";
+        recastTime = AADELAY;
+        animationDelay = 0;
+        abilityType = "AUTOA";
       }
 
     }
