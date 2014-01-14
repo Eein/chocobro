@@ -31,21 +31,26 @@ namespace Chocobro {
       var gcd = calculateGCD();
 
       if (heavyshot.buff > 0) {
-        if (straightshot.buff < 10) {
+        if (straightshot.buff < 5) {
           execute(ref straightshot);
           heavyshot.buff = 0;
         }
       }
+
       if (straightshot.buff <= 0) {
         execute(ref straightshot);
       }
 
       if (windbite.debuff <= gcd) {
-        execute(ref windbite);
+        if (MainWindow.fightlength - MainWindow.time > 9) {
+          execute(ref windbite);
+        }
       }
 
       if (venomousbite.debuff <= gcd) {
-        execute(ref venomousbite);
+        if (MainWindow.fightlength - MainWindow.time > 9) {
+          execute(ref venomousbite);
+        }
       }
 
       execute(ref heavyshot);
@@ -57,9 +62,12 @@ namespace Chocobro {
       execute(ref ragingstrikes);
       if (ragingstrikes.buff > 0) {
         execute(ref hawkseye);
-        execute(ref bloodforblood);
         execute(ref internalrelease);
+        execute(ref bloodforblood);
         execute(ref barrage);
+      }
+      if (ragingstrikes.nextCast >= MainWindow.time + 57 && ragingstrikes.nextCast <= 63) {
+        execute(ref internalrelease);
       }
       if (MainWindow.servertime >= 0.8 * MainWindow.fightlength) {
         execute(ref miserysend);
