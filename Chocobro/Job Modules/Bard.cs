@@ -93,12 +93,23 @@ namespace Chocobro {
 
       if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
         //Get game time (remove decimal error)
-        MainWindow.time = MainWindow.floored(MainWindow.time);
-        MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
-        ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
-        nextauto = MainWindow.floored((MainWindow.time + ability.recastTime));
-        impact(ref ability);
+        if (barrage.buff > 0) {
+          for (int x = 0; x < 3; ++x) {
+            MainWindow.time = MainWindow.floored(MainWindow.time);
+            MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
+            ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+            nextauto = MainWindow.floored((MainWindow.time + ability.recastTime));
+            impact(ref ability);
+          }
+        } else {
+          MainWindow.time = MainWindow.floored(MainWindow.time);
+          MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
+          ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+          nextauto = MainWindow.floored((MainWindow.time + ability.recastTime));
+          impact(ref ability);
+        }
       }
+
       if (ability.abilityType == "Weaponskill") {
 
         //If time >= next cast time and time >= nextability)
@@ -184,10 +195,10 @@ namespace Chocobro {
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 400 TP Restored. TP: " + TP);
       }
       if (ability.name == "Heavyshot") {
-        int minirand = MainWindow.d100();
-        if (20 >= minirand) {
+        double buffroll = MainWindow.d100(1, 101);
+        if (20 >= buffroll) {
           ability.buff = 10;
-          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has procced.  Time Left: " + ability.buff + " - Rolled a " + minirand);
+          MainWindow.log("!!PROC!! - Heavier Shot. Time Left: " + ability.buff);
         }
       }
       if (ability.abilityType == "Cooldown") {
@@ -258,48 +269,51 @@ namespace Chocobro {
 
 
       //crit
-      var critroll = MainWindow.d100();
+      double critroll = MainWindow.d100(1, 1000001) / 10000;
       var critchance = 0.0697 * (double)CRIT - 18.437;
       //MainWindow.log("CRIT CHANCE IS:" + critchance + " ROLL IS: " + critroll);
 
       //Bloodletter procs
       if (bloodletter.nextCast > MainWindow.time) {      
-        if (ability.name == "Windbite") {  
-          if (critroll <= critchance) {
-            var dotRoll = MainWindow.d100();
-            if (dotRoll >= 50) {
-                bloodletter.nextCast = MainWindow.time;
-                MainWindow.log("!!PROC!! - Bloodletter reset! Critroll: " + critroll + " -- Dot Roll: " + dotRoll);
-              }
+        if (ability.name == "Windbite") {
+          if (windbite.debuff > 0) { 
+            if (critroll <= critchance) {
+             var dotRoll = MainWindow.d100(1, 101);
+             if (dotRoll >= 50) {
+               bloodletter.nextCast = MainWindow.time;
+               MainWindow.log("!!PROC!! - Bloodletter reset!");
+             }
             }
           }
         }
+      }
 
       if (bloodletter.nextCast > MainWindow.time) {
         if (ability.name == "Venomous Bite") {
-          if (critroll <= critchance) {
-            var dotRoll = MainWindow.d100();
-            if (dotRoll >= 50) {
-              bloodletter.nextCast = MainWindow.time;
-              MainWindow.log("!!PROC!! - Bloodletter reset! Critroll: " + critroll + " -- Dot Roll: " + dotRoll);
+          if (venomousbite.debuff > 0) { 
+            if (critroll <= critchance) {
+              var dotRoll = MainWindow.d100(1, 101);
+              if (dotRoll >= 50) {
+                bloodletter.nextCast = MainWindow.time;
+                MainWindow.log("!!PROC!! - Bloodletter reset!");
+              }
             }
           }
         }
       }
       
 
-      if (straightshot.buff > 0) { critchance *= 1.10; }
-      if (internalrelease.buff > 0) { critchance *= 1.30; }
+      if (straightshot.buff > 0) { critchance += 10; }
+      if (internalrelease.buff > 0) { critchance += 10; }
 
       if (critroll <= critchance) {
-        MainWindow.log("!!CRIT!! - Rolled a " + critroll, false);
+        MainWindow.log("!!CRIT!! - ", false);
         damageformula *= 1.5;
       }
 
       // add variance to damage.
-      //damageformula = (int)damageformula;
+      damageformula = (int)damageformula;
       return (int)damageformula;
-
     }
 
 

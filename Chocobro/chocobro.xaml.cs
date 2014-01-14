@@ -54,8 +54,9 @@ namespace Chocobro {
       }
     }
     // Global Math
-    public static int d100() {
-      return rand.Next(1, 101);
+
+    public static double d100(int min, int max) {
+      return (rand.Next(min, max));
     }
     public static void tickevent() {
       //log(servertime.ToString("F2") + " - current server time");
