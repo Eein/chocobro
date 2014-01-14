@@ -295,34 +295,7 @@ namespace Chocobro {
       var critchance = 0.0697 * (double)CRIT - 18.437;
       //MainWindow.log("CRIT CHANCE IS:" + critchance + " ROLL IS: " + critroll);
 
-      //Bloodletter procs
-      if (bloodletter.nextCast > MainWindow.time) {      
-        if (ability.name == "Windbite") {
-          if (windbite.debuff > 0) { 
-            if (critroll <= critchance) {
-             var dotRoll = MainWindow.d100(1, 101);
-             if (dotRoll >= 50) {
-               bloodletter.nextCast = MainWindow.time;
-               MainWindow.log("!!PROC!! - Bloodletter reset!");
-             }
-            }
-          }
-        }
-      }
 
-      if (bloodletter.nextCast > MainWindow.time) {
-        if (ability.name == "Venomous Bite") {
-          if (venomousbite.debuff > 0) { 
-            if (critroll <= critchance) {
-              var dotRoll = MainWindow.d100(1, 101);
-              if (dotRoll >= 50) {
-                bloodletter.nextCast = MainWindow.time;
-                MainWindow.log("!!PROC!! - Bloodletter reset!");
-              }
-            }
-          }
-        }
-      }
       
 
       if (straightshot.buff > 0) { critchance += 10; }
@@ -331,6 +304,14 @@ namespace Chocobro {
       if (critroll <= critchance) {
         MainWindow.log("!!CRIT!! - ", false);
         damageformula *= 1.5;
+          //Bloodletter procs        
+          if (bloodletter.nextCast > MainWindow.time && ((ability.name == "Windbite" && windbite.debuff > 0) || (ability.name == "Venomous Bite" && venomousbite.debuff > 0)) {  
+                 var dotRoll = MainWindow.d100(1, 101);
+                 if (dotRoll >= 50) {
+                   bloodletter.nextCast = MainWindow.time;
+                   MainWindow.log("!!PROC!! - Bloodletter reset!");
+                 }
+          }
       }
 
       // add variance to damage.
