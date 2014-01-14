@@ -60,7 +60,7 @@ namespace Chocobro {
         execute(ref internalrelease);
         execute(ref barrage);
       }
-      if (MainWindow.servertime > 0.8 * MainWindow.fightlength) {
+      if (MainWindow.servertime >= 0.8 * MainWindow.fightlength) {
         execute(ref miserysend);
       }
       execute(ref bloodletter);
@@ -89,7 +89,9 @@ namespace Chocobro {
     }
 
     public void execute(ref Ability ability) {
-
+      if (MainWindow.time == MainWindow.fightlength) {
+        MainWindow.log("Total Damage: " + totaldamage + " - DPS: " + (totaldamage / MainWindow.fightlength));
+      }
 
       if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
         //Get game time (remove decimal error)
@@ -113,29 +115,36 @@ namespace Chocobro {
       if (ability.abilityType == "Weaponskill") {
 
         //If time >= next cast time and time >= nextability)
-        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
-          //Get game time (remove decimal error)
-          MainWindow.time = MainWindow.floored(MainWindow.time);
-          MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
-          // remove TP
-          TP -= ability.TPcost;
-          MainWindow.log("Cost is " + ability.TPcost + "TP. Current TP: " + TP); //test for tp
-          //if doesnt miss, then impact
+        if (TP - ability.TPcost < 0) {
+          MainWindow.log("Was unable to execute " + ability.name + ". Not enough TP. Current TP: " + TP);
+          ability.nextCast = MainWindow.time + MainWindow.servertick;
+          nextability = MainWindow.floored((MainWindow.time + MainWindow.servertick));
+          actionmade = false;
+        } else {
+          if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
+            //Get game time (remove decimal error)
+            MainWindow.time = MainWindow.floored(MainWindow.time);
+            MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
+            // remove TP
+            TP -= ability.TPcost;
+            MainWindow.log("Cost is " + ability.TPcost + "TP. Current TP: " + TP); //test for tp
+            //if doesnt miss, then impact
 
-          //set nextCast.
-          ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+            //set nextCast.
+            ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
 
 
-          //set nextability
-          nextability = MainWindow.floored((MainWindow.time + gcd));
-          nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
+            //set nextability
+            nextability = MainWindow.floored((MainWindow.time + gcd));
+            nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
 
-          //time = nextTime(nextinstant, nextability);
-          actionmade = true;
+            //time = nextTime(nextinstant, nextability);
+            actionmade = true;
 
-          //var critroll = d100.Next(1, 101);
-          // var critbonus = calculateCrit();
-          impact(ref ability);
+            //var critroll = d100.Next(1, 101);
+            // var critbonus = calculateCrit();
+            impact(ref ability);
+          }
         }
       }
       if (ability.abilityType == "Instant") {
@@ -314,6 +323,7 @@ namespace Chocobro {
       // add variance to damage.
 
       damageformula = ((MainWindow.d100(-500,500) / 10000) + 1) * (int)damageformula;
+      totaldamage += (int)damageformula;
       return (int)damageformula;
     }
 
