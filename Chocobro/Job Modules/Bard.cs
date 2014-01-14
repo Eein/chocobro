@@ -21,6 +21,7 @@ namespace Chocobro {
       DEX = 491;
       DTR = 305;
       CRIT = 538;
+      //SKS = 432;
       
       //--aapot
       AAPOT = AADMG / System.Convert.ToDouble(WEP);
@@ -91,6 +92,10 @@ namespace Chocobro {
     public void execute(ref Ability ability) {
       if (MainWindow.time == MainWindow.fightlength) {
         MainWindow.log("Total Damage: " + totaldamage + " - DPS: " + (totaldamage / MainWindow.fightlength));
+        nextinstant = MainWindow.floored((MainWindow.time + 1));
+        nextability = MainWindow.floored((MainWindow.time + 1));
+        ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+        nextauto = MainWindow.floored((MainWindow.time + 1));
       }
 
       if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
@@ -136,7 +141,7 @@ namespace Chocobro {
 
             //set nextability
             nextability = MainWindow.floored((MainWindow.time + gcd));
-            nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
+            nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay + (MainWindow.d100(1, 5) / 100)));
 
             //time = nextTime(nextinstant, nextability);
             actionmade = true;
@@ -161,10 +166,10 @@ namespace Chocobro {
 
           //set nextability
           if (MainWindow.time + ability.animationDelay > nextability) {
-            nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
+            nextability = MainWindow.floored((MainWindow.time + ability.animationDelay + (MainWindow.d100(1,5) / 100)));
           }
 
-          nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
+          nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay + (MainWindow.d100(1, 5) / 100)));
 
           impact(ref ability);
         }
@@ -182,10 +187,10 @@ namespace Chocobro {
 
           //set nextability
           if (MainWindow.time + ability.animationDelay > nextability) {
-            nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
+            nextability = MainWindow.floored((MainWindow.time + ability.animationDelay + (MainWindow.d100(1, 5) / 100)));
           }
 
-          nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
+          nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay + (MainWindow.d100(1, 5) / 100)));
 
           impact(ref ability);
         }
@@ -273,9 +278,9 @@ namespace Chocobro {
       } else {
         damageformula = (AAPOT) * (0.408 * WEP + 0.103262731 * tempdex + 0.003029823 * WEP * tempdex + 0.003543121 * WEP * (DTR - 202));
       }
-      if (ragingstrikes.buff > 0 && ability.name != "Flaming Arrow") { damageformula *= 1.20; }
-      if (bloodforblood.buff > 0) { damageformula *= 1.10; }
 
+      if (ragingstrikes.buff > 0 && ability.name != "Flaming Arrow") { damageformula *= 1.20; }
+      if (bloodforblood.buff > 0 && ability.name != "Flaming Arrow") { damageformula *= 1.10; }
 
       //crit
       double critroll = MainWindow.d100(1, 1000001) / 10000;
