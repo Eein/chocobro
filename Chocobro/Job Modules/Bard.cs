@@ -304,7 +304,7 @@ namespace Chocobro {
         MainWindow.log("!!CRIT!! - ", false);
         damageformula *= 1.5;
           //Bloodletter procs        
-          if (bloodletter.nextCast > MainWindow.time && ((ability.name == "Windbite" && windbite.debuff > 0) || (ability.name == "Venomous Bite" && venomousbite.debuff > 0)) {  
+          if (bloodletter.nextCast > MainWindow.time && ((ability.name == "Windbite" && windbite.debuff > 0) || (ability.name == "Venomous Bite" && venomousbite.debuff > 0))) {  
                  var dotRoll = MainWindow.d100(1, 101);
                  if (dotRoll >= 50) {
                    bloodletter.nextCast = MainWindow.time;
