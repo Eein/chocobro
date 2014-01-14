@@ -50,9 +50,9 @@ namespace Chocobro {
     public virtual void regen() {
       if (MainWindow.time == MainWindow.servertime && MainWindow.servertick == 3) {
 
-        //TODO: SOME LOGIC HERE IS WRONG.
+        //TODO: SOME LOGIC HERE IS WRONG.  TP does NOT regen on the server dot tick (tested myself)
         //TP regen
-        if (TP != 1000) {
+        if (TP < 1000) {
           TP += 60;
           if (TP > 1000) { TP = 1000; }
           MainWindow.log("TP Regen Tick - Restored 60 TP. Current TP: " + TP);
