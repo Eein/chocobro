@@ -69,11 +69,11 @@ namespace Chocobro {
       execute(ref bluntarrow);
 
       //server actionable - ticks/decrements then server tick action
-      //if tick is 3
+      //if tick is 3 
       tick(ref windbite);
       tick(ref venomousbite);
       tick(ref flamingarrow);
-      //auto
+      //auto 
       execute(ref autoattack);
       //decrement buffs
       decrement(ref straightshot);
@@ -127,12 +127,33 @@ namespace Chocobro {
           impact(ref ability);
         }
       }
-      if (ability.abilityType == "Instant" || ability.abilityType == "Cooldown") {
+      if (ability.abilityType == "Instant") {
         //If time >= next cast time and time >= nextability)
         if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant) {
           //Get game time (remove decimal error)
           MainWindow.time = MainWindow.floored(MainWindow.time);
           MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
+          //if doesnt miss, then impact
+
+          //set nextCast.
+          ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+
+
+          //set nextability
+          if (MainWindow.time + ability.animationDelay > nextability) {
+            nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
+          }
+
+          nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
+
+          impact(ref ability);
+        }
+      }
+      if (ability.abilityType == "Cooldown") {
+        //If time >= next cast time and time >= nextability)
+        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant) {
+          //Get game time (remove decimal error)
+          MainWindow.time = MainWindow.floored(MainWindow.time);
           //if doesnt miss, then impact
 
           //set nextCast.
@@ -242,21 +263,36 @@ namespace Chocobro {
       //MainWindow.log("CRIT CHANCE IS:" + critchance + " ROLL IS: " + critroll);
 
       //Bloodletter procs
-      if (ability.name == "Windbite" || ability.name == "Venomous Bite" && critroll <= critchance) {
-        var dotRoll = MainWindow.d100();
-        if (dotRoll >= 50) {
-          if (bloodletter.nextCast > MainWindow.time) {
-            bloodletter.nextCast = MainWindow.time;
-           MainWindow.log("Bloodletter reset!!");
+      if (bloodletter.nextCast > MainWindow.time) {      
+        if (ability.name == "Windbite") {  
+          if (critroll <= critchance) {
+            var dotRoll = MainWindow.d100();
+            if (dotRoll >= 50) {
+                bloodletter.nextCast = MainWindow.time;
+                MainWindow.log("!!PROC!! - Bloodletter reset! Critroll: " + critroll + " -- Dot Roll: " + dotRoll);
+              }
+            }
+          }
+        }
+
+      if (bloodletter.nextCast > MainWindow.time) {
+        if (ability.name == "Venomous Bite") {
+          if (critroll <= critchance) {
+            var dotRoll = MainWindow.d100();
+            if (dotRoll >= 50) {
+              bloodletter.nextCast = MainWindow.time;
+              MainWindow.log("!!PROC!! - Bloodletter reset! Critroll: " + critroll + " -- Dot Roll: " + dotRoll);
+            }
           }
         }
       }
+      
 
       if (straightshot.buff > 0) { critchance *= 1.10; }
       if (internalrelease.buff > 0) { critchance *= 1.30; }
 
       if (critroll <= critchance) {
-        MainWindow.log("!!CRIT!! - ", false);
+        MainWindow.log("!!CRIT!! - Rolled a " + critroll, false);
         damageformula *= 1.5;
       }
 
