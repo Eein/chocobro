@@ -312,7 +312,8 @@ namespace Chocobro {
       }
 
       // add variance to damage.
-      damageformula = (int)damageformula;
+
+      damageformula = ((MainWindow.d100(-500,500) / 10000) + 1) * (int)damageformula;
       return (int)damageformula;
     }
 
