@@ -108,6 +108,9 @@ namespace Chocobro {
         tickevent();
         time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto);
       }
+      //DPS PRINTOUT
+      MainWindow.log("Total Damage: " + p.totaldamage + " - DPS: " + (p.totaldamage / MainWindow.fightlength));
+      
       //read logstring into file
       writeLog();
       //parse log into box

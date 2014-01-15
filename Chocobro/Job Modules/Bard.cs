@@ -98,9 +98,7 @@ namespace Chocobro {
     }
 
     public void execute(ref Ability ability) {
-      if (MainWindow.time == MainWindow.fightlength) { //added a report at the end of the log
-        MainWindow.log("Total Damage: " + totaldamage + " - DPS: " + (totaldamage / MainWindow.fightlength));
-      }
+      
 
       if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
         //Get game time (remove decimal error)
