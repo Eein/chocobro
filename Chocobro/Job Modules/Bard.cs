@@ -156,7 +156,7 @@ namespace Chocobro {
           }
         }
       }
-      if (ability.abilityType == "Instant") {
+      if (ability.abilityType == "Instant" || ability.abilityType == "Cooldown") {
         //If time >= next cast time and time >= nextability)
         if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant && nextability > MainWindow.time + ability.animationDelay) { //&& nextability > MainWindow.time + ability.animationDelay is what i added
           //Get game time (remove decimal error)
@@ -178,27 +178,8 @@ namespace Chocobro {
           impact(ref ability);
         }
       }
-      if (ability.abilityType == "Cooldown") {
-        //If time >= next cast time and time >= nextability)
-        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant && nextability > MainWindow.time + ability.animationDelay) { //&& nextability > MainWindow.time + ability.animationDelay is what i added 
-          //Get game time (remove decimal error)
-          MainWindow.time = MainWindow.floored(MainWindow.time);
-          //if doesnt miss, then impact
-
-          //set nextCast.
-          ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
-
-
-          //set nextability
-          if (MainWindow.time + ability.animationDelay > nextability) {
-            nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
-          }
-
-          nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
-
-          impact(ref ability);
-        }
-      }
+      
+      
 
 
     }
