@@ -30,12 +30,13 @@ namespace Chocobro {
     public bool actionmade = false;
     public int TP = 1000;
     public int MP = 1000; // TODO: formulate.
-    public double gcd = 2.5;
+    public double gcd;
+    private const double basegcd = 2.5;
     public int totaldamage = 0;
 
 
     public double calculateGCD() {
-      var skillcalc = gcd - (Math.Round(((SKS - 341) * 0.00095308) * 100) / 100);
+      var skillcalc = basegcd - (Math.Round(((SKS - 341) * 0.00095308) * 100) / 100);
       return skillcalc;
     }
     public void calculateSGCD(double castspeed) {

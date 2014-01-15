@@ -84,7 +84,7 @@ namespace Chocobro {
       //add cast here later.
     }
     public static double floored(double number) {
-      var value = Math.Floor(number * 100) / 100;
+      var value = Math.Floor(number * 1000) / 1000;
       return value;
     }
 
