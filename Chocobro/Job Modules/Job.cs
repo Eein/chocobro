@@ -21,7 +21,7 @@ namespace Chocobro {
     public int DTR = 202;
     public int ACC = 341;
     public int SKS = 341;
-    public int SPS = 341;
+    public int SPS = 500;
     public int AP = 0; // Define after gear
     public int AMP = 0; // Define after gear
     public double nextability = 0.00;

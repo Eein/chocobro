@@ -144,7 +144,7 @@ namespace Chocobro {
 
 
             //set nextability
-            nextability = MainWindow.floored((MainWindow.time + gcd));
+            nextability = MainWindow.floored((MainWindow.time + calculateGCD()));
             nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
 
             //time = nextTime(nextinstant, nextability);
@@ -158,7 +158,7 @@ namespace Chocobro {
       }
       if (ability.abilityType == "Instant") {
         //If time >= next cast time and time >= nextability)
-        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant && nextability > MainWindow.time + ability.animationDelay) {
+        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant && nextability > MainWindow.time + ability.animationDelay) { //&& nextability > MainWindow.time + ability.animationDelay is what i added
           //Get game time (remove decimal error)
           MainWindow.time = MainWindow.floored(MainWindow.time);
           MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
@@ -169,9 +169,9 @@ namespace Chocobro {
 
 
           //set nextability
-          /*if (MainWindow.time + ability.animationDelay > nextability) {
+          if (MainWindow.time + ability.animationDelay > nextability) {
             nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
-          }*/
+          }
 
           nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
 
@@ -180,7 +180,7 @@ namespace Chocobro {
       }
       if (ability.abilityType == "Cooldown") {
         //If time >= next cast time and time >= nextability)
-        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant && nextability > MainWindow.time + ability.animationDelay) {
+        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant && nextability > MainWindow.time + ability.animationDelay) { //&& nextability > MainWindow.time + ability.animationDelay is what i added 
           //Get game time (remove decimal error)
           MainWindow.time = MainWindow.floored(MainWindow.time);
           //if doesnt miss, then impact
@@ -190,9 +190,9 @@ namespace Chocobro {
 
 
           //set nextability
-          /*if (MainWindow.time + ability.animationDelay > nextability) {
+          if (MainWindow.time + ability.animationDelay > nextability) {
             nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
-          }*/
+          }
 
           nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
 
