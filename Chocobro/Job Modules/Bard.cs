@@ -21,7 +21,7 @@ namespace Chocobro {
       DEX = 491;
       DTR = 305;
       CRIT = 538;
-      //SKS = 432;
+      SKS = 432;
 
       //--aapot
       AAPOT = AADMG / System.Convert.ToDouble(WEP);
@@ -138,7 +138,7 @@ namespace Chocobro {
             //if doesnt miss, then impact
 
             //set nextCast.
-            ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+            ability.nextCast = MainWindow.floored((MainWindow.time + calculateGCD()));
 
 
             //set nextability
@@ -307,7 +307,7 @@ namespace Chocobro {
         name = "Heavy Shot";
         potency = 150;
         dotPotency = 0;
-        recastTime = 2.5;
+
         TPcost = 60;
         animationDelay = 0.8;
         abilityType = "Weaponskill";
@@ -325,7 +325,7 @@ namespace Chocobro {
         name = "Windbite";
         potency = 60;
         dotPotency = 45;
-        recastTime = 2.5;
+ 
         TPcost = 80;
         animationDelay = 1.3;
         abilityType = "Weaponskill";
@@ -343,7 +343,7 @@ namespace Chocobro {
         name = "Venomous Bite";
         potency = 100;
         dotPotency = 35;
-        recastTime = 2.5;
+
         TPcost = 80;
         animationDelay = 0.7;
         abilityType = "Weaponskill";
@@ -360,7 +360,7 @@ namespace Chocobro {
         name = "Straight Shot";
         potency = 140;
         dotPotency = 0;
-        recastTime = 2.5;
+
         TPcost = 70;
         animationDelay = 0.8;
         abilityType = "Weaponskill";
