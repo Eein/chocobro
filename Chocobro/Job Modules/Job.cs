@@ -30,6 +30,8 @@ namespace Chocobro {
     public bool actionmade = false;
     public int TP = 1000;
     public int MP = 1000; // TODO: formulate.
+    public bool OOT = false;
+    public bool OOM = false;
     public double gcd;
     private const double basegcd = 2.5;
     public int totaldamage = 0;
@@ -57,6 +59,7 @@ namespace Chocobro {
         //TP regen
         if (TP < 1000) {
           TP += 60;
+          OOT = false;
           if (TP > 1000) { TP = 1000; }
           MainWindow.log("TP Regen Tick - Restored 60 TP. Current TP: " + TP);
         }

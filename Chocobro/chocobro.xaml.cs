@@ -70,21 +70,29 @@ namespace Chocobro {
         servertime += 1;
       }
     }
-    public static double nextTime(double instant, double ability, double st_t, double auto) {
+    public static double nextTime(double instant, double ability, double st_t, double auto, bool OOT, bool OOM) {
       var value = 0.0;
-      if (instant > time) {
-        value = Math.Min(instant, Math.Min(ability, Math.Min(st_t, auto)));
+      if (OOT) { //if out of TP
+        if (instant > time) {
+          value = Math.Min(instant, Math.Min(st_t, auto));
 
-      } else {
-        value = Math.Min(ability, Math.Min(st_t, auto));
+        } else {
+          value = Math.Min(st_t, auto);
+        }
+      } else { 
+        if (instant > time) {
+          value = Math.Min(instant, Math.Min(ability, Math.Min(st_t, auto)));
+
+        } else {
+          value = Math.Min(ability, Math.Min(st_t, auto));
+        }
       }
-
       //log("Next Action - " + value.ToString("F2") + " !! min value");
       return value;
       //add cast here later.
     }
     public static double floored(double number) {
-      var value = Math.Floor(number * 1000) / 1000;
+      var value = Math.Floor(number * 100) / 100;
       return value;
     }
 
@@ -106,7 +114,7 @@ namespace Chocobro {
       while (!time.Equals(fightlength)) {
         handler(ref p);
         tickevent();
-        time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto);
+        time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto, p.OOT, p.OOM);
       }
       //DPS PRINTOUT
       MainWindow.log("Total Damage: " + p.totaldamage + " - DPS: " + (p.totaldamage / MainWindow.fightlength));

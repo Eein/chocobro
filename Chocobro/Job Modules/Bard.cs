@@ -118,8 +118,8 @@ namespace Chocobro {
                 //If time >= next cast time and time >= nextability)
                 if (TP - ability.TPcost < 0) { //attempted to not allow TP to be less than 0, needs to be remade
                     MainWindow.log("Was unable to execute " + ability.name + ". Not enough TP. Current TP: " + TP);
-                    nextability = MainWindow.servertime;
-                    actionmade = false;
+                    nextability = MainWindow.time;
+                    OOT = true;
                 }
                 else {
                     if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
@@ -146,7 +146,7 @@ namespace Chocobro {
                         // var critbonus = calculateCrit();
                         impact(ref ability);
                     }
-                }
+                } 
             }
             if (ability.abilityType == "Instant" || ability.abilityType == "Cooldown") {
                 //If time >= next cast time and time >= nextability)
