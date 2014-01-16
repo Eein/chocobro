@@ -118,8 +118,7 @@ namespace Chocobro {
                 //If time >= next cast time and time >= nextability)
                 if (TP - ability.TPcost < 0) { //attempted to not allow TP to be less than 0, needs to be remade
                     MainWindow.log("Was unable to execute " + ability.name + ". Not enough TP. Current TP: " + TP);
-                    ability.nextCast = MainWindow.time + MainWindow.servertick;
-                    nextability = MainWindow.floored((MainWindow.time + MainWindow.servertick));
+                    nextability = MainWindow.servertime;
                     actionmade = false;
                 }
                 else {
