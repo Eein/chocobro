@@ -110,6 +110,7 @@ namespace Chocobro {
       }
       //DPS PRINTOUT
       MainWindow.log("Total Damage: " + p.totaldamage + " - DPS: " + (p.totaldamage / MainWindow.fightlength));
+      MainWindow.log("Total Number of hits: " + p.numberofhits + " - Total Number of Crits: " + p.numberofcrits + " - Crit%: " + (Math.Round(((double)p.numberofcrits / (double)p.numberofhits) * 10000) / 100));
       
       //read logstring into file
       writeLog();

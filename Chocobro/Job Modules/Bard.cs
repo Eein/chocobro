@@ -276,11 +276,13 @@ namespace Chocobro {
             double damageformula = 0.0;
             double tempdex = DEX;
             if (hawkseye.buff > 0) { tempdex *= 1.15; }
-            if (ability.abilityType != "AUTOA") {
+            if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant") {
+                numberofhits += 1;
                 damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempdex + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempdex + 0.050720984 * DTR);
 
             }
-            else {
+            if (ability.abilityType == "AUTOA") {
+                 numberofhits += 1;
                 damageformula = (AAPOT) * (0.408 * WEP + 0.103262731 * tempdex + 0.003029823 * WEP * tempdex + 0.003543121 * WEP * (DTR - 202));
             }
 
@@ -301,6 +303,7 @@ namespace Chocobro {
             }
 
             if (critroll <= critchance) {
+                numberofcrits += 1;
                 MainWindow.log("!!CRIT!! - ", false);
                 damageformula *= 1.5;
                 if (dot) {

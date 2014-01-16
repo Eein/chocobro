@@ -33,6 +33,8 @@ namespace Chocobro {
     public double gcd;
     private const double basegcd = 2.5;
     public int totaldamage = 0;
+    public int numberofcrits = 0;
+    public int numberofhits = 0;
 
 
     public double calculateGCD() {
