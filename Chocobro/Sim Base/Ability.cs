@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 namespace Chocobro {
 
   public partial class Ability : MainWindow {
@@ -19,13 +19,15 @@ namespace Chocobro {
     public double buffTime;
     public double debuffTime;
     public bool autoa = false;
-    // COPY THIS WHEREVER BUFFED IS USED 
-    // 0 - Raging Strikes 
-    // 1 - Blood for Blood 
-    // 2 - Straighter Shot  
-    // 3 - Hawk's Eye  
-    // 4 - Internal Release  // 5 -  //
-    int[] buffed = new int[6] { 0, 0, 0, 0, 0, 0 };
+    //public bool dot = false; TODO: add this w/ smn.
+    // Dots using dictionary lookup. easyyy.
+    public Dictionary<String, Boolean> dotbuff = new Dictionary<String, Boolean>() {
+        {"ragingstrikes",false},
+        {"bloodforblood",false},
+        {"straightshot",false},
+        {"hawkseye",false},
+        {"internalrelease",false}
+    };
 
     public double bonus = 0; // for abilitiy specific bonuses.x
 

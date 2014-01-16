@@ -73,10 +73,10 @@ namespace Chocobro {
     public static double nextTime(double instant, double ability, double st_t, double auto) {
       var value = 0.0;
       if (instant > time) {
-        value = Math.Min(instant, Math.Min(ability, Math.Min(servertime, auto)));
+        value = Math.Min(instant, Math.Min(ability, Math.Min(st_t, auto)));
 
       } else {
-        value = Math.Min(ability, st_t);
+        value = Math.Min(ability, Math.Min(st_t, auto));
       }
 
       //log("Next Action - " + value.ToString("F2") + " !! min value");
@@ -103,7 +103,7 @@ namespace Chocobro {
       
       var p = Factory.Get(job.Text);
       debug(); //have option to disable TODO:
-      while (time <= fightlength) {
+      while (!time.Equals(fightlength)) {
         handler(ref p);
         tickevent();
         time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto);
