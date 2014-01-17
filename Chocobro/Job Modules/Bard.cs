@@ -195,7 +195,7 @@ namespace Chocobro {
             if (ability.abilityType == "Cooldown") {
 
             }
-            if (ability.abilityType == "Weaponskill") {
+            if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant" && ability.potency > 0)) {
                 MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + nextability);
 
             }
