@@ -11,15 +11,7 @@
             <RowDefinition Height="751*"/>
             <RowDefinition Height="65*"/>
         </Grid.RowDefinitions>
-        <RichTextBox x:Name="console" x:FieldModifier="public" Height="436" Margin="167,59,10,0" VerticalAlignment="Top" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
-            <RichTextBox.Resources>
-                <Style TargetType="{x:Type Paragraph}">
-                    <Setter Property="Margin" Value="0"/>
-                </Style>
-            </RichTextBox.Resources>
-        </RichTextBox>
         <Button x:Name="simulateButton" Content="Sim" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click" Height="20" Grid.Column="1" Grid.Row="1" Width="58" />
-        <Label Content="CONSOLE" HorizontalAlignment="Left" Margin="167,28,0,0" VerticalAlignment="Top" RenderTransformOrigin="-7.754,0.442" Height="26" Width="63"/>
         <ComboBox x:Name="job" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Width="120" Height="22"  >
             <ComboBoxItem Content="Bard" HorizontalAlignment="Left" Width="118" IsSelected="True"/>
             <ComboBoxItem Content="Paladin" HorizontalAlignment="Left" Width="118"/>
@@ -35,6 +27,26 @@
         </Menu>
         <TextBox x:Name="fightLengthInput" HorizontalAlignment="Left" Height="22" Margin="10,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="100"/>
         <Label Content="Fight Length:" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top"/>
+        <TabControl HorizontalAlignment="Left" Height="468" Margin="147,27,0,0" VerticalAlignment="Top" Width="511" Grid.ColumnSpan="2">
+            <TabItem Header="Console" RenderTransformOrigin="1.78,0.5" Margin="111,-2,-115,0">
+
+                <Grid Background="#FFE5E5E5" Margin="-2">
+                    <RichTextBox x:Name="console" x:FieldModifier="public" Height="446" VerticalAlignment="Top" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Margin="-1" Padding="5">
+                        <RichTextBox.Resources>
+                            <Style TargetType="{x:Type Paragraph}">
+                                <Setter Property="Margin" Value="0"/>
+                            </Style>
+                        </RichTextBox.Resources>
+                    </RichTextBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Options" RenderTransformOrigin="-0.339,0.409" Margin="-55,-2,51,0">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Report" HorizontalAlignment="Left" Width="61" Margin="-55,-2,0,0">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 </Window>
