@@ -2,7 +2,7 @@
 namespace Chocobro {
 
   public class Paladin : Job {
-    public static double AADELAY = 3.28;
+    public static double AADELAY = 2.16;
     public bool fastbladecombo = false;
     public bool savagebladecombo = false;
 
@@ -11,21 +11,22 @@ namespace Chocobro {
     public Paladin() {
 
       //Temporary Initiation of stats. Need to rip these from the Sim GUI in JOB.
-      WEP = 45;
-      AADMG = 38.26;
-
       STR = 161;
       DEX = 224;
       VIT = 202;
       INT = 151;
       MND = 141;
       PIE = 151;
+
       //Phyre Xia
+      WEP = 47;
+      AADMG = 33.84;
       DEX = 491;
       STR = 450;
       DTR = 305;
       CRIT = 538;
       SKS = 432;
+      ACC = 472;
 
       //--aapot
       AAPOT = 0.5 + (AADMG / System.Convert.ToDouble(WEP));
@@ -54,7 +55,7 @@ namespace Chocobro {
       execute(ref fastblade);
       //Buffs/Cooldowns - execute(ref ability)
       execute(ref fightorflight);
-       //Instants - execute(ref ability)
+      //Instants - execute(ref ability)
       execute(ref spiritswithin);
       if (MainWindow.fightlength * 0.80 < MainWindow.time) {
         execute(ref mercystroke);
@@ -146,6 +147,7 @@ namespace Chocobro {
 
     }
     public virtual void impact(ref Ability ability) {
+      var accroll = (MainWindow.d100(1, 10001)) / 100;
       if (ability.name == "Fast Blade") {
         fastbladecombo = true;
         savagebladecombo = false;
@@ -166,11 +168,27 @@ namespace Chocobro {
       }
       if (ability.abilityType == "Cooldown") {
       }
+
       if (ability.name != "Sword Oath" && (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant" && ability.potency > 0))) {
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + nextability);
+        if (accroll < calculateACC()) {
+          numberofhits += 1;
+          totaldamage += damage(ref ability, ability.potency);
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + nextability);
+        } else {
+          numberofmisses += 1;
+          MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast + " ACCROLL: " + accroll + " - ACC%: " + calculateACC());
+        }
       }
-      if (ability.abilityType == "AUTOA") {
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next AA at: " + ability.nextCast);
+
+        if (ability.abilityType == "AUTOA") {
+          if (accroll < calculateACC()) {
+            numberofhits += 1;
+            totaldamage += damage(ref ability, ability.potency);
+            MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next AA at: " + ability.nextCast);
+        } else {
+            numberofmisses += 1;
+            MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next AA at: " + ability.nextCast);
+          }
       }
 
       // If ability has debuff, create its timer.
@@ -231,12 +249,10 @@ namespace Chocobro {
       double tempstr = STR;
       if (fightorflight.buff > 0) { damageformula *= 1.30; }
       if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant") {
-        numberofhits += 1;
         damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempstr + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempstr + 0.050720984 * DTR);
 
       }
       if (ability.abilityType == "AUTOA") {
-        numberofhits += 1;
         damageformula = (AAPOT) * (0.408 * WEP + 0.103262731 * tempstr + 0.003029823 * WEP * tempstr + 0.003543121 * WEP * (DTR - 202));
       }
 
@@ -257,7 +273,6 @@ namespace Chocobro {
 
       // added variance to damage.
       damageformula = ((MainWindow.d100(-500, 500) / 10000) + 1) * (int)damageformula;
-      totaldamage += (int)damageformula;
       return (int)damageformula;
     }
 

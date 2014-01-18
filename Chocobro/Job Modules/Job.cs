@@ -17,11 +17,12 @@ namespace Chocobro {
     public int WEP { get; set; }
     public double AADMG = 0;
     public double AAPOT = 0;
+    public double AADELAY = 0;
     public double CRIT = 341;
     public int DTR = 202;
     public int ACC = 341;
     public int SKS = 341;
-    public int SPS = 500;
+    public int SPS = 341;
     public int AP = 0; // Define after gear
     public int AMP = 0; // Define after gear
     public double nextability = 0.00;
@@ -37,6 +38,7 @@ namespace Chocobro {
     public int totaldamage = 0;
     public int numberofcrits = 0;
     public int numberofhits = 0;
+    public int numberofmisses = 0;
 
 
     public double calculateGCD() {
@@ -46,7 +48,10 @@ namespace Chocobro {
     public void calculateSGCD(double castspeed) {
       var skillcalc = castspeed - (Math.Round(((SPS - 341) * 0.00095308) * 100) / 100);
     }
-
+    public double calculateACC() {
+      var acccalc = 84.0 + ((ACC - 341) * 0.1363636363);
+      return acccalc;
+    }
     public void addTP(int amount) {
       TP += amount;
     }
