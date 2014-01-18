@@ -223,7 +223,7 @@ namespace Chocobro {
       }
 
       // If ability has debuff, create its timer.
-      if (ability.debuffTime > 0) {
+      if (ability.debuffTime > 0 && accroll < calculateACC()) {
         if (ability.debuff > 0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + "  DOT clipped.");
           //reset all buffs if clipping
@@ -233,8 +233,10 @@ namespace Chocobro {
           ability.dotbuff["hawkseye"] = false;
           ability.dotbuff["internalrelease"] = false;
         }
-        //If dot exists, enable its time.
+        //If dot exists and ability doesn't miss, enable its time.
+      
         ability.debuff = ability.debuffTime;
+     
         if (ragingstrikes.buff > 0) { ability.dotbuff["ragingstrikes"] = true; }
         if (bloodforblood.buff > 0) { ability.dotbuff["bloodforblood"] = true; }
         if (straightshot.buff > 0) { ability.dotbuff["straightshot"] = true; }
@@ -244,7 +246,7 @@ namespace Chocobro {
 
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " DoT has been applied.  Time Left: " + ability.debuff);
       }
-      if (ability.buffTime > 0) {
+      if (ability.buffTime > 0 && accroll < calculateACC()) {
         ability.buff = ability.buffTime;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " buff has been activated.  Time Left: " + ability.buff + ". Next ability at: " + nextability);
       }
@@ -317,7 +319,9 @@ namespace Chocobro {
       }
 
       if (critroll <= critchance) {
+        
         numberofcrits += 1;
+        
         MainWindow.log("!!CRIT!! - ", false);
         damageformula *= 1.5;
         if (dot) {
@@ -329,6 +333,10 @@ namespace Chocobro {
               MainWindow.log("!!PROC!! - Bloodletter reset!");
             }
           }
+        }
+      } else {
+        if (dot) {
+          numberofhits += 1;
         }
       }
 
