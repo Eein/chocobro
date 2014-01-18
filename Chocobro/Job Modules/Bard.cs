@@ -256,7 +256,7 @@ namespace Chocobro {
 
     public virtual void tick(ref Ability ability) {
       //schedule tick
-      if (MainWindow.time == MainWindow.servertime && ability.debuff != 0.0) {
+      if (MainWindow.time == MainWindow.servertime && ability.debuff > 0) {
         ability.debuff -= 1.0;
         if (ability.debuff <= 0.0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
@@ -276,7 +276,7 @@ namespace Chocobro {
 
     public virtual void decrement(ref Ability ability) {
 
-      if (MainWindow.time == MainWindow.servertime && ability.buff != 0.0) {
+      if (MainWindow.time == MainWindow.servertime && ability.buff > 0) {
         ability.buff -= 1.0;
         if (ability.buff <= 0.0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
