@@ -577,8 +577,7 @@ namespace Chocobro {
                 animationDelay = 0;
                 abilityType = "AUTOA";
             }
-
         }
-        // End Invigorate
+        // End Auto Attack
     }
 }

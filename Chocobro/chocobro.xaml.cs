@@ -48,6 +48,7 @@ namespace Chocobro {
       public static Job Get(string s) {
         switch (s) {
           case "Bard": return new Bard();
+          case "Paladin": return new Paladin();
           //case "Black Mage": return new Blackmage();
           default: return new Job();
         }

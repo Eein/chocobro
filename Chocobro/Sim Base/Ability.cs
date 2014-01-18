@@ -7,6 +7,7 @@ namespace Chocobro {
     public string name;
     public string abilityType;
     public int potency;
+    public int combopotency;
     public int dotPotency;
     public double recastTime;
     public double animationDelay;
@@ -26,7 +27,8 @@ namespace Chocobro {
         {"bloodforblood",false},
         {"straightshot",false},
         {"hawkseye",false},
-        {"internalrelease",false}
+        {"internalrelease",false},
+        {"fightorflight",false}
     };
 
     public double bonus = 0; // for abilitiy specific bonuses.x
