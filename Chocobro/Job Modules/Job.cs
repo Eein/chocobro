@@ -7,6 +7,7 @@ namespace Chocobro {
   //     _player = player;
   //   }
   public partial class Job {
+    public static MainWindow cs = new MainWindow();
     public string name { get; set; }
     public int STR { get; set; }
     public int DEX { get; set; }
@@ -17,6 +18,7 @@ namespace Chocobro {
     public int WEP { get; set; }
     public double AADMG = 0;
     public double AAPOT = 0;
+    public double AADELAY = 0;
     //public double AADELAY = 0;
     public double CRIT = 341;
     public int DTR = 202;

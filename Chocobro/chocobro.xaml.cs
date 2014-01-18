@@ -35,6 +35,10 @@ namespace Chocobro {
     public static int servertick = 0;
     //Resources
     public static string logstring = "";
+    public static double AADELAY;
+    //Character Sheet
+
+
 
     public void handler(ref Job p) {
       p.actionmade = false; //temp

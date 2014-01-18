@@ -1,8 +1,8 @@
-﻿
+﻿using System;
 namespace Chocobro {
 
   public class Paladin : Job {
-    public static double AADELAY = 2.16;
+    
     public bool fastbladecombo = false;
     public bool savagebladecombo = false;
 
@@ -10,26 +10,29 @@ namespace Chocobro {
 
     public Paladin() {
 
-      //Temporary Initiation of stats. Need to rip these from the Sim GUI in JOB.
-      STR = 161;
-      DEX = 224;
-      VIT = 202;
-      INT = 151;
-      MND = 141;
-      PIE = 151;
+      MainWindow cs = new MainWindow();
+      STR = Convert.ToInt32(cs.STR.Text);
+      DEX = Convert.ToInt32(cs.DEX.Text);
+      VIT = Convert.ToInt32(cs.VIT.Text);
+      INT = Convert.ToInt32(cs.INT.Text);
+      MND = Convert.ToInt32(cs.MND.Text);
+      PIE = Convert.ToInt32(cs.PIE.Text);
 
-      //Phyre Xia
-      WEP = 47;
-      AADMG = 33.84;
-      DEX = 491;
-      STR = 450;
-      DTR = 305;
-      CRIT = 538;
-      SKS = 432;
-      ACC = 472;
+      WEP = Convert.ToInt32(cs.WEP.Text);
+      AADMG = Convert.ToDouble(cs.AADMG.Text);
+      AADELAY = Convert.ToDouble(cs.DELAY.Text);
+
+      DTR = Convert.ToInt32(cs.DTR.Text);
+      CRIT = Convert.ToInt32(cs.CRIT.Text);
+      SKS = Convert.ToInt32(cs.SKSPD.Text);
+      SPS = Convert.ToInt32(cs.SPSPD.Text);
+      ACC = Convert.ToInt32(cs.ACC.Text);
 
       //--aapot
-      AAPOT = 0.5 + (AADMG / System.Convert.ToDouble(WEP));
+      AAPOT = AADMG / System.Convert.ToDouble(WEP);
+
+      //Define AA
+      autoattack.recastTime = AADELAY;
 
     }
     public override void rotation() {
@@ -421,7 +424,7 @@ namespace Chocobro {
     public class Autoattack : Ability {
       public Autoattack() {
         name = "Auto Attack";
-        recastTime = AADELAY;
+        
         animationDelay = 0;
         abilityType = "AUTOA";
       }
