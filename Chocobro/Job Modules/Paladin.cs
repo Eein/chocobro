@@ -229,11 +229,11 @@ namespace Chocobro {
       double tempstr = STR;
       if (fightorflight.buff > 0) { damageformula *= 1.30; }
       if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant") {
-        damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempstr + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempstr + 0.050720984 * DTR);
+        damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempstr + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempstr + 0.050720984 * DTR) - 4;
 
       }
       if (ability.abilityType == "AUTOA") {
-        damageformula = (AAPOT) * (0.408 * WEP + 0.103262731 * tempstr + 0.003029823 * WEP * tempstr + 0.003543121 * WEP * (DTR - 202));
+        damageformula = (AAPOT) * (0.408 * WEP + 0.103262731 * tempstr + 0.003029823 * WEP * tempstr + 0.003543121 * WEP * (DTR - 202)) - 4;
       }
 
       //crit
