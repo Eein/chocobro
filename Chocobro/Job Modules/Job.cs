@@ -7,7 +7,7 @@ namespace Chocobro {
   //     _player = player;
   //   }
   public partial class Job {
-    public static MainWindow cs = new MainWindow();
+    
     public string name { get; set; }
     public int STR { get; set; }
     public int DEX { get; set; }
@@ -42,9 +42,32 @@ namespace Chocobro {
     public int numberofhits = 0;
     public int numberofmisses = 0;
 
+    public void getStats(MainWindow cs) {
+      DEX = Convert.ToInt32(cs.DEX.Text);
+      VIT = Convert.ToInt32(cs.VIT.Text);
+      INT = Convert.ToInt32(cs.INT.Text);
+      MND = Convert.ToInt32(cs.MND.Text);
+      PIE = Convert.ToInt32(cs.PIE.Text);
 
+      WEP = Convert.ToInt32(cs.WEP.Text);
+      AADMG = Convert.ToDouble(cs.AADMG.Text);
+      AADELAY = Convert.ToDouble(cs.DELAY.Text);
+
+      DTR = Convert.ToInt32(cs.DTR.Text);
+      CRIT = Convert.ToInt32(cs.CRIT.Text);
+      SKS = Convert.ToInt32(cs.SKSPD.Text);
+      SPS = Convert.ToInt32(cs.SPSPD.Text);
+      ACC = Convert.ToInt32(cs.ACC.Text);
+      AAPOT = AADMG / System.Convert.ToDouble(WEP);
+
+      //Define AA
+      
+
+    }
+   
     public double calculateGCD() {
       var skillcalc = basegcd - (Math.Round(((SKS - 341) * 0.00095308) * 100) / 100);
+
       return skillcalc;
     }
     public void calculateSGCD(double castspeed) {

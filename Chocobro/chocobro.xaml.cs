@@ -115,6 +115,7 @@ namespace Chocobro {
     public void simulate() {
       
       var p = Factory.Get(job.Text);
+      p.getStats(this);
       debug(); //have option to disable TODO:
       while (!time.Equals(fightlength)) {
         handler(ref p);

@@ -6,35 +6,14 @@ namespace Chocobro {
  
     //-----------------------
     public Bard() {
-      
-      MainWindow cs = new MainWindow();
-      STR = Convert.ToInt32(cs.STR.Text);
-      DEX = Convert.ToInt32(cs.DEX.Text);
-      VIT = Convert.ToInt32(cs.VIT.Text);
-      INT = Convert.ToInt32(cs.INT.Text);
-      MND = Convert.ToInt32(cs.MND.Text);
-      PIE = Convert.ToInt32(cs.PIE.Text);
 
-      WEP = Convert.ToInt32(cs.WEP.Text); 
-      AADMG = Convert.ToDouble(cs.AADMG.Text);
-      AADELAY = Convert.ToDouble(cs.DELAY.Text);
 
-      DTR = Convert.ToInt32(cs.DTR.Text);
-      CRIT = Convert.ToInt32(cs.CRIT.Text);
-      SKS = Convert.ToInt32(cs.SKSPD.Text);
-      SPS = Convert.ToInt32(cs.SPSPD.Text);
-      ACC = Convert.ToInt32(cs.ACC.Text);
-
-      //--aapot
-      AAPOT = AADMG / System.Convert.ToDouble(WEP);
-
-      //Define AA
-      autoattack.recastTime = AADELAY;
-    
+     
     }
+  
     public override void rotation() {
       var gcd = calculateGCD();
-
+      autoattack.recastTime = AADELAY;
       if (heavyshot.buff > 0) {
         if (straightshot.buff < gcd) {
           execute(ref straightshot);
