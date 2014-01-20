@@ -67,19 +67,16 @@ namespace Chocobro {
 
         //If time >= next cast time and time >= nextability)
         if (TP - ability.TPcost < 0) { //attempted to not allow TP to be less than 0, needs to be remade
-          MainWindow.log("Was unable to execute " + ability.name + ". Not enough TP. Current TP: " + TP);
+          MainWindow.log("Was unable to execute " + ability.name + ". Not enough TP. Current TP is " + TP + "TP.");
           nextability = MainWindow.time;
           OOT = true;
         } else {
           if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
             //Get game time (remove decimal error)
             MainWindow.time = MainWindow.floored(MainWindow.time);
-            MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
+            MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name + ". Cost is " + ability.TPcost + "TP. Current TP is " + TP + "TP.");
             // remove TP
-            if (ability.TPcost > 0) {
               TP -= ability.TPcost;
-              MainWindow.log("Cost is " + ability.TPcost + "TP. Current TP: " + TP); //test for tp
-            }
             //if doesnt miss, then impact
 
             //set nextCast.
@@ -156,7 +153,7 @@ namespace Chocobro {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + nextability);
         } else {
           numberofmisses += 1;
-          MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast + " ACCROLL: " + accroll + " - ACC%: " + calculateACC());
+          MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast);
         }
       }
 
@@ -210,7 +207,7 @@ namespace Chocobro {
       }
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + damage(ref ability, ability.dotPotency, true) + "  Damage - Time Left: " + ability.debuff);
-        MainWindow.log("---- " + ability.name + " - Dots - " + "FoF: " + ability.dotbuff["fightorflight"]);
+        //MainWindow.log("---- " + ability.name + " - Dots - " + "FoF: " + ability.dotbuff["fightorflight"]);
       }
     }
 
@@ -229,11 +226,11 @@ namespace Chocobro {
       double tempstr = STR;
       if (fightorflight.buff > 0) { damageformula *= 1.30; }
       if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant") {
-        damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempstr + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempstr + 0.050720984 * DTR) - 4;
+        damageformula = (((double)pot / 100) * (0.005126317 * WEP * tempstr + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempstr + 0.050720984 * DTR));
 
       }
       if (ability.abilityType == "AUTOA") {
-        damageformula = (AAPOT) * (0.408 * WEP + 0.103262731 * tempstr + 0.003029823 * WEP * tempstr + 0.003543121 * WEP * (DTR - 202)) - 4;
+        damageformula = ((AAPOT) * (0.408 * WEP + 0.103262731 * tempstr + 0.003029823 * WEP * tempstr + 0.003543121 * WEP * (DTR - 202)));
       }
 
       //crit
@@ -358,7 +355,7 @@ namespace Chocobro {
       public Fightorflight() {
         name = "Fight or Flight";
         recastTime = 90;
-        animationDelay = 0.6;
+        animationDelay = 0.4;
         abilityType = "Cooldown";
         buffTime = 30; //Can't get 30 seconds to work?
       }
@@ -373,7 +370,7 @@ namespace Chocobro {
         potency = 100;
         dotPotency = 20;
         TPcost = 80;
-        animationDelay = 1.2;
+        animationDelay = 0.6;
         abilityType = "Weaponskill";
         debuffTime = 18;
         castTime = 0.0;

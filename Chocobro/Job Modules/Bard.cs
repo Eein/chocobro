@@ -101,17 +101,16 @@ namespace Chocobro {
 
         //If time >= next cast time and time >= nextability)
         if (TP - ability.TPcost < 0) { //attempted to not allow TP to be less than 0, needs to be remade
-          MainWindow.log("Was unable to execute " + ability.name + ". Not enough TP. Current TP: " + TP);
+          MainWindow.log("Was unable to execute " + ability.name + ". Not enough TP. Current TP is " + TP + "TP.");
           nextability = MainWindow.time;
           OOT = true;
         } else {
           if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
             //Get game time (remove decimal error)
             MainWindow.time = MainWindow.floored(MainWindow.time);
-            MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
+            MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name + ". Cost is " + ability.TPcost + "TP. Current TP is " + TP + "TP.");
             // remove TP
             TP -= ability.TPcost;
-            MainWindow.log("Cost is " + ability.TPcost + "TP. Current TP: " + TP); //test for tp
             //if doesnt miss, then impact
 
             //set nextCast.
@@ -187,7 +186,7 @@ namespace Chocobro {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + nextability);
         } else {
           numberofmisses += 1;
-          MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast + " ACCROLL: " + accroll + " - ACC%: " + calculateACC()); 
+          MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast); 
         }
       }
       if (ability.abilityType == "AUTOA") {
@@ -255,7 +254,7 @@ namespace Chocobro {
       }
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + damage(ref ability, ability.dotPotency, true) + "  Damage - Time Left: " + ability.debuff);
-        MainWindow.log("---- " + ability.name + " - Dots - RS: " + ability.dotbuff["ragingstrikes"] + " BFB: " + ability.dotbuff["bloodforblood"] + " SS: " + ability.dotbuff["straightshot"] + " HE: " + ability.dotbuff["hawkseye"] + " IR: " + ability.dotbuff["internalrelease"]);
+        //MainWindow.log("---- " + ability.name + " - Dots - RS: " + ability.dotbuff["ragingstrikes"] + " BFB: " + ability.dotbuff["bloodforblood"] + " SS: " + ability.dotbuff["straightshot"] + " HE: " + ability.dotbuff["hawkseye"] + " IR: " + ability.dotbuff["internalrelease"]);
       }
     }
 
