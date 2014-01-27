@@ -117,6 +117,7 @@ namespace Chocobro {
 
       //how to handle each type of skill on impact
       if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant" && ability.potency > 0)) {
+        numberofattacks += 1;
         if (accroll < calculateACC()) {
           numberofhits += 1;
           totaldamage += damage(ref ability, ability.potency);
@@ -128,6 +129,7 @@ namespace Chocobro {
       }
 
         if (ability.abilityType == "AUTOA") {
+          numberofattacks += 1;
           if (accroll < calculateACC()) {
             numberofhits += 1;
             totaldamage += damage(ref ability, ability.potency);
@@ -176,6 +178,7 @@ namespace Chocobro {
         }
       }
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
+        numberofticks += 1;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + damage(ref ability, ability.dotPotency, true) + "  Damage - Time Left: " + ability.debuff);
         //MainWindow.log("---- " + ability.name + " - Dots - " + "FoF: " + ability.dotbuff["fightorflight"]);
       }

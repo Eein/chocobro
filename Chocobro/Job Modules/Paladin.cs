@@ -36,11 +36,13 @@ namespace Chocobro {
       //Buffs/Cooldowns - execute(ref ability)
       execute(ref fightorflight);
       //Instants - execute(ref ability)
+      execute(ref circleofscorn);
       execute(ref spiritswithin);
       if (MainWindow.fightlength * 0.80 < MainWindow.time) {
         execute(ref mercystroke);
       }
       //Ticks - tick(ref DoTability)
+      tick(ref circleofscorn);
       tick(ref fracture);
       //AutoAttacks (not for casters!) - execute(ref autoattack)
       execute(ref autoattack);
@@ -147,6 +149,7 @@ namespace Chocobro {
       }
 
       if (ability.name != "Sword Oath" && (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant" && ability.potency > 0))) {
+        numberofattacks += 1;
         if (accroll < calculateACC()) {
           numberofhits += 1;
           totaldamage += damage(ref ability, ability.potency);
@@ -158,6 +161,7 @@ namespace Chocobro {
       }
 
         if (ability.abilityType == "AUTOA") {
+          numberofattacks += 1;
           if (accroll < calculateACC()) {
             numberofhits += 1;
             totaldamage += damage(ref ability, ability.potency);
@@ -206,6 +210,7 @@ namespace Chocobro {
         }
       }
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
+        numberofticks += 1;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + damage(ref ability, ability.dotPotency, true) + "  Damage - Time Left: " + ability.debuff);
         //MainWindow.log("---- " + ability.name + " - Dots - " + "FoF: " + ability.dotbuff["fightorflight"]);
       }
@@ -226,11 +231,11 @@ namespace Chocobro {
       double tempstr = STR;
       if (fightorflight.buff > 0) { damageformula *= 1.30; }
       if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant") {
-        damageformula = (((double)pot / 100) * (0.005126317 * WEP * tempstr + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempstr + 0.050720984 * DTR));
+        damageformula = (((double)pot / 100) * (0.005126317 * WEP * tempstr + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempstr + 0.050720984 * DTR)) - 4; //temp damage formula
 
       }
       if (ability.abilityType == "AUTOA") {
-        damageformula = ((AAPOT) * (0.408 * WEP + 0.103262731 * tempstr + 0.003029823 * WEP * tempstr + 0.003543121 * WEP * (DTR - 202)));
+        damageformula = ((AAPOT + 0.5) * (0.408 * WEP + 0.103262731 * tempstr + 0.003029823 * WEP * tempstr + 0.003543121 * WEP * (DTR - 202))) - 3; //temp damage formula, includes Sword Oath buff
       }
 
       //crit
@@ -313,7 +318,22 @@ namespace Chocobro {
         debuffTime = 0.0;
       }
     }
-    // End Rage of Halone ----------------------
+    // End Rage of Halone ----------------------------
+
+    // Circle of Scorn --------------------------------
+    Ability circleofscorn = new Circleofscorn();
+    public class Circleofscorn : Ability {
+      public Circleofscorn() {
+        name = "Circle of Scorn";
+        potency = 100;
+        dotPotency = 30;
+        abilityType = "Instant";
+        recastTime = 25;
+        debuffTime = 15;
+        animationDelay = 0.75;
+      }
+    }
+    // End Circle of Scorn --------------------------
 
     // Spirits Within --------------------------------
     Ability spiritswithin = new Spiritswithin();
@@ -357,7 +377,7 @@ namespace Chocobro {
         recastTime = 90;
         animationDelay = 0.4;
         abilityType = "Cooldown";
-        buffTime = 30; //Can't get 30 seconds to work?
+        buffTime = 30; 
       }
     }
     // End Fight or Flight -------------------------------

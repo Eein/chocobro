@@ -180,6 +180,7 @@ namespace Chocobro {
 
       }
       if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant" && ability.potency > 0)) {
+        numberofattacks += 1;
         if (accroll < calculateACC()) {
           numberofhits += 1;
           totaldamage += damage(ref ability, ability.potency);
@@ -190,6 +191,7 @@ namespace Chocobro {
         }
       }
       if (ability.abilityType == "AUTOA") {
+        numberofattacks += 1;
         if (accroll < calculateACC()) {
           numberofhits += 1;
           totaldamage += damage(ref ability, ability.potency);
@@ -253,6 +255,7 @@ namespace Chocobro {
         }
       }
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
+        numberofticks += 1;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + damage(ref ability, ability.dotPotency, true) + "  Damage - Time Left: " + ability.debuff);
         //MainWindow.log("---- " + ability.name + " - Dots - RS: " + ability.dotbuff["ragingstrikes"] + " BFB: " + ability.dotbuff["bloodforblood"] + " SS: " + ability.dotbuff["straightshot"] + " HE: " + ability.dotbuff["hawkseye"] + " IR: " + ability.dotbuff["internalrelease"]);
       }
@@ -299,7 +302,6 @@ namespace Chocobro {
       if (critroll <= critchance) {
         
         numberofcrits += 1;
-        
         MainWindow.log("!!CRIT!! - ", false);
         damageformula *= 1.5;
         if (dot) {
@@ -312,16 +314,12 @@ namespace Chocobro {
             }
           }
         }
-      } else {
-        if (dot) {
-          numberofhits += 1;
-        }
-      }
+      } 
 
       // added variance to damage.
       damageformula = ((MainWindow.d100(-500, 500) / 10000) + 1) * (int)damageformula;
       return (int)damageformula;
-    }
+    } 
 
 
 
@@ -492,7 +490,7 @@ namespace Chocobro {
       public Internalrelease() {
         name = "Internal Release";
         recastTime = 60;
-        animationDelay = 0.75;
+        animationDelay = 0.65;
         abilityType = "Cooldown";
         buffTime = 15;
       }
@@ -506,7 +504,7 @@ namespace Chocobro {
       public Bloodforblood() {
         name = "Blood for Blood";
         recastTime = 80;
-        animationDelay = 0.9;
+        animationDelay = 0.75;
         abilityType = "Cooldown";
         buffTime = 20;
       }
@@ -534,7 +532,7 @@ namespace Chocobro {
       public Hawkseye() {
         name = "Hawks Eye";
         recastTime = 90;
-        animationDelay = 0.7;
+        animationDelay = 0.65;
         abilityType = "Cooldown";
         buffTime = 20;
       }

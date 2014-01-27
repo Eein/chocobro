@@ -39,7 +39,9 @@ namespace Chocobro {
     private const double basegcd = 2.5;
     public int totaldamage = 0;
     public int numberofcrits = 0;
+    public int numberofattacks = 0;
     public int numberofhits = 0;
+    public int numberofticks = 0;
     public int numberofmisses = 0;
 
     public void getStats(MainWindow cs) {
@@ -92,7 +94,7 @@ namespace Chocobro {
           TP += 60;
           OOT = false;
           if (TP > 1000) { TP = 1000; }
-          MainWindow.log(MainWindow.time.ToString("F2") + " - TP Regen Tick - Restored 60 TP. Current TP: " + TP);
+          MainWindow.log(MainWindow.time.ToString("F2") + " - TP Regen Tick - Restored 60 TP. TP is now: " + TP);
         }
         //MP regen (add this eventually. Check old sim for reference)
       }
