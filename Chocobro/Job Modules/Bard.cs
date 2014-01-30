@@ -3,22 +3,20 @@ using System.Windows;
 namespace Chocobro {
 
   public class Bard : Job {
- 
-    //-----------------------
+    public bool bloodletterproc = false;
+    public bool heavyshotproc = false;
+
     public Bard() {
-
-
-     
     }
   
     public override void rotation() {
+
       var gcd = calculateGCD();
       autoattack.recastTime = AADELAY;
-      if (heavyshot.buff > 0) {
-        if (straightshot.buff < gcd) {
+
+      if (heavyshot.buff <= 0) { heavyshotproc = false; }
+      if (heavyshotproc == true) {
           execute(ref straightshot);
-          heavyshot.buff = 0;
-        }
       }
 
       if (straightshot.buff <= gcd) {
@@ -169,33 +167,48 @@ namespace Chocobro {
         TP += 400;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 400 TP Restored. TP: " + TP);
       }
-      if (ability.name == "Heavyshot") {
-        double buffroll = MainWindow.d100(1, 101);
-        if (20 >= buffroll) {
-          ability.buff = 10;
-          MainWindow.log("!!PROC!! - Heavier Shot. Time Left: " + ability.buff);
-        }
-      }
+
       if (ability.abilityType == "Cooldown") {
 
       }
       if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant" && ability.potency > 0)) {
+
         numberofattacks += 1;
         if (accroll < calculateACC()) {
+
+          var thisdamage = damage(ref ability, ability.potency);
           numberofhits += 1;
-          totaldamage += damage(ref ability, ability.potency);
-          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + nextability);
+
+          totaldamage += thisdamage;
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next ability at: " + nextability);
+          if (ability.name == "Straight Shot") {
+            heavyshot.buff = 0;
+            heavyshotproc = false;
+          }
+          if (ability.name == "Heavy Shot") {
+            double buffroll = MainWindow.d100(1, 101);
+            if (20 >= buffroll) {
+              heavyshot.buff = 10;
+              heavyshotproc = true;
+              MainWindow.log("!!PROC!! - Heavier Shot. Time Left: " + ability.buff);
+            }
+          }
         } else {
           numberofmisses += 1;
-          MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast); 
+          MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast);
+          if (ability.name == "Straight Shot") {
+            heavyshot.buff = 0;
+            heavyshotproc = false;
+          }
         }
       }
       if (ability.abilityType == "AUTOA") {
         numberofattacks += 1;
         if (accroll < calculateACC()) {
+          var thisdamage = damage(ref ability, ability.potency);
           numberofhits += 1;
-          totaldamage += damage(ref ability, ability.potency);
-          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next AA at: " + ability.nextCast);
+          totaldamage += thisdamage;
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next AA at: " + ability.nextCast);
         } else {
           numberofmisses += 1;
           MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next AA at: " + ability.nextCast); 
@@ -258,6 +271,10 @@ namespace Chocobro {
         numberofticks += 1;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + damage(ref ability, ability.dotPotency, true) + "  Damage - Time Left: " + ability.debuff);
         //MainWindow.log("---- " + ability.name + " - Dots - RS: " + ability.dotbuff["ragingstrikes"] + " BFB: " + ability.dotbuff["bloodforblood"] + " SS: " + ability.dotbuff["straightshot"] + " HE: " + ability.dotbuff["hawkseye"] + " IR: " + ability.dotbuff["internalrelease"]);
+        if (bloodletterproc == true) {
+          MainWindow.log("!!PROC!! - Bloodletter reset!");
+          bloodletterproc = false;
+        }
       }
     }
 
@@ -285,7 +302,8 @@ namespace Chocobro {
 
       //crit
       double critroll = MainWindow.d100(1, 1000001) / 10000; //critroll was only rolling an interger between 1-101. Now has the same precision as critchance.
-      var critchance = 0.0697 * (double)CRIT - 18.437;
+      double critchance = 0;
+      if (heavyshotproc == true && ability.name == "Straight Shot") { critchance = 100; } else { critchance = 0.0697 * (double)CRIT - 18.437; } //Heavyshot interaction
       //MainWindow.log("CRIT CHANCE IS:" + critchance + " ROLL IS: " + critroll);
       if (dot) {
         if (ability.dotbuff["ragingstrikes"]) { damageformula *= 1.20; }
@@ -300,7 +318,6 @@ namespace Chocobro {
       }
 
       if (critroll <= critchance) {
-        
         numberofcrits += 1;
         MainWindow.log("!!CRIT!! - ", false);
         damageformula *= 1.5;
@@ -309,8 +326,8 @@ namespace Chocobro {
           if (bloodletter.nextCast > MainWindow.time && ((ability.name == "Windbite" && windbite.debuff > 0) || (ability.name == "Venomous Bite" && venomousbite.debuff > 0))) {
             var dotRoll = MainWindow.d100(1, 101);
             if (dotRoll >= 50) {
+              bloodletterproc = true;
               bloodletter.nextCast = MainWindow.time;
-              MainWindow.log("!!PROC!! - Bloodletter reset!");
             }
           }
         }

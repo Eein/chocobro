@@ -117,27 +117,32 @@ namespace Chocobro {
 
       //how to handle each type of skill on impact
       if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant" && ability.potency > 0)) {
+
         numberofattacks += 1;
         if (accroll < calculateACC()) {
+
+          var thisdamage = damage(ref ability, ability.potency);
           numberofhits += 1;
-          totaldamage += damage(ref ability, ability.potency);
-          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + nextability);
+
+          totaldamage += thisdamage;
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next ability at: " + nextability);
         } else {
           numberofmisses += 1;
           MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast);
         }
       }
 
-        if (ability.abilityType == "AUTOA") {
-          numberofattacks += 1;
-          if (accroll < calculateACC()) {
-            numberofhits += 1;
-            totaldamage += damage(ref ability, ability.potency);
-            MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next AA at: " + ability.nextCast);
+      if (ability.abilityType == "AUTOA") {
+        numberofattacks += 1;
+        if (accroll < calculateACC()) {
+          var thisdamage = damage(ref ability, ability.potency);
+          numberofhits += 1;
+          totaldamage += thisdamage;
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next AA at: " + ability.nextCast);
         } else {
-            numberofmisses += 1;
-            MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next AA at: " + ability.nextCast);
-          }
+          numberofmisses += 1;
+          MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next AA at: " + ability.nextCast);
+        }
       }
 
       // If ability has debuff, create its timer.

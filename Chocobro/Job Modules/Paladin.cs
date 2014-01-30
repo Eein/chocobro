@@ -2,16 +2,16 @@
 namespace Chocobro {
 
   public class Paladin : Job {
-    
+
     public bool fastbladecombo = false;
     public bool savagebladecombo = false;
 
     //-----------------------
 
     public Paladin() {
-      
+
     }
-   
+
     public override void rotation() {
       var gcd = calculateGCD();
       autoattack.recastTime = AADELAY;
@@ -78,7 +78,7 @@ namespace Chocobro {
             MainWindow.time = MainWindow.floored(MainWindow.time);
             MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name + ". Cost is " + ability.TPcost + "TP. Current TP is " + TP + "TP.");
             // remove TP
-              TP -= ability.TPcost;
+            TP -= ability.TPcost;
             //if doesnt miss, then impact
 
             //set nextCast.
@@ -147,29 +147,33 @@ namespace Chocobro {
       }
       if (ability.abilityType == "Cooldown") {
       }
+      if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant" && ability.potency > 0)) {
 
-      if (ability.name != "Sword Oath" && (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant" && ability.potency > 0))) {
         numberofattacks += 1;
         if (accroll < calculateACC()) {
+
+          var thisdamage = damage(ref ability, ability.potency);
           numberofhits += 1;
-          totaldamage += damage(ref ability, ability.potency);
-          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next ability at: " + nextability);
+
+          totaldamage += thisdamage;
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next ability at: " + nextability);
         } else {
           numberofmisses += 1;
           MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast);
         }
       }
 
-        if (ability.abilityType == "AUTOA") {
-          numberofattacks += 1;
-          if (accroll < calculateACC()) {
-            numberofhits += 1;
-            totaldamage += damage(ref ability, ability.potency);
-            MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + damage(ref ability, ability.potency) + " Damage. Next AA at: " + ability.nextCast);
+      if (ability.abilityType == "AUTOA") {
+        numberofattacks += 1;
+        if (accroll < calculateACC()) {
+          var thisdamage = damage(ref ability, ability.potency);
+          numberofhits += 1;
+          totaldamage += thisdamage;
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next AA at: " + ability.nextCast);
         } else {
-            numberofmisses += 1;
-            MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next AA at: " + ability.nextCast);
-          }
+          numberofmisses += 1;
+          MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next AA at: " + ability.nextCast);
+        }
       }
 
       // If ability has debuff, create its timer.
@@ -377,7 +381,7 @@ namespace Chocobro {
         recastTime = 90;
         animationDelay = 0.4;
         abilityType = "Cooldown";
-        buffTime = 30; 
+        buffTime = 30;
       }
     }
     // End Fight or Flight -------------------------------
@@ -418,7 +422,7 @@ namespace Chocobro {
     public class Autoattack : Ability {
       public Autoattack() {
         name = "Auto Attack";
-        
+
         animationDelay = 0;
         abilityType = "AUTOA";
       }
