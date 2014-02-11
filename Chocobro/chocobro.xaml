@@ -31,6 +31,9 @@
             <TabItem Header="Console" RenderTransformOrigin="1.78,0.5" Margin="111,-2,-115,0">
 
                 <Grid Background="#FFE5E5E5" Margin="-2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
                     <RichTextBox x:Name="console" x:FieldModifier="public" Height="446" VerticalAlignment="Top" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Margin="-1" Padding="5">
                         <RichTextBox.Resources>
                             <Style TargetType="{x:Type Paragraph}">
@@ -44,7 +47,15 @@
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
             <TabItem Header="Report" HorizontalAlignment="Left" Width="61" Margin="-55,-2,0,0">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5" Margin="-1">
+                    <RichTextBox x:Name="reportConsole" x:FieldModifier="public" VerticalAlignment="Top" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Padding="5" Margin="-2,-2,-2,0" Height="445">
+                        <RichTextBox.Resources>
+                            <Style TargetType="{x:Type Paragraph}">
+                                <Setter Property="Margin" Value="0"/>
+                            </Style>
+                        </RichTextBox.Resources>
+                    </RichTextBox>
+                </Grid>
             </TabItem>
         </TabControl>
         <Label Content="WEP&#xD;&#xA;" HorizontalAlignment="Right" Margin="0,88,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>

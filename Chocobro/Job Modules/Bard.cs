@@ -13,15 +13,15 @@ namespace Chocobro {
     public override void report() {
       base.report();
       // add bard ability reporting
-      MainWindow.log("Abilities -");
-      MainWindow.log("Heavyshot - Hits: " + heavyshot.hits + " Misses: " + heavyshot.misses + " Crits: " + heavyshot.crits + " Procs: " + heavyshot.procs + " TotalDMG: " + heavyshot.damage);
-      MainWindow.log("Straight Shot - Hits: " + straightshot.hits + " Misses: " + straightshot.misses + " Crits: " + straightshot.crits + " Procs: " + straightshot.procs + " TotalDMG: " + straightshot.damage);
-      MainWindow.log("Bloodletter - Hits: " + bloodletter.hits + " Misses: " + bloodletter.misses + " Crits: " + bloodletter.crits + " Procs: " + bloodletter.procs + " TotalDMG: " + bloodletter.damage);
-      MainWindow.log("Auto-Attack - Hits: " + autoattack.hits + " Misses: " + autoattack.misses + " Crits: " + autoattack.crits + " Procs: " + autoattack.procs + " TotalDMG: " + autoattack.damage);
-      MainWindow.log("Repelling Shot - Hits: " + repellingshot.hits + " Misses: " + repellingshot.misses + " Crits: " + repellingshot.crits + " Procs: " + repellingshot.procs + " TotalDMG: " + repellingshot.damage);
-      MainWindow.log("Blunt Arrow - Hits: " + bluntarrow.hits + " Misses: " + bluntarrow.misses + " Crits: " + bluntarrow.crits + " Procs: " + bluntarrow.procs + " TotalDMG: " + bluntarrow.damage);
-      MainWindow.log("Windbite - Hits: " + windbite.hits + " Misses: " + windbite.misses + " Crits: " + windbite.crits + " Ticks: " + windbite.ticks + " Tick Crits: " + windbite.tickcrits+ " Dot Damage: " + windbite.dotdamage + " Procs: " + windbite.procs + " Ability Damage: " + windbite.damage + " TotalDMG: " + (windbite.damage + windbite.dotdamage));
-      MainWindow.log("Venomous Bite - Hits: " + venomousbite.hits + " Misses: " + venomousbite.misses + " Crits: " + venomousbite.crits + " Ticks: " + venomousbite.ticks + " Tick Crits: " + venomousbite.tickcrits + " Dot Damage: " + venomousbite.dotdamage + " Procs: " + venomousbite.procs + " Ability Damage: " + venomousbite.damage + " TotalDMG: " + (venomousbite.damage + venomousbite.dotdamage));
+      MainWindow.report("Abilities -");
+      MainWindow.report("Heavyshot - Hits: " + heavyshot.hits + " Misses: " + heavyshot.misses + " Crits: " + heavyshot.crits + " Procs: " + heavyshot.procs + " TotalDMG: " + heavyshot.damage);
+      MainWindow.report("Straight Shot - Hits: " + straightshot.hits + " Misses: " + straightshot.misses + " Crits: " + straightshot.crits + " Procs: " + straightshot.procs + " TotalDMG: " + straightshot.damage);
+      MainWindow.report("Bloodletter - Hits: " + bloodletter.hits + " Misses: " + bloodletter.misses + " Crits: " + bloodletter.crits + " Procs: " + bloodletter.procs + " TotalDMG: " + bloodletter.damage);
+      MainWindow.report("Auto-Attack - Hits: " + autoattack.hits + " Misses: " + autoattack.misses + " Crits: " + autoattack.crits + " Procs: " + autoattack.procs + " TotalDMG: " + autoattack.damage);
+      MainWindow.report("Repelling Shot - Hits: " + repellingshot.hits + " Misses: " + repellingshot.misses + " Crits: " + repellingshot.crits + " Procs: " + repellingshot.procs + " TotalDMG: " + repellingshot.damage);
+      MainWindow.report("Blunt Arrow - Hits: " + bluntarrow.hits + " Misses: " + bluntarrow.misses + " Crits: " + bluntarrow.crits + " Procs: " + bluntarrow.procs + " TotalDMG: " + bluntarrow.damage);
+      MainWindow.report("Windbite - Hits: " + windbite.hits + " Misses: " + windbite.misses + " Crits: " + windbite.crits + " Ticks: " + windbite.ticks + " Tick Crits: " + windbite.tickcrits + " Dot Damage: " + windbite.dotdamage + " Procs: " + windbite.procs + " Ability Damage: " + windbite.damage + " TotalDMG: " + (windbite.damage + windbite.dotdamage));
+      MainWindow.report("Venomous Bite - Hits: " + venomousbite.hits + " Misses: " + venomousbite.misses + " Crits: " + venomousbite.crits + " Ticks: " + venomousbite.ticks + " Tick Crits: " + venomousbite.tickcrits + " Dot Damage: " + venomousbite.dotdamage + " Procs: " + venomousbite.procs + " Ability Damage: " + venomousbite.damage + " TotalDMG: " + (venomousbite.damage + venomousbite.dotdamage));
     }
     public override void rotation() {
 

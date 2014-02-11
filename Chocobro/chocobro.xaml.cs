@@ -35,6 +35,7 @@ namespace Chocobro {
     public static int servertick = 0;
     //Resources
     public static string logstring = "";
+    public static string reportstring = "";
     public static double AADELAY;
     //Character Sheet
 
@@ -125,8 +126,10 @@ namespace Chocobro {
       p.report();
       //read logstring into file
       writeLog();
+      writeReport();
       //parse log into box
       readLog();
+      readReport();
       //reset globals
       resetSim();
     }
@@ -141,7 +144,9 @@ namespace Chocobro {
       //Read Fight Length in as double.
       fightlength = Convert.ToInt16(fightLengthInput.Text);
       console.Document.Blocks.Clear(); // Clear Console before starting.
+      reportConsole.Document.Blocks.Clear(); // Clear Report before starting.
       clearLog();
+      clearReport();
       console.AppendText("" + Environment.NewLine); // This is required because who knows....
       simulate();
 
@@ -165,6 +170,20 @@ namespace Chocobro {
       sw.Write("");
       sw.Close();
     }
+    public static void report(String s, bool newline = true) {
+      reportstring += s;
+      if (newline) { reportstring += "\n"; }
+    }
+    public static void writeReport() {
+      StreamWriter sw = File.AppendText("report.txt");
+      sw.WriteLine(reportstring);
+      sw.Close();
+    }
+    public static void clearReport() {
+      StreamWriter sw = new StreamWriter("report.txt");
+      sw.Write("");
+      sw.Close();
+    }
     public static void debug() {
       log("!! -- Tick Starting at: " + servertick);
     }
@@ -174,12 +193,19 @@ namespace Chocobro {
       servertime = 0;
       servertick = 0;
       logstring = "";
+      reportstring = "";
      
     }
     public void readLog() {
       StreamReader sr = new StreamReader("output.txt"); //TODO allow user to rename this.
       var readContents = sr.ReadToEnd();
       console.AppendText(readContents);
+      sr.Close();
+    }
+    public void readReport() {
+      StreamReader sr = new StreamReader("report.txt"); //TODO allow user to rename this.
+      var readContents = sr.ReadToEnd();
+      reportConsole.AppendText(readContents);
       sr.Close();
     }
 
