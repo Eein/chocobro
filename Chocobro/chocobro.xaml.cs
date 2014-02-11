@@ -122,13 +122,7 @@ namespace Chocobro {
         tickevent();
         time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto, p.OOT, p.OOM);
       }
-      //DPS PRINTOUT
-      MainWindow.log(" ");
-      MainWindow.log("Damage Dealt: " + p.totaldamage + " - DPS: " + (p.totaldamage / MainWindow.fightlength));
-      MainWindow.log("Number of Attacks: " + (p.numberofattacks + p.numberofticks));
-      MainWindow.log("Number of Crits: " + p.numberofcrits + " - Crit%: " + (Math.Round((((double)p.numberofcrits) / ((double)p.numberofattacks + (double)p.numberofticks)) * 10000) / 100) + "%");
-      MainWindow.log("Number of Misses: " + p.numberofmisses + " - Miss%: " + (Math.Round((double)p.numberofmisses / ((double)p.numberofattacks) * 10000) / 100) + "%");
-      
+      p.report();
       //read logstring into file
       writeLog();
       //parse log into box

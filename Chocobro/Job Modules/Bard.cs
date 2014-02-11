@@ -5,10 +5,24 @@ namespace Chocobro {
   public class Bard : Job {
     public bool bloodletterproc = false;
     public bool heavyshotproc = false;
-
+    
     public Bard() {
+    
+
     }
-  
+    public override void report() {
+      base.report();
+      // add bard ability reporting
+      MainWindow.log("Abilities -");
+      MainWindow.log("Heavyshot - Hits: " + heavyshot.hits + " Misses: " + heavyshot.misses + " Crits: " + heavyshot.crits + " Procs: " + heavyshot.procs + " TotalDMG: " + heavyshot.damage);
+      MainWindow.log("Straight Shot - Hits: " + straightshot.hits + " Misses: " + straightshot.misses + " Crits: " + straightshot.crits + " Procs: " + straightshot.procs + " TotalDMG: " + straightshot.damage);
+      MainWindow.log("Bloodletter - Hits: " + bloodletter.hits + " Misses: " + bloodletter.misses + " Crits: " + bloodletter.crits + " Procs: " + bloodletter.procs + " TotalDMG: " + bloodletter.damage);
+      MainWindow.log("Auto-Attack - Hits: " + autoattack.hits + " Misses: " + autoattack.misses + " Crits: " + autoattack.crits + " Procs: " + autoattack.procs + " TotalDMG: " + autoattack.damage);
+      MainWindow.log("Repelling Shot - Hits: " + repellingshot.hits + " Misses: " + repellingshot.misses + " Crits: " + repellingshot.crits + " Procs: " + repellingshot.procs + " TotalDMG: " + repellingshot.damage);
+      MainWindow.log("Blunt Arrow - Hits: " + bluntarrow.hits + " Misses: " + bluntarrow.misses + " Crits: " + bluntarrow.crits + " Procs: " + bluntarrow.procs + " TotalDMG: " + bluntarrow.damage);
+      MainWindow.log("Windbite - Hits: " + windbite.hits + " Misses: " + windbite.misses + " Crits: " + windbite.crits + " Ticks: " + windbite.ticks + " Dot Damage: " + windbite.dotdamage + " Procs: " + windbite.procs + " Ability Damage: " + windbite.damage + " TotalDMG: " + (windbite.damage + windbite.dotdamage));
+      MainWindow.log("Venomous Bite - Hits: " + venomousbite.hits + " Misses: " + venomousbite.misses + " Crits: " + venomousbite.crits + " Ticks: " + venomousbite.ticks + " Dot Damage: " + venomousbite.dotdamage + " Procs: " + venomousbite.procs + " Ability Damage: " + venomousbite.damage + " TotalDMG: " + (venomousbite.damage + venomousbite.dotdamage));
+    }
     public override void rotation() {
 
       var gcd = calculateGCD();
@@ -178,8 +192,10 @@ namespace Chocobro {
 
           var thisdamage = damage(ref ability, ability.potency);
           numberofhits += 1;
+          ability.hits += 1;
 
           totaldamage += thisdamage;
+          ability.damage += thisdamage;
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next ability at: " + nextability);
           if (ability.name == "Straight Shot") {
             heavyshot.buff = 0;
@@ -189,13 +205,16 @@ namespace Chocobro {
             double buffroll = MainWindow.d100(1, 101);
             if (20 >= buffroll) {
               heavyshot.buff = 10;
+              heavyshot.procs += 1;
               heavyshotproc = true;
               MainWindow.log("!!PROC!! - Heavier Shot. Time Left: " + ability.buff);
             }
           }
         } else {
           numberofmisses += 1;
+          heavyshot.misses += 1;
           MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast);
+          // Does heavyshot buff get eaten by a miss?
           if (ability.name == "Straight Shot") {
             heavyshot.buff = 0;
             heavyshotproc = false;
@@ -203,13 +222,16 @@ namespace Chocobro {
         }
       }
       if (ability.abilityType == "AUTOA") {
+        autoattack.hits += 1;
         numberofattacks += 1;
         if (accroll < calculateACC()) {
           var thisdamage = damage(ref ability, ability.potency);
           numberofhits += 1;
           totaldamage += thisdamage;
+          autoattack.damage += thisdamage;
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next AA at: " + ability.nextCast);
         } else {
+          autoattack.misses += 1;
           numberofmisses += 1;
           MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next AA at: " + ability.nextCast); 
         }
@@ -245,10 +267,6 @@ namespace Chocobro {
       }
       //Add buffs to dots
 
-
-
-
-
     }
 
     //public virtual void expire() { } not really needed. Maybe handle expiration in ticks? hmmm.
@@ -269,10 +287,14 @@ namespace Chocobro {
       }
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
         numberofticks += 1;
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + damage(ref ability, ability.dotPotency, true) + "  Damage - Time Left: " + ability.debuff);
+        ability.ticks += 1;
+        var tickdmg = damage(ref ability, ability.dotPotency, true);
+        ability.dotdamage += tickdmg;
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickdmg + "  Damage - Time Left: " + ability.debuff);
         //MainWindow.log("---- " + ability.name + " - Dots - RS: " + ability.dotbuff["ragingstrikes"] + " BFB: " + ability.dotbuff["bloodforblood"] + " SS: " + ability.dotbuff["straightshot"] + " HE: " + ability.dotbuff["hawkseye"] + " IR: " + ability.dotbuff["internalrelease"]);
         if (bloodletterproc == true) {
           MainWindow.log("!!PROC!! - Bloodletter reset!");
+          bloodletter.procs += 1;
           bloodletterproc = false;
         }
       }
@@ -319,6 +341,7 @@ namespace Chocobro {
 
       if (critroll <= critchance) {
         numberofcrits += 1;
+        ability.crits += 1;
         MainWindow.log("!!CRIT!! - ", false);
         damageformula *= 1.5;
         if (dot) {

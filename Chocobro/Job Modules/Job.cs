@@ -43,6 +43,7 @@ namespace Chocobro {
     public int numberofhits = 0;
     public int numberofticks = 0;
     public int numberofmisses = 0;
+    
 
     public void getStats(MainWindow cs) {
       STR = Convert.ToInt32(cs.STR.Text);
@@ -83,7 +84,16 @@ namespace Chocobro {
     public void addTP(int amount) {
       TP += amount;
     }
-
+    public virtual void report() {
+      //blank reporting
+      //DPS PRINTOUT
+      MainWindow.log(" ");
+      MainWindow.log("Damage Dealt: " + this.totaldamage + " - DPS: " + (this.totaldamage / MainWindow.fightlength));
+      MainWindow.log("Number of Attacks: " + (this.numberofattacks + this.numberofticks));
+      MainWindow.log("Number of Crits: " + this.numberofcrits + " - Crit%: " + (Math.Round((((double)this.numberofcrits) / ((double)this.numberofattacks + (double)this.numberofticks)) * 10000) / 100) + "%");
+      MainWindow.log("Number of Misses: " + this.numberofmisses + " - Miss%: " + (Math.Round((double)this.numberofmisses / ((double)this.numberofattacks) * 10000) / 100) + "%");
+      
+    }
     public virtual void rotation() { }
     public virtual void regen() {
       if (MainWindow.time == MainWindow.servertime && MainWindow.servertick == 3) {

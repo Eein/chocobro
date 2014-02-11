@@ -20,6 +20,15 @@ namespace Chocobro {
     public double buffTime;
     public double debuffTime;
     public bool autoa = false;
+
+    public int crits = 0;
+    public int hits = 0;
+    public int misses = 0;
+    public int procs = 0;
+    public int ticks = 0;
+    public double damage = 0;
+    public double dotdamage = 0;
+
     //public bool dot = false; TODO: add this w/ smn.
     // Dots using dictionary lookup. easyyy.
     public Dictionary<String, Boolean> dotbuff = new Dictionary<String, Boolean>() {
