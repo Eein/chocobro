@@ -20,8 +20,8 @@ namespace Chocobro {
       MainWindow.log("Auto-Attack - Hits: " + autoattack.hits + " Misses: " + autoattack.misses + " Crits: " + autoattack.crits + " Procs: " + autoattack.procs + " TotalDMG: " + autoattack.damage);
       MainWindow.log("Repelling Shot - Hits: " + repellingshot.hits + " Misses: " + repellingshot.misses + " Crits: " + repellingshot.crits + " Procs: " + repellingshot.procs + " TotalDMG: " + repellingshot.damage);
       MainWindow.log("Blunt Arrow - Hits: " + bluntarrow.hits + " Misses: " + bluntarrow.misses + " Crits: " + bluntarrow.crits + " Procs: " + bluntarrow.procs + " TotalDMG: " + bluntarrow.damage);
-      MainWindow.log("Windbite - Hits: " + windbite.hits + " Misses: " + windbite.misses + " Crits: " + windbite.crits + " Ticks: " + windbite.ticks + " Dot Damage: " + windbite.dotdamage + " Procs: " + windbite.procs + " Ability Damage: " + windbite.damage + " TotalDMG: " + (windbite.damage + windbite.dotdamage));
-      MainWindow.log("Venomous Bite - Hits: " + venomousbite.hits + " Misses: " + venomousbite.misses + " Crits: " + venomousbite.crits + " Ticks: " + venomousbite.ticks + " Dot Damage: " + venomousbite.dotdamage + " Procs: " + venomousbite.procs + " Ability Damage: " + venomousbite.damage + " TotalDMG: " + (venomousbite.damage + venomousbite.dotdamage));
+      MainWindow.log("Windbite - Hits: " + windbite.hits + " Misses: " + windbite.misses + " Crits: " + windbite.crits + " Ticks: " + windbite.ticks + " Tick Crits: " + windbite.tickcrits+ " Dot Damage: " + windbite.dotdamage + " Procs: " + windbite.procs + " Ability Damage: " + windbite.damage + " TotalDMG: " + (windbite.damage + windbite.dotdamage));
+      MainWindow.log("Venomous Bite - Hits: " + venomousbite.hits + " Misses: " + venomousbite.misses + " Crits: " + venomousbite.crits + " Ticks: " + venomousbite.ticks + " Tick Crits: " + venomousbite.tickcrits + " Dot Damage: " + venomousbite.dotdamage + " Procs: " + venomousbite.procs + " Ability Damage: " + venomousbite.damage + " TotalDMG: " + (venomousbite.damage + venomousbite.dotdamage));
     }
     public override void rotation() {
 
@@ -341,10 +341,11 @@ namespace Chocobro {
 
       if (critroll <= critchance) {
         numberofcrits += 1;
-        ability.crits += 1;
+        
         MainWindow.log("!!CRIT!! - ", false);
         damageformula *= 1.5;
         if (dot) {
+          ability.tickcrits += 1;
           //Bloodletter procs        
           if (bloodletter.nextCast > MainWindow.time && ((ability.name == "Windbite" && windbite.debuff > 0) || (ability.name == "Venomous Bite" && venomousbite.debuff > 0))) {
             var dotRoll = MainWindow.d100(1, 101);
@@ -353,6 +354,11 @@ namespace Chocobro {
               bloodletter.nextCast = MainWindow.time;
             }
           }
+        } else {
+          //normal attack crit
+          ability.crits += 1;
+
+
         }
       } 
 

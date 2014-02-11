@@ -26,6 +26,7 @@ namespace Chocobro {
     public int misses = 0;
     public int procs = 0;
     public int ticks = 0;
+    public int tickcrits = 0;
     public double damage = 0;
     public double dotdamage = 0;
 
