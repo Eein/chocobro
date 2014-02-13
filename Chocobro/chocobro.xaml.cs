@@ -209,6 +209,10 @@ namespace Chocobro {
       sr.Close();
     }
 
+    private void console_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) {
+
+    }
+
 
 
   }

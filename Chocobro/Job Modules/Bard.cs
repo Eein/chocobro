@@ -13,7 +13,8 @@ namespace Chocobro {
     public override void report() {
       base.report();
       // add bard ability reporting
-      MainWindow.report("Abilities -");
+      MainWindow.report("");
+      MainWindow.report("Abilities");
       MainWindow.report("Heavyshot - Hits: " + heavyshot.hits + " Misses: " + heavyshot.misses + " Crits: " + heavyshot.crits + " Procs: " + heavyshot.procs + " TotalDMG: " + heavyshot.damage);
       MainWindow.report("Straight Shot - Hits: " + straightshot.hits + " Misses: " + straightshot.misses + " Crits: " + straightshot.crits + " Procs: " + straightshot.procs + " TotalDMG: " + straightshot.damage);
       MainWindow.report("Bloodletter - Hits: " + bloodletter.hits + " Misses: " + bloodletter.misses + " Crits: " + bloodletter.crits + " Procs: " + bloodletter.procs + " TotalDMG: " + bloodletter.damage);
