@@ -12,4 +12,3 @@ No Documentation quite yet! Wait for a non-alpha release!
 
 chocobro.com
 
-Copyright (c) 2014 Chocobro
