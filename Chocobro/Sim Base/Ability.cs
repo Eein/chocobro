@@ -41,8 +41,8 @@ namespace Chocobro {
         {"fightorflight",false}
     };
 
-    public double bonus = 0; // for abilitiy specific bonuses.x
-
+    public double bonus = 0; // for abilitiy specific bonuses and potions
+    public double percent = 0; // for things that increase by percentage.
 
     //public double calculateCrit(Job _player) { return (0.0693 * _player.CRIT - 18.486); }
 

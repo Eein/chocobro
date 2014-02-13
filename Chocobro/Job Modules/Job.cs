@@ -109,5 +109,32 @@ namespace Chocobro {
       }
     }
 
+    //Pots
+    
+    public class XPotionDexterity : Ability {
+      public XPotionDexterity() {
+        //HQ
+        name = "HQ - X-Potion of Dexterity";
+        recastTime = 300;
+        animationDelay = 0.3;
+        abilityType = "Cooldown";
+        buffTime = 15;
+        bonus = 67;
+        percent = 16;
+      }
+    }
+
+    //function to convert percentages to multipliers (ie. 16% to 1.16)
+    public double percentToMulti(double percent) {
+      var value = percent / 100;
+      value += 1;
+      return value;
+    }
+    public double percentageOfStat(double percent, double stat) {
+      var value = percent / 100;
+      value = value * stat;
+      return value;
+    }
+
   }
 }

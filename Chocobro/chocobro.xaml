@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Chocobro.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Chocobro v0.0.1" Height="578.194" Width="677.718" ScrollViewer.HorizontalScrollBarVisibility="Auto" ResizeMode="NoResize" Closed="Window_Closed">
+        Title="Chocobro v0.0.1" Height="578.194" Width="837.718" ScrollViewer.HorizontalScrollBarVisibility="Auto" ResizeMode="NoResize" Closed="Window_Closed">
     <Grid Margin="0,0,4,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="479*"/>
@@ -27,7 +27,7 @@
         </Menu>
         <TextBox x:Name="fightLengthInput" HorizontalAlignment="Left" Height="22" Margin="10,473,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="100"/>
         <Label Content="Fight Length:" HorizontalAlignment="Left" Margin="10,452,0,0" VerticalAlignment="Top"/>
-        <TabControl HorizontalAlignment="Left" Height="468" Margin="147,27,0,0" VerticalAlignment="Top" Width="511" Grid.ColumnSpan="2">
+        <TabControl HorizontalAlignment="Left" Height="468" Margin="147,27,0,0" VerticalAlignment="Top" Width="671" Grid.ColumnSpan="2">
             <TabItem Header="Console" RenderTransformOrigin="1.78,0.5" Margin="111,-2,-115,0">
 
                 <Grid Background="#FFE5E5E5" Margin="-2">
@@ -58,33 +58,33 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Label Content="WEP&#xD;&#xA;" HorizontalAlignment="Right" Margin="0,88,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
+        <Label Content="WEP&#xD;&#xA;" HorizontalAlignment="Right" Margin="0,88,584,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="WEP" HorizontalAlignment="Left" Height="20" Margin="77,88,0,0" TextWrapping="Wrap" Text="42" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <Label Content="AADMG&#xA;" HorizontalAlignment="Right" Margin="0,110,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
+        <Label Content="AADMG&#xA;" HorizontalAlignment="Right" Margin="0,110,584,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="AADMG" HorizontalAlignment="Left" Height="20" Margin="77,110,0,0" TextWrapping="Wrap" Text="44.80" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <Label Content="AADELAY&#xA;" HorizontalAlignment="Right" Margin="0,132,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
+        <Label Content="AADELAY&#xA;" HorizontalAlignment="Right" Margin="0,132,584,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="DELAY" HorizontalAlignment="Left" Height="20" Margin="77,132,0,0" TextWrapping="Wrap" Text="3.20" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <Label Content="STR&#xA;" HorizontalAlignment="Right" Margin="0,154,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
+        <Label Content="STR&#xA;" HorizontalAlignment="Right" Margin="0,154,584,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="STR" HorizontalAlignment="Left" Height="20" Margin="77,154,0,0" TextWrapping="Wrap" Text="179" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <Label Content="DEX&#xA;" HorizontalAlignment="Right" Margin="0,176,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
+        <Label Content="DEX&#xA;" HorizontalAlignment="Right" Margin="0,176,584,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="DEX" HorizontalAlignment="Left" Height="20" Margin="77,176,0,0" TextWrapping="Wrap" Text="500" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <Label Content="VIT&#xA;" HorizontalAlignment="Right" Margin="0,198,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
+        <Label Content="VIT&#xA;" HorizontalAlignment="Right" Margin="0,198,584,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="VIT" HorizontalAlignment="Left" Height="20" Margin="77,198,0,0" TextWrapping="Wrap" Text="380" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <Label Content="INT&#xA;" HorizontalAlignment="Right" Margin="0,220,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
+        <Label Content="INT&#xA;" HorizontalAlignment="Right" Margin="0,220,584,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="INT" HorizontalAlignment="Left" Height="20" Margin="77,220,0,0" TextWrapping="Wrap" Text="172" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <Label Content="MND&#xA;" HorizontalAlignment="Right" Margin="0,242,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
+        <Label Content="MND&#xA;" HorizontalAlignment="Right" Margin="0,242,584,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="MND" HorizontalAlignment="Left" Height="20" Margin="77,242,0,0" TextWrapping="Wrap" Text="161" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <Label Content="PIE&#xA;" HorizontalAlignment="Right" Margin="0,264,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
+        <Label Content="PIE&#xA;" HorizontalAlignment="Right" Margin="0,264,584,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="PIE" HorizontalAlignment="Left" Height="20" Margin="77,264,0,0" TextWrapping="Wrap" Text="172" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <Label Content="CRIT&#xA;" HorizontalAlignment="Right" Margin="0,308,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
+        <Label Content="CRIT&#xA;" HorizontalAlignment="Right" Margin="0,308,584,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="CRIT" HorizontalAlignment="Left" Height="20" Margin="77,308,0,0" TextWrapping="Wrap" Text="515" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <Label Content="DTR&#xA;" HorizontalAlignment="Right" Margin="0,330,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
+        <Label Content="DTR&#xA;" HorizontalAlignment="Right" Margin="0,330,584,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="DTR" HorizontalAlignment="Left" Height="20" Margin="77,330,0,0" TextWrapping="Wrap" Text="269" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <Label Content="ACC&#xA;" HorizontalAlignment="Right" Margin="0,286,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
+        <Label Content="ACC&#xA;" HorizontalAlignment="Right" Margin="0,286,584,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="ACC" HorizontalAlignment="Left" Height="20" Margin="77,286,0,0" TextWrapping="Wrap" Text="409" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <Label Content="SKSPD&#xA;" HorizontalAlignment="Right" Margin="0,352,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
+        <Label Content="SKSPD&#xA;" HorizontalAlignment="Right" Margin="0,352,584,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="SKSPD" HorizontalAlignment="Left" Height="20" Margin="77,352,0,0" TextWrapping="Wrap" Text="457" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <Label Content="SPSPD&#xA;" HorizontalAlignment="Right" Margin="0,374,452,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
+        <Label Content="SPSPD&#xA;" HorizontalAlignment="Right" Margin="0,374,584,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="SPSPD" HorizontalAlignment="Left" Height="20" Margin="77,374,0,0" TextWrapping="Wrap" Text="341" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
 
     </Grid>

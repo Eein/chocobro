@@ -57,6 +57,8 @@ namespace Chocobro {
 
       execute(ref ragingstrikes); //"smart" use of buffs, needs more attention
       if (ragingstrikes.buff > 0) {
+        // this could also be reorganized, but we need iterations before testing further.
+        execute(ref xpotiondexterity);
         execute(ref hawkseye);
         execute(ref internalrelease);
         execute(ref bloodforblood);
@@ -313,6 +315,20 @@ namespace Chocobro {
     public int damage(ref Ability ability, int pot, bool dot = false) {
       double damageformula = 0.0;
       double tempdex = DEX;
+      //potion check
+      if (xpotiondexterity.buff > 0) {
+        //check for max dex increase from pot - NEEDS to be refactored...
+
+        if (percentageOfStat(xpotiondexterity.percent, tempdex) > xpotiondexterity.bonus) {
+          //MainWindow.log("yolo: " + percentageOfStat(xpotiondexterity.percent, tempdex) + " tempdex " + tempdex);
+          tempdex += xpotiondexterity.bonus;
+          //MainWindow.log("capBonus Dex from potion: " + xpotiondexterity.bonus + " percent of stat: " + percentageOfStat(xpotiondexterity.percent, tempdex));
+        } else {
+          tempdex += percentageOfStat(xpotiondexterity.percent, tempdex);
+          //MainWindow.log("smBonus Dex from potion: " + percentageOfStat(xpotiondexterity.percent, tempdex));
+        }
+      }
+      //end potion check
       if (hawkseye.buff > 0) { tempdex *= 1.15; }
       if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant") {
         damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempdex + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempdex + 0.050720984 * DTR);
@@ -623,5 +639,8 @@ namespace Chocobro {
       }
     }
     // End Auto Attack
+
+    //Pots...
+    Ability xpotiondexterity = new XPotionDexterity();
   }
 }
