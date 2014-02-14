@@ -96,7 +96,7 @@ namespace Chocobro {
       decrement(ref bloodforblood);
       decrement(ref barrage);
       decrement(ref heavyshot);
-
+      decrement(ref xpotiondexterity);
 
       regen();
     }
@@ -255,6 +255,7 @@ namespace Chocobro {
           ability.dotbuff["straightshot"] = false;
           ability.dotbuff["hawkseye"] = false;
           ability.dotbuff["internalrelease"] = false;
+          ability.dotbuff["potion"] = false;
         }
         //If dot exists and ability doesn't miss, enable its time.
       
@@ -265,6 +266,8 @@ namespace Chocobro {
         if (straightshot.buff > 0) { ability.dotbuff["straightshot"] = true; }
         if (hawkseye.buff > 0) { ability.dotbuff["hawkseye"] = true; }
         if (internalrelease.buff > 0) { ability.dotbuff["internalrelease"] = true; }
+        if (xpotiondexterity.buff > 0) { ability.dotbuff["potion"] = true; }
+
 
 
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " DoT has been applied.  Time Left: " + ability.debuff);
@@ -291,6 +294,7 @@ namespace Chocobro {
           ability.dotbuff["straightshot"] = false;
           ability.dotbuff["hawkseye"] = false;
           ability.dotbuff["internalrelease"] = false;
+          ability.dotbuff["potion"] = false;
         }
       }
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
@@ -299,7 +303,7 @@ namespace Chocobro {
         var tickdmg = damage(ref ability, ability.dotPotency, true);
         ability.dotdamage += tickdmg;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickdmg + "  Damage - Time Left: " + ability.debuff);
-        //MainWindow.log("---- " + ability.name + " - Dots - RS: " + ability.dotbuff["ragingstrikes"] + " BFB: " + ability.dotbuff["bloodforblood"] + " SS: " + ability.dotbuff["straightshot"] + " HE: " + ability.dotbuff["hawkseye"] + " IR: " + ability.dotbuff["internalrelease"]);
+        MainWindow.log("---- " + ability.name + " - Dots - RS: " + ability.dotbuff["ragingstrikes"] + " BFB: " + ability.dotbuff["bloodforblood"] + " SS: " + ability.dotbuff["straightshot"] + " HE: " + ability.dotbuff["hawkseye"] + " IR: " + ability.dotbuff["internalrelease"] + " Potion: " + ability.dotbuff["potion"]);
         if (bloodletterproc == true) {
           MainWindow.log("!!PROC!! - Bloodletter reset!");
           bloodletter.procs += 1;
@@ -315,14 +319,14 @@ namespace Chocobro {
         if (ability.buff <= 0.0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
         }
-      }
+      } 
     }
 
     public int damage(ref Ability ability, int pot, bool dot = false) {
       double damageformula = 0.0;
       double tempdex = DEX;
       //potion check
-      if (xpotiondexterity.buff > 0) {
+      if (xpotiondexterity.buff > 0 || (dot == true && ability.dotbuff["potion"] == true)) {
         //check for max dex increase from pot - NEEDS to be refactored...
 
         if (percentageOfStat(xpotiondexterity.percent, tempdex) > xpotiondexterity.bonus) {
@@ -354,6 +358,7 @@ namespace Chocobro {
         if (ability.dotbuff["bloodforblood"]) { damageformula *= 1.10; }
         if (ability.dotbuff["straightshot"]) { critchance += 10; }
         if (ability.dotbuff["internalrelease"]) { critchance += 10; }
+        
       } else {
         if (ragingstrikes.buff > 0 && ability.name != "Flaming Arrow") { damageformula *= 1.20; }
         if (bloodforblood.buff > 0 && ability.name != "Flaming Arrow") { damageformula *= 1.10; }
@@ -414,6 +419,8 @@ namespace Chocobro {
       barrage.resetAbility();
       invigorate.resetAbility();
       autoattack.resetAbility();
+      // Dont forget pots! We can make global pots and food later.
+      xpotiondexterity.resetAbility();
 
 
     }

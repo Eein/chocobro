@@ -39,7 +39,8 @@ namespace Chocobro {
         {"straightshot",false},
         {"hawkseye",false},
         {"internalrelease",false},
-        {"fightorflight",false}
+        {"fightorflight",false},
+        {"potion", false}
     };
 
     public double bonus = 0; // for abilitiy specific bonuses and potions
