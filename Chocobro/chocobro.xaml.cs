@@ -10,7 +10,7 @@
 using System;
 using System.Windows;
 using System.IO;
-
+using System.Diagnostics;
 //-------------TODO-------------------
 // 1. Make options for Logs: None - Show - Debug :: this only applies to first iteration ALWAYS.
 // 2. Make streamwriter global for faster parsing.
@@ -26,6 +26,7 @@ namespace Chocobro {
   public partial class MainWindow : Window {
     //Create a random tick to start on.
     Random randtick = new Random();
+    Stopwatch stopwatch = new Stopwatch();
     private static readonly Random rand = new Random();
     //Global Definition
 
@@ -119,23 +120,30 @@ namespace Chocobro {
     }
 
     public void simulate() {
-
+      
+      stopwatch.Start();
       double[] DPSarray = new double[iterations];
       debug(); //have option to disable TODO:
-
+      var playerjob = Factory.Get(job.Text);
+      var p = playerjob;
+      double thisdps = 0;
       for (int x = 0; x < iterations; ++x) {
         //var resultarray = [];
         //var parsedDPS;
-        double thisdps = 0;
-        var p = Factory.Get(job.Text);
+        p = playerjob;
+        //reset shit.
         p.getStats(this);
+        p.resetAbilities();
+        resetSim();
+        thisdps = 0;
+
         while (!time.Equals(fightlength)) {
           handler(ref p);
           tickevent();
           time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto, p.OOT, p.OOM);
         }
         thisdps = p.totaldamage / fightlength;
-        if (x == iterations - 1) {
+        if (x == 0) {
 
           //read logstring into file
           writeLog();
@@ -149,9 +157,11 @@ namespace Chocobro {
           //reset globals
 
         }
+
+        //reset job object
+
         DPSarray[x] = thisdps;
         resetSim();
-        time = 0;
         fightlength = Convert.ToInt16(fightLengthInput.Text);
         //Somehow pass DPS back to array here
         //resultarray[x] = totalDPS;
@@ -161,11 +171,18 @@ namespace Chocobro {
       double totaldps = 0;
       for (int index = 0; index < DPSarray.Length; index++) {
         totaldps += DPSarray[index];
+        //reportstring += "eachDPS: " + DPSarray[index];
+        //reportstring += Environment.NewLine;
       }
       double averageDPS = totaldps / iterations;
-      reportstring = "AvgDPS: " + averageDPS;
+      double simulationtime = (double)stopwatch.ElapsedMilliseconds;
+      stopwatch.Stop();
+      reportstring += "AvgDPS: " + averageDPS + " iterations: " + DPSarray.Length;
+      reportstring += Environment.NewLine;
+      reportstring += "Total Simulation Time: " + ( simulationtime / 1000) + "s.";
       writeReport();
       readReport();
+      stopwatch.Reset();
     }
 
     //Misc GUI elements
@@ -235,11 +252,11 @@ namespace Chocobro {
     }
     public void resetSim() {
       time = 0.00;
-      fightlength = 0.00;
+     
       servertime = 0;
       servertick = 0;
       logstring = "";
-      //reportstring = "";
+      reportstring = "";
 
     }
     public void readLog() {

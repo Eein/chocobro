@@ -4,21 +4,21 @@ namespace Chocobro {
 
   public partial class Ability : MainWindow {
 
-    public string name;
-    public string abilityType;
-    public int potency;
-    public int combopotency;
-    public int dotPotency;
-    public double recastTime;
-    public double animationDelay;
-    public int TPcost;
-    public double castTime;
-    public double duration;
+    public string name = "null";
+    public string abilityType = "null";
+    public int potency = 0;
+    public int combopotency = 0;
+    public int dotPotency = 0;
+    public double recastTime = 0;
+    public double animationDelay = 0;
+    public int TPcost = 0;
+    public double castTime = 0;
+    public double duration = 0;
     public double nextCast = 0.0;
-    public double buff;
-    public double debuff;
-    public double buffTime;
-    public double debuffTime;
+    public double buff = 0;
+    public double debuff = 0;
+    public double buffTime = 0;
+    public double debuffTime = 0;
     public bool autoa = false;
 
     public int crits = 0;
@@ -29,6 +29,7 @@ namespace Chocobro {
     public int tickcrits = 0;
     public double damage = 0;
     public double dotdamage = 0;
+
 
     //public bool dot = false; TODO: add this w/ smn.
     // Dots using dictionary lookup. easyyy.
@@ -43,7 +44,17 @@ namespace Chocobro {
 
     public double bonus = 0; // for abilitiy specific bonuses and potions
     public double percent = 0; // for things that increase by percentage.
-
+    public void resetAbility() {
+      this.crits = 0;
+      this.hits = 0;
+      this.misses = 0;
+      this.procs = 0;
+      this.ticks = 0;
+      this.tickcrits = 0;
+      this.nextCast = 0.0;
+      this.damage = 0;
+      this.dotdamage = 0;
+    }
     //public double calculateCrit(Job _player) { return (0.0693 * _player.CRIT - 18.486); }
 
 

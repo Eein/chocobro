@@ -65,8 +65,20 @@ namespace Chocobro {
       AAPOT = AADMG / System.Convert.ToDouble(WEP);
 
       //Define AA
-      
-
+      totaldamage = 0;
+      numberofcrits = 0;
+      numberofattacks = 0;
+      numberofhits = 0;
+      numberofticks = 0;
+      numberofmisses = 0;
+      nextability = 0.00;
+      nextinstant = 0.00;
+      nextauto = 0.00;
+      TP = 1000;
+      MP = 1000;
+      actionmade = false;
+      OOT = false;
+      OOM = false;
     }
    
     public double calculateGCD() {
@@ -112,7 +124,7 @@ namespace Chocobro {
     }
 
     //Pots
-    
+ 
     public class XPotionDexterity : Ability {
       public XPotionDexterity() {
         //HQ
@@ -136,6 +148,9 @@ namespace Chocobro {
       var value = percent / 100;
       value = value * stat;
       return value;
+    }
+    public virtual void resetAbilities() {
+      //nothing
     }
 
   }

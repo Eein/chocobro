@@ -395,6 +395,31 @@ namespace Chocobro {
     // Ability Definition
     // -------------------
 
+    //resets
+    public override void resetAbilities() {
+      //This is required to clear the cache before each set of iterations.
+      heavyshot.resetAbility();
+      windbite.resetAbility();
+      venomousbite.resetAbility();
+      straightshot.resetAbility();
+      bloodletter.resetAbility();
+      miserysend.resetAbility();
+      bluntarrow.resetAbility();
+      repellingshot.resetAbility();
+      flamingarrow.resetAbility();
+      internalrelease.resetAbility();
+      bloodforblood.resetAbility();
+      ragingstrikes.resetAbility();
+      hawkseye.resetAbility();
+      barrage.resetAbility();
+      invigorate.resetAbility();
+      autoattack.resetAbility();
+
+
+    }
+
+
+
     // Heavy Shot ---------------------
 
     Ability heavyshot = new Heavyshot();
@@ -457,7 +482,6 @@ namespace Chocobro {
         name = "Straight Shot";
         potency = 140;
         dotPotency = 0;
-
         TPcost = 70;
         animationDelay = 0.8;
         abilityType = "Weaponskill";
