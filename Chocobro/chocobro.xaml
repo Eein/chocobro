@@ -26,7 +26,7 @@
             </MenuItem>
         </Menu>
         <TextBox x:Name="fightLengthInput" HorizontalAlignment="Left" Height="22" Margin="10,473,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="100"/>
-        <Label Content="Fight Length:" HorizontalAlignment="Left" Margin="10,452,0,0" VerticalAlignment="Top"/>
+        <Label Content="Fight Length:" HorizontalAlignment="Left" Margin="10,451,0,0" VerticalAlignment="Top"/>
         <TabControl HorizontalAlignment="Left" Height="468" Margin="147,27,0,0" VerticalAlignment="Top" Width="671" Grid.ColumnSpan="2">
             <TabItem Header="Console" RenderTransformOrigin="1.78,0.5" Margin="111,-2,-115,0">
 
@@ -87,6 +87,9 @@
         <TextBox x:Name="SKSPD" HorizontalAlignment="Left" Height="20" Margin="77,352,0,0" TextWrapping="Wrap" Text="457" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="SPSPD&#xA;" HorizontalAlignment="Right" Margin="0,374,589,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="SPSPD" HorizontalAlignment="Left" Height="20" Margin="77,374,0,0" TextWrapping="Wrap" Text="341" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="iterationsinput" HorizontalAlignment="Left" Height="22" Margin="10,430,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="100"/>
+        <Label Content="Iterations:" HorizontalAlignment="Left" Margin="10,408,0,0" VerticalAlignment="Top" Height="30"/>
+        <Button x:Name="ClearLogs" Content="  Clear   " HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Clear" Grid.Row="1" Margin="0,12,132,12" Grid.Column="1" />
 
     </Grid>
 </Window>

@@ -33,10 +33,14 @@ namespace Chocobro {
     public static double fightlength = 0.00;
     public static int servertime = 0;
     public static int servertick = 0;
+    public static int iterations = 0;
+
     //Resources
     public static string logstring = "";
     public static string reportstring = "";
     public static double AADELAY;
+
+
     //Character Sheet
 
 
@@ -85,7 +89,7 @@ namespace Chocobro {
         } else {
           value = Math.Min(st_t, auto);
         }
-      } else { 
+      } else {
         if (instant > time) {
           value = Math.Min(instant, Math.Min(ability, Math.Min(st_t, auto)));
 
@@ -113,25 +117,55 @@ namespace Chocobro {
       var value = (0.0693 * crit) - 18.486;
       return value;
     }
+
     public void simulate() {
-      
-      var p = Factory.Get(job.Text);
-      p.getStats(this);
+
+      double[] DPSarray = new double[iterations];
       debug(); //have option to disable TODO:
-      while (!time.Equals(fightlength)) {
-        handler(ref p);
-        tickevent();
-        time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto, p.OOT, p.OOM);
+
+      for (int x = 0; x < iterations; ++x) {
+        //var resultarray = [];
+        //var parsedDPS;
+        double thisdps = 0;
+        var p = Factory.Get(job.Text);
+        p.getStats(this);
+        while (!time.Equals(fightlength)) {
+          handler(ref p);
+          tickevent();
+          time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto, p.OOT, p.OOM);
+        }
+        thisdps = p.totaldamage / fightlength;
+        if (x == iterations - 1) {
+
+          //read logstring into file
+          writeLog();
+          p.report();
+          writeReport();
+          readReport();
+          clearReport();
+          reportstring = "";
+          //parse log into box
+          readLog();
+          //reset globals
+
+        }
+        DPSarray[x] = thisdps;
+        resetSim();
+        time = 0;
+        fightlength = Convert.ToInt16(fightLengthInput.Text);
+        //Somehow pass DPS back to array here
+        //resultarray[x] = totalDPS;
+        //totalDPS = 0;
+      } //end for
+      clearReport();
+      double totaldps = 0;
+      for (int index = 0; index < DPSarray.Length; index++) {
+        totaldps += DPSarray[index];
       }
-      p.report();
-      //read logstring into file
-      writeLog();
+      double averageDPS = totaldps / iterations;
+      reportstring = "AvgDPS: " + averageDPS;
       writeReport();
-      //parse log into box
-      readLog();
       readReport();
-      //reset globals
-      resetSim();
     }
 
     //Misc GUI elements
@@ -142,17 +176,29 @@ namespace Chocobro {
       //TODO: disable button
 
       //Read Fight Length in as double.
+      iterations = Convert.ToInt16(iterationsinput.Text);
       fightlength = Convert.ToInt16(fightLengthInput.Text);
       console.Document.Blocks.Clear(); // Clear Console before starting.
       reportConsole.Document.Blocks.Clear(); // Clear Report before starting.
       clearLog();
       clearReport();
+      logstring = "";
+      reportstring = "";
       console.AppendText("" + Environment.NewLine); // This is required because who knows....
       simulate();
-
+      //console.AppendText("" + Environment.NewLine + DPSarray[0] + ", " + DPSarray[1] + ", " + DPSarray[2]);
     }
     private void Window_Closed(object sender, EventArgs e) {
       Application.Current.Shutdown();
+    }
+
+    private void Button_Clear(object sender, RoutedEventArgs e) {
+      clearLog();
+      clearReport();
+      console.Document.Blocks.Clear();
+      reportConsole.Document.Blocks.Clear();
+      resetSim();
+      console.AppendText("" + Environment.NewLine);
     }
 
     // Logging
@@ -193,8 +239,8 @@ namespace Chocobro {
       servertime = 0;
       servertick = 0;
       logstring = "";
-      reportstring = "";
-     
+      //reportstring = "";
+
     }
     public void readLog() {
       StreamReader sr = new StreamReader("output.txt"); //TODO allow user to rename this.
