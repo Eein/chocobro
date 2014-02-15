@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace Chocobro {
 
-  public partial class Ability : MainWindow {
+  public partial class Ability {
 
     public string name = "null";
     public string abilityType = "null";

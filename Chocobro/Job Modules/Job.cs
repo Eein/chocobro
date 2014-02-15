@@ -49,6 +49,8 @@ namespace Chocobro {
     
 
     public void getStats(MainWindow cs) {
+      cs.Dispatcher.Invoke((Action)(() =>
+    {
       STR = Convert.ToInt32(cs.STR.Text);
       DEX = Convert.ToInt32(cs.DEX.Text);
       VIT = Convert.ToInt32(cs.VIT.Text);
@@ -70,9 +72,9 @@ namespace Chocobro {
       statweight = Convert.ToString(cs.statweights.Text);
       delta = Convert.ToInt32(cs.Delta.Text);
       StatGrwth = Convert.ToInt32(cs.StatGrwth.Text);
-      
 
-      
+
+
 
 
       //Define AA
@@ -90,6 +92,9 @@ namespace Chocobro {
       actionmade = false;
       OOT = false;
       OOM = false;
+        
+    }));
+      
     }
    
     public double calculateGCD() {

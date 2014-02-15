@@ -11,6 +11,7 @@ using System;
 using System.Windows;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 //-------------TODO-------------------
 // 1. Make options for Logs: None - Show - Debug :: this only applies to first iteration ALWAYS.
 // 2. Make streamwriter global for faster parsing.
@@ -43,19 +44,13 @@ namespace Chocobro {
 
 
     //Character Sheet
-
-
-
-    public void handler(ref Job p) {
-      p.actionmade = false; //temp
-      p.rotation();
-
-    }
-    static class Factory {
+    public class Factory {
       /// <summary>
       /// Decides which class to instantiate.
       /// </summary>
-      public static Job Get(string s) {
+      /// 
+      public Job Get(string s) {
+
         switch (s) {
           case "Bard": return new Bard();
           case "Paladin": return new Paladin();
@@ -64,6 +59,14 @@ namespace Chocobro {
         }
       }
     }
+
+
+    public void handler(ref Job p) {
+      p.actionmade = false; //temp
+      p.rotation();
+
+    }
+
     // Global Math
 
     public static double d100(int min, int max) {
@@ -120,17 +123,32 @@ namespace Chocobro {
     }
 
     public void simulate() {
-      
+      var jobtext = "";
+      var statweighttext = "";
+      var fightlengthtext = "";
+      this.Dispatcher.Invoke((Action)(() =>
+          {
+            jobtext = job.Text;
+            statweighttext = statweights.Text;
+            fightlengthtext = fightLengthInput.Text;
+          }));
+       
+
+
+
       stopwatch.Start();
       
       debug(); //have option to disable TODO:
-      var playerjob = Factory.Get(job.Text);
+      Factory fact = new Factory();
+
+      var playerjob = fact.Get(jobtext);
+   
       var p = playerjob;
       double thisdps = 0;
       double[] DPSavgarray = new double[21];
       var counter1 = 0;
       p = playerjob;
-      string swselected = Convert.ToString(statweights.Text);
+      string swselected = Convert.ToString(statweighttext);
       var trigger1 = 50;
       if (swselected == "None") { trigger1 = -50; }
       for (int y = -50; y <= trigger1; y += 5) {
@@ -148,7 +166,7 @@ namespace Chocobro {
           if (swselected == "Skill Speed") { p.SKS += y; }
           p.resetAbilities();
           resetSim();
-          fightlength = (Convert.ToInt16(fightLengthInput.Text)) + (d100(0, (int)Math.Floor(Convert.ToInt16(fightLengthInput.Text) * 0.1) ) - (int)Math.Floor(Convert.ToInt16(fightLengthInput.Text) * 0.05));
+          fightlength = (Convert.ToInt16(fightlengthtext)) + (d100(0, (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.1)) - (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.05));
           thisdps = 0;
 
           while (!time.Equals(fightlength)) {
@@ -214,7 +232,9 @@ namespace Chocobro {
     }
     private void Button_Click(object sender, RoutedEventArgs e) {
       //TODO: disable button
-
+      this.Dispatcher.Invoke((Action)(() =>
+    {
+      Thread simming = new Thread(simulate);
       //Read Fight Length in as double.
       iterations = Convert.ToInt16(iterationsinput.Text);
       fightlength = Convert.ToInt16(fightLengthInput.Text);
@@ -225,7 +245,9 @@ namespace Chocobro {
       logstring = "";
       reportstring = "";
       console.AppendText("" + Environment.NewLine); // This is required because who knows....
-      simulate();
+      simming.Start();
+    }));
+      
       //console.AppendText("" + Environment.NewLine + DPSarray[0] + ", " + DPSarray[1] + ", " + DPSarray[2]);
     }
     private void Window_Closed(object sender, EventArgs e) {
@@ -283,16 +305,24 @@ namespace Chocobro {
 
     }
     public void readLog() {
+      this.Dispatcher.Invoke((Action)(() =>
+    {
       StreamReader sr = new StreamReader("output.txt"); //TODO allow user to rename this.
       var readContents = sr.ReadToEnd();
       console.AppendText(readContents);
       sr.Close();
+    }));
+     
     }
     public void readReport() {
+      this.Dispatcher.Invoke((Action)(() =>
+    {
       StreamReader sr = new StreamReader("report.txt"); //TODO allow user to rename this.
       var readContents = sr.ReadToEnd();
       reportConsole.AppendText(readContents);
       sr.Close();
+    }));
+    
     }
 
     private void console_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) {

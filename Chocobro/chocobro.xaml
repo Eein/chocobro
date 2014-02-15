@@ -45,7 +45,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Options" RenderTransformOrigin="-0.339,0.409" Margin="-55,-2,51,0">
-                <Grid Background="#FFE5E5E5" Margin="0,1,0,-1">
+                <Grid Background="White" Margin="0,1,0,-1">
                     <Label Content="Stat Weights:" HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Top" Height="30"/>
                     <ComboBox x:Name="statweights" HorizontalAlignment="Left" Margin="104,12,0,0" VerticalAlignment="Top" Width="120" Height="22"  >
                         <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="118" IsSelected="True"/>
