@@ -16,6 +16,9 @@ namespace Chocobro {
     public int MND { get; set; }
     public int PIE { get; set; }
     public int WEP { get; set; }
+    public string statweight { get; set; }
+    public int StatGrwth { get; set; }
+    public int delta { get; set; }
     public double AADMG = 0;
     public double AAPOT = 0;
     public double AADELAY = 0;
@@ -63,6 +66,14 @@ namespace Chocobro {
       SPS = Convert.ToInt32(cs.SPSPD.Text);
       ACC = Convert.ToInt32(cs.ACC.Text);
       AAPOT = AADMG / System.Convert.ToDouble(WEP);
+
+      statweight = Convert.ToString(cs.statweights.Text);
+      delta = Convert.ToInt32(cs.Delta.Text);
+      StatGrwth = Convert.ToInt32(cs.StatGrwth.Text);
+      
+
+      
+
 
       //Define AA
       totaldamage = 0;

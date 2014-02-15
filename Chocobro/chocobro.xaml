@@ -45,7 +45,28 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Options" RenderTransformOrigin="-0.339,0.409" Margin="-55,-2,51,0">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5" Margin="0,1,0,-1">
+                    <Label Content="Stat Weights:" HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Top" Height="30"/>
+                    <ComboBox x:Name="statweights" HorizontalAlignment="Left" Margin="104,12,0,0" VerticalAlignment="Top" Width="120" Height="22"  >
+                        <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="118" IsSelected="True"/>
+                        <ComboBoxItem Content="Weapon Damage" HorizontalAlignment="Left" Width="118" IsEnabled="True"/>
+                        <ComboBoxItem Content="Dexterity" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="Accuracy" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="Crit" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="Determination" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="Skill Speed" HorizontalAlignment="Left" Width="118"/>
+
+
+                    </ComboBox>
+                    <Label Content="Min/Max Stat Growth:" HorizontalAlignment="Left" Margin="41,34,0,0" VerticalAlignment="Top" Height="30"/>
+                    <TextBox x:Name="StatGrwth" HorizontalAlignment="Left" Height="20" Margin="172,39,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="50" IsReadOnly="True" RenderTransformOrigin="2.781,-1.658" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+                    <Label Content="Delta" HorizontalAlignment="Left" Margin="41,64,0,0" VerticalAlignment="Top" Height="30"/>
+                    <ComboBox x:Name="Delta" HorizontalAlignment="Left" Margin="172,66,0,0" VerticalAlignment="Top" Width="50" Height="22" BorderBrush="White"  >           
+                        <ComboBoxItem Content="2" HorizontalAlignment="Left" Width="32" IsEnabled="False"/>
+                        <ComboBoxItem Content="5" HorizontalAlignment="Left" Width="32" IsSelected="True"/>
+                        <ComboBoxItem Content="10" HorizontalAlignment="Left" Width="32" IsEnabled="False"/>
+                    </ComboBox>
+                </Grid>
             </TabItem>
             <TabItem Header="Report" HorizontalAlignment="Left" Width="61" Margin="-55,-2,0,0">
                 <Grid Background="#FFE5E5E5" Margin="-1">
@@ -68,7 +89,7 @@
         <Label Content="STR&#xA;" HorizontalAlignment="Right" Margin="0,154,604,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="STR" HorizontalAlignment="Left" Height="20" Margin="77,154,0,0" TextWrapping="Wrap" Text="179" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="DEX&#xA;" HorizontalAlignment="Right" Margin="0,176,601,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
-        <TextBox x:Name="DEX" HorizontalAlignment="Left" Height="20" Margin="77,176,0,0" TextWrapping="Wrap" Text="500" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="DEX" HorizontalAlignment="Left" Height="20" Margin="77,176,0,0" TextWrapping="Wrap" Text="505" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="VIT&#xA;" HorizontalAlignment="Right" Margin="0,198,606,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="VIT" HorizontalAlignment="Left" Height="20" Margin="77,198,0,0" TextWrapping="Wrap" Text="380" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="INT&#xA;" HorizontalAlignment="Right" Margin="0,220,606,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
@@ -78,13 +99,13 @@
         <Label Content="PIE&#xA;" HorizontalAlignment="Right" Margin="0,264,607,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="PIE" HorizontalAlignment="Left" Height="20" Margin="77,264,0,0" TextWrapping="Wrap" Text="172" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="CRIT&#xA;" HorizontalAlignment="Right" Margin="0,286,599,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
-        <TextBox x:Name="CRIT" HorizontalAlignment="Left" Height="20" Margin="77,286,0,0" TextWrapping="Wrap" Text="515" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="CRIT" HorizontalAlignment="Left" Height="20" Margin="77,286,0,0" TextWrapping="Wrap" Text="518" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="DTR&#xA;" HorizontalAlignment="Right" Margin="0,308,601,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
-        <TextBox x:Name="DTR" HorizontalAlignment="Left" Height="20" Margin="77,308,0,0" TextWrapping="Wrap" Text="269" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="DTR" HorizontalAlignment="Left" Height="20" Margin="77,308,0,0" TextWrapping="Wrap" Text="280" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="ACC&#xA;" HorizontalAlignment="Right" Margin="0,330,601,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
-        <TextBox x:Name="ACC" HorizontalAlignment="Left" Height="20" Margin="77,330,0,0" TextWrapping="Wrap" Text="409" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="ACC" HorizontalAlignment="Left" Height="20" Margin="77,330,0,0" TextWrapping="Wrap" Text="475" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="SKSPD&#xA;" HorizontalAlignment="Right" Margin="0,352,589,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
-        <TextBox x:Name="SKSPD" HorizontalAlignment="Left" Height="20" Margin="77,352,0,0" TextWrapping="Wrap" Text="457" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="SKSPD" HorizontalAlignment="Left" Height="20" Margin="77,352,0,0" TextWrapping="Wrap" Text="402" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="SPSPD&#xA;" HorizontalAlignment="Right" Margin="0,374,589,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0"/>
         <TextBox x:Name="SPSPD" HorizontalAlignment="Left" Height="20" Margin="77,374,0,0" TextWrapping="Wrap" Text="341" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <TextBox x:Name="iterationsinput" HorizontalAlignment="Left" Height="22" Margin="10,430,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="100"/>

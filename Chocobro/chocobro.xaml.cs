@@ -122,64 +122,86 @@ namespace Chocobro {
     public void simulate() {
       
       stopwatch.Start();
-      double[] DPSarray = new double[iterations];
+      
       debug(); //have option to disable TODO:
       var playerjob = Factory.Get(job.Text);
       var p = playerjob;
       double thisdps = 0;
-      for (int x = 0; x < iterations; ++x) {
-        //var resultarray = [];
-        //var parsedDPS;
-        p = playerjob;
-        //reset shit.
-        p.getStats(this);
-        p.resetAbilities();
-        resetSim();
-        thisdps = 0;
+      double[] DPSavgarray = new double[21];
+      var counter1 = 0;
+      p = playerjob;
+      string swselected = Convert.ToString(statweights.Text);
+      var trigger1 = 50;
+      if (swselected == "None") { trigger1 = -50; }
+      for (int y = -50; y <= trigger1; y += 5) {
 
-        while (!time.Equals(fightlength)) {
-          handler(ref p);
-          tickevent();
-          time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto, p.OOT, p.OOM);
+        double[] DPSarray = new double[iterations];
+
+        for (int x = 0; x < iterations; ++x) {
+
+          p.getStats(this);
+          if (swselected == "Weapon Damage") { p.WEP += y; }
+          if (swselected == "Dexterity") { p.DEX += y; }
+          if (swselected == "Accuracy") { p.ACC += y; }
+          if (swselected == "Crit") { p.CRIT += y; }
+          if (swselected == "Determination") { p.CRIT += y; }
+          if (swselected == "Skill Speed") { p.SKS += y; }
+          p.resetAbilities();
+          resetSim();
+          fightlength = Convert.ToInt16(fightLengthInput.Text);
+          thisdps = 0;
+
+          while (!time.Equals(fightlength)) {
+            handler(ref p);
+            tickevent();
+            time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto, p.OOT, p.OOM);
+          }
+          
+          if ((x == 0) && (y == 0 || trigger1 == -50)) {
+
+            writeLog();
+            p.report();
+            writeReport();
+            readReport();
+            clearReport();
+            reportstring = "";
+            readLog();
+            
+          }
+
+          thisdps = p.totaldamage / fightlength;
+          DPSarray[x] = thisdps;
+          
+        } //end iteration set
+        
+        double totaldps = 0;
+
+        for (int index = 0; index < DPSarray.Length; index++) {
+          totaldps += DPSarray[index];
+          //reportstring += "eachDPS: " + DPSarray[index];
+          //reportstring += Environment.NewLine;
         }
-        thisdps = p.totaldamage / fightlength;
-        if (x == 0) {
 
-          //read logstring into file
-          writeLog();
-          p.report();
-          writeReport();
-          readReport();
-          clearReport();
-          reportstring = "";
-          //parse log into box
-          readLog();
-          //reset globals
+        double averageDPS = totaldps / iterations;
+        DPSavgarray[counter1] = averageDPS; //array of all DPSavg's from all sets of iterations
+        counter1 += 1;
 
-        }
+      } //end statweight set
 
-        //reset job object
-
-        DPSarray[x] = thisdps;
-        resetSim();
-        fightlength = Convert.ToInt16(fightLengthInput.Text);
-        //Somehow pass DPS back to array here
-        //resultarray[x] = totalDPS;
-        //totalDPS = 0;
-      } //end for
-      clearReport();
-      double totaldps = 0;
-      for (int index = 0; index < DPSarray.Length; index++) {
-        totaldps += DPSarray[index];
-        //reportstring += "eachDPS: " + DPSarray[index];
-        //reportstring += Environment.NewLine;
+      reportstring += "AvgDPS" + " + StatWeights for \"" + swselected + "\"";
+      reportstring += Environment.NewLine;
+      for (int index = 0; index < counter1; index++) {  //prints Each DPSavg per interval
+        reportstring += DPSavgarray[index];
+        reportstring += Environment.NewLine;
       }
-      double averageDPS = totaldps / iterations;
+      
       double simulationtime = (double)stopwatch.ElapsedMilliseconds;
       stopwatch.Stop();
-      reportstring += "AvgDPS: " + averageDPS + " iterations: " + DPSarray.Length;
+      //reportstring += "AvgDPS: " + averageDPS + " iterations: " + DPSarray.Length;
+      //reportstring += Environment.NewLine;
       reportstring += Environment.NewLine;
       reportstring += "Total Simulation Time: " + ( simulationtime / 1000) + "s.";
+      reportstring += Environment.NewLine;
       writeReport();
       readReport();
       stopwatch.Reset();
