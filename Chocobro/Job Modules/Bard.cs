@@ -24,7 +24,7 @@ namespace Chocobro {
       MainWindow.report("Blunt Arrow - Hits: " + bluntarrow.hits + " Misses: " + bluntarrow.misses + " Crits: " + bluntarrow.crits + " Procs: " + bluntarrow.procs + " TotalDMG: " + bluntarrow.damage);
       MainWindow.report("Windbite - Hits: " + windbite.hits + " Misses: " + windbite.misses + " Crits: " + windbite.crits + " Ability Damage: " + windbite.damage);
       MainWindow.report("WindbiteDOT - Ticks: " + windbite.ticks + " Tick Crits: " + windbite.tickcrits + " Dot Damage: " + windbite.dotdamage + " Procs: " + windbite.procs);
-      MainWindow.report("Venomous Bite - Hits: " + venomousbite.hits + " Misses: " + venomousbite.misses + " Crits: " + venomousbite.crits + " Ticks: " + venomousbite.ticks + " Ability Damage: " + venomousbite.damage + " TotalDMG: " + (venomousbite.damage + venomousbite.dotdamage));
+      MainWindow.report("Venomous Bite - Hits: " + venomousbite.hits + " Misses: " + venomousbite.misses + " Crits: " + venomousbite.crits + " Ability Damage: " + venomousbite.damage);
       MainWindow.report("Venomous BiteDOT - Ticks: " + venomousbite.ticks + " Tick Crits: " + venomousbite.tickcrits + " Dot Damage: " + venomousbite.dotdamage + " Procs: " + venomousbite.procs);
       MainWindow.report("");
       MainWindow.report("-------------------------------------------------------------------------------");
