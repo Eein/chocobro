@@ -175,14 +175,15 @@ namespace Chocobro {
         } //end iteration set
         
         double totaldps = 0;
-
-        for (int index = 0; index < DPSarray.Length; index++) {
+        var slice = Math.Floor(DPSarray.Length * 0.05);
+        Array.Sort(DPSarray);
+        for (int index = (int)slice; index < DPSarray.Length - (int)slice; index++) {
           totaldps += DPSarray[index];
-          //reportstring += "eachDPS: " + DPSarray[index];
+          //reportstring += (index - (int)slice + 1) + "/" + (DPSarray.Length - (2 * (int)slice)) + " eachDPS: " + DPSarray[index];
           //reportstring += Environment.NewLine;
         }
 
-        double averageDPS = totaldps / iterations;
+        double averageDPS = totaldps / (DPSarray.Length - (2 * (int)slice));
         DPSavgarray[counter1] = averageDPS; //array of all DPSavg's from all sets of iterations
         counter1 += 1;
 
