@@ -148,7 +148,7 @@ namespace Chocobro {
           if (swselected == "Skill Speed") { p.SKS += y; }
           p.resetAbilities();
           resetSim();
-          fightlength = Convert.ToInt16(fightLengthInput.Text);
+          fightlength = (Convert.ToInt16(fightLengthInput.Text)) + (d100(0, (int)Math.Floor(Convert.ToInt16(fightLengthInput.Text) * 0.1) ) - (int)Math.Floor(Convert.ToInt16(fightLengthInput.Text) * 0.05));
           thisdps = 0;
 
           while (!time.Equals(fightlength)) {
