@@ -28,12 +28,13 @@ namespace Chocobro {
       MainWindow.report("Venomous BiteDOT - Ticks: " + venomousbite.ticks + " Tick Crits: " + venomousbite.tickcrits + " Dot Damage: " + venomousbite.dotdamage + " Procs: " + venomousbite.procs);
       MainWindow.report("");
       MainWindow.report("-------------------------------------------------------------------------------");
+      MainWindow.report("If you have multiple iterations, results are coming soon....");
     }
     public override void rotation() {
 
       var gcd = calculateGCD();
       autoattack.recastTime = AADELAY;
-
+      regen();
       if (heavyshot.buff <= 0) { heavyshotproc = false; }
       if (heavyshotproc == true) {
           execute(ref straightshot);
@@ -98,7 +99,7 @@ namespace Chocobro {
       decrement(ref heavyshot);
       decrement(ref xpotiondexterity);
 
-      regen();
+      
     }
 
     public void execute(ref Ability ability) {
@@ -117,14 +118,18 @@ namespace Chocobro {
 
       }
 
-      if (ability.abilityType == "Weaponskill") {
+      if (ability.abilityType == "Weaponskill" && !OOT) {
 
         //If time >= next cast time and time >= nextability)
         if (TP - ability.TPcost < 0) { //attempted to not allow TP to be less than 0, needs to be remade
           MainWindow.log("Was unable to execute " + ability.name + ". Not enough TP. Current TP is " + TP + "TP.");
-          nextability = MainWindow.time;
+          //nextability = MainWindow.time;
+          //force nextability to next server tick
+          //if invigorate is used and OOM then it resets the time to now.
+          nextability = MainWindow.servertime + (3 - MainWindow.servertick);
           OOT = true;
         } else {
+          
           if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
             //Get game time (remove decimal error)
             MainWindow.time = MainWindow.floored(MainWindow.time);
@@ -188,6 +193,10 @@ namespace Chocobro {
       if (ability.name == "Invigorate") {
         TP += 400;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 400 TP Restored. TP: " + TP);
+        if (OOT) {
+          OOT = false;
+          nextability = MainWindow.time;
+        }
       }
 
       if (ability.abilityType == "Cooldown") {
@@ -303,7 +312,7 @@ namespace Chocobro {
         var tickdmg = damage(ref ability, ability.dotPotency, true);
         ability.dotdamage += tickdmg;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickdmg + "  Damage - Time Left: " + ability.debuff);
-        MainWindow.log("---- " + ability.name + " - Dots - RS: " + ability.dotbuff["ragingstrikes"] + " BFB: " + ability.dotbuff["bloodforblood"] + " SS: " + ability.dotbuff["straightshot"] + " HE: " + ability.dotbuff["hawkseye"] + " IR: " + ability.dotbuff["internalrelease"] + " Potion: " + ability.dotbuff["potion"]);
+        //MainWindow.log("---- " + ability.name + " - Dots - RS: " + ability.dotbuff["ragingstrikes"] + " BFB: " + ability.dotbuff["bloodforblood"] + " SS: " + ability.dotbuff["straightshot"] + " HE: " + ability.dotbuff["hawkseye"] + " IR: " + ability.dotbuff["internalrelease"] + " Potion: " + ability.dotbuff["potion"]);
         if (bloodletterproc == true) {
           MainWindow.log("!!PROC!! - Bloodletter reset!");
           bloodletter.procs += 1;

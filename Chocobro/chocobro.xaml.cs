@@ -12,6 +12,8 @@ using System.Windows;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
+using System.Collections.Generic;
+using System.Linq;
 //-------------TODO-------------------
 // 1. Make options for Logs: None - Show - Debug :: this only applies to first iteration ALWAYS.
 // 2. Make streamwriter global for faster parsing.
@@ -36,7 +38,7 @@ namespace Chocobro {
     public static int servertime = 0;
     public static int servertick = 0;
     public static int iterations = 0;
-
+    public static bool logging = true;
     //Resources
     public static string logstring = "";
     public static string reportstring = "";
@@ -86,22 +88,42 @@ namespace Chocobro {
     }
     public static double nextTime(double instant, double ability, double st_t, double auto, bool OOT, bool OOM) {
       var value = 0.0;
-      if (OOT) { //if out of TP
-        if (instant > time) {
-          value = Math.Min(instant, Math.Min(st_t, auto));
-
-        } else {
-          value = Math.Min(st_t, auto);
-        }
-      } else {
-        if (instant > time) {
-          value = Math.Min(instant, Math.Min(ability, Math.Min(st_t, auto)));
-
-        } else {
-          value = Math.Min(ability, Math.Min(st_t, auto));
-        }
+      
+      List<double> valuearray = new List<double>();
+      if (instant > time) {
+        valuearray.Add(instant);
       }
-      //log("Next Action - " + value.ToString("F2") + " !! min value");
+      if (ability > time) {
+        valuearray.Add(ability);
+      }
+      if (st_t > time) {
+        valuearray.Add(st_t);
+      }
+      if (auto > time) {
+        valuearray.Add(auto);
+      }
+      //if (OOT) {
+      //  //REFACTOR? More accuracy is probably better
+      //  valuearray.Add(st_t + (3 - servertick));
+      //}
+      value = valuearray.Min();
+
+  //    if (OOT) { //if out of TP
+  //      if (instant > time) {
+  //        value = Math.Min(instant, Math.Min(st_t, auto));
+  //
+  //      } else {
+  //        value = Math.Min(st_t, auto);
+  //      }
+  //    } else {
+  //      if (instant > time) {
+  //        value = Math.Min(instant, Math.Min(ability, Math.Min(st_t, auto)));
+  //
+  //      } else {
+  //        value = Math.Min(ability, Math.Min(st_t, auto));
+  //      }
+  //    }
+  //    //log("Next Action - " + value.ToString("F2") + " !! min value");
       return value;
       //add cast here later.
     }
@@ -123,6 +145,7 @@ namespace Chocobro {
     }
 
     public void simulate() {
+      logging = true;
       var jobtext = "";
       var statweighttext = "";
       var fightlengthtext = "";
@@ -169,7 +192,7 @@ namespace Chocobro {
           fightlength = (Convert.ToInt16(fightlengthtext)) + (d100(0, (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.1)) - (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.05));
           thisdps = 0;
 
-          while (!time.Equals(fightlength)) {
+          while (time <= fightlength) {
             handler(ref p);
             tickevent();
             time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto, p.OOT, p.OOM);
@@ -184,7 +207,9 @@ namespace Chocobro {
             clearReport();
             reportstring = "";
             readLog();
-            
+
+          } else {
+            logging = false;
           }
 
           thisdps = p.totaldamage / fightlength;
@@ -265,8 +290,11 @@ namespace Chocobro {
 
     // Logging
     public static void log(String s, bool newline = true) {
-      logstring += s;
-      if (newline) { logstring += "\n"; }
+      if (logging) {
+        logstring += s;
+        if (newline) { logstring += "\n"; }
+      }
+     
     }
     public static void writeLog() {
       StreamWriter sw = File.AppendText("output.txt");
