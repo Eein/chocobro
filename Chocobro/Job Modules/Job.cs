@@ -73,10 +73,6 @@ namespace Chocobro {
       delta = Convert.ToInt32(cs.Delta.Text);
       StatGrwth = Convert.ToInt32(cs.StatGrwth.Text);
 
-
-
-
-
       //Define AA
       totaldamage = 0;
       numberofcrits = 0;

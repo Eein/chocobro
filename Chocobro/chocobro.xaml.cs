@@ -175,10 +175,30 @@ namespace Chocobro {
       var trigger1 = 50;
       if (swselected == "None") { trigger1 = -50; }
       for (int y = -50; y <= trigger1; y += 5) {
+        //progress bar incrementing here.. for stat weights
+        if (swselected != "None") {
+
+          this.Dispatcher.Invoke((Action)(() => {
+            progressBar.Value = (int)((100) - (trigger1 - (y)));
+          }));
+       
+
+        }
+        
 
         double[] DPSarray = new double[iterations];
 
         for (int x = 0; x < iterations; ++x) {
+
+          //alt progress bar for iterations only
+          if (swselected == "None") {
+           
+             this.Dispatcher.Invoke((Action)(() => {
+
+               this.progressBar.Value = (int)(((double)x / (double)iterations) * 100)+1;
+               //MessageBox.Show(""+progressBar.Value + " - val: " + bacon+ " - x: " +x+ " - iterations: " +iterations);
+             }));
+          }
 
           p.getStats(this);
           if (swselected == "Weapon Damage") { p.WEP += y; }
@@ -257,12 +277,15 @@ namespace Chocobro {
     }
     private void Button_Click(object sender, RoutedEventArgs e) {
       //TODO: disable button
+
+
       this.Dispatcher.Invoke((Action)(() =>
     {
+      this.progressBar.Value = 0;
       Thread simming = new Thread(simulate);
       //Read Fight Length in as double.
-      iterations = Convert.ToInt16(iterationsinput.Text);
-      fightlength = Convert.ToInt16(fightLengthInput.Text);
+      iterations = Convert.ToInt32(iterationsinput.Text);
+      fightlength = Convert.ToInt32(fightLengthInput.Text);
       console.Document.Blocks.Clear(); // Clear Console before starting.
       reportConsole.Document.Blocks.Clear(); // Clear Report before starting.
       clearLog();
@@ -340,6 +363,7 @@ namespace Chocobro {
       console.AppendText(readContents);
       sr.Close();
     }));
+ 
      
     }
     public void readReport() {
