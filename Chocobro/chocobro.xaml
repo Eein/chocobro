@@ -4,14 +4,14 @@
         Title="Chocobro v0.0.1" Height="578.194" Width="837.718" ScrollViewer.HorizontalScrollBarVisibility="Auto" ResizeMode="NoResize" Closed="Window_Closed">
     <Grid Margin="0,0,4,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="58*"/>
-            <ColumnDefinition Width="11*"/>
+            <ColumnDefinition Width="647*"/>
+            <ColumnDefinition Width="181*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="751*"/>
             <RowDefinition Height="65*"/>
         </Grid.RowDefinitions>
-        <Button x:Name="simulateButton" Content="Sim" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click" Height="20" Grid.Column="1" Grid.Row="1" Width="58" Margin="68,12,6,12" />
+        <Button x:Name="simulateButton" Content="Sim" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click" Height="20" Grid.Column="1" Grid.Row="1" Width="58" Margin="114,13,9,11" />
         <ComboBox x:Name="job" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Width="120" Height="22"  >
             <ComboBoxItem Content="Bard" HorizontalAlignment="Left" Width="118" IsSelected="True"/>
             <ComboBoxItem Content="Paladin" HorizontalAlignment="Left" Width="118" IsEnabled="False"/>
@@ -110,8 +110,8 @@
         <TextBox x:Name="SPSPD" HorizontalAlignment="Left" Height="20" Margin="77,374,0,0" TextWrapping="Wrap" Text="341" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <TextBox x:Name="iterationsinput" HorizontalAlignment="Left" Height="22" Margin="10,430,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="100"/>
         <Label Content="Iterations:" HorizontalAlignment="Left" Margin="10,408,0,0" VerticalAlignment="Top" Height="30" Width="62"/>
-        <Button x:Name="ClearLogs" Content="  Clear   " HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Clear" Grid.Row="1" Margin="8,12,74,12" Grid.Column="1" Width="50" Height="20" />
-        <ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="20" Margin="486,12,0,0" Grid.Row="1" VerticalAlignment="Top" Width="200"/>
+        <Button x:Name="ClearLogs" Content="  Clear   " HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Clear" Grid.Row="1" Margin="54,13,77,11" Grid.Column="1" Width="50" Height="20" />
+        <ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="20" Margin="486,12,0,0" Grid.Row="1" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>
