@@ -134,6 +134,7 @@ namespace Chocobro {
 
     // MAIN
     public MainWindow() {
+      
       InitializeComponent();
       servertick = randtick.Next(1, 4);
 
@@ -257,6 +258,7 @@ namespace Chocobro {
       for (int index = 0; index < counter1; index++) {  //prints Each DPSavg per interval
         reportstring += DPSavgarray[index];
         reportstring += Environment.NewLine;
+
       }
       
       double simulationtime = (double)stopwatch.ElapsedMilliseconds;
@@ -269,6 +271,7 @@ namespace Chocobro {
       writeReport();
       readReport();
       stopwatch.Reset();
+
     }
 
     //Misc GUI elements
@@ -277,7 +280,27 @@ namespace Chocobro {
     }
     private void Button_Click(object sender, RoutedEventArgs e) {
       //TODO: disable button
-
+      /*
+      WEP.IsEnabled = false;
+      AADMG.IsEnabled = false;
+      DELAY.IsEnabled = false;
+      STR.IsEnabled = false;
+      DEX.IsEnabled = false;
+      VIT.IsEnabled = false;
+      INT.IsEnabled = false;
+      MND.IsEnabled = false;
+      PIE.IsEnabled = false;
+      CRIT.IsEnabled = false;
+      DTR.IsEnabled = false;
+      ACC.IsEnabled = false;
+      SKSPD.IsEnabled = false;
+      SPSPD.IsEnabled = false;
+      iterationsinput.IsEnabled = false;
+      fightLengthInput.IsEnabled = false;
+      job.IsEnabled = false;
+      ClearLogs.IsEnabled = false;
+      simulateButton.IsEnabled = false;
+       */
 
       this.Dispatcher.Invoke((Action)(() =>
     {
@@ -294,9 +317,12 @@ namespace Chocobro {
       reportstring = "";
       console.AppendText("" + Environment.NewLine); // This is required because who knows....
       simming.Start();
+
     }));
       
       //console.AppendText("" + Environment.NewLine + DPSarray[0] + ", " + DPSarray[1] + ", " + DPSarray[2]);
+
+
     }
     private void Window_Closed(object sender, EventArgs e) {
       Application.Current.Shutdown();
