@@ -25,7 +25,7 @@
                 <MenuItem x:Name="ExitApplication" Header="Exit" HorizontalAlignment="Left" Width="140" Click="applicationExit"/>
             </MenuItem>
         </Menu>
-        <TextBox x:Name="fightLengthInput" HorizontalAlignment="Left" Height="22" Margin="10,473,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="100"/>
+        <TextBox x:Name="fightLengthInput" HorizontalAlignment="Left" Height="22" Margin="10,473,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="150"/>
         <Label Content="Fight Length:" HorizontalAlignment="Left" Margin="10,451,0,0" VerticalAlignment="Top" Height="26" Width="79"/>
         <TabControl HorizontalAlignment="Left" Height="468" Margin="147,27,0,0" VerticalAlignment="Top" Width="671" Grid.ColumnSpan="2">
             <TabItem Header="Console" RenderTransformOrigin="1.78,0.5" Margin="111,-2,-115,0">
@@ -99,16 +99,16 @@
         <Label Content="PIE&#xA;" HorizontalAlignment="Right" Margin="0,264,607,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="16"/>
         <TextBox x:Name="PIE" HorizontalAlignment="Left" Height="20" Margin="77,264,0,0" TextWrapping="Wrap" Text="172" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="CRIT&#xA;" HorizontalAlignment="Right" Margin="0,286,599,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="24"/>
-        <TextBox x:Name="CRIT" HorizontalAlignment="Left" Height="20" Margin="77,286,0,0" TextWrapping="Wrap" Text="518" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="CRIT" HorizontalAlignment="Left" Height="20" Margin="77,286,0,0" TextWrapping="Wrap" Text="556" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="DTR&#xA;" HorizontalAlignment="Right" Margin="0,308,601,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="22"/>
-        <TextBox x:Name="DTR" HorizontalAlignment="Left" Height="20" Margin="77,308,0,0" TextWrapping="Wrap" Text="280" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="DTR" HorizontalAlignment="Left" Height="20" Margin="77,308,0,0" TextWrapping="Wrap" Text="236" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="ACC&#xA;" HorizontalAlignment="Right" Margin="0,330,601,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="23"/>
-        <TextBox x:Name="ACC" HorizontalAlignment="Left" Height="20" Margin="77,330,0,0" TextWrapping="Wrap" Text="475" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="ACC" HorizontalAlignment="Left" Height="20" Margin="77,330,0,0" TextWrapping="Wrap" Text="476" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="SKSPD&#xA;" HorizontalAlignment="Right" Margin="0,352,589,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="35"/>
-        <TextBox x:Name="SKSPD" HorizontalAlignment="Left" Height="20" Margin="77,352,0,0" TextWrapping="Wrap" Text="402" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="SKSPD" HorizontalAlignment="Left" Height="20" Margin="77,352,0,0" TextWrapping="Wrap" Text="428" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="SPSPD&#xA;" HorizontalAlignment="Right" Margin="0,374,589,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="35"/>
         <TextBox x:Name="SPSPD" HorizontalAlignment="Left" Height="20" Margin="77,374,0,0" TextWrapping="Wrap" Text="341" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <TextBox x:Name="iterationsinput" HorizontalAlignment="Left" Height="22" Margin="10,430,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="100"/>
+        <TextBox x:Name="iterationsinput" HorizontalAlignment="Left" Height="22" Margin="10,430,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="5000"/>
         <Label Content="Iterations:" HorizontalAlignment="Left" Margin="10,408,0,0" VerticalAlignment="Top" Height="30" Width="62"/>
         <Button x:Name="ClearLogs" Content="  Clear   " HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Clear" Grid.Row="1" Margin="54,13,77,11" Grid.Column="1" Width="50" Height="20" />
         <ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="20" Margin="486,12,0,0" Grid.Row="1" VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
