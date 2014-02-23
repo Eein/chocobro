@@ -28,8 +28,8 @@ namespace Chocobro {
     public int ACC = 341;
     public int SKS = 341;
     public int SPS = 341;
-    public int AP = 0; // Define after gear
-    public int AMP = 0; // Define after gear
+    public int AP; // Define after gear
+    public int AMP; // Define after gear
     public double nextability = 0.00;
     public double nextinstant = 0.00;
     public double nextauto = 0.00;

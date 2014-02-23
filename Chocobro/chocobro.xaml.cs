@@ -270,6 +270,11 @@ namespace Chocobro {
       reportstring += Environment.NewLine;
       writeReport();
       readReport();
+      // Add actual reporting here...
+      Report r = new Report();
+      r.parse(p);
+      // End HTML report
+
       stopwatch.Reset();
       this.Dispatcher.Invoke((Action)(() => {
         this.WEP.IsEnabled = true;

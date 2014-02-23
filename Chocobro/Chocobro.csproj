@@ -53,6 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Sim Base\Report.cs" />
     <None Include="Job Modules\Template.cs" />
     <Compile Include="Job Modules\Paladin.cs" />
     <Compile Include="Job Modules\Bard.cs" />

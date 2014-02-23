@@ -7,13 +7,18 @@ namespace Chocobro {
     public bool heavyshotproc = false;
     
     public Bard() {
-    
-
+      name = "Bard";
+      AP = this.DEX;
+      AMP = this.INT;
+      //this needs to work somehow. bard needs to update its specific stats from its own job. either that or we need a nasty conditional in job based on the name...
     }
     
     public override void report() {
       base.report();
+
       // add bard ability reporting
+
+
       MainWindow.report("");
       MainWindow.report("Abilities");
       MainWindow.report("Heavyshot - Hits: " + heavyshot.hits + " Misses: " + heavyshot.misses + " Crits: " + heavyshot.crits + " Procs: " + heavyshot.procs + " TotalDMG: " + heavyshot.damage);
