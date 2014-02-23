@@ -271,7 +271,27 @@ namespace Chocobro {
       writeReport();
       readReport();
       stopwatch.Reset();
-
+      this.Dispatcher.Invoke((Action)(() => {
+        this.WEP.IsEnabled = true;
+        this.AADMG.IsEnabled = true;
+        this.DELAY.IsEnabled = true;
+        this.STR.IsEnabled = true;
+        this.DEX.IsEnabled = true;
+        this.VIT.IsEnabled = true;
+        this.INT.IsEnabled = true;
+        this.MND.IsEnabled = true;
+        this.PIE.IsEnabled = true;
+        this.CRIT.IsEnabled = true;
+        this.DTR.IsEnabled = true;
+        this.ACC.IsEnabled = true;
+        this.SKSPD.IsEnabled = true;
+        this.SPSPD.IsEnabled = true;
+        this.iterationsinput.IsEnabled = true;
+        this.fightLengthInput.IsEnabled = true;
+        this.job.IsEnabled = true;
+        this.ClearLogs.IsEnabled = true;
+        this.simulateButton.IsEnabled = true;
+      }));
     }
 
     //Misc GUI elements
@@ -280,7 +300,7 @@ namespace Chocobro {
     }
     private void Button_Click(object sender, RoutedEventArgs e) {
       //TODO: disable button
-      /*
+      
       WEP.IsEnabled = false;
       AADMG.IsEnabled = false;
       DELAY.IsEnabled = false;
@@ -300,7 +320,7 @@ namespace Chocobro {
       job.IsEnabled = false;
       ClearLogs.IsEnabled = false;
       simulateButton.IsEnabled = false;
-       */
+       
 
       this.Dispatcher.Invoke((Action)(() =>
     {
