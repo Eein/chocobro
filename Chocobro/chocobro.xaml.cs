@@ -173,6 +173,7 @@ namespace Chocobro {
       var counter1 = 0;
       p = playerjob;
       string swselected = Convert.ToString(statweighttext);
+      p.statforweights = swselected;
       var trigger1 = 50;
       if (swselected == "None") { trigger1 = -50; }
       for (int y = -50; y <= trigger1; y += 5) {
@@ -241,6 +242,7 @@ namespace Chocobro {
         double totaldps = 0;
         var slice = Math.Floor(DPSarray.Length * 0.05);
         Array.Sort(DPSarray);
+
         for (int index = (int)slice; index < DPSarray.Length - (int)slice; index++) {
           totaldps += DPSarray[index];
           //reportstring += (index - (int)slice + 1) + "/" + (DPSarray.Length - (2 * (int)slice)) + " eachDPS: " + DPSarray[index];
@@ -258,9 +260,11 @@ namespace Chocobro {
       for (int index = 0; index < counter1; index++) {  //prints Each DPSavg per interval
         reportstring += DPSavgarray[index];
         reportstring += Environment.NewLine;
-
       }
-      
+      //pass DPS array to Job for reporting.
+      p.DPSarray = DPSavgarray;
+      Report r = new Report();
+      r.parse(p);
       double simulationtime = (double)stopwatch.ElapsedMilliseconds;
       stopwatch.Stop();
       //reportstring += "AvgDPS: " + averageDPS + " iterations: " + DPSarray.Length;
@@ -271,8 +275,7 @@ namespace Chocobro {
       writeReport();
       readReport();
       // Add actual reporting here...
-      Report r = new Report();
-      r.parse(p);
+      
       // End HTML report
 
       stopwatch.Reset();
@@ -297,6 +300,7 @@ namespace Chocobro {
         this.ClearLogs.IsEnabled = true;
         this.simulateButton.IsEnabled = true;
       }));
+
     }
 
     //Misc GUI elements
