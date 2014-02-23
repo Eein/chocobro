@@ -1,0 +1,110 @@
+
+// Chocostyle
+html{
+
+}
+body{
+	@include grid-row();
+	background-color:#333;
+	color:#FFF;
+	font-size:14px;
+
+}
+a{
+	text-decoration:none;
+	&:visited, &:link, &:active{
+		color:#069;
+
+	}
+	&:hover{
+		color: #FFF;
+	}
+}
+.tile{
+		background-color:#222;
+		padding:10px;
+		min-height:500px;
+		border: 2px solid #000;
+	
+
+}
+.wrapper{
+	
+	background-color:#333;
+	@include grid-row();
+	border-left: 2px solid #000;
+	border-right: 2px solid #000;
+	height:auto;
+
+}
+
+.header{
+
+	@include grid-row();
+	background-color:#000;
+	font-size:18px;
+	padding:10px;
+}
+.info{
+	@extend .tile;
+	@include grid-column(6);
+
+}
+.stats{
+	@extend .tile;
+	@include grid-column(6);
+
+	}
+.weights{
+	@extend .tile;
+	@include grid-column(12);
+	min-height:300px;
+	table{
+		background-color:#000;
+		thead{
+			background-color:#000;
+		}
+		tbody{
+			& tr:nth-child(even) {background: #444}
+			& tr:nth-child(odd) {background: #111}
+		}
+	}
+}
+.dpet{
+	@extend .tile;
+	@include grid-column(6);
+
+}
+.dpstimeline{
+	@extend .tile;
+	@include grid-column(6);
+}
+.damagesources{
+	@extend .tile;
+	@include grid-column(6);
+}
+.blank{
+	@extend .tile;
+	@include grid-column(6);
+}
+.abilities{
+	@extend .tile;
+	@include grid-column(12);
+	min-height:300px
+}
+.buffs{
+	@extend .tile;
+	@include grid-column(6);
+}
+.debuffs{
+	@extend .tile;
+	@include grid-column(6);
+}
+.footer{
+	@extend .header;
+	font-size:12px;
+	.social{
+		float:right;
+	}
+
+}
