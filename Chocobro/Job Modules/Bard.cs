@@ -26,6 +26,7 @@ namespace Chocobro {
       MainWindow.report("WindbiteDOT - Ticks: " + windbite.ticks + " Tick Crits: " + windbite.tickcrits + " Dot Damage: " + windbite.dotdamage + " Procs: " + windbite.procs);
       MainWindow.report("Venomous Bite - Hits: " + venomousbite.hits + " Misses: " + venomousbite.misses + " Crits: " + venomousbite.crits + " Ability Damage: " + venomousbite.damage);
       MainWindow.report("Venomous BiteDOT - Ticks: " + venomousbite.ticks + " Tick Crits: " + venomousbite.tickcrits + " Dot Damage: " + venomousbite.dotdamage + " Procs: " + venomousbite.procs);
+      MainWindow.report("Flaming ArrowDOT - Ticks: " + flamingarrow.ticks + " Tick Crits: " + flamingarrow.tickcrits + " Dot Damage: " + flamingarrow.dotdamage);
       MainWindow.report("");
       MainWindow.report("-------------------------------------------------------------------------------");
       MainWindow.report("If you have multiple iterations, results are coming soon....");
@@ -36,7 +37,7 @@ namespace Chocobro {
       autoattack.recastTime = AADELAY;
       regen();
       if (heavyshot.buff <= 0) { heavyshotproc = false; }
-      if (heavyshotproc == true) {
+     if (heavyshotproc == true ) {
           execute(ref straightshot);
       }
 
@@ -311,10 +312,12 @@ namespace Chocobro {
         ability.ticks += 1;
         var tickdmg = damage(ref ability, ability.dotPotency, true);
         ability.dotdamage += tickdmg;
+        totaldamage += tickdmg;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickdmg + "  Damage - Time Left: " + ability.debuff);
         //MainWindow.log("---- " + ability.name + " - Dots - RS: " + ability.dotbuff["ragingstrikes"] + " BFB: " + ability.dotbuff["bloodforblood"] + " SS: " + ability.dotbuff["straightshot"] + " HE: " + ability.dotbuff["hawkseye"] + " IR: " + ability.dotbuff["internalrelease"] + " Potion: " + ability.dotbuff["potion"]);
         if (bloodletterproc == true) {
           MainWindow.log("!!PROC!! - Bloodletter reset!");
+          ability.procs += 1;
           bloodletter.procs += 1;
           bloodletterproc = false;
         }
@@ -465,7 +468,7 @@ namespace Chocobro {
         dotPotency = 45;
 
         TPcost = 80;
-        animationDelay = 1.3;
+        animationDelay = 1.0;
         abilityType = "Weaponskill";
         castTime = 0.0;
         duration = 0.0;
