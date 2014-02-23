@@ -21,9 +21,7 @@ namespace Chocobro {
     
     public override void report() {
       base.report();
-
-      
-      //this dictatest he order of reporting abilities. Base abilities should prob be first. Most likely can automate this...
+      // add abilities to list used for reporting. Each ability needs to be added ;(
       areport.Add(heavyshot);
       areport.Add(venomousbite);
       areport.Add(straightshot);
