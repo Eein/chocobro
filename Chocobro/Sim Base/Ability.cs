@@ -30,6 +30,7 @@ namespace Chocobro {
     public double damage = 0;
     public double dotdamage = 0;
 
+    public double dpet = 0.0;
 
     //public bool dot = false; TODO: add this w/ smn.
     // Dots using dictionary lookup. easyyy.

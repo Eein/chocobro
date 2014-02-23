@@ -23,7 +23,7 @@ a{
 .tile{
 		background-color:#222;
 		padding:10px;
-		min-height:500px;
+		min-height:330px;
 		border: 2px solid #000;
 	
 
@@ -60,7 +60,11 @@ a{
 	@include grid-column(12);
 	min-height:300px;
 	table{
+		width:100%;
 		background-color:#000;
+		td{
+			padding:5px;
+		}
 		thead{
 			background-color:#000;
 		}
@@ -90,7 +94,21 @@ a{
 .abilities{
 	@extend .tile;
 	@include grid-column(12);
-	min-height:300px
+	min-height:300px;
+	table{
+		background-color:#000;
+		width:100%;
+		td{
+			padding:5px;
+		}
+		thead{
+			background-color:#000;
+		}
+		tbody{
+			& tr:nth-child(even) {background: #444}
+			& tr:nth-child(odd) {background: #111}
+		}
+	}
 }
 .buffs{
 	@extend .tile;

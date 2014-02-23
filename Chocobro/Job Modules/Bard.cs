@@ -1,19 +1,45 @@
 ﻿using System;
 using System.Windows;
+
 namespace Chocobro {
 
   public class Bard : Job {
+    //proc bool definitions
     public bool bloodletterproc = false;
     public bool heavyshotproc = false;
-    
-    public Bard() {
-    
 
+    public Bard() {
+      
+      name = "Bard";
+
+
+      //for all classes, we might want a utility function for this as well.. vvv that way we use AP/AMP for damage calcs, and not hardcoded primary stats.
+      AP = DEX;
+      AMP = INT;
+      //this needs to work somehow. bard needs to update its specific stats from its own job. either that or we need a nasty conditional in job based on the name...
     }
     
     public override void report() {
       base.report();
+      // add abilities to list used for reporting. Each ability needs to be added ;(
+      areport.Add(heavyshot);
+      areport.Add(venomousbite);
+      areport.Add(straightshot);
+      areport.Add(bloodletter);
+      areport.Add(miserysend);
+      areport.Add(bluntarrow);
+      areport.Add(repellingshot);
+      areport.Add(flamingarrow);
+      areport.Add(internalrelease);
+      areport.Add(bloodforblood);
+      areport.Add(ragingstrikes);
+      areport.Add(hawkseye);
+      areport.Add(barrage);
+      areport.Add(invigorate);
+      areport.Add(autoattack);
+      areport.Add(xpotiondexterity);
       // add bard ability reporting
+
       MainWindow.report("");
       MainWindow.report("Abilities");
       MainWindow.report("Heavyshot - Hits: " + heavyshot.hits + " Misses: " + heavyshot.misses + " Crits: " + heavyshot.crits + " Procs: " + heavyshot.procs + " TotalDMG: " + heavyshot.damage);
@@ -433,15 +459,32 @@ namespace Chocobro {
       autoattack.resetAbility();
       // Dont forget pots! We can make global pots and food later.
       xpotiondexterity.resetAbility();
-
-
     }
 
 
+    Ability heavyshot = new Heavyshot();
+    Ability windbite = new Windbite();
+    Ability venomousbite = new Venomousbite();
+    Ability straightshot = new Straightshot();
+    Ability bloodletter = new Bloodletter();
+    Ability miserysend = new Miserysend();
+    Ability bluntarrow = new Bluntarrow();
+    Ability repellingshot = new Repellingshot();
+    Ability flamingarrow = new Flamingarrow();
+    Ability internalrelease = new Internalrelease();
+    Ability bloodforblood = new Bloodforblood();
+    Ability ragingstrikes = new Ragingstrikes();
+    Ability hawkseye = new Hawkseye();
+    Ability barrage = new Barrage();
+    Ability invigorate = new Invigorate();
+    Ability autoattack = new Autoattack();
+    Ability xpotiondexterity = new XPotionDexterity();
+
+    
+
+    // Set array of abilities for reportingz
 
     // Heavy Shot ---------------------
-
-    Ability heavyshot = new Heavyshot();
 
     public class Heavyshot : Ability {
       public Heavyshot() {
@@ -460,7 +503,7 @@ namespace Chocobro {
     // End Heavyshot ---------------------
 
     // Windbite --------------------------
-    Ability windbite = new Windbite();
+    
     public class Windbite : Ability {
       public Windbite() {
         name = "Windbite";
@@ -478,7 +521,7 @@ namespace Chocobro {
     // End Windbite --------------------------
 
     // Venomous Bite -------------------------
-    Ability venomousbite = new Venomousbite();
+    
     public class Venomousbite : Ability {
       public Venomousbite() {
         name = "Venomous Bite";
@@ -495,7 +538,7 @@ namespace Chocobro {
     // End Venomous Bite ----------------------
 
     // Straight Shot --------------------------
-    Ability straightshot = new Straightshot();
+    
     public class Straightshot : Ability {
       public Straightshot() {
         name = "Straight Shot";
@@ -512,7 +555,7 @@ namespace Chocobro {
     // End Straight Shot --------------------------
 
     // Bloodletter --------------------------------
-    Ability bloodletter = new Bloodletter();
+    
     public class Bloodletter : Ability {
       public Bloodletter() {
         name = "Bloodletter";
@@ -529,7 +572,7 @@ namespace Chocobro {
     // End Bloodletter ---------------------------
 
     // Miserys End -------------------------------
-    Ability miserysend = new Miserysend();
+    
     public class Miserysend : Ability {
       public Miserysend() {
         name = "Miserys End";
@@ -546,7 +589,7 @@ namespace Chocobro {
     // End  Miserys End -------------------------------
 
     // Blunt Arrow ------------------------------------
-    Ability bluntarrow = new Bluntarrow();
+    
     public class Bluntarrow : Ability {
       public Bluntarrow() {
         name = "Blunt Arrow";
@@ -562,7 +605,7 @@ namespace Chocobro {
     // End Blunt Arrow -------------------------------
 
     // Repelling Shot ---------------------------------
-    Ability repellingshot = new Repellingshot();
+    
     public class Repellingshot : Ability {
       public Repellingshot() {
         name = "Repelling Shot";
@@ -578,7 +621,7 @@ namespace Chocobro {
     // End Repelling Shot ----------------------------
 
     //Flaming Arrow
-    Ability flamingarrow = new Flamingarrow();
+    
     public class Flamingarrow : Ability {
       public Flamingarrow() {
         name = "Flaming Arrow";
@@ -596,7 +639,7 @@ namespace Chocobro {
     // End Flaming Arrow
 
     // Internal Release
-    Ability internalrelease = new Internalrelease();
+    
     public class Internalrelease : Ability {
       public Internalrelease() {
         name = "Internal Release";
@@ -610,7 +653,7 @@ namespace Chocobro {
     // End Internal Release
 
     // Blood for Blood
-    Ability bloodforblood = new Bloodforblood();
+    
     public class Bloodforblood : Ability {
       public Bloodforblood() {
         name = "Blood for Blood";
@@ -624,7 +667,7 @@ namespace Chocobro {
     // End Blood for Blood
 
     // Raging Strikes
-    Ability ragingstrikes = new Ragingstrikes();
+    
     public class Ragingstrikes : Ability {
       public Ragingstrikes() {
         name = "Raging Strikes";
@@ -638,7 +681,7 @@ namespace Chocobro {
     // End Raging Strikes
 
     // Hawks Eye
-    Ability hawkseye = new Hawkseye();
+    
     public class Hawkseye : Ability {
       public Hawkseye() {
         name = "Hawks Eye";
@@ -652,7 +695,7 @@ namespace Chocobro {
     // End Hawks Eye
 
     // Barrage
-    Ability barrage = new Barrage();
+    
     public class Barrage : Ability {
       public Barrage() {
         name = "Barrage";
@@ -666,7 +709,7 @@ namespace Chocobro {
     // End Barrage
 
     // Invigorate
-    Ability invigorate = new Invigorate();
+    
     public class Invigorate : Ability {
       public Invigorate() {
         name = "Invigorate";
@@ -678,7 +721,7 @@ namespace Chocobro {
     }
     // End Invigorate
     // Auto Attack
-    Ability autoattack = new Autoattack();
+    
     public class Autoattack : Ability {
       public Autoattack() {
         name = "Auto Attack";
@@ -690,6 +733,6 @@ namespace Chocobro {
     // End Auto Attack
 
     //Pots...
-    Ability xpotiondexterity = new XPotionDexterity();
+   
   }
 }

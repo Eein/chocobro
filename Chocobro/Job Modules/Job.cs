@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace Chocobro {
 
   // public partial class Job {
@@ -28,8 +29,8 @@ namespace Chocobro {
     public int ACC = 341;
     public int SKS = 341;
     public int SPS = 341;
-    public int AP = 0; // Define after gear
-    public int AMP = 0; // Define after gear
+    public int AP { get; set; } // Define after gear
+    public int AMP { get; set; } // Define after gear
     public double nextability = 0.00;
     public double nextinstant = 0.00;
     public double nextauto = 0.00;
@@ -46,7 +47,13 @@ namespace Chocobro {
     public int numberofhits = 0;
     public int numberofticks = 0;
     public int numberofmisses = 0;
+
+    //stat weights
+    public double[] DPSarray;
+    public string statforweights;
     
+    //ability reporting list
+    public List<Ability> areport = new List<Ability>();
 
     public void getStats(MainWindow cs) {
       cs.Dispatcher.Invoke((Action)(() =>
@@ -88,6 +95,7 @@ namespace Chocobro {
       actionmade = false;
       OOT = false;
       OOM = false;
+
         
     }));
       

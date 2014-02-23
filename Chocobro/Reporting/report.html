@@ -1,41 +1,43 @@
 <!doctype html>
 
-<html class="no-js" lang="en">
+<html class='no-js' lang='en'>
   <head>
     <title>Chocobro Report</title>
-    <meta charset="utf-8"> 
-    <link rel="stylesheet" href="css/app.css" />
+    <meta charset='utf-8'> 
+    <link rel='stylesheet' href='css/app.css' />
   </head>
   <body>
-    <div class="header">chocobro.</div>
-    <div class="wrapper">
-      <div class="info"><h3>Sim info</h3>
-        <div class="job">Job:Bard</div>
-        <div class="class">Class:Archer</div>
-        <div class="race">Race:Plainsfolk Lalafell</div>
-        <div class="iterations">Iterations: {100}</div>
-        <div class="fightlength">Fightlength (s): {300}</div>
+    <div class='header'>chocobro.</div>
+    <div class='wrapper'>
+      <div class='info'><h3>Sim info</h3>
+        <div class='job'>Job:Bard</div>
+        <div class='class'>Class:Archer</div>
+        <div class='race'>Race:Plainsfolk Lalafell</div>
+        <div class='iterations'>Iterations: {100}</div>
+        <div class='fightlength'>Fightlength (s): {300}</div>
 
       </div>
-      <div class="stats"><h3>Character stats</h3>
-        <div class"STR">STR: {STR}</div>
-        <div class"DEX">DEX: {DEX}</div>
-        <div class"VIT">VIT: {VIT}</div>
-        <div class"INT">INT: {INT}</div>
-        <div class"MND">MND: {MND}</div>
-        <div class"PIE">PIE: {PIE}</div>
-        <div class"ACC">ACC: {ACC}</div>
-        <div class"CRIT">CRIT: {CRIT}</div>
-        <div class"DET">DET: {DET}</div>
-        <div class"AP">AP: {AP}</div>
-        <div class"AMP">AMP: {AMP}</div>
-        <div class"WEP">WEP: {WEP}</div>
-        <div class"AADMG">AADMG: {AADMG}</div>
-        <div class"AADELAY">AADELAY: {AADELAY}</div>
+      <div class='stats'><h3>Character stats</h3>
+        <div class'STR'>STR: {STR}</div>
+        <div class'DEX'>DEX: {DEX}</div>
+        <div class'VIT'>VIT: {VIT}</div>
+        <div class'INT'>INT: {INT}</div>
+        <div class'MND'>MND: {MND}</div>
+        <div class'PIE'>PIE: {PIE}</div>
+        <div class'ACC'>ACC: {ACC}</div>
+        <div class'CRIT'>CRIT: {CRIT}</div>
+        <div class'DET'>DET: {DET}</div>
+        <div class'AP'>AP: {AP}</div>
+        <div class'AMP'>AMP: {AMP}</div>
+        <div class'WEP'>WEP: {WEP}</div>
+        <div class'AADMG'>AADMG: {AADMG}</div>
+        <div class'AADELAY'>AADELAY: {AADELAY}</div>
       </div>
     </div>
-    <div class="wrapper">
-      <div class="weights"><h3>Weights</h3>
+
+    -----
+    <div class='wrapper'>
+      <div class='weights'><h3>Weights</h3>
         <table>
           <thead>DEX
             <tr>
@@ -51,34 +53,34 @@
 
       </div>
     </div>
-    <div class="wrapper">
-      <div class="dpet"><h3>DPET</h3>
-          <img border='0' width='500' height='250' src="//chart.googleapis.com/chart?cht=bhg&chf=bg,s,00000000&chtt=Damage%20Per%20Execute%20Time%20(DPET)&chts=FFFFFF,18&chs=500x250&chd=t:" + dpet[0] + "|" + dpet[1] + "|" + dpet[2] + "|" + dpet[3] + "|" + dpet[4] + "|" + dpet[5] + "|" + dpet[6] + "|" + dpet[7] + "&chds=0," + dpet.max() * 3 + "&chco=FFFFFF&chm=t++" + dpet[0] + "++heavyshot,FFFFFF,0,0,15|t++" + dpet[1] + "++straight_shot,FFFFFF,1,0,15|t++" + dpet[2] + "++bloodletter,FFFFFF,2,0,15|t++" + dpet[3] + "++venomous_bite,FFFFFF,3,0,15|t++" + dpet[4] + "++windbite,FFFFFF,4,0,15|t++" + dpet[5] + "++auto_attack,FFFFFF,5,0,15|t++" + dpet[6] + "++miserys_end,FFFFFF,6,0,15|t++" + dpet[7] + "++flaming_arrow,FFFFFF,7,0,15'" />
+    <div class='wrapper'>
+      <div class='dpet'><h3>DPET</h3>
+          <img border='0' width='500' height='250' src='//chart.googleapis.com/chart?cht=bhg&chf=bg,s,00000000&chtt=Damage%20Per%20Execute%20Time%20(DPET)&chts=FFFFFF,18&chs=500x250&chd=t:' + dpet[0] + '|' + dpet[1] + '|' + dpet[2] + '|' + dpet[3] + '|' + dpet[4] + '|' + dpet[5] + '|' + dpet[6] + '|' + dpet[7] + '&chds=0,' + dpet.max() * 3 + '&chco=FFFFFF&chm=t++' + dpet[0] + '++heavyshot,FFFFFF,0,0,15|t++' + dpet[1] + '++straight_shot,FFFFFF,1,0,15|t++' + dpet[2] + '++bloodletter,FFFFFF,2,0,15|t++' + dpet[3] + '++venomous_bite,FFFFFF,3,0,15|t++' + dpet[4] + '++windbite,FFFFFF,4,0,15|t++' + dpet[5] + '++auto_attack,FFFFFF,5,0,15|t++' + dpet[6] + '++miserys_end,FFFFFF,6,0,15|t++' + dpet[7] + '++flaming_arrow,FFFFFF,7,0,15'' />
           
       </div>
-      <div class="dpstimeline"><h3>Timeline</h3></div>
+      <div class='dpstimeline'><h3>Timeline</h3></div>
     </div>
-    <div class="wrapper">
-      <div class="damagesources"><h3>Damage Sources</h3>
+    <div class='wrapper'>
+      <div class='damagesources'><h3>Damage Sources</h3>
 
-      <img src="//chart.googleapis.com/chart?chxs=0,FFFFFF,11.5&chco=C74C4C&chxt=x&chs=500x225&chts=FFFFFF,18&chf=bg,s,00000000&cht=p&chd=t:" + dpspercent(heavyshot.totaldamage, damagepersecond, fightlength) + "," + dpspercent(straightshot.totaldamage, damagepersecond, fightlength) + "," + dpspercent(bloodletter.totaldamage, damagepersecond, fightlength) + "," + dpspercent(venomousbite.totaldamage, damagepersecond, fightlength) + "," + dpspercent(venomousbite.dottotaldamage, damagepersecond, fightlength) + "," + dpspercent(windbite.totaldamage, damagepersecond, fightlength) + "," + dpspercent(windbite.dottotaldamage, damagepersecond, fightlength) + "," + dpspercent(autoattack.totaldamage, damagepersecond, fightlength) + "," + dpspercent(miserysend.totaldamage, damagepersecond, fightlength) +"," + dpspercent(flamingarrow.dottotaldamage, damagepersecond, fightlength) + "&chl=Heavy Shot|Straight Shot|Bloodletter|Venomous Bite|Venomous Bite Dot|Windbite|Windbite Dot|Auto Attack|Miserys End|Flaming Arrow&chtt=Damage+Sources' width='450 height='225'" />
+      <img src='//chart.googleapis.com/chart?chxs=0,FFFFFF,11.5&chco=C74C4C&chxt=x&chs=500x225&chts=FFFFFF,18&chf=bg,s,00000000&cht=p&chd=t:' + dpspercent(heavyshot.totaldamage, damagepersecond, fightlength) + ',' + dpspercent(straightshot.totaldamage, damagepersecond, fightlength) + ',' + dpspercent(bloodletter.totaldamage, damagepersecond, fightlength) + ',' + dpspercent(venomousbite.totaldamage, damagepersecond, fightlength) + ',' + dpspercent(venomousbite.dottotaldamage, damagepersecond, fightlength) + ',' + dpspercent(windbite.totaldamage, damagepersecond, fightlength) + ',' + dpspercent(windbite.dottotaldamage, damagepersecond, fightlength) + ',' + dpspercent(autoattack.totaldamage, damagepersecond, fightlength) + ',' + dpspercent(miserysend.totaldamage, damagepersecond, fightlength) +',' + dpspercent(flamingarrow.dottotaldamage, damagepersecond, fightlength) + '&chl=Heavy Shot|Straight Shot|Bloodletter|Venomous Bite|Venomous Bite Dot|Windbite|Windbite Dot|Auto Attack|Miserys End|Flaming Arrow&chtt=Damage+Sources' width='450 height='225' />
   
       </div>
-      <div class="blank"><h3>Blank</h3></div>
+      <div class='blank'><h3>TP/MP Timeline</h3></div>
     </div>
-    <div class="wrapper">
-      <div class="abilities"><h3>Ability Breakdown</h3></div>
+    <div class='wrapper'>
+      <div class='abilities'><h3>Ability Breakdown</h3></div>
     </div>
-    <div class="wrapper">
-      <div class="buffs"><h3>Buffs</h3></div>
-      <div class="debuffs"><h3>Debuffs</h3></div>
+    <div class='wrapper'>
+      <div class='buffs'><h3>Buffs</h3></div>
+      <div class='debuffs'><h3>Debuffs</h3></div>
     </div>
-    <div class="footer">Chocobro © 2013-2014. FINAL FANTASY XIV © 2010-2014 SQUARE ENIX CO., LTD. All Rights Reserved.
-    <div class="social">
-    <a href="http://github.com/eein/chocobro" target="_blank">Github</a> - <a href="http://www.twitter.com/chocobrodotcom" target="_blank">Twitter</a> - <a href="http://www.chocobro.com" target="_blank">Homepage</a>
+    <div class='footer'>Chocobro © 2013-2014. FINAL FANTASY XIV © 2010-2014 SQUARE ENIX CO., LTD. All Rights Reserved.
+    <div class='social'>
+    <a href='http://github.com/eein/chocobro' target='_blank'>Github</a> - <a href='http://www.twitter.com/chocobrodotcom' target='_blank'>Twitter</a> - <a href='http://www.chocobro.com' target='_blank'>Homepage</a>
     </div>
     </div>
 
-    <script src="js/app.js"></script>
+    <script src='js/app.js'></script>
   </body>
 </html>
