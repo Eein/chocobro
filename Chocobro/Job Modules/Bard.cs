@@ -62,8 +62,13 @@ namespace Chocobro {
       var gcd = calculateGCD();
       autoattack.recastTime = AADELAY;
       regen();
-      if (heavyshot.buff <= 0) { heavyshotproc = false; }
-     if (heavyshotproc == true ) {
+
+      if (TP < 540) {
+        execute(ref invigorate);
+      }
+
+     if (heavyshot.buff <= 0) { heavyshotproc = false; }
+     if (heavyshotproc == true && straightshot.buff <= 4 ) {
           execute(ref straightshot);
       }
 
@@ -85,25 +90,23 @@ namespace Chocobro {
 
       execute(ref heavyshot);
 
-      if (TP < 540) {
-        execute(ref invigorate);
-      }
-
       execute(ref ragingstrikes); //"smart" use of buffs, needs more attention
       if (ragingstrikes.buff > 0) {
-        // this could also be reorganized, but we need iterations before testing further.
-        execute(ref xpotiondexterity);
-        execute(ref hawkseye);
-        execute(ref internalrelease);
         execute(ref bloodforblood);
+        execute(ref hawkseye);
+        execute(ref xpotiondexterity);
+        execute(ref internalrelease);
         execute(ref barrage);
       }
-      if (ragingstrikes.nextCast >= MainWindow.time + 57 && ragingstrikes.nextCast <= 63) { //better use of internal release
+
+      if (ragingstrikes.nextCast >= MainWindow.time + 55 && ragingstrikes.nextCast <= 65) { //better use of internal release
         execute(ref internalrelease);
       }
+
       if (MainWindow.servertime >= 0.8 * MainWindow.fightlength) {
         execute(ref miserysend);
       }
+
       execute(ref bloodletter);
       execute(ref flamingarrow);
       execute(ref repellingshot);
@@ -113,9 +116,11 @@ namespace Chocobro {
       //if tick is 3 
       tick(ref windbite);
       tick(ref venomousbite);
-      tick(ref flamingarrow);
+      tick(ref flamingarrow)
+        ;
       //auto 
       execute(ref autoattack);
+
       //decrement buffs
       decrement(ref straightshot);
       decrement(ref internalrelease);
@@ -126,7 +131,6 @@ namespace Chocobro {
       decrement(ref heavyshot);
       decrement(ref xpotiondexterity);
 
-      
     }
 
     public void execute(ref Ability ability) {

@@ -299,6 +299,10 @@ namespace Chocobro {
         this.job.IsEnabled = true;
         this.ClearLogs.IsEnabled = true;
         this.simulateButton.IsEnabled = true;
+        this.statweights.IsEnabled = true;
+        this.StatGrwth.IsEnabled = true;
+        this.Delta.IsEnabled = true ;
+        this.ClearLogs.IsEnabled = true;
       }));
 
     }
@@ -329,6 +333,10 @@ namespace Chocobro {
       job.IsEnabled = false;
       ClearLogs.IsEnabled = false;
       simulateButton.IsEnabled = false;
+      statweights.IsEnabled = false;
+      StatGrwth.IsEnabled = false;
+      Delta.IsEnabled = false;
+      ClearLogs.IsEnabled = false;
        
 
       this.Dispatcher.Invoke((Action)(() =>
