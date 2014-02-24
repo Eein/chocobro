@@ -24,6 +24,7 @@ namespace Chocobro {
       // add abilities to list used for reporting. Each ability needs to be added ;(
       areport.Add(heavyshot);
       areport.Add(venomousbite);
+      areport.Add(windbite);
       areport.Add(straightshot);
       areport.Add(bloodletter);
       areport.Add(miserysend);
