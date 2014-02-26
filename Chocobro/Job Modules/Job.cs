@@ -8,7 +8,7 @@ namespace Chocobro {
   //     _player = player;
   //   }
   public partial class Job {
-    
+
     public string name { get; set; }
     public int STR { get; set; }
     public int DEX { get; set; }
@@ -17,6 +17,7 @@ namespace Chocobro {
     public int MND { get; set; }
     public int PIE { get; set; }
     public int WEP { get; set; }
+
     public string statweight { get; set; }
     public int StatGrwth { get; set; }
     public int delta { get; set; }
@@ -47,17 +48,19 @@ namespace Chocobro {
     public int numberofhits = 0;
     public int numberofticks = 0;
     public int numberofmisses = 0;
+    public static List<double> timelinetime = new List<double>();
+    public static List<double> timelineDPS = new List<double>();
+    public int ticknumber = 0;
 
     //stat weights
     public double[] DPSarray;
     public string statforweights;
-    
+
     //ability reporting list
     public List<Ability> areport = new List<Ability>();
 
     public void getStats(MainWindow cs) {
-      cs.Dispatcher.Invoke((Action)(() =>
-    {
+      cs.Dispatcher.Invoke((Action)(() => {
       STR = Convert.ToInt32(cs.STR.Text);
       DEX = Convert.ToInt32(cs.DEX.Text);
       VIT = Convert.ToInt32(cs.VIT.Text);
@@ -96,11 +99,11 @@ namespace Chocobro {
       OOT = false;
       OOM = false;
 
-        
+
     }));
-      
+
     }
-   
+
     public double calculateGCD() {
       var skillcalc = basegcd - (Math.Round(((SKS - 341) * 0.00095308) * 100) / 100);
 
@@ -125,11 +128,15 @@ namespace Chocobro {
       MainWindow.report("Number of Attacks: " + (this.numberofattacks + this.numberofticks));
       MainWindow.report("Number of Crits: " + this.numberofcrits + " - Crit%: " + (Math.Round((((double)this.numberofcrits) / ((double)this.numberofattacks + (double)this.numberofticks)) * 10000) / 100) + "%");
       MainWindow.report("Number of Misses: " + this.numberofmisses + " - Miss%: " + (Math.Round((double)this.numberofmisses / ((double)this.numberofattacks) * 10000) / 100) + "%");
-      
+
     }
     public virtual void rotation() { }
     public virtual void regen() {
       if (MainWindow.time == MainWindow.servertime && MainWindow.servertick == 3) {
+        timelinetime.Add(MainWindow.time);
+        timelineDPS.Add((double)totaldamage / (double)MainWindow.time);
+        //MainWindow.log("Tick number: " + (ticknumber + 1) + " Time: " + MainWindow.time + " Damage so far: " + (double)totaldamage + " DPS: " + ((double)totaldamage / (double)MainWindow.time));
+        ticknumber += 1;
 
         //TODO: SOME LOGIC HERE IS WRONG.  TP does NOT regen on the server dot tick (tested myself)
         //TP regen
@@ -144,7 +151,7 @@ namespace Chocobro {
     }
 
     //Pots
- 
+
     public class XPotionDexterity : Ability {
       public XPotionDexterity() {
         //HQ

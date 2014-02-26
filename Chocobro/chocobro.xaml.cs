@@ -146,15 +146,19 @@ namespace Chocobro {
     }
 
     public void simulate() {
+
       logging = true;
       var jobtext = "";
       var statweighttext = "";
       var fightlengthtext = "";
+      Job.timelineDPS.Clear();
+      Job.timelinetime.Clear();
       this.Dispatcher.Invoke((Action)(() =>
           {
             jobtext = job.Text;
             statweighttext = statweights.Text;
             fightlengthtext = fightLengthInput.Text;
+
           }));
        
 
@@ -271,7 +275,18 @@ namespace Chocobro {
       //reportstring += Environment.NewLine;
       reportstring += Environment.NewLine;
       reportstring += "Total Simulation Time: " + ( simulationtime / 1000) + "s.";
-      reportstring += Environment.NewLine;
+      reportstring += "\n\n";
+      
+      for (int index = 0; index < Job.timelinetime.Count; index++) {
+        reportstring += Job.timelinetime[index];
+        reportstring += Environment.NewLine;
+      }
+      reportstring += "\n\n";
+      for (int index = 0; index < Job.timelineDPS.Count; index++) {
+        reportstring += Job.timelineDPS[index];
+        reportstring += Environment.NewLine;
+      }
+
       writeReport();
       readReport();
       // Add actual reporting here...
