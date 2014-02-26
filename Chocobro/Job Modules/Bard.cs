@@ -9,10 +9,7 @@ namespace Chocobro {
     public bool heavyshotproc = false;
 
     public Bard() {
-
       name = "Bard";
-
-
       //for all classes, we might want a utility function for this as well.. vvv that way we use AP/AMP for damage calcs, and not hardcoded primary stats.
       AP = DEX;
       AMP = INT;
@@ -680,6 +677,7 @@ namespace Chocobro {
         animationDelay = 0.9;
         abilityType = "Cooldown";
         buffTime = 20;
+        
       }
 
     }

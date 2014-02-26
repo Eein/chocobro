@@ -284,9 +284,13 @@ namespace Chocobro {
       // Add actual reporting here...
 
       // End HTML report
-
+      
       stopwatch.Reset();
+      
       this.Dispatcher.Invoke((Action)(() => {
+        //refresh the html page
+        this.browser.Navigate(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "report.html"));
+
         this.WEP.IsEnabled = true;
         this.AADMG.IsEnabled = true;
         this.DELAY.IsEnabled = true;
