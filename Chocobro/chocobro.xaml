@@ -28,6 +28,7 @@
         <TextBox x:Name="fightLengthInput" HorizontalAlignment="Left" Height="22" Margin="10,473,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="150"/>
         <Label Content="Fight Length:" HorizontalAlignment="Left" Margin="10,451,0,0" VerticalAlignment="Top" Height="26" Width="79"/>
         <TabControl HorizontalAlignment="Left" Height="468" Margin="147,27,0,0" VerticalAlignment="Top" Width="671" Grid.ColumnSpan="2">
+
             <TabItem Header="Console" RenderTransformOrigin="1.78,0.5" Margin="111,-2,-115,0">
 
                 <Grid Background="#FFE5E5E5" Margin="-2">
@@ -77,6 +78,11 @@
                             </Style>
                         </RichTextBox.Resources>
                     </RichTextBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="HTML" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="55">
+                <Grid Background="#FFE5E5E5">
+                    <WebBrowser HorizontalAlignment="Left" Height="440" VerticalAlignment="Top" Width="665" Source="report.html"/>
                 </Grid>
             </TabItem>
         </TabControl>
