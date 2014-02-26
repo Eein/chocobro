@@ -88,7 +88,7 @@ namespace Chocobro {
     }
     public static double nextTime(double instant, double ability, double st_t, double auto, bool OOT, bool OOM) {
       var value = 0.0;
-      
+
       List<double> valuearray = new List<double>();
       if (instant > time) {
         valuearray.Add(instant);
@@ -108,22 +108,22 @@ namespace Chocobro {
       //}
       value = valuearray.Min();
 
-  //    if (OOT) { //if out of TP
-  //      if (instant > time) {
-  //        value = Math.Min(instant, Math.Min(st_t, auto));
-  //
-  //      } else {
-  //        value = Math.Min(st_t, auto);
-  //      }
-  //    } else {
-  //      if (instant > time) {
-  //        value = Math.Min(instant, Math.Min(ability, Math.Min(st_t, auto)));
-  //
-  //      } else {
-  //        value = Math.Min(ability, Math.Min(st_t, auto));
-  //      }
-  //    }
-  //    //log("Next Action - " + value.ToString("F2") + " !! min value");
+      //    if (OOT) { //if out of TP
+      //      if (instant > time) {
+      //        value = Math.Min(instant, Math.Min(st_t, auto));
+      //
+      //      } else {
+      //        value = Math.Min(st_t, auto);
+      //      }
+      //    } else {
+      //      if (instant > time) {
+      //        value = Math.Min(instant, Math.Min(ability, Math.Min(st_t, auto)));
+      //
+      //      } else {
+      //        value = Math.Min(ability, Math.Min(st_t, auto));
+      //      }
+      //    }
+      //    //log("Next Action - " + value.ToString("F2") + " !! min value");
       return value;
       //add cast here later.
     }
@@ -134,7 +134,7 @@ namespace Chocobro {
 
     // MAIN
     public MainWindow() {
-      
+
       InitializeComponent();
       servertick = randtick.Next(1, 4);
 
@@ -153,24 +153,24 @@ namespace Chocobro {
       var fightlengthtext = "";
       Job.timelineDPS.Clear();
       Job.timelinetime.Clear();
-      this.Dispatcher.Invoke((Action)(() =>
-          {
+      this.Dispatcher.Invoke((Action)(() => {
             jobtext = job.Text;
             statweighttext = statweights.Text;
             fightlengthtext = fightLengthInput.Text;
 
           }));
-       
+
 
 
 
       stopwatch.Start();
-      
+
       debug(); //have option to disable TODO:
       Factory fact = new Factory();
+      Report r = new Report();
 
       var playerjob = fact.Get(jobtext);
-   
+
       var p = playerjob;
       double thisdps = 0;
       double[] DPSavgarray = new double[21];
@@ -187,10 +187,10 @@ namespace Chocobro {
           this.Dispatcher.Invoke((Action)(() => {
             progressBar.Value = (int)((100) - (trigger1 - (y)));
           }));
-       
+
 
         }
-        
+
 
         double[] DPSarray = new double[iterations];
 
@@ -198,12 +198,12 @@ namespace Chocobro {
 
           //alt progress bar for iterations only
           if (swselected == "None") {
-           
-             this.Dispatcher.Invoke((Action)(() => {
 
-               this.progressBar.Value = (int)(((double)x / (double)iterations) * 100)+1;
-               //MessageBox.Show(""+progressBar.Value + " - val: " + bacon+ " - x: " +x+ " - iterations: " +iterations);
-             }));
+            this.Dispatcher.Invoke((Action)(() => {
+
+              this.progressBar.Value = (int)(((double)x / (double)iterations) * 100) + 1;
+              //MessageBox.Show(""+progressBar.Value + " - val: " + bacon+ " - x: " +x+ " - iterations: " +iterations);
+            }));
           }
 
           p.getStats(this);
@@ -222,8 +222,13 @@ namespace Chocobro {
             handler(ref p);
             tickevent();
             time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto, p.OOT, p.OOM);
+            //add timeline stuff
+            if (((x == 0) && (y == 0 || trigger1 == -50)) && time == servertime) {
+              r.timeline.Add(p.totaldamage / time);
+            }
+
           }
-          
+
           if ((x == 0) && (y == 0 || trigger1 == -50)) {
 
             writeLog();
@@ -240,9 +245,9 @@ namespace Chocobro {
 
           thisdps = p.totaldamage / fightlength;
           DPSarray[x] = thisdps;
-          
+
         } //end iteration set
-        
+
         double totaldps = 0;
         var slice = Math.Floor(DPSarray.Length * 0.05);
         Array.Sort(DPSarray);
@@ -267,30 +272,30 @@ namespace Chocobro {
       }
       //pass DPS array to Job for reporting.
       p.DPSarray = DPSavgarray;
-      Report r = new Report();
+
       r.parse(p);
       double simulationtime = (double)stopwatch.ElapsedMilliseconds;
       stopwatch.Stop();
       //reportstring += "AvgDPS: " + averageDPS + " iterations: " + DPSarray.Length;
       //reportstring += Environment.NewLine;
       reportstring += Environment.NewLine;
-      reportstring += "Total Simulation Time: " + ( simulationtime / 1000) + "s.";
+      reportstring += "Total Simulation Time: " + (simulationtime / 1000) + "s.";
       reportstring += "\n\n";
-      
-      for (int index = 0; index < Job.timelinetime.Count; index++) {
-        reportstring += Job.timelinetime[index];
-        reportstring += Environment.NewLine;
-      }
-      reportstring += "\n\n";
-      for (int index = 0; index < Job.timelineDPS.Count; index++) {
-        reportstring += Job.timelineDPS[index];
-        reportstring += Environment.NewLine;
-      }
+
+      //for (int index = 0; index < Job.timelinetime.Count; index++) {
+      //  reportstring += Job.timelinetime[index];
+      //  reportstring += Environment.NewLine;
+      //}
+      //reportstring += "\n\n";
+      //for (int index = 0; index < Job.timelineDPS.Count; index++) {
+      //  reportstring += Job.timelineDPS[index];
+      //  reportstring += Environment.NewLine;
+      //}
 
       writeReport();
       readReport();
       // Add actual reporting here...
-      
+
       // End HTML report
 
       stopwatch.Reset();
@@ -316,7 +321,7 @@ namespace Chocobro {
         this.simulateButton.IsEnabled = true;
         this.statweights.IsEnabled = true;
         this.StatGrwth.IsEnabled = true;
-        this.Delta.IsEnabled = true ;
+        this.Delta.IsEnabled = true;
         this.ClearLogs.IsEnabled = true;
       }));
 
@@ -328,7 +333,7 @@ namespace Chocobro {
     }
     private void Button_Click(object sender, RoutedEventArgs e) {
       //TODO: disable button
-      
+
       WEP.IsEnabled = false;
       AADMG.IsEnabled = false;
       DELAY.IsEnabled = false;
@@ -352,10 +357,9 @@ namespace Chocobro {
       StatGrwth.IsEnabled = false;
       Delta.IsEnabled = false;
       ClearLogs.IsEnabled = false;
-       
 
-      this.Dispatcher.Invoke((Action)(() =>
-    {
+
+      this.Dispatcher.Invoke((Action)(() => {
       this.progressBar.Value = 0;
       Thread simming = new Thread(simulate);
       //Read Fight Length in as double.
@@ -371,7 +375,7 @@ namespace Chocobro {
       simming.Start();
 
     }));
-      
+
       //console.AppendText("" + Environment.NewLine + DPSarray[0] + ", " + DPSarray[1] + ", " + DPSarray[2]);
 
 
@@ -395,7 +399,7 @@ namespace Chocobro {
         logstring += s;
         if (newline) { logstring += "\n"; }
       }
-     
+
     }
     public static void writeLog() {
       StreamWriter sw = File.AppendText("output.txt");
@@ -426,7 +430,7 @@ namespace Chocobro {
     }
     public void resetSim() {
       time = 0.00;
-     
+
       servertime = 0;
       servertick = 0;
       logstring = "";
@@ -434,25 +438,23 @@ namespace Chocobro {
 
     }
     public void readLog() {
-      this.Dispatcher.Invoke((Action)(() =>
-    {
+      this.Dispatcher.Invoke((Action)(() => {
       StreamReader sr = new StreamReader("output.txt"); //TODO allow user to rename this.
       var readContents = sr.ReadToEnd();
       console.AppendText(readContents);
       sr.Close();
     }));
- 
-     
+
+
     }
     public void readReport() {
-      this.Dispatcher.Invoke((Action)(() =>
-    {
+      this.Dispatcher.Invoke((Action)(() => {
       StreamReader sr = new StreamReader("report.txt"); //TODO allow user to rename this.
       var readContents = sr.ReadToEnd();
       reportConsole.AppendText(readContents);
       sr.Close();
     }));
-    
+
     }
 
     private void console_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) {

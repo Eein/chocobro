@@ -9,7 +9,7 @@ namespace Chocobro {
     public bool heavyshotproc = false;
 
     public Bard() {
-      
+
       name = "Bard";
 
 
@@ -18,7 +18,7 @@ namespace Chocobro {
       AMP = INT;
       //this needs to work somehow. bard needs to update its specific stats from its own job. either that or we need a nasty conditional in job based on the name...
     }
-    
+
     public override void report() {
       base.report();
       // add abilities to list used for reporting. Each ability needs to be added ;(
@@ -68,9 +68,9 @@ namespace Chocobro {
         execute(ref invigorate);
       }
 
-     if (heavyshot.buff <= 0) { heavyshotproc = false; }
-     if (heavyshotproc == true && straightshot.buff <= 4 ) {
-          execute(ref straightshot);
+      if (heavyshot.buff <= 0) { heavyshotproc = false; }
+      if (heavyshotproc == true && straightshot.buff <= 4) {
+        execute(ref straightshot);
       }
 
       if (straightshot.buff <= gcd) {
@@ -161,7 +161,7 @@ namespace Chocobro {
           nextability = MainWindow.servertime + (3 - MainWindow.servertick);
           OOT = true;
         } else {
-          
+
           if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
             //Get game time (remove decimal error)
             MainWindow.time = MainWindow.floored(MainWindow.time);
@@ -282,7 +282,7 @@ namespace Chocobro {
         } else {
           autoattack.misses += 1;
           numberofmisses += 1;
-          MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next AA at: " + ability.nextCast); 
+          MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next AA at: " + ability.nextCast);
         }
       }
 
@@ -299,9 +299,9 @@ namespace Chocobro {
           ability.dotbuff["potion"] = false;
         }
         //If dot exists and ability doesn't miss, enable its time.
-      
+
         ability.debuff = ability.debuffTime;
-     
+
         if (ragingstrikes.buff > 0) { ability.dotbuff["ragingstrikes"] = true; }
         if (bloodforblood.buff > 0) { ability.dotbuff["bloodforblood"] = true; }
         if (straightshot.buff > 0) { ability.dotbuff["straightshot"] = true; }
@@ -362,7 +362,7 @@ namespace Chocobro {
         if (ability.buff <= 0.0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
         }
-      } 
+      }
     }
 
     public int damage(ref Ability ability, int pot, bool dot = false) {
@@ -401,7 +401,7 @@ namespace Chocobro {
         if (ability.dotbuff["bloodforblood"]) { damageformula *= 1.10; }
         if (ability.dotbuff["straightshot"]) { critchance += 10; }
         if (ability.dotbuff["internalrelease"]) { critchance += 10; }
-        
+
       } else {
         if (ragingstrikes.buff > 0 && ability.name != "Flaming Arrow") { damageformula *= 1.20; }
         if (bloodforblood.buff > 0 && ability.name != "Flaming Arrow") { damageformula *= 1.10; }
@@ -411,7 +411,7 @@ namespace Chocobro {
 
       if (critroll <= critchance) {
         numberofcrits += 1;
-        
+
         MainWindow.log("!!CRIT!! - ", false);
         damageformula *= 1.5;
         if (dot) {
@@ -430,12 +430,12 @@ namespace Chocobro {
 
 
         }
-      } 
+      }
 
       // added variance to damage.
       damageformula = ((MainWindow.d100(-500, 500) / 10000) + 1) * (int)damageformula;
       return (int)damageformula;
-    } 
+    }
 
 
 
@@ -485,7 +485,7 @@ namespace Chocobro {
     Ability autoattack = new Autoattack();
     Ability xpotiondexterity = new XPotionDexterity();
 
-    
+
 
     // Set array of abilities for reportingz
 
@@ -508,7 +508,7 @@ namespace Chocobro {
     // End Heavyshot ---------------------
 
     // Windbite --------------------------
-    
+
     public class Windbite : Ability {
       public Windbite() {
         name = "Windbite";
@@ -526,7 +526,7 @@ namespace Chocobro {
     // End Windbite --------------------------
 
     // Venomous Bite -------------------------
-    
+
     public class Venomousbite : Ability {
       public Venomousbite() {
         name = "Venomous Bite";
@@ -543,7 +543,7 @@ namespace Chocobro {
     // End Venomous Bite ----------------------
 
     // Straight Shot --------------------------
-    
+
     public class Straightshot : Ability {
       public Straightshot() {
         name = "Straight Shot";
@@ -560,7 +560,7 @@ namespace Chocobro {
     // End Straight Shot --------------------------
 
     // Bloodletter --------------------------------
-    
+
     public class Bloodletter : Ability {
       public Bloodletter() {
         name = "Bloodletter";
@@ -577,7 +577,7 @@ namespace Chocobro {
     // End Bloodletter ---------------------------
 
     // Miserys End -------------------------------
-    
+
     public class Miserysend : Ability {
       public Miserysend() {
         name = "Miserys End";
@@ -594,7 +594,7 @@ namespace Chocobro {
     // End  Miserys End -------------------------------
 
     // Blunt Arrow ------------------------------------
-    
+
     public class Bluntarrow : Ability {
       public Bluntarrow() {
         name = "Blunt Arrow";
@@ -610,7 +610,7 @@ namespace Chocobro {
     // End Blunt Arrow -------------------------------
 
     // Repelling Shot ---------------------------------
-    
+
     public class Repellingshot : Ability {
       public Repellingshot() {
         name = "Repelling Shot";
@@ -626,7 +626,7 @@ namespace Chocobro {
     // End Repelling Shot ----------------------------
 
     //Flaming Arrow
-    
+
     public class Flamingarrow : Ability {
       public Flamingarrow() {
         name = "Flaming Arrow";
@@ -644,7 +644,7 @@ namespace Chocobro {
     // End Flaming Arrow
 
     // Internal Release
-    
+
     public class Internalrelease : Ability {
       public Internalrelease() {
         name = "Internal Release";
@@ -658,7 +658,7 @@ namespace Chocobro {
     // End Internal Release
 
     // Blood for Blood
-    
+
     public class Bloodforblood : Ability {
       public Bloodforblood() {
         name = "Blood for Blood";
@@ -672,7 +672,7 @@ namespace Chocobro {
     // End Blood for Blood
 
     // Raging Strikes
-    
+
     public class Ragingstrikes : Ability {
       public Ragingstrikes() {
         name = "Raging Strikes";
@@ -686,7 +686,7 @@ namespace Chocobro {
     // End Raging Strikes
 
     // Hawks Eye
-    
+
     public class Hawkseye : Ability {
       public Hawkseye() {
         name = "Hawks Eye";
@@ -700,7 +700,7 @@ namespace Chocobro {
     // End Hawks Eye
 
     // Barrage
-    
+
     public class Barrage : Ability {
       public Barrage() {
         name = "Barrage";
@@ -714,7 +714,7 @@ namespace Chocobro {
     // End Barrage
 
     // Invigorate
-    
+
     public class Invigorate : Ability {
       public Invigorate() {
         name = "Invigorate";
@@ -726,7 +726,7 @@ namespace Chocobro {
     }
     // End Invigorate
     // Auto Attack
-    
+
     public class Autoattack : Ability {
       public Autoattack() {
         name = "Auto Attack";
@@ -738,6 +738,6 @@ namespace Chocobro {
     // End Auto Attack
 
     //Pots...
-   
+
   }
 }

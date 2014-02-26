@@ -61,46 +61,46 @@ namespace Chocobro {
 
     public void getStats(MainWindow cs) {
       cs.Dispatcher.Invoke((Action)(() => {
-      STR = Convert.ToInt32(cs.STR.Text);
-      DEX = Convert.ToInt32(cs.DEX.Text);
-      VIT = Convert.ToInt32(cs.VIT.Text);
-      INT = Convert.ToInt32(cs.INT.Text);
-      MND = Convert.ToInt32(cs.MND.Text);
-      PIE = Convert.ToInt32(cs.PIE.Text);
+        STR = Convert.ToInt32(cs.STR.Text);
+        DEX = Convert.ToInt32(cs.DEX.Text);
+        VIT = Convert.ToInt32(cs.VIT.Text);
+        INT = Convert.ToInt32(cs.INT.Text);
+        MND = Convert.ToInt32(cs.MND.Text);
+        PIE = Convert.ToInt32(cs.PIE.Text);
 
-      WEP = Convert.ToInt32(cs.WEP.Text);
-      AADMG = Convert.ToDouble(cs.AADMG.Text);
-      AADELAY = Convert.ToDouble(cs.DELAY.Text);
+        WEP = Convert.ToInt32(cs.WEP.Text);
+        AADMG = Convert.ToDouble(cs.AADMG.Text);
+        AADELAY = Convert.ToDouble(cs.DELAY.Text);
 
-      DTR = Convert.ToInt32(cs.DTR.Text);
-      CRIT = Convert.ToInt32(cs.CRIT.Text);
-      SKS = Convert.ToInt32(cs.SKSPD.Text);
-      SPS = Convert.ToInt32(cs.SPSPD.Text);
-      ACC = Convert.ToInt32(cs.ACC.Text);
-      AAPOT = AADMG / System.Convert.ToDouble(WEP);
+        DTR = Convert.ToInt32(cs.DTR.Text);
+        CRIT = Convert.ToInt32(cs.CRIT.Text);
+        SKS = Convert.ToInt32(cs.SKSPD.Text);
+        SPS = Convert.ToInt32(cs.SPSPD.Text);
+        ACC = Convert.ToInt32(cs.ACC.Text);
+        AAPOT = AADMG / System.Convert.ToDouble(WEP);
 
-      statweight = Convert.ToString(cs.statweights.Text);
-      delta = Convert.ToInt32(cs.Delta.Text);
-      StatGrwth = Convert.ToInt32(cs.StatGrwth.Text);
+        statweight = Convert.ToString(cs.statweights.Text);
+        delta = Convert.ToInt32(cs.Delta.Text);
+        StatGrwth = Convert.ToInt32(cs.StatGrwth.Text);
 
-      //Define AA
-      totaldamage = 0;
-      numberofcrits = 0;
-      numberofattacks = 0;
-      numberofhits = 0;
-      numberofticks = 0;
-      numberofmisses = 0;
-      nextability = 0.00;
-      nextinstant = 0.00;
-      nextauto = 0.00;
-      TP = 1000;
-      MP = 1000;
-      actionmade = false;
-      OOT = false;
-      OOM = false;
+        //Define AA
+        totaldamage = 0;
+        numberofcrits = 0;
+        numberofattacks = 0;
+        numberofhits = 0;
+        numberofticks = 0;
+        numberofmisses = 0;
+        nextability = 0.00;
+        nextinstant = 0.00;
+        nextauto = 0.00;
+        TP = 1000;
+        MP = 1000;
+        actionmade = false;
+        OOT = false;
+        OOM = false;
 
 
-    }));
+      }));
 
     }
 

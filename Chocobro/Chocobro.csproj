@@ -54,6 +54,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Sim Base\Report.cs" />
+    <Compile Include="Sim Base\Utility.cs" />
     <None Include="Job Modules\Template.cs" />
     <Compile Include="Job Modules\Paladin.cs" />
     <Compile Include="Job Modules\Bard.cs" />
