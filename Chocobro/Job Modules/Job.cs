@@ -48,8 +48,6 @@ namespace Chocobro {
     public int numberofhits = 0;
     public int numberofticks = 0;
     public int numberofmisses = 0;
-    public static List<double> timelinetime = new List<double>();
-    public static List<double> timelineDPS = new List<double>();
     public int ticknumber = 0;
 
     //stat weights
@@ -133,11 +131,6 @@ namespace Chocobro {
     public virtual void rotation() { }
     public virtual void regen() {
       if (MainWindow.time == MainWindow.servertime && MainWindow.servertick == 3) {
-        timelinetime.Add(MainWindow.time);
-        timelineDPS.Add((double)totaldamage / (double)MainWindow.time);
-        //MainWindow.log("Tick number: " + (ticknumber + 1) + " Time: " + MainWindow.time + " Damage so far: " + (double)totaldamage + " DPS: " + ((double)totaldamage / (double)MainWindow.time));
-        ticknumber += 1;
-
         //TODO: SOME LOGIC HERE IS WRONG.  TP does NOT regen on the server dot tick (tested myself)
         //TP regen
         if (TP < 1000) {
