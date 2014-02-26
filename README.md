@@ -3,7 +3,7 @@ Chocobro
 
 A FFXIV 2.0 Combat Simulator
 
-Chocobro is heavily influenced by Simulationcraft (albiet, not build from the same source).
+Chocobro is heavily influenced by [Simulationcraft](Simulationcraft.org) for World of Warcraft (albiet, not build from the same source).
 It's a single player simulator designed to explore combat mechanics and gear/stat selection. This simulator is designed to replicate in-game mechanics with a high level of accuracy.
 
 
