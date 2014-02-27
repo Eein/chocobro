@@ -136,7 +136,7 @@ namespace Chocobro {
     public MainWindow() {
 
       InitializeComponent();
-      servertick = randtick.Next(1, 4);
+      
 
       //Initialize default actions here. (autorun on load)
     }
@@ -163,7 +163,7 @@ namespace Chocobro {
 
       stopwatch.Start();
 
-      debug(); //have option to disable TODO:
+      
       Factory fact = new Factory();
       Report r = new Report();
 
@@ -193,7 +193,7 @@ namespace Chocobro {
         double[] DPSarray = new double[iterations];
 
         for (int x = 0; x < iterations; ++x) {
-
+          servertick = randtick.Next(1, 4);
           //alt progress bar for iterations only
           if (swselected == "None") {
 
@@ -215,7 +215,7 @@ namespace Chocobro {
           resetSim();
           fightlength = (Convert.ToInt16(fightlengthtext)) + (d100(0, (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.1)) - (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.05));
           thisdps = 0;
-
+          debug(); //have option to disable TODO:
           while (time <= fightlength) {
             handler(ref p);
             tickevent();
@@ -423,7 +423,7 @@ namespace Chocobro {
       time = 0.00;
 
       servertime = 0;
-      servertick = 0;
+      servertick = randtick.Next(1, 4);
       logstring = "";
       reportstring = "";
 
