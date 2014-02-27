@@ -434,8 +434,6 @@ namespace Chocobro {
       return (int)damageformula;
     }
 
-
-
     // -------------------
     // Ability Definition
     // -------------------
@@ -443,26 +441,10 @@ namespace Chocobro {
     //resets
     public override void resetAbilities() {
       //This is required to clear the cache before each set of iterations.
-      heavyshot.resetAbility();
-      windbite.resetAbility();
-      venomousbite.resetAbility();
-      straightshot.resetAbility();
-      bloodletter.resetAbility();
-      miserysend.resetAbility();
-      bluntarrow.resetAbility();
-      repellingshot.resetAbility();
-      flamingarrow.resetAbility();
-      internalrelease.resetAbility();
-      bloodforblood.resetAbility();
-      ragingstrikes.resetAbility();
-      hawkseye.resetAbility();
-      barrage.resetAbility();
-      invigorate.resetAbility();
-      autoattack.resetAbility();
-      // Dont forget pots! We can make global pots and food later.
-      xpotiondexterity.resetAbility();
+      foreach (Ability ability in areport) {
+        ability.resetAbility();
+      }
     }
-
 
     Ability heavyshot = new Heavyshot();
     Ability windbite = new Windbite();
