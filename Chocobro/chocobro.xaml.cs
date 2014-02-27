@@ -41,7 +41,7 @@ namespace Chocobro {
     public static bool logging = true;
     //Resources
     public static string logstring = "";
-    public static string reportstring = "";
+    //public static string reportstring = "";
     public static double AADELAY;
 
 
@@ -231,10 +231,10 @@ namespace Chocobro {
 
             writeLog();
             p.report();
-            writeReport();
-            readReport();
-            clearReport();
-            reportstring = "";
+            //writeReport();
+            //readReport();
+            //clearReport();
+            //reportstring = "";
             readLog();
 
           } else {
@@ -262,12 +262,12 @@ namespace Chocobro {
 
       } //end statweight set
 
-      reportstring += "AvgDPS" + " + StatWeights for \"" + swselected + "\"";
-      reportstring += Environment.NewLine;
-      for (int index = 0; index < counter1; index++) {  //prints Each DPSavg per interval
-        reportstring += DPSavgarray[index];
-        reportstring += Environment.NewLine;
-      }
+     // reportstring += "AvgDPS" + " + StatWeights for \"" + swselected + "\"";
+     // reportstring += Environment.NewLine;
+      //for (int index = 0; index < counter1; index++) {  //prints Each DPSavg per interval
+        //reportstring += DPSavgarray[index];
+        //reportstring += Environment.NewLine;
+      //}
       //pass DPS array to Job for reporting.
       p.DPSarray = DPSavgarray;
 
@@ -276,11 +276,11 @@ namespace Chocobro {
       stopwatch.Stop();
       //reportstring += "AvgDPS: " + averageDPS + " iterations: " + DPSarray.Length;
       //reportstring += Environment.NewLine;
-      reportstring += Environment.NewLine;
-      reportstring += "Total Simulation Time: " + (simulationtime / 1000) + "s.";
-      reportstring += "\n\n";
-      writeReport();
-      readReport();
+      //reportstring += Environment.NewLine;
+      //reportstring += "Total Simulation Time: " + (simulationtime / 1000) + "s.";
+      //reportstring += "\n\n";
+      //writeReport();
+      //readReport();
       // Add actual reporting here...
 
       // End HTML report
@@ -289,6 +289,8 @@ namespace Chocobro {
       
       this.Dispatcher.Invoke((Action)(() => {
         //refresh the html page
+        this.htmlReport.Focus();
+
         this.browser.Navigate(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "report.html"));
 
         this.WEP.IsEnabled = true;
@@ -357,11 +359,11 @@ namespace Chocobro {
       iterations = Convert.ToInt32(iterationsinput.Text);
       fightlength = Convert.ToInt32(fightLengthInput.Text);
       console.Document.Blocks.Clear(); // Clear Console before starting.
-      reportConsole.Document.Blocks.Clear(); // Clear Report before starting.
+      //reportConsole.Document.Blocks.Clear(); // Clear Report before starting.
       clearLog();
-      clearReport();
+      //clearReport();
       logstring = "";
-      reportstring = "";
+      //reportstring = "";
       console.AppendText("" + Environment.NewLine); // This is required because who knows....
       simming.Start();
 
@@ -377,9 +379,9 @@ namespace Chocobro {
 
     private void Button_Clear(object sender, RoutedEventArgs e) {
       clearLog();
-      clearReport();
+      //clearReport();
       console.Document.Blocks.Clear();
-      reportConsole.Document.Blocks.Clear();
+      //reportConsole.Document.Blocks.Clear();
       resetSim();
       console.AppendText("" + Environment.NewLine);
     }
@@ -402,20 +404,20 @@ namespace Chocobro {
       sw.Write("");
       sw.Close();
     }
-    public static void report(String s, bool newline = true) {
-      reportstring += s;
-      if (newline) { reportstring += "\n"; }
-    }
-    public static void writeReport() {
-      StreamWriter sw = File.AppendText("report.txt");
-      sw.WriteLine(reportstring);
-      sw.Close();
-    }
-    public static void clearReport() {
-      StreamWriter sw = new StreamWriter("report.txt");
-      sw.Write("");
-      sw.Close();
-    }
+    //public static void report(String s, bool newline = true) {
+    //  reportstring += s;
+    //  if (newline) { reportstring += "\n"; }
+    //}
+    //public static void writeReport() {
+    //  StreamWriter sw = File.AppendText("report.txt");
+    //  sw.WriteLine(reportstring);
+    //  sw.Close();
+    //}
+    //public static void clearReport() {
+    //  StreamWriter sw = new StreamWriter("report.txt");
+    //  sw.Write("");
+    //  sw.Close();
+    //}
     public static void debug() {
       log("!! -- Tick Starting at: " + servertick);
     }
@@ -425,7 +427,7 @@ namespace Chocobro {
       servertime = 0;
       servertick = randtick.Next(1, 4);
       logstring = "";
-      reportstring = "";
+      //reportstring = "";
 
     }
     public void readLog() {
@@ -438,15 +440,15 @@ namespace Chocobro {
 
 
     }
-    public void readReport() {
-      this.Dispatcher.Invoke((Action)(() => {
-      StreamReader sr = new StreamReader("report.txt"); //TODO allow user to rename this.
-      var readContents = sr.ReadToEnd();
-      reportConsole.AppendText(readContents);
-      sr.Close();
-    }));
-
-    }
+   // public void readReport() {
+   //   this.Dispatcher.Invoke((Action)(() => {
+   //   StreamReader sr = new StreamReader("report.txt"); //TODO allow user to rename this.
+   //   var readContents = sr.ReadToEnd();
+   //   //reportConsole.AppendText(readContents);
+   //   sr.Close();
+   // }));
+   //
+   // }
 
     private void console_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) {
 

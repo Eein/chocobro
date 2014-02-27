@@ -16,45 +16,7 @@ namespace Chocobro {
       //this needs to work somehow. bard needs to update its specific stats from its own job. either that or we need a nasty conditional in job based on the name...
     }
 
-    public override void report() {
-      base.report();
-      // add abilities to list used for reporting. Each ability needs to be added ;(
-      areport.Add(heavyshot);
-      areport.Add(venomousbite);
-      areport.Add(windbite);
-      areport.Add(straightshot);
-      areport.Add(bloodletter);
-      areport.Add(miserysend);
-      areport.Add(bluntarrow);
-      areport.Add(repellingshot);
-      areport.Add(flamingarrow);
-      areport.Add(internalrelease);
-      areport.Add(bloodforblood);
-      areport.Add(ragingstrikes);
-      areport.Add(hawkseye);
-      areport.Add(barrage);
-      areport.Add(invigorate);
-      areport.Add(autoattack);
-      areport.Add(xpotiondexterity);
-      // add bard ability reporting
 
-      MainWindow.report("");
-      MainWindow.report("Abilities");
-      MainWindow.report("Heavyshot - Hits: " + heavyshot.hits + " Misses: " + heavyshot.misses + " Crits: " + heavyshot.crits + " Procs: " + heavyshot.procs + " TotalDMG: " + heavyshot.damage);
-      MainWindow.report("Straight Shot - Hits: " + straightshot.hits + " Misses: " + straightshot.misses + " Crits: " + straightshot.crits + " Procs: " + straightshot.procs + " TotalDMG: " + straightshot.damage);
-      MainWindow.report("Bloodletter - Hits: " + bloodletter.hits + " Misses: " + bloodletter.misses + " Crits: " + bloodletter.crits + " Procs: " + bloodletter.procs + " TotalDMG: " + bloodletter.damage);
-      MainWindow.report("Auto-Attack - Hits: " + autoattack.hits + " Misses: " + autoattack.misses + " Crits: " + autoattack.crits + " Procs: " + autoattack.procs + " TotalDMG: " + autoattack.damage);
-      MainWindow.report("Repelling Shot - Hits: " + repellingshot.hits + " Misses: " + repellingshot.misses + " Crits: " + repellingshot.crits + " Procs: " + repellingshot.procs + " TotalDMG: " + repellingshot.damage);
-      MainWindow.report("Blunt Arrow - Hits: " + bluntarrow.hits + " Misses: " + bluntarrow.misses + " Crits: " + bluntarrow.crits + " Procs: " + bluntarrow.procs + " TotalDMG: " + bluntarrow.damage);
-      MainWindow.report("Windbite - Hits: " + windbite.hits + " Misses: " + windbite.misses + " Crits: " + windbite.crits + " Ability Damage: " + windbite.damage);
-      MainWindow.report("WindbiteDOT - Ticks: " + windbite.ticks + " Tick Crits: " + windbite.tickcrits + " Dot Damage: " + windbite.dotdamage + " Procs: " + windbite.procs);
-      MainWindow.report("Venomous Bite - Hits: " + venomousbite.hits + " Misses: " + venomousbite.misses + " Crits: " + venomousbite.crits + " Ability Damage: " + venomousbite.damage);
-      MainWindow.report("Venomous BiteDOT - Ticks: " + venomousbite.ticks + " Tick Crits: " + venomousbite.tickcrits + " Dot Damage: " + venomousbite.dotdamage + " Procs: " + venomousbite.procs);
-      MainWindow.report("Flaming ArrowDOT - Ticks: " + flamingarrow.ticks + " Tick Crits: " + flamingarrow.tickcrits + " Dot Damage: " + flamingarrow.dotdamage);
-      MainWindow.report("");
-      MainWindow.report("-------------------------------------------------------------------------------");
-      MainWindow.report("If you have multiple iterations, results are coming soon....");
-    }
     public override void rotation() {
 
       var gcd = calculateGCD();
@@ -446,6 +408,27 @@ namespace Chocobro {
       }
     }
 
+    public override void report() {
+      base.report();
+      // add abilities to list used for reporting. Each ability needs to be added ;(
+      areport.Add(heavyshot);
+      areport.Add(venomousbite);
+      areport.Add(windbite);
+      areport.Add(straightshot);
+      areport.Add(bloodletter);
+      areport.Add(miserysend);
+      areport.Add(bluntarrow);
+      areport.Add(repellingshot);
+      areport.Add(flamingarrow);
+      areport.Add(internalrelease);
+      areport.Add(bloodforblood);
+      areport.Add(ragingstrikes);
+      areport.Add(hawkseye);
+      areport.Add(barrage);
+      areport.Add(invigorate);
+      areport.Add(autoattack);
+      areport.Add(xpotiondexterity);
+    }
     Ability heavyshot = new Heavyshot();
     Ability windbite = new Windbite();
     Ability venomousbite = new Venomousbite();
@@ -475,7 +458,6 @@ namespace Chocobro {
         name = "Heavy Shot";
         potency = 150;
         dotPotency = 0;
-
         TPcost = 60;
         animationDelay = 0.8;
         abilityType = "Weaponskill";
@@ -493,7 +475,6 @@ namespace Chocobro {
         name = "Windbite";
         potency = 60;
         dotPotency = 45;
-
         TPcost = 80;
         animationDelay = 1.0;
         abilityType = "Weaponskill";
@@ -511,7 +492,6 @@ namespace Chocobro {
         name = "Venomous Bite";
         potency = 100;
         dotPotency = 35;
-
         TPcost = 80;
         animationDelay = 0.7;
         abilityType = "Weaponskill";
@@ -716,8 +696,6 @@ namespace Chocobro {
       }
     }
     // End Auto Attack
-
-    //Pots...
 
   }
 }

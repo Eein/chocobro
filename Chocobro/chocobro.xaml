@@ -1,6 +1,7 @@
-﻿<Window x:Class="Chocobro.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Chocobro.MainWindow"
         Title="Chocobro v0.0.2" Icon="chocobro.ico" MinHeight="580" MinWidth="400" Height="580" Width="800" ScrollViewer.HorizontalScrollBarVisibility="Auto" Closed="Window_Closed">
     <Grid Margin="0,0,4,0">
         <Grid.ColumnDefinitions>
@@ -29,7 +30,7 @@
         <Label Content="Fight Length:" HorizontalAlignment="Left" Margin="10,451,0,0" VerticalAlignment="Top" Height="26" Width="79"/>
         <TabControl Margin="147,27,0,0" Grid.ColumnSpan="2">
 
-            <TabItem Header="Console" RenderTransformOrigin="1.78,0.5" Margin="111,-2,-115,0">
+            <TabItem Header="Console" RenderTransformOrigin="1.78,0.5" Margin="57,-2,-61,0">
 
                 <Grid Background="#FFE5E5E5" Margin="-2">
                     <Grid.ColumnDefinitions>
@@ -69,24 +70,13 @@
                     </ComboBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Report" HorizontalAlignment="Left" Width="61" Margin="-55,-2,0,0">
-                <Grid Background="#FFE5E5E5" Margin="-1">
-                    <RichTextBox x:Name="reportConsole" x:FieldModifier="public" IsReadOnly="True" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" BorderBrush="{x:Null}" SelectionBrush="Gray" Padding="5" Margin="-1">
-                        <RichTextBox.Resources>
-                            <Style TargetType="{x:Type Paragraph}">
-                                <Setter Property="Margin" Value="0"/>
-                            </Style>
-                        </RichTextBox.Resources>
-                    </RichTextBox>
-                </Grid>
-            </TabItem>
-            <TabItem Header="HTML" Margin="-1,-2,0,0" BorderThickness="0,0,0,0" HorizontalAlignment="Left">
+            <TabItem x:Name="htmlReport" Header="Report" Margin="6,-2,-6,0" BorderThickness="0,0,0,0" HorizontalAlignment="Left">
                 <Grid Background="#FFE5E5E5" IsManipulationEnabled="True">
                     <WebBrowser x:Name="browser"  />
                 </Grid>
             </TabItem>
         </TabControl>
-        <Label Content="WEP&#xD;&#xA;" HorizontalAlignment="Left" Margin="19,88,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="24"/>
+        <Label Content="WEP&#xA;" HorizontalAlignment="Left" Margin="19,88,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="24"/>
         <TextBox x:Name="WEP" HorizontalAlignment="Left" Height="20" Margin="77,88,0,0" TextWrapping="Wrap" Text="42" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="AADMG&#xA;" HorizontalAlignment="Left" Margin="19,110,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="43"/>
         <TextBox x:Name="AADMG" HorizontalAlignment="Left" Height="20" Margin="77,110,0,0" TextWrapping="Wrap" Text="44.80" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
