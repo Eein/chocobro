@@ -25,7 +25,7 @@ namespace Chocobro {
       //stats
       report += "Job:" + j.name + "</div><div class='class'>Class:"+j.classname+"</div><div class='race'>Race:N/A</div><div class='iterations'>Iterations:" + MainWindow.iterations + "</div><div class='simtime'>Sim Time Elapsed: "+ j.simulationtime +"s</div><div class='fightlength'>Fightlength (s):" + MainWindow.fightlength;
       if (MainWindow.iterations > 1){
-         report += "<h2>Average DPS: " + Math.Floor(j.averagedps) + "</h2>";
+         report += "<h2>Average DPS: " + (Math.Floor((j.averagedps * 1000))/1000) + "</h2>";
       }
       report += "<h3>ITERATION DPS: " + Math.Floor((j.totaldamage / fightlength)) + "</h3><h3>ITERATION DAMAGE: " + j.totaldamage + "</h3></div></div><div class='stats'><h3>Character stats</h3>";
       report += "<div class'STR'>STR:" + j.STR + "</div><div class'DEX'>DEX:" + j.DEX + "</div><div class'VIT'>VIT:" + j.VIT + "</div><div class'INT'>INT:" + j.INT + "</div><div class'MND'>MND:" + j.MND + "</div><div class'PIE'>PIE:" + j.PIE + "</div><div class'ACC'>ACC:" + j.ACC + "</div><div class'CRIT'>CRIT:" + j.CRIT + "</div><div class'DET'>DET:" + j.DTR + "</div><div class'AP'>AP:" + j.AP + "</div><div class'AMP'>AMP:" + j.AMP + "</div><div class'WEP'>WEP:" + j.WEP + "</div><div class'AADMG'>AADMG:" + j.AADMG + "</div><div class'AADELAY'>AADELAY:" + j.AADELAY + "</div></div></div>";
