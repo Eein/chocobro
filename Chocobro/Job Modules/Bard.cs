@@ -4,21 +4,23 @@ using System.Windows;
 namespace Chocobro {
 
   public class Bard : Job {
-    //proc bool definitions
+    // Proc Booleans - Set all proc booleans false initially.
     public bool bloodletterproc = false;
     public bool heavyshotproc = false;
 
     public Bard() {
       name = "Bard";
-      //for all classes, we might want a utility function for this as well.. vvv that way we use AP/AMP for damage calcs, and not hardcoded primary stats.
-      AP = DEX;
-      AMP = INT;
-      //this needs to work somehow. bard needs to update its specific stats from its own job. either that or we need a nasty conditional in job based on the name...
+      classname = "Archer";
+    }
+    public override void getStats(MainWindow cs) {
+      base.getStats(cs);
+      // Define AP and MP conversion.
+        AP = DEX;
+        AMP = INT;
     }
 
-
     public override void rotation() {
-
+      
       var gcd = calculateGCD();
       autoattack.recastTime = AADELAY;
       regen();
@@ -76,8 +78,7 @@ namespace Chocobro {
       //if tick is 3 
       tick(ref windbite);
       tick(ref venomousbite);
-      tick(ref flamingarrow)
-        ;
+      tick(ref flamingarrow);
       //auto 
       execute(ref autoattack);
 

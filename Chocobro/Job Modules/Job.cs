@@ -10,6 +10,7 @@ namespace Chocobro {
   public partial class Job {
 
     public string name { get; set; }
+    public string classname { get; set; }
     public int STR { get; set; }
     public int DEX { get; set; }
     public int VIT { get; set; }
@@ -30,8 +31,8 @@ namespace Chocobro {
     public int ACC = 341;
     public int SKS = 341;
     public int SPS = 341;
-    public int AP { get; set; } // Define after gear
-    public int AMP { get; set; } // Define after gear
+    public int AP  { get; set; } // Define after gear
+    public int AMP  { get; set; } // Define after gear
     public double nextability = 0.00;
     public double nextinstant = 0.00;
     public double nextauto = 0.00;
@@ -49,15 +50,15 @@ namespace Chocobro {
     public int numberofticks = 0;
     public int numberofmisses = 0;
     public int ticknumber = 0;
-
+    public double averagedps = 0;
     //stat weights
-    public double[] DPSarray;
+    public List<double> DPSarray = new List<double>();
     public string statforweights;
 
     //ability reporting list
     public List<Ability> areport = new List<Ability>();
 
-    public void getStats(MainWindow cs) {
+    public virtual void getStats(MainWindow cs) {
       cs.Dispatcher.Invoke((Action)(() => {
         STR = Convert.ToInt32(cs.STR.Text);
         DEX = Convert.ToInt32(cs.DEX.Text);
@@ -76,6 +77,7 @@ namespace Chocobro {
         SPS = Convert.ToInt32(cs.SPSPD.Text);
         ACC = Convert.ToInt32(cs.ACC.Text);
         AAPOT = AADMG / System.Convert.ToDouble(WEP);
+
 
         statweight = Convert.ToString(cs.statweights.Text);
         delta = Convert.ToInt32(cs.Delta.Text);
@@ -118,14 +120,6 @@ namespace Chocobro {
       TP += amount;
     }
     public virtual void report() {
-      //blank reporting
-      //DPS PRINTOUT
-      //MainWindow.report("Last Iteration");
-      //MainWindow.report("");
-      //MainWindow.report("Damage Dealt: " + this.totaldamage + " - DPS: " + (this.totaldamage / MainWindow.fightlength));
-      //MainWindow.report("Number of Attacks: " + (this.numberofattacks + this.numberofticks));
-      //MainWindow.report("Number of Crits: " + this.numberofcrits + " - Crit%: " + (Math.Round((((double)this.numberofcrits) / ((double)this.numberofattacks + (double)this.numberofticks)) * 10000) / 100) + "%");
-      //MainWindow.report("Number of Misses: " + this.numberofmisses + " - Miss%: " + (Math.Round((double)this.numberofmisses / ((double)this.numberofattacks) * 10000) / 100) + "%");
 
     }
     public virtual void rotation() { }
@@ -172,6 +166,7 @@ namespace Chocobro {
     public virtual void resetAbilities() {
       //nothing
     }
+
 
   }
 }

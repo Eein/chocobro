@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 //-------------TODO-------------------
 // 1. Make options for Logs: None - Show - Debug :: this only applies to first iteration ALWAYS.
-// 2. Make streamwriter global for faster parsing.
+// 
 //
 //
 //------------------------------------
@@ -27,41 +27,46 @@ namespace Chocobro {
   /// </summary>
 
   public partial class MainWindow : Window {
-    //Create a random tick to start on.
+    //Global Definition
     Random randtick = new Random();
     Stopwatch stopwatch = new Stopwatch();
-    private static readonly Random rand = new Random();
-    //Global Definition
 
+    private static readonly Random rand = new Random();
     public static double time = 0.00;
     public static double fightlength = 0.00;
     public static int servertime = 0;
     public static int servertick = 0;
     public static int iterations = 0;
     public static bool logging = true;
+
     //Resources
     public static string logstring = "";
-    //public static string reportstring = "";
+
+    //Global Stat - TODO: make this not global...
     public static double AADELAY;
+
+    // Error List
+    // 1 - Something impossible happened...
+    //
 
 
     //Character Sheet
     public class Factory {
-      /// <summary>
-      /// Decides which class to instantiate.
-      /// </summary>
-      /// 
+    // Decides which class to instantiate.
       public Job Get(string s) {
-
         switch (s) {
           case "Bard": return new Bard();
           case "Paladin": return new Paladin();
+          //case "Warrior": return new Warrior();
           //case "Black Mage": return new Blackmage();
+          //case "Summoner": return new Summoner();
+          //case "Dragoon": return new Dragoon();
+          //case "Monk": return new Monk();
           default: return new Job();
         }
+        
       }
     }
-
 
     public void handler(ref Job p) {
       p.actionmade = false; //temp
@@ -102,28 +107,8 @@ namespace Chocobro {
       if (auto > time) {
         valuearray.Add(auto);
       }
-      //if (OOT) {
-      //  //REFACTOR? More accuracy is probably better
-      //  valuearray.Add(st_t + (3 - servertick));
-      //}
       value = valuearray.Min();
 
-      //    if (OOT) { //if out of TP
-      //      if (instant > time) {
-      //        value = Math.Min(instant, Math.Min(st_t, auto));
-      //
-      //      } else {
-      //        value = Math.Min(st_t, auto);
-      //      }
-      //    } else {
-      //      if (instant > time) {
-      //        value = Math.Min(instant, Math.Min(ability, Math.Min(st_t, auto)));
-      //
-      //      } else {
-      //        value = Math.Min(ability, Math.Min(st_t, auto));
-      //      }
-      //    }
-      //    //log("Next Action - " + value.ToString("F2") + " !! min value");
       return value;
       //add cast here later.
     }
@@ -134,10 +119,7 @@ namespace Chocobro {
 
     // MAIN
     public MainWindow() {
-
       InitializeComponent();
-      
-
       //Initialize default actions here. (autorun on load)
     }
     public static double calculateCrit(int crit) {
@@ -157,120 +139,104 @@ namespace Chocobro {
             fightlengthtext = fightLengthInput.Text;
 
           }));
-
-
-
-
       stopwatch.Start();
 
-      
       Factory fact = new Factory();
       Report r = new Report();
 
       var playerjob = fact.Get(jobtext);
-
       var p = playerjob;
-      double thisdps = 0;
-      double[] DPSavgarray = new double[21];
-      var counter1 = 0;
+      Trace.Assert(playerjob.name != null, "No job selected. ERROR 1"); //assert failure of factory set.
       p = playerjob;
       string swselected = Convert.ToString(statweighttext);
       p.statforweights = swselected;
-      var trigger1 = 50;
-      if (swselected == "None") { trigger1 = -50; }
-      for (int y = -50; y <= trigger1; y += 5) {
+
+      // TODO: steps and delta...
+      int step = 5;
+      int delta = 50;
+      int newdelta = delta;
+      // TODO: add negative and positive delta selection. Currently we're doing positive only.
+
+      if (swselected == "None") { newdelta = 0; } else { newdelta *= 2; }
+
+      //subtract an extra step because one gets added initially.
+
+
+      List<double> DPSarray = new List<double>();
+      List<double> WeightArray = new List<double>();
+      for (int y = 0; y <= newdelta; y += step) {
+        
         //progress bar incrementing here.. for stat weights
         if (swselected != "None") {
-
           this.Dispatcher.Invoke((Action)(() => {
-            progressBar.Value = (int)((100) - (trigger1 - (y)));
+            progressBar.Value = (int)((100) - ((newdelta) - (y)));
           }));
-
-
         }
-
-
-        double[] DPSarray = new double[iterations];
-
+        
         for (int x = 0; x < iterations; ++x) {
+          
           servertick = randtick.Next(1, 4);
           //alt progress bar for iterations only
           if (swselected == "None") {
-
             this.Dispatcher.Invoke((Action)(() => {
-
               this.progressBar.Value = (int)(((double)x / (double)iterations) * 100) + 1;
-              //MessageBox.Show(""+progressBar.Value + " - val: " + bacon+ " - x: " +x+ " - iterations: " +iterations);
             }));
           }
 
           p.getStats(this);
-          if (swselected == "Weapon Damage") { p.WEP += y; }
-          if (swselected == "Dexterity") { p.DEX += y; }
-          if (swselected == "Accuracy") { p.ACC += y; }
-          if (swselected == "Crit") { p.CRIT += y; }
-          if (swselected == "Determination") { p.CRIT += y; }
-          if (swselected == "Skill Speed") { p.SKS += y; }
+
+          if (swselected == "Weapon Damage") { p.WEP = p.WEP - (delta - y); }
+          if (swselected == "Dexterity") { p.DEX = p.DEX - (delta - y); }
+          if (swselected == "Accuracy") { p.ACC = p.ACC - (delta - y); }
+          if (swselected == "Crit") { p.CRIT = p.CRIT - (delta - y); }
+          if (swselected == "Determination") { p.DTR = p.DTR - (delta - y); }
+          if (swselected == "Skill Speed") { p.SKS = p.SKS - (delta - y); }
+
+
           p.resetAbilities();
           resetSim();
           fightlength = (Convert.ToInt16(fightlengthtext)) + (d100(0, (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.1)) - (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.05));
-          thisdps = 0;
+         
           debug(); //have option to disable TODO:
           while (time <= fightlength) {
             handler(ref p);
             tickevent();
             time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto, p.OOT, p.OOM);
             //add timeline stuff
-            if (((x == 0) && (y == 0 || trigger1 == -50)) && time == servertime) {
+            if ((x == 0) && (y == 0 && time == servertime)) {
               r.timeline.Add(p.totaldamage / time);
             }
 
           }
+          DPSarray.Add((p.totaldamage / fightlength));
 
-          if ((x == 0) && (y == 0 || trigger1 == -50)) {
-
+          if (x == 0 && y == 0) {
+            p.report(); // first iteration of abilities
             writeLog();
-            p.report();
-            //writeReport();
-            //readReport();
-            //clearReport();
-            //reportstring = "";
             readLog();
-
           } else {
             logging = false;
-          }
-
-          thisdps = p.totaldamage / fightlength;
-          DPSarray[x] = thisdps;
-
+          }         
         } //end iteration set
-
-        double totaldps = 0;
-        var slice = Math.Floor(DPSarray.Length * 0.05);
-        Array.Sort(DPSarray);
-
-        for (int index = (int)slice; index < DPSarray.Length - (int)slice; index++) {
-          totaldps += DPSarray[index];
-          //reportstring += (index - (int)slice + 1) + "/" + (DPSarray.Length - (2 * (int)slice)) + " eachDPS: " + DPSarray[index];
-          //reportstring += Environment.NewLine;
-        }
-
-        double averageDPS = totaldps / (DPSarray.Length - (2 * (int)slice));
-        DPSavgarray[counter1] = averageDPS; //array of all DPSavg's from all sets of iterations
-        counter1 += 1;
-
+      
+        DPSarray.Sort();
+        p.averagedps = DPSarray.Average();
+        WeightArray.Add(Math.Round((DPSarray.Average() * 100)) / 100); //array of all DPSavg's from all sets of iterations
+        DPSarray.Clear();
       } //end statweight set
 
      // reportstring += "AvgDPS" + " + StatWeights for \"" + swselected + "\"";
      // reportstring += Environment.NewLine;
-      //for (int index = 0; index < counter1; index++) {  //prints Each DPSavg per interval
+       //prints Each DPSavg per interval
         //reportstring += DPSavgarray[index];
-        //reportstring += Environment.NewLine;
-      //}
+        WeightArray.Sort();
+        p.DPSarray = WeightArray;
+        
+        //MessageBox.Show(DPSavgarray[index] + Environment.NewLine);
+      
       //pass DPS array to Job for reporting.
-      p.DPSarray = DPSavgarray;
-
+      
+      
       r.parse(p);
       double simulationtime = (double)stopwatch.ElapsedMilliseconds;
       stopwatch.Stop();

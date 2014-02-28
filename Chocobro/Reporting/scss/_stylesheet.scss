@@ -4,11 +4,20 @@ html{
 
 }
 body{
-	@include grid-row();
-	background-color:#333;
+	width: 100%;
+	background-color:#222;
 	color:#FFF;
 	font-size:14px;
+	position:absolute;
 
+}
+html
+{
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0px;
+    overflow-x: hidden; 
 }
 a{
 	text-decoration:none;
@@ -21,19 +30,15 @@ a{
 	}
 }
 .tile{
-		background-color:#222;
+		
 		padding:10px;
-		min-height:330px;
-		border: 2px solid #000;
-	
-
+		display:inline-block;
+		
 }
 .wrapper{
-	
-	background-color:#333;
 	@include grid-row();
-	border-left: 2px solid #000;
-	border-right: 2px solid #000;
+	
+
 	height:auto;
 
 }
@@ -43,16 +48,23 @@ a{
 	@include grid-row();
 	background-color:#000;
 	font-size:18px;
-	padding:10px;
+	padding:10px 0;
+
 }
 .info{
 	@extend .tile;
-	@include grid-column(6);
+	@include grid-column(12);
 
 }
 .stats{
 	@extend .tile;
 	@include grid-column(6);
+	div{
+		min-width:100px;
+		padding:5px;
+		float:left;
+		margin-right:20px;
+	}
 
 	}
 .weights{
@@ -60,7 +72,7 @@ a{
 	@include grid-column(12);
 	min-height:300px;
 	table{
-		width:100%;
+		
 		background-color:#000;
 		td{
 			padding:5px;
@@ -76,16 +88,18 @@ a{
 }
 .dpet{
 	@extend .tile;
-	@include grid-column(6);
+	@include grid-column(5);
+
 
 }
 .dpstimeline{
 	@extend .tile;
-	@include grid-column(6);
+	@include grid-column(5);
+
 }
 .damagesources{
 	@extend .tile;
-	@include grid-column(6);
+	@include grid-column(5);
 }
 .blank{
 	@extend .tile;
@@ -97,7 +111,7 @@ a{
 	min-height:300px;
 	table{
 		background-color:#000;
-		width:100%;
+		
 		td{
 			padding:5px;
 		}
@@ -122,7 +136,7 @@ a{
 	@extend .header;
 	font-size:12px;
 	.social{
-		float:right;
+		
 	}
 
 }
