@@ -22,7 +22,7 @@
         <Label Content="Job:" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Height="26" Width="31"/>
         <Menu HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="1253" Grid.ColumnSpan="2" Margin="0,0,-354,0">
             <MenuItem Header="File" Height="22">
-                <MenuItem Header="About" HorizontalAlignment="Left" Width="140"/>
+                <MenuItem Header="About" HorizontalAlignment="Left" Width="140" IsEnabled="False"/>
                 <MenuItem x:Name="ExitApplication" Header="Exit" HorizontalAlignment="Left" Width="140" Click="applicationExit"/>
             </MenuItem>
         </Menu>
@@ -60,10 +60,10 @@
 
 
                     </ComboBox>
-                    <Label Content="Min/Max Stat Growth:" HorizontalAlignment="Left" Margin="41,34,0,0" VerticalAlignment="Top" Height="30"/>
-                    <TextBox x:Name="StatGrwth" HorizontalAlignment="Left" Height="20" Margin="172,39,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="50" IsReadOnly="True" RenderTransformOrigin="2.781,-1.658" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-                    <Label Content="Delta" HorizontalAlignment="Left" Margin="41,64,0,0" VerticalAlignment="Top" Height="30"/>
-                    <ComboBox x:Name="Delta" HorizontalAlignment="Left" Margin="172,66,0,0" VerticalAlignment="Top" Width="50" Height="22" BorderBrush="White"  >
+                    <Label Content="Delta:" HorizontalAlignment="Left" Margin="128,34,0,0" VerticalAlignment="Top" Height="30" IsEnabled="False"/>
+                    <TextBox x:Name="StatGrwth" HorizontalAlignment="Left" Height="20" Margin="172,39,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="50" IsReadOnly="True" RenderTransformOrigin="2.781,-1.658" MaxLines="1" MaxLength="6" Padding="0,1,0,0" IsEnabled="False"/>
+                    <Label Content="Step:" HorizontalAlignment="Left" Margin="132,64,0,0" VerticalAlignment="Top" Height="30" IsEnabled="False"/>
+                    <ComboBox x:Name="Delta" HorizontalAlignment="Left" Margin="172,66,0,0" VerticalAlignment="Top" Width="50" Height="22" BorderBrush="White" IsEnabled="False"  >
                         <ComboBoxItem Content="2" HorizontalAlignment="Left" Width="32" IsEnabled="False"/>
                         <ComboBoxItem Content="5" HorizontalAlignment="Left" Width="32" IsSelected="True"/>
                         <ComboBoxItem Content="10" HorizontalAlignment="Left" Width="32" IsEnabled="False"/>
@@ -106,7 +106,6 @@
         <TextBox x:Name="SPSPD" HorizontalAlignment="Left" Height="20" Margin="77,374,0,0" TextWrapping="Wrap" Text="341" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <TextBox x:Name="iterationsinput" HorizontalAlignment="Left" Height="22" Margin="10,430,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="5000"/>
         <Label Content="Iterations:" HorizontalAlignment="Left" Margin="10,408,0,0" VerticalAlignment="Top" Height="30" Width="62"/>
-        <Button x:Name="ClearLogs" Content="  Clear   " HorizontalAlignment="Right" VerticalAlignment="Center" Click="Button_Clear" Grid.Row="1" Margin="5,0,77,0" Grid.Column="1" Width="50" Height="20" />
         <ProgressBar x:Name="progressBar" HorizontalAlignment="Right" Margin="0,0,20,0" Grid.Row="1" Width="200" VerticalAlignment="Center" Height="20"/>
 
     </Grid>

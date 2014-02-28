@@ -56,7 +56,7 @@ namespace Chocobro {
       public Job Get(string s) {
         switch (s) {
           case "Bard": return new Bard();
-          case "Paladin": return new Paladin();
+          //case "Paladin": return new Paladin();
           //case "Warrior": return new Warrior();
           //case "Black Mage": return new Blackmage();
           //case "Summoner": return new Summoner();
@@ -260,12 +260,10 @@ namespace Chocobro {
         this.iterationsinput.IsEnabled = true;
         this.fightLengthInput.IsEnabled = true;
         this.job.IsEnabled = true;
-        this.ClearLogs.IsEnabled = true;
         this.simulateButton.IsEnabled = true;
         this.statweights.IsEnabled = true;
-        this.StatGrwth.IsEnabled = true;
-        this.Delta.IsEnabled = true;
-        this.ClearLogs.IsEnabled = true;
+        //this.StatGrwth.IsEnabled = true; // TODO: RENAME THESE RIGHT
+        //this.Delta.IsEnabled = true;
       }));
 
     }
@@ -293,13 +291,12 @@ namespace Chocobro {
       SPSPD.IsEnabled = false;
       iterationsinput.IsEnabled = false;
       fightLengthInput.IsEnabled = false;
-      job.IsEnabled = false;
-      ClearLogs.IsEnabled = false;
+      job.IsEnabled = false;  
       simulateButton.IsEnabled = false;
       statweights.IsEnabled = false;
-      StatGrwth.IsEnabled = false;
+      StatGrwth.IsEnabled = false; // TODO: RENAME THIS RIGHT
       Delta.IsEnabled = false;
-      ClearLogs.IsEnabled = false;
+
 
 
       this.Dispatcher.Invoke((Action)(() => {
@@ -309,31 +306,16 @@ namespace Chocobro {
       iterations = Convert.ToInt32(iterationsinput.Text);
       fightlength = Convert.ToInt32(fightLengthInput.Text);
       console.Document.Blocks.Clear(); // Clear Console before starting.
-      //reportConsole.Document.Blocks.Clear(); // Clear Report before starting.
       clearLog();
-      //clearReport();
       logstring = "";
-      //reportstring = "";
       console.AppendText("" + Environment.NewLine); // This is required because who knows....
       simming.Start();
 
     }));
 
-      //console.AppendText("" + Environment.NewLine + DPSarray[0] + ", " + DPSarray[1] + ", " + DPSarray[2]);
-
-
     }
     private void Window_Closed(object sender, EventArgs e) {
       Application.Current.Shutdown();
-    }
-
-    private void Button_Clear(object sender, RoutedEventArgs e) {
-      clearLog();
-      //clearReport();
-      console.Document.Blocks.Clear();
-      //reportConsole.Document.Blocks.Clear();
-      resetSim();
-      console.AppendText("" + Environment.NewLine);
     }
 
     // Logging
@@ -354,20 +336,6 @@ namespace Chocobro {
       sw.Write("");
       sw.Close();
     }
-    //public static void report(String s, bool newline = true) {
-    //  reportstring += s;
-    //  if (newline) { reportstring += "\n"; }
-    //}
-    //public static void writeReport() {
-    //  StreamWriter sw = File.AppendText("report.txt");
-    //  sw.WriteLine(reportstring);
-    //  sw.Close();
-    //}
-    //public static void clearReport() {
-    //  StreamWriter sw = new StreamWriter("report.txt");
-    //  sw.Write("");
-    //  sw.Close();
-    //}
     public static void debug() {
       log("!! -- Tick Starting at: " + servertick);
     }
@@ -377,8 +345,6 @@ namespace Chocobro {
       servertime = 0;
       servertick = randtick.Next(1, 4);
       logstring = "";
-      //reportstring = "";
-
     }
     public void readLog() {
       this.Dispatcher.Invoke((Action)(() => {
@@ -390,15 +356,6 @@ namespace Chocobro {
 
 
     }
-   // public void readReport() {
-   //   this.Dispatcher.Invoke((Action)(() => {
-   //   StreamReader sr = new StreamReader("report.txt"); //TODO allow user to rename this.
-   //   var readContents = sr.ReadToEnd();
-   //   //reportConsole.AppendText(readContents);
-   //   sr.Close();
-   // }));
-   //
-   // }
 
     private void console_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) {
 

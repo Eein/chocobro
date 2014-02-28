@@ -15,12 +15,12 @@ namespace Chocobro {
     public override void getStats(MainWindow cs) {
       base.getStats(cs);
       // Define AP and MP conversion.
-        AP = DEX;
-        AMP = INT;
+      AP = DEX;
+      AMP = INT;
     }
 
     public override void rotation() {
-      
+
       var gcd = calculateGCD();
       autoattack.recastTime = AADELAY;
       regen();
@@ -94,87 +94,24 @@ namespace Chocobro {
 
     }
 
-    public void execute(ref Ability ability) {
-
-
+    public override void execute(ref Ability ability) {
+      //barrage interactions
       if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
-        MainWindow.time = MainWindow.floored(MainWindow.time);
-        MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
-        ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
-        nextauto = MainWindow.floored((MainWindow.time + ability.recastTime));
-        impact(ref ability);
-        if (barrage.buff > 0) {  //barrage interactions
-          impact(ref ability);
-          impact(ref ability);
-        }
-
-      }
-
-      if (ability.abilityType == "Weaponskill" && !OOT) {
-
-        //If time >= next cast time and time >= nextability)
-        if (TP - ability.TPcost < 0) { //attempted to not allow TP to be less than 0, needs to be remade
-          MainWindow.log("Was unable to execute " + ability.name + ". Not enough TP. Current TP is " + TP + "TP.");
-          //nextability = MainWindow.time;
-          //force nextability to next server tick
-          //if invigorate is used and OOM then it resets the time to now.
-          nextability = MainWindow.servertime + (3 - MainWindow.servertick);
-          OOT = true;
-        } else {
-
-          if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
-            //Get game time (remove decimal error)
-            MainWindow.time = MainWindow.floored(MainWindow.time);
-            MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name + ". Cost is " + ability.TPcost + "TP. TP is " + TP + " => " + (TP - ability.TPcost) + ".");
-            // remove TP
-            TP -= ability.TPcost;
-            //if doesnt miss, then impact
-
-            //set nextCast.
-            ability.nextCast = MainWindow.floored((MainWindow.time + calculateGCD()));
-
-
-            //set nextability
-            nextability = MainWindow.floored((MainWindow.time + calculateGCD()));
-            nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
-
-            //time = nextTime(nextinstant, nextability);
-            actionmade = true;
-
-            //var critroll = d100.Next(1, 101);
-            // var critbonus = calculateCrit();
-            impact(ref ability);
-          }
-        }
-      }
-      if (ability.abilityType == "Instant" || ability.abilityType == "Cooldown") {
-        //If time >= next cast time and time >= nextability)
-        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant && nextability > MainWindow.time + ability.animationDelay) { //&& nextability > MainWindow.time + ability.animationDelay is what i added
-          //Get game time (remove decimal error)
+        if (barrage.buff > 0) {
           MainWindow.time = MainWindow.floored(MainWindow.time);
           MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
-          //if doesnt miss, then impact
-
-          //set nextCast.
-          ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
-
-
-          //set nextability
-          if (MainWindow.time + ability.animationDelay > nextability) {
-            nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
-          }
-
-          nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
-
+          impact(ref ability);
+          MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
           impact(ref ability);
         }
       }
 
+      base.execute(ref ability);
 
 
 
     }
-    public virtual void impact(ref Ability ability) {
+    public override void impact(ref Ability ability) {
 
       //var critchance = calculateCrit(_player);
       //if (bard.straightshot.buff > 0) {  critchance += 10; }
@@ -315,16 +252,6 @@ namespace Chocobro {
       }
     }
 
-    public virtual void decrement(ref Ability ability) {
-
-      if (MainWindow.time == MainWindow.servertime && ability.buff > 0) {
-        ability.buff -= 1.0;
-        if (ability.buff <= 0.0) {
-          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
-        }
-      }
-    }
-
     public int damage(ref Ability ability, int pot, bool dot = false) {
       double damageformula = 0.0;
       double tempdex = DEX;
@@ -387,8 +314,6 @@ namespace Chocobro {
         } else {
           //normal attack crit
           ability.crits += 1;
-
-
         }
       }
 
@@ -402,12 +327,7 @@ namespace Chocobro {
     // -------------------
 
     //resets
-    public override void resetAbilities() {
-      //This is required to clear the cache before each set of iterations.
-      foreach (Ability ability in areport) {
-        ability.resetAbility();
-      }
-    }
+ 
 
     public override void report() {
       base.report();
@@ -640,7 +560,7 @@ namespace Chocobro {
         animationDelay = 0.9;
         abilityType = "Cooldown";
         buffTime = 20;
-        
+
       }
 
     }

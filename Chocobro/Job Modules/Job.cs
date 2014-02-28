@@ -104,6 +104,92 @@ namespace Chocobro {
       }));
 
     }
+    public virtual void impact(ref Ability ability) {
+      // 
+    }
+    public virtual void execute(ref Ability ability) {
+
+
+      if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
+        MainWindow.time = MainWindow.floored(MainWindow.time);
+        MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
+        ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+        nextauto = MainWindow.floored((MainWindow.time + ability.recastTime));
+        impact(ref ability);
+      }
+
+      if (ability.abilityType == "Weaponskill" && !OOT) {
+
+        //If time >= next cast time and time >= nextability)
+        if (TP - ability.TPcost < 0) { //attempted to not allow TP to be less than 0, needs to be remade
+          MainWindow.log("Was unable to execute " + ability.name + ". Not enough TP. Current TP is " + TP + "TP.");
+          //nextability = MainWindow.time;
+          //force nextability to next server tick
+          //if invigorate is used and OOM then it resets the time to now.
+          nextability = MainWindow.servertime + (3 - MainWindow.servertick);
+          OOT = true;
+        } else {
+
+          if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
+            //Get game time (remove decimal error)
+            MainWindow.time = MainWindow.floored(MainWindow.time);
+            MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name + ". Cost is " + ability.TPcost + "TP. TP is " + TP + " => " + (TP - ability.TPcost) + ".");
+            // remove TP
+            TP -= ability.TPcost;
+            //if doesnt miss, then impact
+
+            //set nextCast.
+            ability.nextCast = MainWindow.floored((MainWindow.time + calculateGCD()));
+
+
+            //set nextability
+            nextability = MainWindow.floored((MainWindow.time + calculateGCD()));
+            nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
+
+            //time = nextTime(nextinstant, nextability);
+            actionmade = true;
+
+            //var critroll = d100.Next(1, 101);
+            // var critbonus = calculateCrit();
+            impact(ref ability);
+          }
+        }
+      }
+      if (ability.abilityType == "Instant" || ability.abilityType == "Cooldown") {
+        //If time >= next cast time and time >= nextability)
+        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant && nextability > MainWindow.time + ability.animationDelay) { //&& nextability > MainWindow.time + ability.animationDelay is what i added
+          //Get game time (remove decimal error)
+          MainWindow.time = MainWindow.floored(MainWindow.time);
+          MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
+          //if doesnt miss, then impact
+
+          //set nextCast.
+          ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+
+          //set nextability
+          if (MainWindow.time + ability.animationDelay > nextability) {
+            nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
+          }
+
+          nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
+
+          impact(ref ability);
+        }
+      }
+
+
+    }
+    public virtual void decrement(ref Ability ability) {
+
+      if (MainWindow.time == MainWindow.servertime && ability.buff > 0) {
+        ability.buff -= 1.0;
+        if (ability.buff <= 0.0) {
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
+        }
+      }
+
+    }
+
 
     public double calculateGCD() {
       var skillcalc = basegcd - (Math.Round(((SKS - 341) * 0.00095308) * 100) / 100);
@@ -165,7 +251,9 @@ namespace Chocobro {
       return value;
     }
     public virtual void resetAbilities() {
-      //nothing
+      foreach (Ability ability in areport) {
+        ability.resetAbility();
+      }
     }
 
 
