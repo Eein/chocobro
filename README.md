@@ -10,7 +10,7 @@ It's a single player simulator designed to explore combat mechanics and gear/sta
 Version
 ----
 
-0.0.1
+0.0.2
 
 Tech
 -----------
