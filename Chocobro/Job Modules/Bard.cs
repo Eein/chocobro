@@ -132,7 +132,6 @@ namespace Chocobro {
 
       }
       if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant" && ability.potency > 0)) {
-
         numberofattacks += 1;
         if (accroll < calculateACC() || hawkseye.buff > 0) {
 

@@ -31,7 +31,7 @@ namespace Chocobro {
       report += "<div class'STR'>STR:" + j.STR + "</div><div class'DEX'>DEX:" + j.DEX + "</div><div class'VIT'>VIT:" + j.VIT + "</div><div class'INT'>INT:" + j.INT + "</div><div class'MND'>MND:" + j.MND + "</div><div class'PIE'>PIE:" + j.PIE + "</div><div class'ACC'>ACC:" + j.ACC + "</div><div class'CRIT'>CRIT:" + j.CRIT + "</div><div class'DET'>DET:" + j.DTR + "</div><div class'AP'>AP:" + j.AP + "</div><div class'AMP'>AMP:" + j.AMP + "</div><div class'WEP'>WEP:" + j.WEP + "</div><div class'AADMG'>AADMG:" + j.AADMG + "</div><div class'AADELAY'>AADELAY:" + j.AADELAY + "</div></div></div>";
       //weights
       if (j.statforweights != "None") {
-        report += "<div class='wrapper'><div class='weights'><h3>Weights</h3><table><thead><tr><td>STAT</td><td>-10</td><td>-9</td><td>-8</td><td>-7</td><td>-6</td><td>-5</td><td>-4</td><td>-3</td><td>-2</td><td>-1</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr></thead><tbody><tr><td>";
+        report += "<div class='wrapper'><div class='weights'><h3>Weights</h3><table><thead><tr><td>STAT</td><td>-50</td><td>-45</td><td>-40</td><td>-35</td><td>-30</td><td>-25</td><td>-20</td><td>-15</td><td>-10</td><td>-5</td><td>0</td><td>5</td><td>10</td><td>15</td><td>20</td><td>25</td><td>30</td><td>35</td><td>40</td><td>45</td><td>50</td></tr></thead><tbody><tr><td>";
         report += j.statforweights + "</td>";
         //cycle through stat weight stuff.
         foreach (double stat in j.DPSarray) {

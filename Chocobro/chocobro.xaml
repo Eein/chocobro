@@ -20,7 +20,7 @@
 
         </ComboBox>
         <Label Content="Job:" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Height="26" Width="31"/>
-        <Menu HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="1253" Grid.ColumnSpan="2" Margin="0,0,-354,0">
+        <Menu Height="22" VerticalAlignment="Top" Grid.ColumnSpan="2">
             <MenuItem Header="File" Height="22">
                 <MenuItem Header="About" HorizontalAlignment="Left" Width="140" IsEnabled="False"/>
                 <MenuItem x:Name="ExitApplication" Header="Exit" HorizontalAlignment="Left" Width="140" Click="applicationExit"/>
