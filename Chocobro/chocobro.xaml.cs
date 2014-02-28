@@ -225,31 +225,15 @@ namespace Chocobro {
         DPSarray.Clear();
       } //end statweight set
 
-     // reportstring += "AvgDPS" + " + StatWeights for \"" + swselected + "\"";
-     // reportstring += Environment.NewLine;
-       //prints Each DPSavg per interval
-        //reportstring += DPSavgarray[index];
-        WeightArray.Sort();
-        p.DPSarray = WeightArray;
-        
-        //MessageBox.Show(DPSavgarray[index] + Environment.NewLine);
-      
-      //pass DPS array to Job for reporting.
-      
-      
-      r.parse(p);
-      double simulationtime = (double)stopwatch.ElapsedMilliseconds;
-      stopwatch.Stop();
-      //reportstring += "AvgDPS: " + averageDPS + " iterations: " + DPSarray.Length;
-      //reportstring += Environment.NewLine;
-      //reportstring += Environment.NewLine;
-      //reportstring += "Total Simulation Time: " + (simulationtime / 1000) + "s.";
-      //reportstring += "\n\n";
-      //writeReport();
-      //readReport();
-      // Add actual reporting here...
+      WeightArray.Sort();
+      p.DPSarray = WeightArray;
 
-      // End HTML report
+      stopwatch.Stop();
+      double simulationtime = (double)stopwatch.ElapsedMilliseconds;
+      p.simulationtime = simulationtime / 1000;
+      
+      // Parse HTML log
+      r.parse(p);
       
       stopwatch.Reset();
       

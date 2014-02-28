@@ -54,6 +54,7 @@ namespace Chocobro {
     //stat weights
     public List<double> DPSarray = new List<double>();
     public string statforweights;
+    public double simulationtime = 0;
 
     //ability reporting list
     public List<Ability> areport = new List<Ability>();
