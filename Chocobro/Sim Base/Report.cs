@@ -32,7 +32,7 @@ namespace Chocobro {
       //weights
       if (j.statforweights != "None") {
         report += "<div class='wrapper'><div class='weights'><h3>Weights</h3><table><thead><tr><td>STAT</td><td>-50</td><td>-45</td><td>-40</td><td>-35</td><td>-30</td><td>-25</td><td>-20</td><td>-15</td><td>-10</td><td>-5</td><td>0</td><td>5</td><td>10</td><td>15</td><td>20</td><td>25</td><td>30</td><td>35</td><td>40</td><td>45</td><td>50</td></tr></thead><tbody><tr><td>";
-        report += j.statforweights + "</td>";
+        report += j.weight + "</td>";
         //cycle through stat weight stuff.
         foreach (double stat in j.DPSarray) {
           report += "<td>" + stat + "</td>";

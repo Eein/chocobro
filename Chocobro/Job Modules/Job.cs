@@ -53,6 +53,8 @@ namespace Chocobro {
     public double averagedps = 0;
     //stat weights
     public List<double> DPSarray = new List<double>();
+    public double weight = 0.0;
+    public double passoverweight = 0.0;
     public string statforweights;
     public double simulationtime = 0;
 

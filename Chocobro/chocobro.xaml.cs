@@ -38,7 +38,7 @@ namespace Chocobro {
     public static int servertick = 0;
     public static int iterations = 0;
     public static bool logging = true;
-
+    
     //Resources
     public static string logstring = "";
 
@@ -164,6 +164,7 @@ namespace Chocobro {
 
       List<double> DPSarray = new List<double>();
       List<double> WeightArray = new List<double>();
+      List<double> WeightDiff = new List<double>();
       for (int y = 0; y <= newdelta; y += step) {
         
         //progress bar incrementing here.. for stat weights
@@ -218,26 +219,58 @@ namespace Chocobro {
             logging = false;
           }         
         } //end iteration set
-      
+       
         DPSarray.Sort();
         p.averagedps = DPSarray.Average();
-        WeightArray.Add(Math.Round((DPSarray.Average() * 100)) / 100); //array of all DPSavg's from all sets of iterations
+
+        // calculate last difference of array
+        
+        var beforelast = 0.0;
+
+        if (swselected != "None") {
+
+          if (p.passoverweight > 0.0) {
+            //probably a better way to do this, but it stores the first attempt, then adds it as the subtractive weight
+            beforelast = p.passoverweight;
+            WeightDiff.Add((double)(beforelast - p.averagedps));
+            p.passoverweight = 0.0;
+          } else { 
+        
+          if (WeightDiff.Count > 0) {
+            beforelast = WeightArray.Last();
+            WeightDiff.Add((double)(beforelast - p.averagedps));
+          } else {
+            p.passoverweight = p.averagedps;
+          }
+          }
+        }
+        // for avg difference of array used for calculating weight. 
+        // avgoflist / steps for weight (non normalized) - no full calcs yet, but this is the method.
+
+        WeightArray.Add(Math.Round((p.averagedps * 100)) / 100); //array of all DPSavg's from all sets of iterations
+        
         DPSarray.Clear();
       } //end statweight set
 
       WeightArray.Sort();
       p.DPSarray = WeightArray;
-
+      //print stat weight if calculating weights.
+      if (swselected != "None") {
+        p.weight = ((WeightDiff.Average()* -1) / 5);
+      }
       stopwatch.Stop();
       double simulationtime = (double)stopwatch.ElapsedMilliseconds;
       p.simulationtime = simulationtime / 1000;
-      
+
       // Parse HTML log
       r.parse(p);
       
       stopwatch.Reset();
       
       this.Dispatcher.Invoke((Action)(() => {
+        
+        
+
         //refresh the html page
         this.htmlReport.Focus();
 
