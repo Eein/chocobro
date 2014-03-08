@@ -125,22 +125,27 @@ namespace Chocobro {
       report += "<div class='abilities'><h3>Ability Breakdown</h3>";
       report += "<table><thead><tr><td>Ability</td><td>DPS</td><td>DPS%</td><td>TOTAL DMG</td><td>HIT</td><td>HIT%</td><td>CRIT</td><td>CRIT%</td><td>MISS</td><td>MISS%</td><td>UPTIME</td></tr></thead><tbody>";
       foreach (Ability ability in j.areport) {
-
+        ability.totalattacks = ability.hits + ability.crits + ability.misses;
         if (ability.dotPotency > 0) {
+          ability.totaldotticks = ability.ticks + ability.tickcrits;
+         // ability.totalattacks = ability.tickhits + 
           report += "<tr><td>" + ability.name + " Dot</td><td>" 
             + (Math.Floor((ability.dotdamage / fightlength) * 100) / 100) + "</td><td>" 
             + (Math.Floor(dpspercent(ability.dotdamage, dps, fightlength) * 100) / 100) + "</td><td>"
-            + ability.dotdamage + "</td><td>" 
-            + ability.ticks + "</td><td>HIT%</td><td>" + ability.tickcrits + "</td><td>CRIT%</td><td>0</td><td>MISS%</td><td>UPTIME</td></tr>";
+            + ability.dotdamage + "</td><td>"
+            + ability.ticks + "</td><td>100%</td><td>" + ability.tickcrits + "</td><td>" + (Math.Round(((double)ability.tickcrits / (double)ability.totaldotticks)*10000)/10000)*100 + "%</td><td>0</td><td>0%</td><td>UPTIME</td></tr>";
         }
         report += "<tr><td>" + ability.name + "</td><td>" 
           + (Math.Floor((ability.damage / fightlength) * 100) / 100) + "</td><td>" 
           + (Math.Floor(dpspercent(ability.damage, dps, fightlength) * 100) / 100) + "</td><td>"
-          + ability.damage + "</td><td>" 
-          + ability.hits + "</td><td>HIT%</td><td>" + ability.crits + "</td><td>CRIT%</td><td>" + ability.misses + "</td><td>MISS%</td><td>UPTIME</td></tr>";
+          + ability.damage + "</td><td>"
+          + ability.hits + "</td><td>" + (Math.Round((((double)ability.hits+(double)ability.crits) / (double)ability.totalattacks) * 10000) / 10000) * 100 + "%</td><td>" 
+          + ability.crits + "</td><td>" + (Math.Round(((double)ability.crits / (double)ability.totalattacks) * 10000) / 10000) * 100 + "%</td><td>"
+          + ability.misses + "</td><td>" + (Math.Round(((double)ability.misses / (double)ability.totalattacks) * 10000) / 10000) * 100 + "%</td><td>UPTIME</td></tr>";
 
       }
-
+      //Add totalmissrate etc.
+      report += "<tr><td>TOTAL</td><td>"+(j.totaldamage / fightlength)+"</td><td> </td><td>"+j.totaldamage+"</td><td>HIT</td><td>HIT%</td><td>CRIT</td><td>CRIT%</td><td>MISS</td><td>MISS%</td><td>UPTIME</td></tr>";
       report += "</tbody></table>";
       report += "</div></div><div class='wrapper'><div class='buffs'><h3>Buffs</h3></div><div class='debuffs'><h3>Debuffs</h3></div></div><div class='footer'>Chocobro © 2013-2014. FINAL FANTASY XIV © 2010-2014 SQUARE ENIX CO., LTD. All Rights Reserved. <div class='social'><a href='http://github.com/eein/chocobro' target='_blank'>Github</a> - <a href='http://www.twitter.com/chocobrodotcom' target='_blank'>Twitter</a> - <a href='http://www.chocobro.com' target='_blank'>Homepage</a></div></div></body></html>";
 

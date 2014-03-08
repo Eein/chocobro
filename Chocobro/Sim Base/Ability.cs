@@ -21,6 +21,10 @@ namespace Chocobro {
     public double debuffTime = 0;
     public bool autoa = false;
 
+    public bool pierce = false;
+    public bool blunt = false;
+    public bool slash = false;
+
     public int crits = 0;
     public int hits = 0;
     public int misses = 0;
@@ -32,6 +36,8 @@ namespace Chocobro {
 
     public double dpet = 0.0;
 
+    public int totalattacks = 0;
+    public int totaldotticks = 0;
     //public bool dot = false; TODO: add this w/ smn.
     // Dots using dictionary lookup. easyyy.
     public Dictionary<String, Boolean> dotbuff = new Dictionary<String, Boolean>() {
@@ -56,6 +62,9 @@ namespace Chocobro {
       this.nextCast = 0.0;
       this.damage = 0;
       this.dotdamage = 0;
+      this.totalattacks = 0;
+      this.totaldotticks = 0;
+      this.dpet = 0;
     }
     //public double calculateCrit(Job _player) { return (0.0693 * _player.CRIT - 18.486); }
 
