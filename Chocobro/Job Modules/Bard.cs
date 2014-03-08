@@ -29,7 +29,7 @@ namespace Chocobro {
         execute(ref invigorate);
       }
 
-      if (heavyshot.buff <= 0) { heavyshotproc = false; }
+      
       if (heavyshotproc == true && straightshot.buff <= 4) {
         execute(ref straightshot);
       }

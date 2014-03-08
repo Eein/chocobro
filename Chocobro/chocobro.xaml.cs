@@ -256,7 +256,7 @@ namespace Chocobro {
       p.DPSarray = WeightArray;
       //print stat weight if calculating weights.
       if (swselected != "None") {
-        p.weight = ((WeightDiff.Average()* -1) / 5);
+        p.weight = ((WeightDiff.Average()* -1) / step);
       }
       stopwatch.Stop();
       double simulationtime = (double)stopwatch.ElapsedMilliseconds;
@@ -268,12 +268,9 @@ namespace Chocobro {
       stopwatch.Reset();
       
       this.Dispatcher.Invoke((Action)(() => {
-        
-        
 
         //refresh the html page
         this.htmlReport.Focus();
-
         this.browser.Navigate(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "report.html"));
 
         this.WEP.IsEnabled = true;

@@ -123,13 +123,21 @@ namespace Chocobro {
 
       report += "&chtt=Damage+Sources' width='450 height='225'/></div><div class='blank'><h3>MP/TP Regen (NA)</h3></div></div><div class='wrapper'>";
       report += "<div class='abilities'><h3>Ability Breakdown</h3>";
-      report += "<table><thead><tr><td>Ability</td><td>DPS</td><td>DPS%</td><td>HIT</td><td>HIT%</td><td>CRIT</td><td>CRIT%</td><td>MISS</td><td>MISS%</td><td>UPTIME</td></tr></thead><tbody>";
+      report += "<table><thead><tr><td>Ability</td><td>DPS</td><td>DPS%</td><td>TOTAL DMG</td><td>HIT</td><td>HIT%</td><td>CRIT</td><td>CRIT%</td><td>MISS</td><td>MISS%</td><td>UPTIME</td></tr></thead><tbody>";
       foreach (Ability ability in j.areport) {
 
         if (ability.dotPotency > 0) {
-          report += "<tr><td>" + ability.name + " Dot</td><td>" + (Math.Floor((ability.dotdamage / fightlength) * 100) / 100) + "</td><td>" + (Math.Floor(dpspercent(ability.dotdamage, dps, fightlength) * 100) / 100) + "</td><td>" + ability.ticks + "</td><td>HIT%</td><td>" + ability.tickcrits + "</td><td>CRIT%</td><td>0</td><td>MISS%</td><td>UPTIME</td></tr>";
+          report += "<tr><td>" + ability.name + " Dot</td><td>" 
+            + (Math.Floor((ability.dotdamage / fightlength) * 100) / 100) + "</td><td>" 
+            + (Math.Floor(dpspercent(ability.dotdamage, dps, fightlength) * 100) / 100) + "</td><td>"
+            + ability.dotdamage + "</td><td>" 
+            + ability.ticks + "</td><td>HIT%</td><td>" + ability.tickcrits + "</td><td>CRIT%</td><td>0</td><td>MISS%</td><td>UPTIME</td></tr>";
         }
-        report += "<tr><td>" + ability.name + "</td><td>" + (Math.Floor((ability.damage / fightlength) * 100) / 100) + "</td><td>" + (Math.Floor(dpspercent(ability.damage, dps, fightlength) * 100) / 100) + "</td><td>" + ability.hits + "</td><td>HIT%</td><td>" + ability.crits + "</td><td>CRIT%</td><td>" + ability.misses + "</td><td>MISS%</td><td>UPTIME</td></tr>";
+        report += "<tr><td>" + ability.name + "</td><td>" 
+          + (Math.Floor((ability.damage / fightlength) * 100) / 100) + "</td><td>" 
+          + (Math.Floor(dpspercent(ability.damage, dps, fightlength) * 100) / 100) + "</td><td>"
+          + ability.damage + "</td><td>" 
+          + ability.hits + "</td><td>HIT%</td><td>" + ability.crits + "</td><td>CRIT%</td><td>" + ability.misses + "</td><td>MISS%</td><td>UPTIME</td></tr>";
 
       }
 
