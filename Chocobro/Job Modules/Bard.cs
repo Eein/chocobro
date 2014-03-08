@@ -6,8 +6,6 @@ namespace Chocobro {
   public class Bard : Job {
     // Proc Booleans - Set all proc booleans false initially.
 
-    
-
     public Bard() {
       name = "Bard";
       classname = "Archer";
@@ -18,7 +16,6 @@ namespace Chocobro {
       AP = DEX;
       AMP = INT;
     }
-
     public override void rotation() {
 
       var gcd = calculateGCD();
@@ -28,8 +25,6 @@ namespace Chocobro {
       if (TP < 540) {
         execute(ref invigorate);
       }
-
-      
       if (heavyshot.buff > 0 && straightshot.buff <= 4) {
         execute(ref straightshot);
       }
@@ -117,7 +112,6 @@ namespace Chocobro {
       //if (bard.straightshot.buff > 0) {  critchance += 10; }
       //set potency for now, but change to damage later.
       var accroll = (MainWindow.d100(1, 10001)) / 100;
-
 
       if (ability.name == "Invigorate") {
         TP += 400;
@@ -319,7 +313,7 @@ namespace Chocobro {
     // -------------------
 
     //resets
- 
+
 
     public override void report() {
       base.report();
