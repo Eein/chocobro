@@ -100,11 +100,7 @@ namespace Chocobro {
           impact(ref ability);
         }
       }
-
       base.execute(ref ability);
-
-
-
     }
     public override void impact(ref Ability ability) {
 
