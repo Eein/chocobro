@@ -38,7 +38,9 @@ namespace Chocobro {
     public static int servertick = 0;
     public static int iterations = 0;
     public static bool logging = true;
-    
+    public static bool disdebuff = false;
+    public static bool flightbuff = false;
+
     //Resources
     public static string logstring = "";
 
@@ -146,6 +148,9 @@ namespace Chocobro {
 
       var playerjob = fact.Get(jobtext);
       var p = playerjob;
+
+
+
       Trace.Assert(playerjob.name != null, "No job selected. ERROR 1"); //assert failure of factory set.
       p = playerjob;
       string swselected = Convert.ToString(statweighttext);
@@ -289,6 +294,8 @@ namespace Chocobro {
         this.SPSPD.IsEnabled = true;
         this.iterationsinput.IsEnabled = true;
         this.fightLengthInput.IsEnabled = true;
+        this.disembowelbox.IsEnabled = true;
+        this.flightbox.IsEnabled = true;
         this.job.IsEnabled = true;
         this.simulateButton.IsEnabled = true;
         this.statweights.IsEnabled = true;
@@ -304,6 +311,13 @@ namespace Chocobro {
     }
     private void Button_Click(object sender, RoutedEventArgs e) {
       //TODO: disable button
+      if (disembowelbox.IsChecked.HasValue && disembowelbox.IsChecked.Value) {
+        disdebuff = true;
+      } else { disdebuff = false; }
+
+      if (flightbox.IsChecked.HasValue && flightbox.IsChecked.Value) {
+        flightbuff = true;
+      } else { flightbuff = false; }
 
       WEP.IsEnabled = false;
       AADMG.IsEnabled = false;
@@ -321,6 +335,8 @@ namespace Chocobro {
       SPSPD.IsEnabled = false;
       iterationsinput.IsEnabled = false;
       fightLengthInput.IsEnabled = false;
+      disembowelbox.IsEnabled = false;
+      flightbox.IsEnabled = false;
       job.IsEnabled = false;  
       simulateButton.IsEnabled = false;
       statweights.IsEnabled = false;

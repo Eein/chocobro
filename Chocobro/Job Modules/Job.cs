@@ -31,8 +31,8 @@ namespace Chocobro {
     public int ACC = 341;
     public int SKS = 341;
     public int SPS = 341;
-    public int AP  { get; set; } // Define after gear
-    public int AMP  { get; set; } // Define after gear
+    public int AP { get; set; } // Define after gear
+    public int AMP { get; set; } // Define after gear
     public double nextability = 0.00;
     public double nextinstant = 0.00;
     public double nextauto = 0.00;
@@ -57,6 +57,33 @@ namespace Chocobro {
     public double passoverweight = 0.0;
     public string statforweights;
     public double simulationtime = 0;
+
+
+    //Pots and Buffs
+
+    public class XPotionDexterity : Ability {
+      public XPotionDexterity() {
+        //HQ
+        name = "HQ - X-Potion of Dexterity";
+        recastTime = 300;
+        animationDelay = 0.3;
+        abilityType = "Cooldown";
+        buffTime = 15;
+        bonus = 67;
+        percent = 16;
+      }
+    }
+
+    public class FeyLight : Ability {
+      public FeyLight() {
+        name = "Fey Light";
+        recastTime = 60;
+        animationDelay = 0;
+        abilityType = "Cooldown";
+        buffTime = 30;
+        percent = 30;
+      }
+    }
 
     //ability reporting list
     public List<Ability> areport = new List<Ability>();
@@ -174,7 +201,6 @@ namespace Chocobro {
           }
 
           nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
-
           impact(ref ability);
         }
       }
@@ -194,10 +220,14 @@ namespace Chocobro {
 
 
     public double calculateGCD() {
-      var skillcalc = basegcd - (Math.Round(((SKS - 341) * 0.00095308) * 100) / 100);
-
+      double tempsks = SKS;
+      /*if (feylight.buff > 0) {
+        tempsks *= 1.30;
+      }*/
+      var skillcalc = basegcd - (Math.Round(((tempsks - 341) * 0.00095308) * 100) / 100);
       return skillcalc;
     }
+
     public void calculateSGCD(double castspeed) {
       var skillcalc = castspeed - (Math.Round(((SPS - 341) * 0.00095308) * 100) / 100);
     }
@@ -226,20 +256,7 @@ namespace Chocobro {
       }
     }
 
-    //Pots
 
-    public class XPotionDexterity : Ability {
-      public XPotionDexterity() {
-        //HQ
-        name = "HQ - X-Potion of Dexterity";
-        recastTime = 300;
-        animationDelay = 0.3;
-        abilityType = "Cooldown";
-        buffTime = 15;
-        bonus = 67;
-        percent = 16;
-      }
-    }
 
     //function to convert percentages to multipliers (ie. 16% to 1.16)
     public double percentToMulti(double percent) {

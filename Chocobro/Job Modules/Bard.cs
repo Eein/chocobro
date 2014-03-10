@@ -16,11 +16,16 @@ namespace Chocobro {
       AP = DEX;
       AMP = INT;
     }
-    public override void rotation() {
 
+    public override void rotation() {
       var gcd = calculateGCD();
       autoattack.recastTime = AADELAY;
       regen();
+
+
+      if (MainWindow.flightbuff == true) {
+        execute(ref feylight);
+      }
 
       if (TP < 540) {
         execute(ref invigorate);
@@ -86,6 +91,7 @@ namespace Chocobro {
       decrement(ref barrage);
       decrement(ref heavyshot);
       decrement(ref xpotiondexterity);
+      decrement(ref feylight);
 
     }
 
@@ -111,7 +117,7 @@ namespace Chocobro {
 
       if (ability.name == "Invigorate") {
         TP += 400;
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 400 TP Restored. TP: " + TP);
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 400 TP Restored. TP is now " + TP);
         if (OOT) {
           OOT = false;
           nextability = MainWindow.time;
@@ -121,15 +127,21 @@ namespace Chocobro {
       if (ability.abilityType == "Cooldown") {
 
       }
+
       if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant" && ability.potency > 0)) {
         numberofattacks += 1;
         if (accroll < calculateACC() || hawkseye.buff > 0) {
 
-          var thisdamage = damage(ref ability, ability.potency);
+          double thisdamage = damage(ref ability, ability.potency);
+
+          if (MainWindow.disdebuff == true) {
+            thisdamage = Math.Floor( thisdamage *= 1.12);
+          }
+
           numberofhits += 1;
           ability.hits += 1;
 
-          totaldamage += thisdamage;
+          totaldamage += (int)thisdamage;
           ability.damage += thisdamage;
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next ability at: " + nextability);
           if (ability.name == "Straight Shot") {
@@ -331,6 +343,7 @@ namespace Chocobro {
       areport.Add(invigorate);
       areport.Add(autoattack);
       areport.Add(xpotiondexterity);
+      areport.Add(feylight);
     }
     Ability heavyshot = new Heavyshot();
     Ability windbite = new Windbite();
@@ -349,6 +362,7 @@ namespace Chocobro {
     Ability invigorate = new Invigorate();
     Ability autoattack = new Autoattack();
     Ability xpotiondexterity = new XPotionDexterity();
+    Ability feylight = new FeyLight();
 
 
 
