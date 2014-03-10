@@ -26,6 +26,7 @@ namespace Chocobro {
     public bool slash = false;
 
     public int crits = 0;
+    public int attacks = 0;
     public int hits = 0;
     public int misses = 0;
     public int procs = 0;
@@ -54,6 +55,7 @@ namespace Chocobro {
     public double percent = 0; // for things that increase by percentage.
     public void resetAbility() {
       this.crits = 0;
+      this.attacks = 0;
       this.hits = 0;
       this.misses = 0;
       this.procs = 0;

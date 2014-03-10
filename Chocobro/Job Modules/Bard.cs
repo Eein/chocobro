@@ -55,13 +55,13 @@ namespace Chocobro {
       execute(ref ragingstrikes); //"smart" use of buffs, needs more attention
       if (ragingstrikes.buff > 0) {
         execute(ref bloodforblood);
+        execute(ref internalrelease);
         execute(ref hawkseye);
         execute(ref xpotiondexterity);
-        execute(ref internalrelease);
         execute(ref barrage);
       }
 
-      if (ragingstrikes.nextCast >= MainWindow.time + 55 && ragingstrikes.nextCast <= 65) { //better use of internal release
+      if (ragingstrikes.nextCast >= MainWindow.time + 55 && ragingstrikes.nextCast <= MainWindow.time + 65) { //better use of internal release
         execute(ref internalrelease);
       }
 
@@ -117,7 +117,7 @@ namespace Chocobro {
 
       if (ability.name == "Invigorate") {
         TP += 400;
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 400 TP Restored. TP is now " + TP);
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 400 TP Restored. TP is " + (TP - 400) + " => " + TP);
         if (OOT) {
           OOT = false;
           nextability = MainWindow.time;
@@ -125,17 +125,18 @@ namespace Chocobro {
       }
 
       if (ability.abilityType == "Cooldown") {
-
+        ability.hits += 1;
       }
 
-      if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant" && ability.potency > 0)) {
+      if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant")) {
         numberofattacks += 1;
+        ability.attacks += 1;
         if (accroll < calculateACC() || hawkseye.buff > 0) {
 
           double thisdamage = damage(ref ability, ability.potency);
 
           if (MainWindow.disdebuff == true) {
-            thisdamage = Math.Floor( thisdamage *= 1.12);
+            thisdamage = Math.Floor(thisdamage *= 1.12);
           }
 
           numberofhits += 1;
@@ -157,7 +158,7 @@ namespace Chocobro {
           }
         } else {
           numberofmisses += 1;
-          heavyshot.misses += 1;
+          ability.misses += 1;
           MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast);
           // Does heavyshot buff get eaten by a miss?
           if (ability.name == "Straight Shot") {
@@ -343,7 +344,9 @@ namespace Chocobro {
       areport.Add(invigorate);
       areport.Add(autoattack);
       areport.Add(xpotiondexterity);
-      areport.Add(feylight);
+      if (MainWindow.flightbuff) {
+        areport.Add(feylight);
+      }
     }
     Ability heavyshot = new Heavyshot();
     Ability windbite = new Windbite();

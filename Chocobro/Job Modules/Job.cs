@@ -250,7 +250,7 @@ namespace Chocobro {
           TP += 60;
           OOT = false;
           if (TP > 1000) { TP = 1000; }
-          MainWindow.log(MainWindow.time.ToString("F2") + " - TP Regen Tick - Restored 60 TP. TP is now: " + TP);
+          MainWindow.log(MainWindow.time.ToString("F2") + " - TP Regen Tick - Restored 60 TP. TP is " + (TP - 60) + " => " + TP);
         }
         //MP regen (add this eventually. Check old sim for reference)
       }
