@@ -22,9 +22,9 @@ namespace Chocobro {
       autoattack.recastTime = AADELAY;
       regen();
 
-
-      if (MainWindow.flightbuff == true) {
+      if (MainWindow.selenebuff == true) {
         execute(ref feylight);
+        //if (feylight.buff <= 0) { execute(ref feyglow); }
       }
 
       if (TP < 540) {
@@ -344,9 +344,8 @@ namespace Chocobro {
       areport.Add(invigorate);
       areport.Add(autoattack);
       areport.Add(xpotiondexterity);
-      if (MainWindow.flightbuff) {
-        areport.Add(feylight);
-      }
+      areport.Add(feylight);
+      areport.Add(feyglow);
     }
     Ability heavyshot = new Heavyshot();
     Ability windbite = new Windbite();
@@ -366,6 +365,7 @@ namespace Chocobro {
     Ability autoattack = new Autoattack();
     Ability xpotiondexterity = new XPotionDexterity();
     Ability feylight = new FeyLight();
+    Ability feyglow = new FeyGlow();
 
 
 

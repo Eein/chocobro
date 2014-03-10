@@ -19,6 +19,8 @@ namespace Chocobro {
     public int PIE { get; set; }
     public int WEP { get; set; }
 
+    public bool flight = false;
+    public bool fglow = false;
     public string statweight { get; set; }
     public int StatGrwth { get; set; }
     public int delta { get; set; }
@@ -81,7 +83,16 @@ namespace Chocobro {
         animationDelay = 0;
         abilityType = "Cooldown";
         buffTime = 30;
-        percent = 30;
+      }
+    }
+
+    public class FeyGlow : Ability {
+      public FeyGlow() {
+        name = "Fey Glow";
+        recastTime = 60;
+        animationDelay = 0;
+        abilityType = "Cooldown";
+        buffTime = 30;
       }
     }
 
@@ -195,6 +206,14 @@ namespace Chocobro {
           //set nextCast.
           ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
 
+          //feylight/glow
+          if (ability.name == "Fey Light") {
+            flight = true;
+          } 
+          if (ability.name == "Fey Glow") {
+            fglow = true;
+          } 
+
           //set nextability
           if (MainWindow.time + ability.animationDelay > nextability) {
             nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
@@ -212,6 +231,12 @@ namespace Chocobro {
       if (MainWindow.time == MainWindow.servertime && ability.buff > 0) {
         ability.buff -= 1.0;
         if (ability.buff <= 0.0) {
+          if (ability.name == "Fey Light") {
+            flight = false;
+          } 
+          if (ability.name == "Fey Glow") {
+            fglow = false;
+          } 
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
         }
       }
@@ -221,15 +246,19 @@ namespace Chocobro {
 
     public double calculateGCD() {
       double tempsks = SKS;
-      /*if (feylight.buff > 0) {
+      if (flight) {
         tempsks *= 1.30;
-      }*/
+      }
       var skillcalc = basegcd - (Math.Round(((tempsks - 341) * 0.00095308) * 100) / 100);
       return skillcalc;
     }
 
     public void calculateSGCD(double castspeed) {
-      var skillcalc = castspeed - (Math.Round(((SPS - 341) * 0.00095308) * 100) / 100);
+      double tempsps = SPS;
+      if (fglow) {
+        tempsps *= 1.30;
+      }
+      var skillcalc = castspeed - (Math.Round(((tempsps - 341) * 0.00095308) * 100) / 100);
     }
     public double calculateACC() {
       var acccalc = 84.0 + ((ACC - 341) * 0.1363636363);

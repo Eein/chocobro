@@ -39,7 +39,7 @@ namespace Chocobro {
     public static int iterations = 0;
     public static bool logging = true;
     public static bool disdebuff = false;
-    public static bool flightbuff = false;
+    public static bool selenebuff = false;
 
     //Resources
     public static string logstring = "";
@@ -296,7 +296,7 @@ namespace Chocobro {
         this.iterationsinput.IsEnabled = true;
         this.fightLengthInput.IsEnabled = true;
         this.disembowelbox.IsEnabled = true;
-        this.flightbox.IsEnabled = true;
+        this.selenebox.IsEnabled = true;
         this.job.IsEnabled = true;
         this.simulateButton.IsEnabled = true;
         this.statweights.IsEnabled = true;
@@ -316,9 +316,9 @@ namespace Chocobro {
         disdebuff = true;
       } else { disdebuff = false; }
 
-      if (flightbox.IsChecked.HasValue && flightbox.IsChecked.Value) {
-        flightbuff = true;
-      } else { flightbuff = false; }
+      if (selenebox.IsChecked.HasValue && selenebox.IsChecked.Value) {
+        selenebuff = true;
+      } else { selenebuff = false; }
 
       WEP.IsEnabled = false;
       AADMG.IsEnabled = false;
@@ -337,7 +337,7 @@ namespace Chocobro {
       iterationsinput.IsEnabled = false;
       fightLengthInput.IsEnabled = false;
       disembowelbox.IsEnabled = false;
-      flightbox.IsEnabled = false;
+      selenebox.IsEnabled = false;
       job.IsEnabled = false;  
       simulateButton.IsEnabled = false;
       statweights.IsEnabled = false;

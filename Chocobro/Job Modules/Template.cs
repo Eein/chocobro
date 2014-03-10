@@ -226,8 +226,9 @@ namespace Chocobro {
       areport.Add(instant1);
       areport.Add(autoattack);
       areport.Add(xpotiondexterity);
-      if (MainWindow.flightbuff) {
+      if (MainWindow.selenebuff) {
         areport.Add(feylight);
+        areport.Add(feyglow);
       }
     }
     Ability weaponskill1 = new Weaponskill1();
@@ -237,6 +238,7 @@ namespace Chocobro {
     Ability autoattack = new Autoattack();
     Ability xpotiondexterity = new XPotionDexterity();
     Ability feylight = new FeyLight();
+    Ability feyglow = new FeyGlow();
 
 
 
