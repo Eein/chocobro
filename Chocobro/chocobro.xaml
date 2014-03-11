@@ -71,6 +71,12 @@
                     </ComboBox>
                     <CheckBox x:Name="disembowelbox" Content="Disembowel (Bard only)" HorizontalAlignment="Left" Margin="19,96,0,0" VerticalAlignment="Top" RenderTransformOrigin="-4.203,5.379"/>
                     <CheckBox x:Name="selenebox" Content="Selene Buffs" HorizontalAlignment="Left" Margin="19,116,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.166,10.944"/>
+                    <Label Content="Input Lag:" HorizontalAlignment="Left" Margin="268,12,0,0" VerticalAlignment="Top" Height="30"/>
+                    <ComboBox x:Name="inputlag" HorizontalAlignment="Left" Margin="336,12,0,0" VerticalAlignment="Top" Width="120" Height="22"  >
+                        <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="118" IsSelected="True"/>
+                        <ComboBoxItem Content="Small (50-150ms)" HorizontalAlignment="Left" Width="118" IsEnabled="True"/>
+                        <ComboBoxItem Content="Med (125-225ms)" HorizontalAlignment="Left" Width="118"/>
+                    </ComboBox>
                 </Grid>
             </TabItem>
             <TabItem x:Name="htmlReport" Header="Report" Margin="6,-2,-6,0" BorderThickness="0,0,0,0" HorizontalAlignment="Left">

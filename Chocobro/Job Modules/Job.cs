@@ -183,8 +183,8 @@ namespace Chocobro {
 
 
             //set nextability
-            nextability = MainWindow.floored((MainWindow.time + calculateGCD()));
-            nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
+            nextability = MainWindow.floored((MainWindow.time + calculateGCD() + (MainWindow.d100(MainWindow.lowerlag, MainWindow.upperlag)) / 1000));
+            nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay + (MainWindow.d100(MainWindow.lowerlag, MainWindow.upperlag)) / 1000));
 
             //time = nextTime(nextinstant, nextability);
             actionmade = true;
@@ -216,10 +216,10 @@ namespace Chocobro {
 
           //set nextability
           if (MainWindow.time + ability.animationDelay > nextability) {
-            nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
+            nextability = MainWindow.floored((MainWindow.time + ability.animationDelay + (MainWindow.d100(MainWindow.lowerlag, MainWindow.upperlag)) / 1000));
           }
 
-          nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
+          nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay + (MainWindow.d100(MainWindow.lowerlag, MainWindow.upperlag)) / 1000));
           impact(ref ability);
         }
       }

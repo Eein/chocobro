@@ -40,6 +40,9 @@ namespace Chocobro {
     public static bool logging = true;
     public static bool disdebuff = false;
     public static bool selenebuff = false;
+    public static string lagstring;
+    public static int upperlag = 0;
+    public static int lowerlag = 0;
 
     //Resources
     public static string logstring = "";
@@ -131,6 +134,10 @@ namespace Chocobro {
     }
 
     public void simulate() {
+
+      if (lagstring == "None") { }
+      if (lagstring == "Small (50-150ms)") { lowerlag = 50; upperlag = 150; }
+      if (lagstring == "Med (125-225ms)") { lowerlag = 125; upperlag = 225; }
 
       logging = true;
       var jobtext = "";
@@ -300,6 +307,7 @@ namespace Chocobro {
         this.job.IsEnabled = true;
         this.simulateButton.IsEnabled = true;
         this.statweights.IsEnabled = true;
+        this.inputlag.IsEnabled = true;
         //this.StatGrwth.IsEnabled = true; // TODO: RENAME THESE RIGHT
         //this.Delta.IsEnabled = true;
       }));
@@ -343,6 +351,7 @@ namespace Chocobro {
       statweights.IsEnabled = false;
       StatGrwth.IsEnabled = false; // TODO: RENAME THIS RIGHT
       Delta.IsEnabled = false;
+      inputlag.IsEnabled = false;
 
 
 
@@ -350,6 +359,7 @@ namespace Chocobro {
       this.progressBar.Value = 0;
       Thread simming = new Thread(simulate);
       //Read Fight Length in as double.
+      lagstring = Convert.ToString(inputlag.Text);
       iterations = Convert.ToInt32(iterationsinput.Text);
       fightlength = Convert.ToInt32(fightLengthInput.Text);
       console.Document.Blocks.Clear(); // Clear Console before starting.
