@@ -68,7 +68,7 @@ namespace Chocobro {
         //HQ
         name = "HQ - X-Potion of Dexterity";
         recastTime = 300;
-        animationDelay = 0.3;
+        animationDelay = 0.8;
         abilityType = "Cooldown";
         buffTime = 15;
         bonus = 67;
@@ -183,7 +183,7 @@ namespace Chocobro {
 
 
             //set nextability
-            nextability = MainWindow.floored((MainWindow.time + calculateGCD() + (MainWindow.d100(MainWindow.lowerlag, MainWindow.upperlag)) / 1000));
+            nextability = MainWindow.floored((MainWindow.time + calculateGCD()));
             nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay + (MainWindow.d100(MainWindow.lowerlag, MainWindow.upperlag)) / 1000));
 
             //time = nextTime(nextinstant, nextability);
@@ -216,7 +216,7 @@ namespace Chocobro {
 
           //set nextability
           if (MainWindow.time + ability.animationDelay > nextability) {
-            nextability = MainWindow.floored((MainWindow.time + ability.animationDelay + (MainWindow.d100(MainWindow.lowerlag, MainWindow.upperlag)) / 1000));
+            nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
           }
 
           nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay + (MainWindow.d100(MainWindow.lowerlag, MainWindow.upperlag)) / 1000));
