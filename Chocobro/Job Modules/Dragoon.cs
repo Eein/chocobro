@@ -96,14 +96,14 @@ namespace Chocobro {
         if (ability.debuff > 0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + "  DOT clipped.");
           //reset all buffs if clipping
-          ability.dotbuff["BloodForBlood"] = false;
+          ability.dotbuff["bloodforblood"] = false;
           ability.dotbuff["potion"] = false;
         }
         //If dot exists and ability doesn't miss, enable its time.
 
         ability.debuff = ability.debuffTime;
 
-        if (BloodForBlood.buff > 0) { ability.dotbuff["BloodForBlood"] = true; }
+        if (bloodforblood.buff > 0) { ability.dotbuff["bloodforblood"] = true; }
         if (xpotionstrength.buff > 0) { ability.dotbuff["potion"] = true; }
 
 
@@ -127,7 +127,7 @@ namespace Chocobro {
         if (ability.debuff <= 0.0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
           //clear buffs from object.
-          ability.dotbuff["BloodForBlood"] = false;
+          ability.dotbuff["bloodforblood"] = false;
           ability.dotbuff["potion"] = false;
         }
       }
@@ -149,7 +149,7 @@ namespace Chocobro {
       if (xpotionstrength.buff > 0 || (dot == true && ability.dotbuff["potion"] == true)) {
         //check for max dex increase from pot - NEEDS to be refactored...
 
-        if (percentageOfStat(xpotiondexterity.percent, tempstr) > xpotionstrength.bonus) {
+        if (percentageOfStat(xpotionstrength.percent, tempstr) > xpotionstrength.bonus) {
           //MainWindow.log("yolo: " + percentageOfStat(xpotiondexterity.percent, tempdex) + " tempdex " + tempdex);
           tempstr += xpotionstrength.bonus;
           //MainWindow.log("capBonus Dex from potion: " + xpotiondexterity.bonus + " percent of stat: " + percentageOfStat(xpotiondexterity.percent, tempdex));
@@ -176,7 +176,7 @@ namespace Chocobro {
         if (ability.dotbuff["bloodforblood"]) { damageformula *= 1.30; }
 
       } else {
-        if (BloodForBlood.buff > 0) { damageformula *= 1.30; }
+        if (bloodforblood.buff > 0) { damageformula *= 1.30; }
       }
 
       if (critroll <= critchance) {
@@ -207,41 +207,45 @@ namespace Chocobro {
     public override void report() {
       base.report();
       // add abilities to list used for reporting. Each ability needs to be added ;(
-      areport.Add(TrueThrust);
-      areport.Add(VorpalThrust);
-      areport.Add(ImpulseDrive);
-      areport.Add(HeavyThrust);
-      areport.Add(LegSweep);
-      areport.Add(LifeSurge);
-      areport.Add(Jump);
-      areport.Add(FullThrust);
-      areport.Add(BloodForBlood);
-      areport.Add(Phlebotomize);
-      areport.Add(Disembowel);
-      areport.Add(SpineshatterDive);
-      areport.Add(PowerSurge);
-      areport.Add(DragonfireDive);
-      areport.Add(ChaosThrust);
+      areport.Add(autoattack);
+      areport.Add(truethrust);
+      areport.Add(vorpalthrust);
+      areport.Add(impulsedrive);
+      areport.Add(heavythrust);
+      areport.Add(legsweep);
+      areport.Add(lifesurge);
+      areport.Add(jump);
+      areport.Add(fullthrust);
+      areport.Add(bloodforblood);
+      areport.Add(phlebotomize);
+      areport.Add(disembowel);
+      areport.Add(spineshatterdive);
+      areport.Add(powersurge);
+      areport.Add(dragonfiredive);
+      areport.Add(chaosthrust);
+      areport.Add(xpotionstrength);
       if (MainWindow.selenebuff) {
         areport.Add(feylight);
         areport.Add(feyglow);
       }
     }
-    Ability TrueThrust = new TrueThrust();
-    Ability VorpalThrust = new VorpalThrust();
-    Ability ImpulseDrive = new ImpulseDrive();
-    Ability HeavyThrust = new ImpulseDrive();
-    Ability LegSweep = new LegSweep();
-    Ability LifeSurge = new LifeSurge();
-    Ability Jump = new Jump();
-    Ability FullThrust = new FullThrust();
-    Ability BloodForBlood = new BloodForBlood();
-    Ability Phlebotomize = new Phlebotomize();
-    Ability Disembowel = new Disembowel();
-    Ability SpineshatterDive = new SpineshatterDive();
-    Ability PowerSurge = new PowerSurge();
-    Ability DragonfireDive = new DragonfireDive();
-    Ability ChaosThrust = new ChaosThrust();
+    Ability autoattack = new AutoAttack();
+    Ability truethrust = new TrueThrust();
+    Ability vorpalthrust = new VorpalThrust();
+    Ability impulsedrive = new ImpulseDrive();
+    Ability heavythrust = new ImpulseDrive();
+    Ability legsweep = new LegSweep();
+    Ability lifesurge = new LifeSurge();
+    Ability jump = new Jump();
+    Ability fullthrust = new FullThrust();
+    Ability bloodforblood = new BloodForBlood();
+    Ability phlebotomize = new Phlebotomize();
+    Ability disembowel = new Disembowel();
+    Ability spineshatterdive = new SpineshatterDive();
+    Ability powersurge = new PowerSurge();
+    Ability dragonfiredive = new DragonfireDive();
+    Ability chaosthrust = new ChaosThrust();
+    Ability xpotionstrength = new XPotionStrength();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
 
@@ -254,7 +258,6 @@ namespace Chocobro {
     // -------------------
 
     // True Thrust  ---------------------
-
     public class TrueThrust : Ability {
       public TrueThrust() {
         name = "True Thrust";
@@ -267,13 +270,11 @@ namespace Chocobro {
     // End True Thrust ---------------------
 
     // Vorpal Thrust  ---------------------
-
     public class VorpalThrust  : Ability {
       public VorpalThrust() {
         name = "Vorpal Thrust";
         abilityType = "Weaponskill";
-        potency = 100;
-        combopotency = 200;
+        potency = 200;
         TPcost = 60;
         animationDelay = 1.4;
       }
@@ -281,7 +282,6 @@ namespace Chocobro {
     // End Vorpal Thrust ---------------------
 
     // Impulse Drive  ---------------------
-
     public class ImpulseDrive : Ability {
       public ImpulseDrive() {
         name = "Impulse Drive";
@@ -294,7 +294,6 @@ namespace Chocobro {
     // End Impulse Drive  ---------------------
 
     // Heavy Thrust  ---------------------
-
     public class HeavyThrust : Ability {
       public HeavyThrust() {
         name = "Heavy Thrust";
@@ -308,7 +307,6 @@ namespace Chocobro {
     // End Heavy Thrust  ---------------------
 
     // Leg Sweep ---------------------
-
     public class  LegSweep : Ability {
       public LegSweep() {
         name = "Leg Sweep";
@@ -326,13 +324,13 @@ namespace Chocobro {
         name = "Life Surge";
         abilityType = "Cooldown";
         recastTime = 60;
+        buffTime = 10;
         animationDelay = 0.8;
       }
     }
     // End Life Surge  ----------------------------
 
     // Jump ---------------------
-
     public class Jump : Ability {
       public Jump() {
         name = "Jump";
@@ -344,14 +342,14 @@ namespace Chocobro {
     }
     // End Jump---------------------
 
-      // Full Thrust ---------------------------------
+    // Full Thrust ---------------------------------
     public class FullThrust : Ability {
       public FullThrust() {
         name = "Full Thrust";
         abilityType = "Weaponskill";
         animationDelay = 1.4;
         TPcost = 60;
-        combopotency = 330;
+        potency = 330;
       }
     }
     // End Full Thrust  ----------------------------
@@ -387,9 +385,8 @@ namespace Chocobro {
       public Disembowel() {
         name = "Disembowel";
         abilityType = "Weaponskill";
-        potency = 100;
-        combopotency = 220;
-        debuffTime = 30;
+        potency = 220;
+        buffTime = 30;
         animationDelay = 1.4;
       }
     }
@@ -447,8 +444,8 @@ namespace Chocobro {
     }
     // End Dismebowel
     // Auto Attack
-    public class Autoattack : Ability {
-      public Autoattack() {
+    public class AutoAttack : Ability {
+      public AutoAttack() {
         name = "Auto Attack";
         recastTime = MainWindow.AADELAY;
         animationDelay = 0;

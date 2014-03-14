@@ -15,6 +15,7 @@
         <Button x:Name="simulateButton" Content="Sim" HorizontalAlignment="Right" VerticalAlignment="Center" Click="Button_Click" Height="20" Grid.Column="1" Grid.Row="1" Width="50" Margin="0,0,10,0" />
         <ComboBox x:Name="job" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Width="120" Height="22"  >
             <ComboBoxItem Content="Bard" HorizontalAlignment="Left" Width="118" IsSelected="True"/>
+            <ComboBoxItem Content="Dragoon" HorizontalAlignment="Left" Width="118" />
             <ComboBoxItem Content="Paladin" HorizontalAlignment="Left" Width="118" IsEnabled="False"/>
             <ComboBoxItem Content="Template" HorizontalAlignment="Left" Width="118"/>
 
