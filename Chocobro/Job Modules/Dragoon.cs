@@ -5,12 +5,11 @@ namespace Chocobro {
 
   public class Dragoon : Job {
     // Proc Booleans - Set all proc booleans false initially.
-    enum Combo { None, Disembowel, ChaosThrust, VorpalThrust, FullThrust };
-    Combo combo = Combo.None;
+    enum Combo { None, ImpulseDrive, Disembowel, ChaosThrust, VorpalThrust, FullThrust };
+    Combo combo;
     public Dragoon() {
       name = "Dragoon";
       classname = "Lancer";
-      combo = Combo.None;
     }
     public override void getStats(MainWindow cs) {
       base.getStats(cs);
@@ -27,17 +26,35 @@ namespace Chocobro {
       regen();
 
       //Abilities - execute(ref ability)
+      if (heavythrust.buff < gcd && combo == Combo.None) { execute(ref heavythrust); }
+
+      if (disembowel.debuff < 2 * gcd && combo == Combo.None) { combo = Combo.Disembowel; execute(ref impulsedrive); }
+      if (combo == Combo.Disembowel) { combo = Combo.ChaosThrust; execute(ref disembowel); }
+      if (combo == Combo.ChaosThrust) { combo = Combo.None; execute(ref chaosthrust); }
+
+      if (phlebotomize.debuff < gcd && combo == Combo.None) { combo = Combo.None; execute(ref phlebotomize); }
+
+      if (combo == Combo.None) { combo = Combo.VorpalThrust; execute(ref truethrust); }
+      if (combo == Combo.VorpalThrust) { combo = Combo.FullThrust; execute(ref vorpalthrust); }
+      if (combo == Combo.FullThrust) { combo = Combo.None; execute(ref fullthrust); }
 
       // NOTE: For combos do... if(combo == Combo.ChaosThrust) etc
 
       execute(ref autoattack);
 
       //Buffs/Cooldowns - execute(ref ability)
+      execute(ref bloodforblood);
+      execute(ref lifesurge);
+      execute(ref powersurge);
       if (TP <= 440) {
         execute(ref invigorate);
       }
 
       //Instants - execute(ref ability)
+      execute(ref dragonfiredive);
+      execute(ref legsweep);
+      execute(ref jump);
+      execute(ref spineshatterdive);
 
       //Ticks - tick(ref DoTability)
       tick(ref phlebotomize);
@@ -138,7 +155,7 @@ namespace Chocobro {
 
     public virtual void tick(ref Ability ability) {
       //schedule tick
-      if (MainWindow.time == MainWindow.servertime && ability.debuff > 0) {
+      if (MainWindow.time == MainWindow.servertime && (ability.debuff > 0 && ability.dotPotency > 0)) {
         ability.debuff -= 1.0;
         if (ability.debuff <= 0.0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
@@ -147,7 +164,7 @@ namespace Chocobro {
           ability.dotbuff["potion"] = false;
         }
       }
-      if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
+      if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && (ability.debuff > 0 && ability.dotPotency > 0)) {
         numberofticks += 1;
         ability.ticks += 1;
         var tickdmg = damage(ref ability, ability.dotPotency, true);
@@ -415,7 +432,7 @@ namespace Chocobro {
         name = "Disembowel";
         abilityType = "Weaponskill";
         potency = 220;
-        buffTime = 30;
+        debuffTime = 30;
         animationDelay = 1.4;
       }
     }

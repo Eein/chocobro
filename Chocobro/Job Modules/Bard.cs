@@ -27,7 +27,7 @@ namespace Chocobro {
         //if (feylight.buff <= 0) { execute(ref feyglow); }
       }
 
-      if (TP < 540) {
+      if (TP <= 540) {
         execute(ref invigorate);
       }
       if (heavyshot.buff > 0 && straightshot.buff <= 4) {

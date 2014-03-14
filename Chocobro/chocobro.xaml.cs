@@ -66,7 +66,7 @@ namespace Chocobro {
           //case "Warrior": return new Warrior();
           //case "Black Mage": return new Blackmage();
           //case "Summoner": return new Summoner();
-          //case "Dragoon": return new Dragoon();
+          case "Dragoon": return new Dragoon();
           //case "Monk": return new Monk();
           default: return new Job();
         }
