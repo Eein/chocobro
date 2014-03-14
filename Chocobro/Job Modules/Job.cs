@@ -240,11 +240,9 @@ namespace Chocobro {
     }
     public virtual void decrement(ref Ability ability) {
 
-      if (MainWindow.time == MainWindow.servertime && (ability.buff > 0 || (ability.debuff > 0 && ability.dotPotency == 0))) {
+      if (MainWindow.time == MainWindow.servertime && ability.buff > 0) {
 
-        if (ability.buff > 0) { ability.buff -= 1.0; }
-        if (ability.debuff > 0 && ability.dotPotency == 0) { ability.debuff -= 1.0; }
-        
+        ability.buff -= 1.0; 
         if (ability.buff <= 0.0) {
           if (ability.name == "Fey Light") {
             flight = false;
