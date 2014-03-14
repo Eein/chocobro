@@ -5,10 +5,12 @@ namespace Chocobro {
 
   public class Dragoon : Job {
     // Proc Booleans - Set all proc booleans false initially.
-
+    enum Combo { None, Disembowel, ChaosThrust, VorpalThrust, FullThrust };
+    Combo combo = Combo.None;
     public Dragoon() {
       name = "Dragoon";
       classname = "Lancer";
+      combo = Combo.None;
     }
     public override void getStats(MainWindow cs) {
       base.getStats(cs);
@@ -25,6 +27,10 @@ namespace Chocobro {
       regen();
 
       //Abilities - execute(ref ability)
+
+      // NOTE: For combos do... if(combo == Combo.ChaosThrust) etc
+
+      execute(ref autoattack);
 
       //Buffs/Cooldowns - execute(ref ability)
       if (TP <= 440) {
