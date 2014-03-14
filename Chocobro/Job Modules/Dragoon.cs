@@ -27,15 +27,25 @@ namespace Chocobro {
       //Abilities - execute(ref ability)
 
       //Buffs/Cooldowns - execute(ref ability)
+      if (TP <= 440) {
+        execute(ref invigorate);
+      }
 
       //Instants - execute(ref ability)
 
       //Ticks - tick(ref DoTability)
+      tick(ref phlebotomize);
+      tick(ref chaosthrust);
 
       //AutoAttacks (not for casters!) - execute(ref autoattack)
+      execute(ref autoattack);
 
       //Decrement Buffs - decrement(ref buff)
-
+      decrement(ref heavythrust);
+      decrement(ref lifesurge);
+      decrement(ref bloodforblood);
+      decrement(ref disembowel);
+      decrement(ref powersurge);
     }
 
     public override void execute(ref Ability ability) {
@@ -223,6 +233,7 @@ namespace Chocobro {
       areport.Add(powersurge);
       areport.Add(dragonfiredive);
       areport.Add(chaosthrust);
+      areport.Add(invigorate);
       areport.Add(xpotionstrength);
       if (MainWindow.selenebuff) {
         areport.Add(feylight);
@@ -245,6 +256,7 @@ namespace Chocobro {
     Ability powersurge = new PowerSurge();
     Ability dragonfiredive = new DragonfireDive();
     Ability chaosthrust = new ChaosThrust();
+    Ability invigorate = new Invigorate();
     Ability xpotionstrength = new XPotionStrength();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
@@ -317,6 +329,17 @@ namespace Chocobro {
       }
     }
     // End Leg Sweep---------------------
+
+    // Invigorate --------------------------
+    public class Invigorate : Ability {
+      public Invigorate() {
+        name = "Invigorate";
+        abilityType = "Cooldown";
+        recastTime = 120;
+        animationDelay = 0.8;
+      }
+    }
+    // End Invigorate  ---------------------
 
     // Life Surge ---------------------------------
     public class LifeSurge : Ability {
