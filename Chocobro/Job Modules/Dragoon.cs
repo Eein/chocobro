@@ -3,17 +3,17 @@ using System.Windows;
 
 namespace Chocobro {
 
-  public class Template : Job {
+  public class Dragoon : Job {
     // Proc Booleans - Set all proc booleans false initially.
 
-    public Template() {
-      name = "Template";
-      classname = "Template";
+    public Dragoon() {
+      name = "Dragoon";
+      classname = "Lancer";
     }
     public override void getStats(MainWindow cs) {
       base.getStats(cs);
       // Define AP and MP conversion.
-      AP = DEX; //or STR
+      AP = STR; //or STR
       AMP = INT;
     }
 
@@ -25,29 +25,16 @@ namespace Chocobro {
       regen();
 
       //Abilities - execute(ref ability)
-      if (dot1.debuff <= 0) {
-        execute(ref dot1);
-      }
-      execute(ref weaponskill1);
 
       //Buffs/Cooldowns - execute(ref ability)
-      execute(ref cooldown1);
-      execute(ref xpotiondexterity);
 
       //Instants - execute(ref ability)
-      execute(ref instant1);
 
       //Ticks - tick(ref DoTability)
-      tick(ref dot1);
 
       //AutoAttacks (not for casters!) - execute(ref autoattack)
-      execute(ref autoattack);
 
       //Decrement Buffs - decrement(ref buff)
-      decrement(ref cooldown1);
-      decrement(ref xpotiondexterity);
-
-
 
     }
 
@@ -109,15 +96,15 @@ namespace Chocobro {
         if (ability.debuff > 0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + "  DOT clipped.");
           //reset all buffs if clipping
-          ability.dotbuff["cooldown1"] = false;
+          ability.dotbuff["BloodForBlood"] = false;
           ability.dotbuff["potion"] = false;
         }
         //If dot exists and ability doesn't miss, enable its time.
 
         ability.debuff = ability.debuffTime;
 
-        if (cooldown1.buff > 0) { ability.dotbuff["cooldown1"] = true; }
-        if (xpotiondexterity.buff > 0) { ability.dotbuff["potion"] = true; }
+        if (BloodForBlood.buff > 0) { ability.dotbuff["BloodForBlood"] = true; }
+        if (xpotionstrength.buff > 0) { ability.dotbuff["potion"] = true; }
 
 
 
@@ -140,7 +127,7 @@ namespace Chocobro {
         if (ability.debuff <= 0.0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
           //clear buffs from object.
-          ability.dotbuff["cooldown1"] = false;
+          ability.dotbuff["BloodForBlood"] = false;
           ability.dotbuff["potion"] = false;
         }
       }
@@ -157,27 +144,27 @@ namespace Chocobro {
 
     public int damage(ref Ability ability, int pot, bool dot = false) {
       double damageformula = 0.0;
-      double tempdex = DEX;
+      double tempstr = STR;
       //potion check
-      if (xpotiondexterity.buff > 0 || (dot == true && ability.dotbuff["potion"] == true)) {
+      if (xpotionstrength.buff > 0 || (dot == true && ability.dotbuff["potion"] == true)) {
         //check for max dex increase from pot - NEEDS to be refactored...
 
-        if (percentageOfStat(xpotiondexterity.percent, tempdex) > xpotiondexterity.bonus) {
+        if (percentageOfStat(xpotiondexterity.percent, tempstr) > xpotionstrength.bonus) {
           //MainWindow.log("yolo: " + percentageOfStat(xpotiondexterity.percent, tempdex) + " tempdex " + tempdex);
-          tempdex += xpotiondexterity.bonus;
+          tempstr += xpotionstrength.bonus;
           //MainWindow.log("capBonus Dex from potion: " + xpotiondexterity.bonus + " percent of stat: " + percentageOfStat(xpotiondexterity.percent, tempdex));
         } else {
-          tempdex += percentageOfStat(xpotiondexterity.percent, tempdex);
+          tempstr += percentageOfStat(xpotionstrength.percent, tempstr);
           //MainWindow.log("smBonus Dex from potion: " + percentageOfStat(xpotiondexterity.percent, tempdex));
         }
       }
       //end potion check
       if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant") {
-        damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempdex + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempdex + 0.050720984 * DTR);
+        damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempstr + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempstr + 0.050720984 * DTR);
 
       }
       if (ability.abilityType == "AUTOA") {
-        damageformula = (AAPOT) * (0.408 * WEP + 0.103262731 * tempdex + 0.003029823 * WEP * tempdex + 0.003543121 * WEP * (DTR - 202));
+        damageformula = (AAPOT) * (0.408 * WEP + 0.103262731 * tempstr + 0.003029823 * WEP * tempstr + 0.003543121 * WEP * (DTR - 202));
       }
 
       //crit
@@ -186,10 +173,10 @@ namespace Chocobro {
       critchance = 0.0697 * (double)CRIT - 18.437; //Heavyshot interaction
       //MainWindow.log("CRIT CHANCE IS:" + critchance + " ROLL IS: " + critroll);
       if (dot) {
-        if (ability.dotbuff["cooldown1"]) { damageformula *= 1.20; }
+        if (ability.dotbuff["bloodforblood"]) { damageformula *= 1.30; }
 
       } else {
-        if (cooldown1.buff > 0) { damageformula *= 1.20; }
+        if (BloodForBlood.buff > 0) { damageformula *= 1.30; }
       }
 
       if (critroll <= critchance) {
@@ -220,23 +207,41 @@ namespace Chocobro {
     public override void report() {
       base.report();
       // add abilities to list used for reporting. Each ability needs to be added ;(
-      areport.Add(weaponskill1);
-      areport.Add(dot1);
-      areport.Add(cooldown1);
-      areport.Add(instant1);
-      areport.Add(autoattack);
-      areport.Add(xpotiondexterity);
+      areport.Add(TrueThrust);
+      areport.Add(VorpalThrust);
+      areport.Add(ImpulseDrive);
+      areport.Add(HeavyThrust);
+      areport.Add(LegSweep);
+      areport.Add(LifeSurge);
+      areport.Add(Jump);
+      areport.Add(FullThrust);
+      areport.Add(BloodForBlood);
+      areport.Add(Phlebotomize);
+      areport.Add(Disembowel);
+      areport.Add(SpineshatterDive);
+      areport.Add(PowerSurge);
+      areport.Add(DragonfireDive);
+      areport.Add(ChaosThrust);
       if (MainWindow.selenebuff) {
         areport.Add(feylight);
         areport.Add(feyglow);
       }
     }
-    Ability weaponskill1 = new Weaponskill1();
-    Ability dot1 = new Dot1();
-    Ability cooldown1 = new Cooldown1();
-    Ability instant1 = new Instant1();
-    Ability autoattack = new Autoattack();
-    Ability xpotiondexterity = new XPotionDexterity();
+    Ability TrueThrust = new TrueThrust();
+    Ability VorpalThrust = new VorpalThrust();
+    Ability ImpulseDrive = new ImpulseDrive();
+    Ability HeavyThrust = new ImpulseDrive();
+    Ability LegSweep = new LegSweep();
+    Ability LifeSurge = new LifeSurge();
+    Ability Jump = new Jump();
+    Ability FullThrust = new FullThrust();
+    Ability BloodForBlood = new BloodForBlood();
+    Ability Phlebotomize = new Phlebotomize();
+    Ability Disembowel = new Disembowel();
+    Ability SpineshatterDive = new SpineshatterDive();
+    Ability PowerSurge = new PowerSurge();
+    Ability DragonfireDive = new DragonfireDive();
+    Ability ChaosThrust = new ChaosThrust();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
 
@@ -248,57 +253,199 @@ namespace Chocobro {
     // Ability Definition
     // -------------------
 
-    // Weaponskill 1  ---------------------
+    // True Thrust  ---------------------
 
-    public class Weaponskill1 : Ability {
-      public Weaponskill1() {
-        name = "Weaponskill 1";
+    public class TrueThrust : Ability {
+      public TrueThrust() {
+        name = "True Thrust";
         abilityType = "Weaponskill";
         potency = 150;
         TPcost = 70;
-        animationDelay = 0.8;
+        animationDelay = 1.4;
       }
     }
-    // End Ability 1 ---------------------
+    // End True Thrust ---------------------
 
-    // Dot 1 ------------------------------------
-    public class Dot1 : Ability {
-      public Dot1() {
-        name = "Dot 1";
+    // Vorpal Thrust  ---------------------
+
+    public class VorpalThrust  : Ability {
+      public VorpalThrust() {
+        name = "Vorpal Thrust";
         abilityType = "Weaponskill";
-        potency = 150;
-        dotPotency = 50;
-        debuffTime = 18;
+        potency = 100;
+        combopotency = 200;
+        TPcost = 60;
+        animationDelay = 1.4;
+      }
+    }
+    // End Vorpal Thrust ---------------------
+
+    // Impulse Drive  ---------------------
+
+    public class ImpulseDrive : Ability {
+      public ImpulseDrive() {
+        name = "Impulse Drive";
+        abilityType = "Weaponskill";
+        potency = 180;
         TPcost = 70;
-        animationDelay = 0.8;
+        animationDelay = 1.4;
       }
     }
-    // End Dot 1 -------------------------------
+    // End Impulse Drive  ---------------------
 
-    // Cooldown 1 ---------------------------------
-    public class Instant1 : Ability {
-      public Instant1() {
-        name = "Instant 1";
-        abilityType = "Instant";
-        potency = 150;
-        recastTime = 15;
-        animationDelay = 0.8;
-      }
-    }
-    // End Cooldown 1 ----------------------------
+    // Heavy Thrust  ---------------------
 
-    //Instant 1 --------------------------------
-    public class Cooldown1 : Ability {
-      public Cooldown1() {
-        name = "Cooldown 1";
-        abilityType = "Cooldown";
+    public class HeavyThrust : Ability {
+      public HeavyThrust() {
+        name = "Heavy Thrust";
+        abilityType = "Weaponskill";
+        potency = 170;
+        TPcost = 70;
         buffTime = 20;
+        animationDelay = 1.4;
+      }
+    }
+    // End Heavy Thrust  ---------------------
+
+    // Leg Sweep ---------------------
+
+    public class  LegSweep : Ability {
+      public LegSweep() {
+        name = "Leg Sweep";
+        abilityType = "Instant";
+        potency = 130;
+        recastTime = 20;
+        animationDelay = 0.8;
+      }
+    }
+    // End Leg Sweep---------------------
+
+    // Life Surge ---------------------------------
+    public class LifeSurge : Ability {
+      public LifeSurge() {
+        name = "Life Surge";
+        abilityType = "Cooldown";
         recastTime = 60;
         animationDelay = 0.8;
       }
     }
-    //End Instant 1 ------------------------------
+    // End Life Surge  ----------------------------
 
+    // Jump ---------------------
+
+    public class Jump : Ability {
+      public Jump() {
+        name = "Jump";
+        abilityType = "Instant";
+        potency = 200;
+        recastTime = 40;
+        animationDelay = 0.8;
+      }
+    }
+    // End Jump---------------------
+
+      // Full Thrust ---------------------------------
+    public class FullThrust : Ability {
+      public FullThrust() {
+        name = "Full Thrust";
+        abilityType = "Weaponskill";
+        animationDelay = 1.4;
+        TPcost = 60;
+        combopotency = 330;
+      }
+    }
+    // End Full Thrust  ----------------------------
+
+    // Blood for Blood ---------------------------------
+    public class BloodForBlood : Ability {
+      public BloodForBlood() {
+        name = "Blood for Blood";
+        abilityType = "Cooldown";
+        recastTime = 80;
+        buffTime = 20;
+        animationDelay = 0.8;
+      }
+    }
+    // End Blood for Blood  ----------------------------
+
+    // Phlebotomize
+    public class Phlebotomize : Ability {
+      public Phlebotomize() {
+        name = "Phlebotomize";
+        abilityType = "Weaponskill";
+        potency = 170;
+        TPcost = 90;
+        debuffTime = 18;
+        dotPotency = 25;
+        animationDelay = 1.4;
+      }
+    }
+    // End Phlebotomize
+
+    // Disembowel
+    public class Disembowel : Ability {
+      public Disembowel() {
+        name = "Disembowel";
+        abilityType = "Weaponskill";
+        potency = 100;
+        combopotency = 220;
+        debuffTime = 30;
+        animationDelay = 1.4;
+      }
+    }
+    // End Dismebowel
+
+    // Spineshatter Dive ---------------------
+
+    public class SpineshatterDive : Ability {
+      public SpineshatterDive() {
+        name = "Spineshatter Dive";
+        abilityType = "Instant";
+        potency = 170;
+        recastTime = 90;
+        animationDelay = 0.8;
+      }
+    }
+    // End Spineshatter Dive ---------------------
+
+    // Power Surge
+    public class PowerSurge : Ability {
+      public PowerSurge() {
+        name = "Power Surge";
+        abilityType = "Cooldown";
+        recastTime = 60;
+        buffTime = 10;
+        animationDelay = 0.8;
+      }
+    }
+    // End Power Surge  ----------------------------
+
+    // Dragonfire Dive ---------------------
+
+    public class DragonfireDive : Ability {
+      public DragonfireDive() {
+        name = "Dragonfire Dive";
+        abilityType = "Instant";
+        potency = 250;
+        recastTime = 180;
+        animationDelay = 0.8;
+      }
+    }
+    // End Spineshatter Dive ---------------------
+
+    // Chaos Thrust
+    public class ChaosThrust : Ability {
+      public ChaosThrust() {
+        name = "Chaos Thrust";
+        abilityType = "Weaponskill";
+        potency = 100;
+        combopotency = 200;
+        dotPotency = 30;;
+        debuffTime = 30;
+        animationDelay = 1.4;
+      }
+    }
+    // End Dismebowel
     // Auto Attack
     public class Autoattack : Ability {
       public Autoattack() {

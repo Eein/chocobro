@@ -347,22 +347,22 @@ namespace Chocobro {
       areport.Add(feylight);
       areport.Add(feyglow);
     }
-    Ability heavyshot = new Heavyshot();
+    Ability heavyshot = new HeavyShot();
     Ability windbite = new Windbite();
-    Ability venomousbite = new Venomousbite();
-    Ability straightshot = new Straightshot();
+    Ability venomousbite = new VenomousBite();
+    Ability straightshot = new StraightShot();
     Ability bloodletter = new Bloodletter();
-    Ability miserysend = new Miserysend();
-    Ability bluntarrow = new Bluntarrow();
-    Ability repellingshot = new Repellingshot();
-    Ability flamingarrow = new Flamingarrow();
-    Ability internalrelease = new Internalrelease();
-    Ability bloodforblood = new Bloodforblood();
-    Ability ragingstrikes = new Ragingstrikes();
-    Ability hawkseye = new Hawkseye();
+    Ability miserysend = new MiserysEnd();
+    Ability bluntarrow = new BluntArrow();
+    Ability repellingshot = new RepellingShot();
+    Ability flamingarrow = new FlamingArrow();
+    Ability internalrelease = new InternalRelease();
+    Ability bloodforblood = new BloodForBlood();
+    Ability ragingstrikes = new RagingStrikes();
+    Ability hawkseye = new HawksEye();
     Ability barrage = new Barrage();
     Ability invigorate = new Invigorate();
-    Ability autoattack = new Autoattack();
+    Ability autoattack = new AutoAttack();
     Ability xpotiondexterity = new XPotionDexterity();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
@@ -373,8 +373,8 @@ namespace Chocobro {
 
     // Heavy Shot ---------------------
 
-    public class Heavyshot : Ability {
-      public Heavyshot() {
+    public class HeavyShot : Ability {
+      public HeavyShot() {
         name = "Heavy Shot";
         potency = 150;
         dotPotency = 0;
@@ -407,8 +407,8 @@ namespace Chocobro {
 
     // Venomous Bite -------------------------
 
-    public class Venomousbite : Ability {
-      public Venomousbite() {
+    public class VenomousBite : Ability {
+      public VenomousBite() {
         name = "Venomous Bite";
         potency = 100;
         dotPotency = 35;
@@ -423,8 +423,8 @@ namespace Chocobro {
 
     // Straight Shot --------------------------
 
-    public class Straightshot : Ability {
-      public Straightshot() {
+    public class StraightShot : Ability {
+      public StraightShot() {
         name = "Straight Shot";
         potency = 140;
         dotPotency = 0;
@@ -457,8 +457,8 @@ namespace Chocobro {
 
     // Miserys End -------------------------------
 
-    public class Miserysend : Ability {
-      public Miserysend() {
+    public class MiserysEnd : Ability {
+      public MiserysEnd() {
         name = "Miserys End";
         potency = 190;
         dotPotency = 0;
@@ -474,8 +474,8 @@ namespace Chocobro {
 
     // Blunt Arrow ------------------------------------
 
-    public class Bluntarrow : Ability {
-      public Bluntarrow() {
+    public class BluntArrow : Ability {
+      public BluntArrow() {
         name = "Blunt Arrow";
         potency = 50;
         dotPotency = 0;
@@ -490,8 +490,8 @@ namespace Chocobro {
 
     // Repelling Shot ---------------------------------
 
-    public class Repellingshot : Ability {
-      public Repellingshot() {
+    public class RepellingShot : Ability {
+      public RepellingShot() {
         name = "Repelling Shot";
         potency = 80;
         dotPotency = 0;
@@ -506,8 +506,8 @@ namespace Chocobro {
 
     //Flaming Arrow
 
-    public class Flamingarrow : Ability {
-      public Flamingarrow() {
+    public class FlamingArrow : Ability {
+      public FlamingArrow() {
         name = "Flaming Arrow";
         potency = 0;
         dotPotency = 35;
@@ -524,8 +524,8 @@ namespace Chocobro {
 
     // Internal Release
 
-    public class Internalrelease : Ability {
-      public Internalrelease() {
+    public class InternalRelease : Ability {
+      public InternalRelease() {
         name = "Internal Release";
         recastTime = 60;
         animationDelay = 0.8;
@@ -538,8 +538,8 @@ namespace Chocobro {
 
     // Blood for Blood
 
-    public class Bloodforblood : Ability {
-      public Bloodforblood() {
+    public class BloodForBlood : Ability {
+      public BloodForBlood() {
         name = "Blood for Blood";
         recastTime = 80;
         animationDelay = 0.8;
@@ -552,8 +552,8 @@ namespace Chocobro {
 
     // Raging Strikes
 
-    public class Ragingstrikes : Ability {
-      public Ragingstrikes() {
+    public class RagingStrikes : Ability {
+      public RagingStrikes() {
         name = "Raging Strikes";
         recastTime = 120;
         animationDelay = 0.8;
@@ -567,8 +567,8 @@ namespace Chocobro {
 
     // Hawks Eye
 
-    public class Hawkseye : Ability {
-      public Hawkseye() {
+    public class HawksEye : Ability {
+      public HawksEye() {
         name = "Hawks Eye";
         recastTime = 90;
         animationDelay = 0.8;
@@ -607,8 +607,8 @@ namespace Chocobro {
     // End Invigorate
     // Auto Attack
 
-    public class Autoattack : Ability {
-      public Autoattack() {
+    public class AutoAttack : Ability {
+      public AutoAttack() {
         name = "Auto Attack";
         recastTime = MainWindow.AADELAY;
         animationDelay = 0;

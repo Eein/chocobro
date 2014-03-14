@@ -76,6 +76,18 @@ namespace Chocobro {
       }
     }
 
+    public class XPotionStrength : Ability {
+      public XPotionStrength() {
+        name = "HQ - X-Potion of Strength";
+        recastTime = 300;
+        animationDelay = 0.8;
+        abilityType = "Cooldown";
+        buffTime = 15;
+        bonus = 67;
+        percent = 16;
+      }
+    }
+
     public class FeyLight : Ability {
       public FeyLight() {
         name = "Fey Light";
