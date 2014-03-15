@@ -54,6 +54,7 @@
                     <ComboBox x:Name="statweights" HorizontalAlignment="Left" Margin="104,12,0,0" VerticalAlignment="Top" Width="120" Height="22"  >
                         <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="118" IsSelected="True"/>
                         <ComboBoxItem Content="Weapon Damage" HorizontalAlignment="Left" Width="118" IsEnabled="True"/>
+                        <ComboBoxItem Content="Strength" HorizontalAlignment="Left" Width="118"/>
                         <ComboBoxItem Content="Dexterity" HorizontalAlignment="Left" Width="118"/>
                         <ComboBoxItem Content="Accuracy" HorizontalAlignment="Left" Width="118"/>
                         <ComboBoxItem Content="Crit" HorizontalAlignment="Left" Width="118"/>

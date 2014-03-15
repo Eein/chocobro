@@ -201,6 +201,7 @@ namespace Chocobro {
 
           if (swselected == "Weapon Damage") { p.WEP = p.WEP - (delta - y); }
           if (swselected == "Dexterity") { p.DEX = p.DEX - (delta - y); }
+          if (swselected == "Strength") { p.STR = p.STR - (delta - y); }
           if (swselected == "Accuracy") { p.ACC = p.ACC - (delta - y); }
           if (swselected == "Crit") { p.CRIT = p.CRIT - (delta - y); }
           if (swselected == "Determination") { p.DTR = p.DTR - (delta - y); }
