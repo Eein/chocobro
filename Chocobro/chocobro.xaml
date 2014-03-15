@@ -93,7 +93,7 @@
         <Label Content="AADELAY&#xA;" HorizontalAlignment="Left" Margin="19,132,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="50"/>
         <TextBox x:Name="DELAY" HorizontalAlignment="Left" Height="20" Margin="77,132,0,0" TextWrapping="Wrap" Text="3.20" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="STR&#xA;" HorizontalAlignment="Left" Margin="19,154,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="20"/>
-        <TextBox x:Name="STR" HorizontalAlignment="Left" Height="20" Margin="77,154,0,0" TextWrapping="Wrap" Text="179" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="STR" HorizontalAlignment="Left" Height="20" Margin="77,154,0,0" TextWrapping="Wrap" Text="505" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="DEX&#xA;" HorizontalAlignment="Left" Margin="19,176,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="22"/>
         <TextBox x:Name="DEX" HorizontalAlignment="Left" Height="20" Margin="77,176,0,0" TextWrapping="Wrap" Text="505" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="VIT&#xA;" HorizontalAlignment="Left" Margin="19,198,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="17"/>

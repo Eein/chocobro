@@ -49,6 +49,7 @@ namespace Chocobro {
         {"internalrelease",false},
         {"fightorflight",false},
         {"cooldown1",false},
+        {"heavythrust",false},
         {"potion", false}
     };
 

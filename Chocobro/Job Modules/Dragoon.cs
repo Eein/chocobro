@@ -39,6 +39,7 @@ namespace Chocobro {
 
       if (combo == Combo.None) { execute(ref truethrust); }
       if (combo == Combo.VorpalThrust) { execute(ref vorpalthrust); }
+      if (combo == Combo.VorpalThrust) { execute(ref lifesurge); }
       if (combo == Combo.FullThrust) {  execute(ref fullthrust); }
 
       // NOTE: For combos do... if(combo == Combo.ChaosThrust) etc
@@ -47,15 +48,14 @@ namespace Chocobro {
 
       //Buffs/Cooldowns - execute(ref ability)
       execute(ref bloodforblood);
-      execute(ref lifesurge);
-      execute(ref powersurge);
       if (TP <= 440) {
         execute(ref invigorate);
       }
-
+      execute(ref xpotionstrength);
       //Instants - execute(ref ability)
       execute(ref dragonfiredive);
       execute(ref legsweep);
+      execute(ref lifesurge);
       execute(ref jump);
       execute(ref spineshatterdive);
 
@@ -78,6 +78,14 @@ namespace Chocobro {
     }
     public override void impact(ref Ability ability) {
 
+      if (ability.name == "Invigorate") {
+        TP += 500;
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 400 TP Restored. TP is " + (TP - 400) + " => " + TP);
+        if (OOT) {
+          OOT = false;
+          nextability = MainWindow.time;
+        }
+      }
       //var critchance = calculateCrit(_player);
       //set potency for now, but change to damage later.
       var accroll = (MainWindow.d100(1, 10001)) / 100;
@@ -107,7 +115,7 @@ namespace Chocobro {
 
           double thisdamage = damage(ref ability, ability.potency);
 
-          if (MainWindow.disdebuff == true) {
+          if (disembowel.debuff > 0) {
             thisdamage = Math.Floor(thisdamage *= 1.12);
           }
 
@@ -145,13 +153,14 @@ namespace Chocobro {
         if (ability.debuff > 0 && ability.dotPotency > 0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + "  DOT clipped.");
           //reset all buffs if clipping
+          ability.dotbuff["heavythrust"] = false;
           ability.dotbuff["bloodforblood"] = false;
           ability.dotbuff["potion"] = false;
         }
         //If dot exists and ability doesn't miss, enable its time.
 
         ability.debuff = ability.debuffTime;
-
+        if (heavythrust.buff > 0) { ability.dotbuff["heavythrust"] = true; }
         if (bloodforblood.buff > 0) { ability.dotbuff["bloodforblood"] = true; }
         if (xpotionstrength.buff > 0) { ability.dotbuff["potion"] = true; }
 
@@ -179,6 +188,7 @@ namespace Chocobro {
         if (ability.debuff <= 0.0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
           //clear buffs from object.
+          ability.dotbuff["heavythrust"] = false;
           ability.dotbuff["bloodforblood"] = false;
           ability.dotbuff["potion"] = false;
         }
@@ -225,12 +235,16 @@ namespace Chocobro {
       critchance = 0.0697 * (double)CRIT - 18.437; //Heavyshot interaction
       //MainWindow.log("CRIT CHANCE IS:" + critchance + " ROLL IS: " + critroll);
       if (dot) {
+        if (ability.dotbuff["heavythrust"]) { damageformula *= 1.15; }
         if (ability.dotbuff["bloodforblood"]) { damageformula *= 1.30; }
 
       } else {
+        if (heavythrust.buff > 0) { damageformula *= 1.15; }
         if (bloodforblood.buff > 0) { damageformula *= 1.30; }
       }
 
+      if (lifesurge.buff > 0) { critroll = 0; lifesurge.buff = 0; } //lifesurge
+      if (powersurge.buff > 0 && ability.name == "Jump") { damageformula *= 1.5; powersurge.buff = 0; }
       if (critroll <= critchance) {
         numberofcrits += 1;
 
