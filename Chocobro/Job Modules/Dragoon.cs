@@ -467,6 +467,7 @@ namespace Chocobro {
         potency = 220;
         debuffTime = 30;
         animationDelay = 1.4;
+        TPcost = 60;
       }
     }
     // End Dismebowel
