@@ -131,7 +131,7 @@ namespace Chocobro {
       if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant")) {
         numberofattacks += 1;
         ability.attacks += 1;
-        if (accroll < calculateACC() || hawkseye.buff > 0) {
+        if (accroll <= calculateACC() || hawkseye.buff > 0) {
 
           double thisdamage = damage(ref ability, ability.potency);
 
