@@ -27,20 +27,19 @@ namespace Chocobro {
 
       //Regen Mana/TP
       regen();
-      combo = Combo.Disembowel;
-      //MessageBox.Show(combo.ToString());
+
       //Abilities - execute(ref ability)
       if (heavythrust.buff < gcd && combo == Combo.None) { execute(ref heavythrust); }
 
-      if (disembowel.debuff < 2 * gcd && combo == Combo.None) { combo = Combo.Disembowel; execute(ref impulsedrive); }
-      if (combo == Combo.Disembowel) { combo = Combo.ChaosThrust; execute(ref disembowel); }
-      if (combo == Combo.ChaosThrust) { combo = Combo.None; execute(ref chaosthrust); }
+      if (disembowel.debuff < 2 * gcd && combo == Combo.None) { execute(ref impulsedrive); }
+      if (combo == Combo.Disembowel) {  execute(ref disembowel); }
+      if (combo == Combo.ChaosThrust) {  execute(ref chaosthrust); }
 
-      if (phlebotomize.debuff < gcd && combo == Combo.None) { combo = Combo.None; execute(ref phlebotomize); }
+      if (phlebotomize.debuff < gcd && combo == Combo.None) {  execute(ref phlebotomize); }
 
-      if (combo == Combo.None) { combo = Combo.VorpalThrust; execute(ref truethrust); }
-      if (combo == Combo.VorpalThrust) { combo = Combo.FullThrust; execute(ref vorpalthrust); }
-      if (combo == Combo.FullThrust) { combo = Combo.None; execute(ref fullthrust); }
+      if (combo == Combo.None) { execute(ref truethrust); }
+      if (combo == Combo.VorpalThrust) { execute(ref vorpalthrust); }
+      if (combo == Combo.FullThrust) {  execute(ref fullthrust); }
 
       // NOTE: For combos do... if(combo == Combo.ChaosThrust) etc
 
@@ -91,6 +90,20 @@ namespace Chocobro {
         numberofattacks += 1;
         ability.attacks += 1;
         if (accroll < calculateACC()) {
+          // change states for combos here...
+          if (ability.name == "Heavy Thrust") { combo = Combo.None; }
+
+          if (ability.name == "Impulse Drive") { combo = Combo.Disembowel; }
+          if (ability.name == "Disembowel") { combo = Combo.ChaosThrust; }
+          if (ability.name == "Chaos Thrust") { combo = Combo.None; }
+          
+          if (ability.name == "True Thrust") { combo = Combo.VorpalThrust; }
+          if (ability.name == "Vorpal Thrust") { combo = Combo.FullThrust; }
+          if (ability.name == "Full Thrust") { combo = Combo.None; }
+          
+          if (ability.name == "Phlebotomize") { combo = Combo.None; }
+
+          //
 
           double thisdamage = damage(ref ability, ability.potency);
 
@@ -108,7 +121,7 @@ namespace Chocobro {
           numberofmisses += 1;
           ability.misses += 1;
           MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast);
-          // Does heavyshot buff get eaten by a miss?
+          
         }
       }
       if (ability.abilityType == "AUTOA") {
@@ -129,7 +142,7 @@ namespace Chocobro {
 
       // If ability has debuff, create its timer.
       if (ability.debuffTime > 0 && accroll < calculateACC()) {
-        if (ability.debuff > 0) {
+        if (ability.debuff > 0 && ability.dotPotency > 0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + "  DOT clipped.");
           //reset all buffs if clipping
           ability.dotbuff["bloodforblood"] = false;
@@ -143,8 +156,11 @@ namespace Chocobro {
         if (xpotionstrength.buff > 0) { ability.dotbuff["potion"] = true; }
 
 
-
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " DoT has been applied.  Time Left: " + ability.debuff);
+        if (ability.dotPotency > 0) { 
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " DoT has been applied.  Time Left: " + ability.debuff);
+        } else {
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Debuff has been applied.  Time Left: " + ability.debuff);
+        }
       }
       if (ability.buffTime > 0 && accroll < calculateACC()) {
         ability.buff = ability.buffTime;
@@ -158,7 +174,7 @@ namespace Chocobro {
 
     public virtual void tick(ref Ability ability) {
       //schedule tick
-      if (MainWindow.time == MainWindow.servertime && (ability.debuff > 0 && ability.dotPotency > 0)) {
+      if (MainWindow.time == MainWindow.servertime && ability.debuff > 0) {
         ability.debuff -= 1.0;
         if (ability.debuff <= 0.0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
