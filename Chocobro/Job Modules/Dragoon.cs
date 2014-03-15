@@ -2,20 +2,23 @@
 using System.Windows;
 
 namespace Chocobro {
+  public enum Combo { None = 0, ImpulseDrive = 1, Disembowel = 2, ChaosThrust = 3, VorpalThrust = 4, FullThrust = 5 };
 
   public class Dragoon : Job {
     // Proc Booleans - Set all proc booleans false initially.
-    enum Combo { None, ImpulseDrive, Disembowel, ChaosThrust, VorpalThrust, FullThrust };
+
     Combo combo;
     public Dragoon() {
       name = "Dragoon";
       classname = "Lancer";
+      
     }
     public override void getStats(MainWindow cs) {
       base.getStats(cs);
       // Define AP and MP conversion.
       AP = STR; //or STR
       AMP = INT;
+      combo = Combo.None;
     }
 
     public override void rotation() {
@@ -24,7 +27,8 @@ namespace Chocobro {
 
       //Regen Mana/TP
       regen();
-
+      combo = Combo.Disembowel;
+      //MessageBox.Show(combo.ToString());
       //Abilities - execute(ref ability)
       if (heavythrust.buff < gcd && combo == Combo.None) { execute(ref heavythrust); }
 
@@ -59,7 +63,7 @@ namespace Chocobro {
       //Ticks - tick(ref DoTability)
       tick(ref phlebotomize);
       tick(ref chaosthrust);
-
+      tick(ref disembowel);
       //AutoAttacks (not for casters!) - execute(ref autoattack)
       execute(ref autoattack);
 
@@ -67,7 +71,6 @@ namespace Chocobro {
       decrement(ref heavythrust);
       decrement(ref lifesurge);
       decrement(ref bloodforblood);
-      decrement(ref disembowel);
       decrement(ref powersurge);
     }
 
@@ -267,7 +270,7 @@ namespace Chocobro {
     Ability truethrust = new TrueThrust();
     Ability vorpalthrust = new VorpalThrust();
     Ability impulsedrive = new ImpulseDrive();
-    Ability heavythrust = new ImpulseDrive();
+    Ability heavythrust = new HeavyThrust();
     Ability legsweep = new LegSweep();
     Ability lifesurge = new LifeSurge();
     Ability jump = new Jump();
