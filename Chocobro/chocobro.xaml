@@ -29,7 +29,7 @@
                 <MenuItem x:Name="ExitApplication" Header="Exit" HorizontalAlignment="Left" Width="140" Click="applicationExit"/>
             </MenuItem>
         </Menu>
-        <TextBox x:Name="fightLengthInput" HorizontalAlignment="Left" Height="22" Margin="10,473,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="150"/>
+        <TextBox x:Name="fightLengthInput" HorizontalAlignment="Left" Height="22" Margin="10,473,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="150" ToolTip="How long each fight is."/>
         <Label Content="Fight Length:" HorizontalAlignment="Left" Margin="10,451,0,0" VerticalAlignment="Top" Height="26" Width="79"/>
         <TabControl Margin="147,27,0,0" Grid.ColumnSpan="2">
 
@@ -52,7 +52,7 @@
             <TabItem Header="Options" RenderTransformOrigin="-0.339,0.409" Margin="-55,-2,51,0">
                 <Grid Background="White" Margin="0">
                     <Label Content="Stat Weights:" HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Top" Height="30"/>
-                    <ComboBox x:Name="statweights" HorizontalAlignment="Left" Margin="104,12,0,0" VerticalAlignment="Top" Width="120" Height="22"  >
+                    <ComboBox x:Name="statweights" HorizontalAlignment="Left" Margin="104,12,0,0" VerticalAlignment="Top" Width="120" Height="22" ToolTip="Used with a spreadsheet to determine DPS gains/losses with certain stats."  >
                         <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="118" IsSelected="True"/>
                         <ComboBoxItem Content="Weapon Damage" HorizontalAlignment="Left" Width="118" IsEnabled="True"/>
                         <ComboBoxItem Content="Strength" HorizontalAlignment="Left" Width="118"/>
@@ -72,10 +72,10 @@
                         <ComboBoxItem Content="5" HorizontalAlignment="Left" Width="32" IsSelected="True"/>
                         <ComboBoxItem Content="10" HorizontalAlignment="Left" Width="32" IsEnabled="False"/>
                     </ComboBox>
-                    <CheckBox x:Name="disembowelbox" Content="Disembowel (Bard only)" HorizontalAlignment="Left" Margin="19,96,0,0" VerticalAlignment="Top" RenderTransformOrigin="-4.203,5.379"/>
-                    <CheckBox x:Name="selenebox" Content="Selene Buffs" HorizontalAlignment="Left" Margin="19,116,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.166,10.944"/>
+                    <CheckBox x:Name="disembowelbox" Content="Disembowel (Bard only)" HorizontalAlignment="Left" Margin="19,96,0,0" VerticalAlignment="Top" RenderTransformOrigin="-4.203,5.379" ToolTip="12% increased damage on Bard Weaponskills and Instants"/>
+                    <CheckBox x:Name="selenebox" Content="Selene Buffs" HorizontalAlignment="Left" Margin="19,116,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.166,10.944" ToolTip="Alternates Selene buffs - 30% SKS/30% SPS"/>
                     <Label Content="Input Lag:" HorizontalAlignment="Left" Margin="268,12,0,0" VerticalAlignment="Top" Height="30"/>
-                    <ComboBox x:Name="inputlag" HorizontalAlignment="Left" Margin="336,12,0,0" VerticalAlignment="Top" Width="120" Height="22"  >
+                    <ComboBox x:Name="inputlag" HorizontalAlignment="Left" Margin="336,12,0,0" VerticalAlignment="Top" Width="120" Height="22" ToolTip="(BETA) Adds in random delay between inputs."  >
                         <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="118" IsSelected="True"/>
                         <ComboBoxItem Content="Small (50-150ms)" HorizontalAlignment="Left" Width="118" IsEnabled="True"/>
                         <ComboBoxItem Content="Med (125-225ms)" HorizontalAlignment="Left" Width="118"/>
@@ -116,7 +116,7 @@
         <TextBox x:Name="SKSPD" HorizontalAlignment="Left" Height="20" Margin="77,352,0,0" TextWrapping="Wrap" Text="428" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="SPSPD&#xA;" HorizontalAlignment="Left" Margin="19,374,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="35"/>
         <TextBox x:Name="SPSPD" HorizontalAlignment="Left" Height="20" Margin="77,374,0,0" TextWrapping="Wrap" Text="341" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
-        <TextBox x:Name="iterationsinput" HorizontalAlignment="Left" Height="22" Margin="10,430,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="5000"/>
+        <TextBox x:Name="iterationsinput" HorizontalAlignment="Left" Height="22" Margin="10,430,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="5000" ToolTip="Number of times the simulator will run a fight."/>
         <Label Content="Iterations:" HorizontalAlignment="Left" Margin="10,408,0,0" VerticalAlignment="Top" Height="30" Width="62"/>
         <ProgressBar x:Name="progressBar" HorizontalAlignment="Right" Margin="0,0,20,0" Grid.Row="1" Width="200" VerticalAlignment="Center" Height="20"/>
 
