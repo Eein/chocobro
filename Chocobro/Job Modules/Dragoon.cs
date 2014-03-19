@@ -2,7 +2,7 @@
 using System.Windows;
 
 namespace Chocobro {
-  public enum Combo { None = 0, ImpulseDrive = 1, Disembowel = 2, ChaosThrust = 3, VorpalThrust = 4, FullThrust = 5 };
+  public enum Combo { DRGNone = 0, ImpulseDrive = 1, Disembowel = 2, ChaosThrust = 3, VorpalThrust = 4, FullThrust = 5 };
 
   public class Dragoon : Job {
     // Proc Booleans - Set all proc booleans false initially.
@@ -11,14 +11,13 @@ namespace Chocobro {
     public Dragoon() {
       name = "Dragoon";
       classname = "Lancer";
-      
     }
     public override void getStats(MainWindow cs) {
       base.getStats(cs);
       // Define AP and MP conversion.
       AP = STR; //or STR
       AMP = INT;
-      combo = Combo.None;
+      combo = Combo.DRGNone;
     }
 
     public override void rotation() {
@@ -29,15 +28,15 @@ namespace Chocobro {
       regen();
 
       //Abilities - execute(ref ability)
-      if (heavythrust.buff < gcd && combo == Combo.None) { execute(ref heavythrust); }
+      if (heavythrust.buff < gcd && combo == Combo.DRGNone) { execute(ref heavythrust); }
 
-      if (disembowel.debuff < 2 * gcd && combo == Combo.None) { execute(ref impulsedrive); }
+      if (disembowel.debuff < 2 * gcd && combo == Combo.DRGNone) { execute(ref impulsedrive); }
       if (combo == Combo.Disembowel) {  execute(ref disembowel); }
       if (combo == Combo.ChaosThrust) {  execute(ref chaosthrust); }
 
-      if (phlebotomize.debuff < gcd && combo == Combo.None) {  execute(ref phlebotomize); }
+      if (phlebotomize.debuff < gcd && combo == Combo.DRGNone) {  execute(ref phlebotomize); }
 
-      if (combo == Combo.None) { execute(ref truethrust); }
+      if (combo == Combo.DRGNone) { execute(ref truethrust); }
       if (combo == Combo.VorpalThrust) { execute(ref vorpalthrust); }
       if (combo == Combo.VorpalThrust) { execute(ref lifesurge); }
       if (combo == Combo.FullThrust) {  execute(ref fullthrust); }
@@ -80,7 +79,7 @@ namespace Chocobro {
 
       if (ability.name == "Invigorate") {
         TP += 500;
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 400 TP Restored. TP is " + (TP - 400) + " => " + TP);
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 500 TP Restored. TP is " + (TP - 500) + " => " + TP);
         if (OOT) {
           OOT = false;
           nextability = MainWindow.time;
@@ -99,17 +98,17 @@ namespace Chocobro {
         ability.attacks += 1;
         if (accroll < calculateACC()) {
           // change states for combos here...
-          if (ability.name == "Heavy Thrust") { combo = Combo.None; }
+          if (ability.name == "Heavy Thrust") { combo = Combo.DRGNone; }
 
           if (ability.name == "Impulse Drive") { combo = Combo.Disembowel; }
           if (ability.name == "Disembowel") { combo = Combo.ChaosThrust; }
-          if (ability.name == "Chaos Thrust") { combo = Combo.None; }
+          if (ability.name == "Chaos Thrust") { combo = Combo.DRGNone; }
           
           if (ability.name == "True Thrust") { combo = Combo.VorpalThrust; }
           if (ability.name == "Vorpal Thrust") { combo = Combo.FullThrust; }
-          if (ability.name == "Full Thrust") { combo = Combo.None; }
+          if (ability.name == "Full Thrust") { combo = Combo.DRGNone; }
           
-          if (ability.name == "Phlebotomize") { combo = Combo.None; }
+          if (ability.name == "Phlebotomize") { combo = Combo.DRGNone; }
 
           //
 

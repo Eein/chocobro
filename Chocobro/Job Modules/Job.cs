@@ -263,6 +263,7 @@ namespace Chocobro {
         tempsks *= 1.30;
       }
       var skillcalc = basegcd - (Math.Round(((tempsks - 341) * 0.00095308) * 100) / 100);
+      skillcalc = skillcalc - Monk.glstacks * 0.125;
       return skillcalc;
     }
 
