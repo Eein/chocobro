@@ -1,203 +1,144 @@
 ﻿using System;
+using System.Windows;
+
 namespace Chocobro {
+  public enum PLDCombo { PLDNone = 0, SavageBlade = 1, RageOfHalone = 2 };
 
   public class Paladin : Job {
-
-    public bool fastbladecombo = false;
-    public bool savagebladecombo = false;
-
-    //-----------------------
+    // Proc Booleans - Set all proc booleans false initially.
+    PLDCombo combo;
 
     public Paladin() {
-
+      name = "Paladin";
+      classname = "Gladiator";
+    }
+    public override void getStats(MainWindow cs) {
+      base.getStats(cs);
+      // Define AP and MP conversion.
+      AP = STR; //or STR
+      AMP = INT;
+      combo = PLDCombo.PLDNone;
     }
 
     public override void rotation() {
       var gcd = calculateGCD();
       autoattack.recastTime = AADELAY;
-      /*if (swordoath.buff <= 0) { //swordoath?
-        execute(ref swordoath);
-      }*/
-
-      //Abilities - execute(ref ability)
-
-      if (fracture.debuff <= gcd) {
-        if (MainWindow.fightlength - MainWindow.time > 9) {
-          execute(ref fracture);
-        }
-      }
-      if (savagebladecombo == true) {
-        execute(ref rageofhalone);
-      }
-      if (fastbladecombo == true) {
-        execute(ref savageblade);
-      }
-      execute(ref fastblade);
-      //Buffs/Cooldowns - execute(ref ability)
-      execute(ref fightorflight);
-      //Instants - execute(ref ability)
-      execute(ref circleofscorn);
-      execute(ref spiritswithin);
-      if (MainWindow.fightlength * 0.80 < MainWindow.time) {
-        execute(ref mercystroke);
-      }
-      //Ticks - tick(ref DoTability)
-      tick(ref circleofscorn);
-      tick(ref fracture);
-      //AutoAttacks (not for casters!) - execute(ref autoattack)
-      execute(ref autoattack);
-      //Decrement Buffs - decrement(ref buff)
-      decrement(ref swordoath);
-      decrement(ref fightorflight);
+      execute(ref feylight);
       //Regen Mana/TP
       regen();
-    }
 
-    public void execute(ref Ability ability) {
+      //Abilities - execute(ref ability)
+      if (fracture.debuff < gcd) { execute(ref fracture); }
+      if (combo == PLDCombo.PLDNone) { execute(ref fastbalde); }
+      if (combo == PLDCombo.SavageBlade) { execute(ref savageblade); }
+      if (combo == PLDCombo.RageOfHalone) { execute(ref rageofhalone); }
+      //Buffs/Cooldowns - execute(ref ability)
+      execute(ref fightorflight);
+      execute(ref xpotionstrength);
 
-
-      if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
-        MainWindow.time = MainWindow.floored(MainWindow.time);
-        MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
-        ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
-        nextauto = MainWindow.floored((MainWindow.time + ability.recastTime));
-        impact(ref ability);
-
+      //Instants - execute(ref ability)
+      if (MainWindow.servertime >= 0.8 * MainWindow.fightlength) {
+        execute(ref mercystroke);
       }
+      execute(ref spiritswithin);
+      execute(ref circleofscorn);
 
-      if (ability.abilityType == "Weaponskill") {
+      //Ticks - tick(ref DoTability)
+      tick(ref circleofscorn);
+      tick(ref mercystroke);
 
-        //If time >= next cast time and time >= nextability)
-        if (TP - ability.TPcost < 0) { //attempted to not allow TP to be less than 0, needs to be remade
-          MainWindow.log("Was unable to execute " + ability.name + ". Not enough TP. Current TP is " + TP + "TP.");
-          nextability = MainWindow.time;
-          OOT = true;
-        } else {
-          if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
-            //Get game time (remove decimal error)
-            MainWindow.time = MainWindow.floored(MainWindow.time);
-            MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name + ". Cost is " + ability.TPcost + "TP. Current TP is " + TP + "TP.");
-            // remove TP
-            TP -= ability.TPcost;
-            //if doesnt miss, then impact
+      //AutoAttacks (not for casters!) - execute(ref autoattack)
+      execute(ref autoattack);
 
-            //set nextCast.
-            ability.nextCast = MainWindow.floored((MainWindow.time + calculateGCD()));
-
-
-            //set nextability
-            nextability = MainWindow.floored((MainWindow.time + calculateGCD()));
-            nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
-
-            //time = nextTime(nextinstant, nextability);
-            actionmade = true;
-
-            //var critroll = d100.Next(1, 101);
-            // var critbonus = calculateCrit();
-            impact(ref ability);
-          }
-        }
-      }
-      if (ability.abilityType == "Instant" || ability.abilityType == "Cooldown") {
-        //If time >= next cast time and time >= nextability)
-        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant && nextability > MainWindow.time + ability.animationDelay) { //&& nextability > MainWindow.time + ability.animationDelay is what i added
-          //Get game time (remove decimal error)
-          MainWindow.time = MainWindow.floored(MainWindow.time);
-          MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
-          //if doesnt miss, then impact
-
-          //set nextCast.
-          ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
-
-
-          //set nextability
-          if (MainWindow.time + ability.animationDelay > nextability) {
-            nextability = MainWindow.floored((MainWindow.time + ability.animationDelay));
-          }
-
-          nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay));
-
-          impact(ref ability);
-        }
-      }
-
+      //Decrement Buffs - decrement(ref buff)
+      decrement(ref fightorflight);
+      decrement(ref xpotionstrength);
 
 
 
     }
-    public virtual void impact(ref Ability ability) {
+
+    public override void execute(ref Ability ability) {
+      base.execute(ref ability);
+    }
+    public override void impact(ref Ability ability) {
+
+      //var critchance = calculateCrit(_player);
+      //set potency for now, but change to damage later.
       var accroll = (MainWindow.d100(1, 10001)) / 100;
-      if (ability.name == "Fast Blade") {
-        fastbladecombo = true;
-        savagebladecombo = false;
-      }
-      if (ability.name == "Savage Blade") {
-        if (fastbladecombo == true) {
-          savageblade.potency = savageblade.combopotency;
-        }
-        savagebladecombo = true;
-        fastbladecombo = false;
-      }
-      if (ability.name == "Rage of Halone") {
-        if (savagebladecombo == true) {
-          rageofhalone.potency = rageofhalone.combopotency;
-        }
-        savagebladecombo = false;
-        fastbladecombo = false;
-      }
-      if (ability.abilityType == "Cooldown") {
-      }
-      if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant" && ability.potency > 0)) {
 
+      if (ability.abilityType == "Cooldown") {
+        ability.hits += 1;
+      }
+
+      if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant")) {
         numberofattacks += 1;
+        ability.attacks += 1;
         if (accroll < calculateACC()) {
 
-          var thisdamage = damage(ref ability, ability.potency);
-          numberofhits += 1;
+          if (ability.name == "Fast Blade") { combo = PLDCombo.SavageBlade; }
+          if (ability.name == "Savage Blade") { combo = PLDCombo.RageOfHalone; }
+          if (ability.name == "Rage of Halone") { combo = PLDCombo.PLDNone; }
 
-          totaldamage += thisdamage;
+          double thisdamage = damage(ref ability, ability.potency);
+
+          if (MainWindow.disdebuff == true) {
+            thisdamage = Math.Floor(thisdamage *= 1.12);
+          }
+
+          numberofhits += 1;
+          ability.hits += 1;
+
+          totaldamage += (int)thisdamage;
+          ability.damage += thisdamage;
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next ability at: " + nextability);
         } else {
           numberofmisses += 1;
+          ability.misses += 1;
           MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast);
+          // Does heavyshot buff get eaten by a miss?
         }
       }
-
       if (ability.abilityType == "AUTOA") {
+        autoattack.hits += 1;
         numberofattacks += 1;
         if (accroll < calculateACC()) {
           var thisdamage = damage(ref ability, ability.potency);
           numberofhits += 1;
           totaldamage += thisdamage;
+          autoattack.damage += thisdamage;
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next AA at: " + ability.nextCast);
         } else {
+          autoattack.misses += 1;
           numberofmisses += 1;
           MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next AA at: " + ability.nextCast);
         }
       }
 
       // If ability has debuff, create its timer.
-      if (ability.debuffTime > 0) {
+      if (ability.debuffTime > 0 && accroll < calculateACC()) {
         if (ability.debuff > 0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + "  DOT clipped.");
           //reset all buffs if clipping
           ability.dotbuff["fightorflight"] = false;
+          ability.dotbuff["potion"] = false;
         }
-        //If dot exists, enable its time.
+        //If dot exists and ability doesn't miss, enable its time.
+
         ability.debuff = ability.debuffTime;
+
         if (fightorflight.buff > 0) { ability.dotbuff["fightorflight"] = true; }
+        if (xpotionstrength.buff > 0) { ability.dotbuff["potion"] = true; }
+
+
 
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " DoT has been applied.  Time Left: " + ability.debuff);
       }
-      if (ability.buffTime > 0) {
+      if (ability.buffTime > 0 && accroll < calculateACC()) {
         ability.buff = ability.buffTime;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " buff has been activated.  Time Left: " + ability.buff + ". Next ability at: " + nextability);
       }
       //Add buffs to dots
-
-
-
-
 
     }
 
@@ -211,175 +152,202 @@ namespace Chocobro {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
           //clear buffs from object.
           ability.dotbuff["fightorflight"] = false;
+          ability.dotbuff["potion"] = false;
         }
       }
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
         numberofticks += 1;
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + damage(ref ability, ability.dotPotency, true) + "  Damage - Time Left: " + ability.debuff);
-        //MainWindow.log("---- " + ability.name + " - Dots - " + "FoF: " + ability.dotbuff["fightorflight"]);
-      }
-    }
-
-    public virtual void decrement(ref Ability ability) {
-
-      if (MainWindow.time == MainWindow.servertime && ability.buff > 0) {
-        ability.buff -= 1.0;
-        if (ability.buff <= 0.0) {
-          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
-        }
+        ability.ticks += 1;
+        var tickdmg = damage(ref ability, ability.dotPotency, true);
+        ability.dotdamage += tickdmg;
+        totaldamage += tickdmg;
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickdmg + "  Damage - Time Left: " + ability.debuff);
+        //MainWindow.log("---- " + ability.name + " - Dots - RS: " + ability.dotbuff["ragingstrikes"] + " BFB: " + ability.dotbuff["bloodforblood"] + " SS: " + ability.dotbuff["straightshot"] + " HE: " + ability.dotbuff["hawkseye"] + " IR: " + ability.dotbuff["internalrelease"] + " Potion: " + ability.dotbuff["potion"]);
       }
     }
 
     public int damage(ref Ability ability, int pot, bool dot = false) {
       double damageformula = 0.0;
       double tempstr = STR;
-      if (fightorflight.buff > 0) { damageformula *= 1.30; }
+      //potion check
+      if (xpotionstrength.buff > 0 || (dot == true && ability.dotbuff["potion"] == true)) {
+        //check for max dex increase from pot - NEEDS to be refactored...
+
+        if (percentageOfStat(xpotionstrength.percent, tempstr) > xpotionstrength.bonus) {
+          //MainWindow.log("yolo: " + percentageOfStat(xpotiondexterity.percent, tempdex) + " tempdex " + tempdex);
+          tempstr += xpotionstrength.bonus;
+          //MainWindow.log("capBonus Dex from potion: " + xpotiondexterity.bonus + " percent of stat: " + percentageOfStat(xpotiondexterity.percent, tempdex));
+        } else {
+          tempstr += percentageOfStat(xpotionstrength.percent, tempstr);
+          //MainWindow.log("smBonus Dex from potion: " + percentageOfStat(xpotiondexterity.percent, tempdex));
+        }
+      }
+      //end potion check
       if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant") {
-        damageformula = (((double)pot / 100) * (0.005126317 * WEP * tempstr + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempstr + 0.050720984 * DTR)) - 4; //temp damage formula
+        damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempstr + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempstr + 0.050720984 * DTR);
 
       }
       if (ability.abilityType == "AUTOA") {
-        damageformula = ((AAPOT + 0.5) * (0.408 * WEP + 0.103262731 * tempstr + 0.003029823 * WEP * tempstr + 0.003543121 * WEP * (DTR - 202))) - 3; //temp damage formula, includes Sword Oath buff
+        damageformula = (AAPOT) * (0.408 * WEP + 0.103262731 * tempstr + 0.003029823 * WEP * tempstr + 0.003543121 * WEP * (DTR - 202));
       }
 
       //crit
       double critroll = MainWindow.d100(1, 1000001) / 10000; //critroll was only rolling an interger between 1-101. Now has the same precision as critchance.
-      var critchance = 0.0697 * (double)CRIT - 18.437;
+      double critchance = 0;
+      critchance = 0.0697 * (double)CRIT - 18.437; //Heavyshot interaction
       //MainWindow.log("CRIT CHANCE IS:" + critchance + " ROLL IS: " + critroll);
       if (dot) {
         if (ability.dotbuff["fightorflight"]) { damageformula *= 1.30; }
+
+      } else {
+        if (fightorflight.buff > 0) { damageformula *= 1.30; }
       }
 
       if (critroll <= critchance) {
         numberofcrits += 1;
+
         MainWindow.log("!!CRIT!! - ", false);
         damageformula *= 1.5;
+        if (dot) {
+          ability.tickcrits += 1;
+        } else {
+          //normal attack crit
+          ability.crits += 1;
+        }
       }
-
 
       // added variance to damage.
       damageformula = ((MainWindow.d100(-500, 500) / 10000) + 1) * (int)damageformula;
       return (int)damageformula;
     }
 
+    // -------------------
+    // Ability Definition
+    // -------------------
 
+    //resets
+
+
+    public override void report() {
+      base.report();
+      // add abilities to list used for reporting. Each ability needs to be added ;(
+     areport.Add(fastbalde);
+     areport.Add(savageblade);
+     areport.Add(rageofhalone);
+     areport.Add(circleofscorn);
+     areport.Add(spiritswithin);
+     areport.Add(mercystroke);
+     areport.Add(fightorflight);
+     areport.Add(fracture);
+     areport.Add(xpotionstrength);
+     areport.Add(autoattack);
+      if (MainWindow.selenebuff) {
+        areport.Add(feylight);
+        areport.Add(feyglow);
+      }
+    }
+
+    Ability fastbalde = new FastBlade();
+    Ability savageblade = new SavageBlade();
+    Ability rageofhalone = new RageOfHalone();
+    Ability circleofscorn = new CircleOfScorn();
+    Ability spiritswithin = new SpiritsWithin();
+    Ability mercystroke = new MercyStroke();
+    Ability fightorflight = new FightOrFlight();
+    Ability fracture = new Fracture();
+    Ability xpotionstrength = new XPotionStrength();
+    Ability autoattack = new AutoAttack();
+    Ability feylight = new FeyLight();
+    Ability feyglow = new FeyGlow();
+
+
+
+    // Set array of abilities for reportingz
 
     // -------------------
     // Ability Definition
     // -------------------
 
     // Fast Blade ---------------------
-
-    Ability fastblade = new Fastblade();
-    public class Fastblade : Ability {
-      public Fastblade() {
+    public class FastBlade : Ability {
+      public FastBlade() {
         name = "Fast Blade";
         potency = 150;
-        dotPotency = 0;
-
         TPcost = 70;
-        animationDelay = 0.8;
+        animationDelay = 1.2;
         abilityType = "Weaponskill";
-        castTime = 0.0;
-        duration = 0.0;
-        buffTime = 0.0;
       }
     }
     // End Fast Blade ---------------------
 
     // Savage Blade --------------------------
-    Ability savageblade = new Savageblade();
-    public class Savageblade : Ability {
-      public Savageblade() {
+    public class SavageBlade : Ability {
+      public SavageBlade() {
         name = "Savage Blade";
-        potency = 100;
-        combopotency = 200;
-        dotPotency = 0;
-
+        potency = 200;
         TPcost = 60;
-        animationDelay = 1.3;
+        animationDelay = 1.2;
         abilityType = "Weaponskill";
-        castTime = 0.0;
-        duration = 0.0;
-        debuffTime = 0.0;
       }
     }
     // End Savage Blade --------------------------
 
     // Rage of Halone -------------------------
-    Ability rageofhalone = new Rageofhalone();
-    public class Rageofhalone : Ability {
-      public Rageofhalone() {
+    public class RageOfHalone : Ability {
+      public RageOfHalone() {
         name = "Rage of Halone";
-        potency = 100;
-        combopotency = 260;
-        dotPotency = 0;
-
+        potency = 260;
         TPcost = 60;
-        animationDelay = 1.75;
+        animationDelay = 1.2;
         abilityType = "Weaponskill";
-        castTime = 0.0;
-        debuffTime = 0.0;
       }
     }
     // End Rage of Halone ----------------------------
 
     // Circle of Scorn --------------------------------
-    Ability circleofscorn = new Circleofscorn();
-    public class Circleofscorn : Ability {
-      public Circleofscorn() {
+    public class CircleOfScorn : Ability {
+      public CircleOfScorn() {
         name = "Circle of Scorn";
         potency = 100;
         dotPotency = 30;
         abilityType = "Instant";
         recastTime = 25;
         debuffTime = 15;
-        animationDelay = 0.75;
+        animationDelay = 0.8;
       }
     }
     // End Circle of Scorn --------------------------
 
     // Spirits Within --------------------------------
-    Ability spiritswithin = new Spiritswithin();
-    public class Spiritswithin : Ability {
-      public Spiritswithin() {
+    public class SpiritsWithin : Ability {
+      public SpiritsWithin() {
         name = "Spirits Within";
         potency = 300;
-        dotPotency = 0;
         recastTime = 30;
-        TPcost = 0;
-        animationDelay = 1.25;
+        animationDelay = 0.8;
         abilityType = "Instant";
-        castTime = 0.0;
       }
-
     }
     // End Spirits Within ---------------------------
 
     // Mercy Stroke -------------------------------
-    Ability mercystroke = new Mercystroke();
-    public class Mercystroke : Ability {
-      public Mercystroke() {
+    public class MercyStroke : Ability {
+      public MercyStroke() {
         name = "Mercy Stroke";
         potency = 200;
-        dotPotency = 0;
         recastTime = 90;
-        TPcost = 0;
-        animationDelay = 1.1;
+        animationDelay = 1.2;
         abilityType = "Instant";
-        castTime = 0.0;
       }
-
     }
     // Mercy Stroke -------------------------------
 
     // Fight or Flight ------------------------------------
-    Ability fightorflight = new Fightorflight();
-    public class Fightorflight : Ability {
-      public Fightorflight() {
+    public class FightOrFlight : Ability {
+      public FightOrFlight() {
         name = "Fight or Flight";
         recastTime = 90;
-        animationDelay = 0.4;
+        animationDelay = 0.8;
         abilityType = "Cooldown";
         buffTime = 30;
       }
@@ -387,45 +355,28 @@ namespace Chocobro {
     // End Fight or Flight -------------------------------
 
     // Fracture ---------------------------------
-    Ability fracture = new Fracture();
     public class Fracture : Ability {
       public Fracture() {
         name = "Fracture";
         potency = 100;
         dotPotency = 20;
         TPcost = 80;
-        animationDelay = 0.6;
+        animationDelay = 0.8;
         abilityType = "Weaponskill";
         debuffTime = 18;
-        castTime = 0.0;
       }
     }
     // End Fracture ----------------------------
 
-    //Sword Oath
-    Ability swordoath = new Swordoath();
-    public class Swordoath : Ability {
-      public Swordoath() {
-        name = "Sword Oath";
-        potency = 0;
-        dotPotency = 0;
-        recastTime = 60;
-        TPcost = 0;
-        animationDelay = 0.8;
-        abilityType = "Weaponskill";
-        castTime = 0.0;
-        buffTime = MainWindow.fightlength;
-      }
-    }
     // Auto Attack
-    Ability autoattack = new Autoattack();
-    public class Autoattack : Ability {
-      public Autoattack() {
+    public class AutoAttack : Ability {
+      public AutoAttack() {
         name = "Auto Attack";
-
-        animationDelay = 0;
         abilityType = "AUTOA";
       }
     }
+    //End Auto Attack
+
   }
 }
+

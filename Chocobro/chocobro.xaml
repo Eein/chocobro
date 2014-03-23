@@ -17,7 +17,7 @@
             <ComboBoxItem Content="Bard" HorizontalAlignment="Left" Width="118" IsSelected="True"/>
             <ComboBoxItem Content="Dragoon" HorizontalAlignment="Left" Width="118" />
             <ComboBoxItem Content="Monk" HorizontalAlignment="Left" Width="118" />
-            <ComboBoxItem Content="Paladin" HorizontalAlignment="Left" Width="118" IsEnabled="False"/>
+            <ComboBoxItem Content="Paladin" HorizontalAlignment="Left" Width="118"/>
             <ComboBoxItem Content="Template" HorizontalAlignment="Left" Width="118"/>
 
 

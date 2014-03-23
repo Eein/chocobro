@@ -80,7 +80,7 @@ namespace Chocobro {
       public XPotionStrength() {
         name = "HQ - X-Potion of Strength";
         recastTime = 300;
-        animationDelay = 0.8;
+        animationDelay = 0.6;
         abilityType = "Cooldown";
         buffTime = 15;
         bonus = 67;

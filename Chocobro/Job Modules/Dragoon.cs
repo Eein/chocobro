@@ -97,6 +97,7 @@ namespace Chocobro {
         numberofattacks += 1;
         ability.attacks += 1;
         if (accroll < calculateACC()) {
+          
           // change states for combos here...
           if (ability.name == "Heavy Thrust") { combo = Combo.DRGNone; }
 

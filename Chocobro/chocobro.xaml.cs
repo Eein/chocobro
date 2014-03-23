@@ -62,7 +62,7 @@ namespace Chocobro {
         switch (s) {
           case "Bard": return new Bard();
           case "Template": return new Template();
-          //case "Paladin": return new Paladin();
+          case "Paladin": return new Paladin();
           //case "Warrior": return new Warrior();
           //case "Black Mage": return new Blackmage();
           //case "Summoner": return new Summoner();
