@@ -7,10 +7,12 @@ namespace Chocobro {
     public string name = "null";
     public string abilityType = "null";
     public int potency = 0;
+    public string pet = "null";
     public int combopotency = 0;
     public int dotPotency = 0;
     public double recastTime = 0;
     public double animationDelay = 0;
+    public int MPcost = 0;
     public int TPcost = 0;
     public double castTime = 0;
     public double duration = 0;

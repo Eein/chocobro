@@ -61,6 +61,7 @@
     </ApplicationDefinition>
     <Compile Include="Job Modules\Dragoon.cs" />
     <Compile Include="Job Modules\Monk.cs" />
+    <Compile Include="Job Modules\Summoner.cs" />
     <Compile Include="Job Modules\Template.cs" />
     <Compile Include="Sim Base\Report.cs" />
     <Compile Include="Sim Base\Utility.cs" />

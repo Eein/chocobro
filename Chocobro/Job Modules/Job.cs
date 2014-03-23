@@ -76,6 +76,18 @@ namespace Chocobro {
       }
     }
 
+    public class XPotionIntelligence : Ability {
+      public XPotionIntelligence() {
+        name = "HQ - X-Potion of Intelligence";
+        recastTime = 300;
+        animationDelay = 0.6;
+        abilityType = "Cooldown";
+        buffTime = 15;
+        bonus = 67;
+        percent = 16;
+      }
+    }
+
     public class XPotionStrength : Ability {
       public XPotionStrength() {
         name = "HQ - X-Potion of Strength";
