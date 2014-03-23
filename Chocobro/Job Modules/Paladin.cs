@@ -45,7 +45,7 @@ namespace Chocobro {
 
       //Ticks - tick(ref DoTability)
       tick(ref circleofscorn);
-      tick(ref mercystroke);
+      tick(ref fracture);
 
       //AutoAttacks (not for casters!) - execute(ref autoattack)
       execute(ref autoattack);
