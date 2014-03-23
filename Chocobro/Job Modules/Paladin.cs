@@ -28,7 +28,7 @@ namespace Chocobro {
       regen();
 
       //Abilities - execute(ref ability)
-      if (fracture.debuff < gcd) { execute(ref fracture); }
+      if (fracture.debuff < gcd && combo == PLDCombo.PLDNone) { execute(ref fracture); }
       if (combo == PLDCombo.PLDNone) { execute(ref fastbalde); }
       if (combo == PLDCombo.SavageBlade) { execute(ref savageblade); }
       if (combo == PLDCombo.RageOfHalone) { execute(ref rageofhalone); }
