@@ -13,39 +13,28 @@ namespace Chocobro {
     public override void getStats(MainWindow cs) {
       base.getStats(cs);
       // Define AP and MP conversion.
+      AP = STR; //or STR
       AMP = INT;
     }
 
     public override void rotation() {
       var gcd = calculateGCD();
+      autoattack.recastTime = AADELAY;
 
       //Regen Mana/TP
       regen();
 
       //Abilities - execute(ref ability)
-      if (bioii.debuff < gcd) { execute(ref bioii); }
-      if (miasma.debuff < gcd) { execute(ref miasma); }
-      if (bio.debuff < gcd) { execute(ref bio); }
-      if (shadowflare.debuff < gcd) { execute(ref shadowflare); }
-      if (miasmaii.debuff < gcd) { execute(ref miasmaii);  }
-      execute(ref ruin);
+
+      //Buffs/Cooldowns - execute(ref ability)
 
       //Instants - execute(ref ability)
-      execute(ref ragingstrikes);
-      execute(ref xpotionintelligence);
-      if (bioii.debuff > 0 && bio.debuff > 0 && miasma.debuff > 0) { execute(ref fester); }
 
       //Ticks - tick(ref DoTability)
-      tick(ref bioii);
-      tick(ref miasma);
-      tick(ref bio);
-      tick(ref shadowflare);
-      tick(ref miasmaii);
+
       //AutoAttacks (not for casters!) - execute(ref autoattack)
 
       //Decrement Buffs - decrement(ref buff)
-      decrement(ref ragingstrikes);
-      decrement(ref xpotionintelligence);
 
     }
 
@@ -86,21 +75,36 @@ namespace Chocobro {
           // Does heavyshot buff get eaten by a miss?
         }
       }
+      if (ability.abilityType == "AUTOA") {
+        autoattack.hits += 1;
+        numberofattacks += 1;
+        if (accroll < calculateACC()) {
+          var thisdamage = damage(ref ability, ability.potency);
+          numberofhits += 1;
+          totaldamage += thisdamage;
+          autoattack.damage += thisdamage;
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next AA at: " + ability.nextCast);
+        } else {
+          autoattack.misses += 1;
+          numberofmisses += 1;
+          MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next AA at: " + ability.nextCast);
+        }
+      }
 
       // If ability has debuff, create its timer.
       if (ability.debuffTime > 0 && accroll < calculateACC()) {
         if (ability.debuff > 0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + "  DOT clipped.");
           //reset all buffs if clipping
-          ability.dotbuff["ragingstrikes"] = false;
+          ability.dotbuff[""] = false;
           ability.dotbuff["potion"] = false;
         }
         //If dot exists and ability doesn't miss, enable its time.
 
         ability.debuff = ability.debuffTime;
 
-        if (ragingstrikes.buff > 0) { ability.dotbuff["ragingstrikes"] = true; }
-        if (xpotionintelligence.buff > 0) { ability.dotbuff["potion"] = true; }
+        if (cooldown1.buff > 0) { ability.dotbuff[""] = true; }
+        if (xpotiondexterity.buff > 0) { ability.dotbuff["potion"] = true; }
 
 
 
@@ -123,7 +127,7 @@ namespace Chocobro {
         if (ability.debuff <= 0.0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
           //clear buffs from object.
-          ability.dotbuff["ragingstrikes"] = false;
+          ability.dotbuff[""] = false;
           ability.dotbuff["potion"] = false;
         }
       }
@@ -142,15 +146,15 @@ namespace Chocobro {
       double damageformula = 0.0;
       double tempint = INT;
       //potion check
-      if (xpotionintelligence.buff > 0 || (dot == true && ability.dotbuff["potion"] == true)) {
+      if (xpotiondexterity.buff > 0 || (dot == true && ability.dotbuff["potion"] == true)) {
         //check for max dex increase from pot - NEEDS to be refactored...
 
-        if (percentageOfStat(xpotionintelligence.percent, tempint) > xpotionintelligence.bonus) {
+        if (percentageOfStat(xpotiondexterity.percent, tempint) > xpotiondexterity.bonus) {
           //MainWindow.log("yolo: " + percentageOfStat(xpotiondexterity.percent, tempdex) + " tempdex " + tempdex);
-          tempint += xpotionintelligence.bonus;
+          tempint += xpotiondexterity.bonus;
           //MainWindow.log("capBonus Dex from potion: " + xpotiondexterity.bonus + " percent of stat: " + percentageOfStat(xpotiondexterity.percent, tempdex));
         } else {
-          tempint += percentageOfStat(xpotionintelligence.percent, tempint);
+          tempint += percentageOfStat(xpotiondexterity.percent, tempint);
           //MainWindow.log("smBonus Dex from potion: " + percentageOfStat(xpotiondexterity.percent, tempdex));
         }
       }
@@ -169,10 +173,10 @@ namespace Chocobro {
       critchance = 0.0697 * (double)CRIT - 18.437; //Heavyshot interaction
       //MainWindow.log("CRIT CHANCE IS:" + critchance + " ROLL IS: " + critroll);
       if (dot) {
-        if (ability.dotbuff["ragingstrikes"]) { damageformula *= 1.20; }
+        if (ability.dotbuff["cooldown1"]) { damageformula *= 1.20; }
 
       } else {
-        if (ragingstrikes.buff > 0) { damageformula *= 1.20; }
+        if (cooldown1.buff > 0) { damageformula *= 1.20; }
       }
 
       if (critroll <= critchance) {
@@ -199,34 +203,27 @@ namespace Chocobro {
 
     //resets
 
+
     public override void report() {
       base.report();
       // add abilities to list used for reporting. Each ability needs to be added ;(
-      areport.Add(ruin);
-      areport.Add(ruinii);
-      areport.Add(bio);
-      areport.Add(bioii);
-      areport.Add(miasma);
-      areport.Add(miasmaii);
-      areport.Add(shadowflare);
-      areport.Add(fester);
-      areport.Add(ragingstrikes);
-      areport.Add(xpotionintelligence);
+      areport.Add(weaponskill1);
+      areport.Add(dot1);
+      areport.Add(cooldown1);
+      areport.Add(instant1);
+      areport.Add(autoattack);
+      areport.Add(xpotiondexterity);
       if (MainWindow.selenebuff) {
         areport.Add(feylight);
         areport.Add(feyglow);
       }
     }
-    Ability ruin = new Ruin();
-    Ability ruinii = new RuinII();
-    Ability bio = new Bio();
-    Ability bioii = new BioII();
-    Ability miasma = new Miasma();
-    Ability miasmaii = new MiasmaII();
-    Ability shadowflare = new ShadowFlare();
-    Ability fester = new Fester();
-    Ability ragingstrikes = new RagingStrikes();
-    Ability xpotionintelligence = new XPotionIntelligence();
+    Ability weaponskill1 = new Weaponskill1();
+    Ability dot1 = new Dot1();
+    Ability cooldown1 = new Cooldown1();
+    Ability instant1 = new Instant1();
+    Ability autoattack = new Autoattack();
+    Ability xpotiondexterity = new XPotionDexterity();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
 
@@ -238,134 +235,67 @@ namespace Chocobro {
     // Ability Definition
     // -------------------
 
-    // Ruin ---------------------
-    public class Ruin : Ability {
-      public Ruin() {
-        name = "Ruin";
+    // Weaponskill 1  ---------------------
+
+    public class Weaponskill1 : Ability {
+      public Weaponskill1() {
+        name = "Weaponskill 1";
         abilityType = "Weaponskill";
-        potency = 80;
-        MPcost = 79;
-        castTime = 2.5;
-        recastTime = 2.5;
+        potency = 150;
+        TPcost = 70;
         animationDelay = 0.8;
       }
     }
-    // End Ruin ---------------------
+    // End Ability 1 ---------------------
 
-    // Bio ---------------------
-    public class Bio : Ability {
-      public Bio() {
-        name = "Bio";
+    // Dot 1 ------------------------------------
+    public class Dot1 : Ability {
+      public Dot1() {
+        name = "Dot 1";
         abilityType = "Weaponskill";
-        potency = 1;
-        dotPotency = 40;
+        potency = 150;
+        dotPotency = 50;
         debuffTime = 18;
-        MPcost = 106;
-        castTime = 2.5;
-        recastTime = 2.5;
+        TPcost = 70;
         animationDelay = 0.8;
       }
     }
-    // End Bio ---------------------
+    // End Dot 1 -------------------------------
 
-    // Miasma ---------------------
-    public class Miasma : Ability {
-      public Miasma() {
-        name = "Miasma";
-        abilityType = "Weaponskill";
-        potency = 20;
-        dotPotency = 35;
-        debuffTime = 24;
-        MPcost = 133;
-        castTime = 2.5;
-        recastTime = 2.5;
-        animationDelay = 0.8;
-      }
-    }
-    // End Miasma ---------------------
-
-    // Ruin II ---------------------
-    public class RuinII : Ability {
-      public RuinII() {
-        name = "Ruin II";
-        abilityType = "Weaponskill";
-        potency = 80;
-        MPcost = 133;
-        recastTime = 2.5;
-        animationDelay = 0.8;
-      }
-    }
-    // End Ruin II ---------------------
-
-    // Bio II ---------------------
-    public class BioII : Ability {
-      public BioII() {
-        name = "Bio II";
-        abilityType = "Weaponskill";
-        potency = 1;
-        dotPotency = 35;
-        debuffTime = 30;
-        MPcost = 186;
-        castTime = 2.5;
-        recastTime = 2.5;
-        animationDelay = 0.8;
-      }
-    }
-    // End Bio II ---------------------
-
-    // Miasma II ---------------------
-    public class MiasmaII : Ability {
-      public MiasmaII() {
-        name = "Miasma II";
-        abilityType = "Weaponskill";
-        potency = 20;
-        dotPotency = 10;
-        debuffTime = 15;
-        MPcost = 186;
-        recastTime = 2.5;
-        animationDelay = 0.8;
-      }
-    }
-    // End Miasma II ---------------------
-
-    // Shadow Flare ---------------------
-    public class ShadowFlare : Ability {
-      public ShadowFlare() {
-        name = "Shadow Flare";
-        abilityType = "Weaponskill";
-        potency = 1;
-        dotPotency = 25;
-        debuffTime = 30;
-        MPcost = 212;
-        castTime = 3.0;
-        recastTime = 2.5;
-        animationDelay = 0.8;
-      }
-    }
-    // End Shadow Flare ---------------------
-
-    // Fester ---------------------
-    public class Fester : Ability {
-      public Fester() {
-        name = "Fester";
+    // Cooldown 1 ---------------------------------
+    public class Instant1 : Ability {
+      public Instant1() {
+        name = "Instant 1";
         abilityType = "Instant";
-        potency = 300;
-        recastTime = 10;
+        potency = 150;
+        recastTime = 15;
         animationDelay = 0.8;
       }
     }
-    // End Fester ---------------------
+    // End Cooldown 1 ----------------------------
 
-    // Raging Strikes ---------------------
-    public class RagingStrikes : Ability {
-      public RagingStrikes() {
-        name = "Raging Strikes";
+    //Instant 1 --------------------------------
+    public class Cooldown1 : Ability {
+      public Cooldown1() {
+        name = "Cooldown 1";
         abilityType = "Cooldown";
-        recastTime = 180;
+        buffTime = 20;
+        recastTime = 60;
         animationDelay = 0.8;
       }
     }
-    // End Raging Strikes ---------------------
+    //End Instant 1 ------------------------------
+
+    // Auto Attack
+    public class Autoattack : Ability {
+      public Autoattack() {
+        name = "Auto Attack";
+        recastTime = MainWindow.AADELAY;
+        animationDelay = 0;
+        abilityType = "AUTOA";
+      }
+    }
+    //End Auto Attack
 
   }
 }
