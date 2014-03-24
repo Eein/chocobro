@@ -24,37 +24,37 @@ namespace Chocobro {
       //Regen Mana/TP
       regen();
 
-      //Abilities - execute(ref ability)
+      //Abilities - execute(ability)
       if (dot1.debuff <= 0) {
-        execute(ref dot1);
+        execute(dot1);
       }
-      execute(ref weaponskill1);
+      execute(weaponskill1);
 
-      //Buffs/Cooldowns - execute(ref ability)
-      execute(ref cooldown1);
-      execute(ref xpotiondexterity);
+      //Buffs/Cooldowns - execute(ability)
+      execute(cooldown1);
+      execute(xpotiondexterity);
 
-      //Instants - execute(ref ability)
-      execute(ref instant1);
+      //Instants - execute(ability)
+      execute(instant1);
 
-      //Ticks - tick(ref DoTability)
-      tick(ref dot1);
+      //Ticks - tick(DoTability)
+      tick(dot1);
 
-      //AutoAttacks (not for casters!) - execute(ref autoattack)
-      execute(ref autoattack);
+      //AutoAttacks (not for casters!) - execute(autoattack)
+      execute(autoattack);
 
-      //Decrement Buffs - decrement(ref buff)
-      decrement(ref cooldown1);
-      decrement(ref xpotiondexterity);
+      //Decrement Buffs - decrement(buff)
+      decrement(cooldown1);
+      decrement(xpotiondexterity);
 
 
 
     }
 
-    public override void execute(ref Ability ability) {
-      base.execute(ref ability);
+    public override void execute(Ability ability) {
+      base.execute(ability);
     }
-    public override void impact(ref Ability ability) {
+    public override void impact(Ability ability) {
 
       //var critchance = calculateCrit(_player);
       //set potency for now, but change to damage later.
@@ -69,7 +69,7 @@ namespace Chocobro {
         ability.attacks += 1;
         if (accroll < calculateACC()) {
 
-          double thisdamage = damage(ref ability, ability.potency);
+          double thisdamage = damage(ability, ability.potency);
 
           if (MainWindow.disdebuff == true) {
             thisdamage = Math.Floor(thisdamage *= 1.12);
@@ -92,7 +92,7 @@ namespace Chocobro {
         autoattack.hits += 1;
         numberofattacks += 1;
         if (accroll < calculateACC()) {
-          var thisdamage = damage(ref ability, ability.potency);
+          var thisdamage = damage(ability, ability.potency);
           numberofhits += 1;
           totaldamage += thisdamage;
           autoattack.damage += thisdamage;
@@ -133,7 +133,7 @@ namespace Chocobro {
 
     //public virtual void expire() { } not really needed. Maybe handle expiration in ticks? hmmm.
 
-    public virtual void tick(ref Ability ability) {
+    public virtual void tick(Ability ability) {
       //schedule tick
       if (MainWindow.time == MainWindow.servertime && ability.debuff > 0) {
         ability.debuff -= 1.0;
@@ -147,7 +147,7 @@ namespace Chocobro {
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
         numberofticks += 1;
         ability.ticks += 1;
-        var tickdmg = damage(ref ability, ability.dotPotency, true);
+        var tickdmg = damage(ability, ability.dotPotency, true);
         ability.dotdamage += tickdmg;
         totaldamage += tickdmg;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickdmg + "  Damage - Time Left: " + ability.debuff);
@@ -155,7 +155,7 @@ namespace Chocobro {
       }
     }
 
-    public int damage(ref Ability ability, int pot, bool dot = false) {
+    public int damage(Ability ability, int pot, bool dot = false) {
       double damageformula = 0.0;
       double tempdex = DEX;
       //potion check
