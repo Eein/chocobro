@@ -168,10 +168,10 @@ namespace Chocobro {
       }));
 
     }
-    public virtual void impact(Ability ability) {
+    public virtual void impact(ref Ability ability) {
       // 
     }
-    public virtual void execute(Ability ability) {
+    public virtual void execute(ref Ability ability) {
 
 
       if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
@@ -179,7 +179,7 @@ namespace Chocobro {
         MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
         ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
         nextauto = MainWindow.floored((MainWindow.time + ability.recastTime));
-        impact(ability);
+        impact(ref ability);
       }
 
       if (ability.abilityType == "Weaponskill" && !OOT) {
@@ -215,7 +215,7 @@ namespace Chocobro {
 
             //var critroll = d100.Next(1, 101);
             // var critbonus = calculateCrit();
-            impact(ability);
+            impact(ref ability);
           }
         }
       }
@@ -244,13 +244,13 @@ namespace Chocobro {
           }
 
           nextinstant = MainWindow.floored((MainWindow.time + ability.animationDelay + (MainWindow.d100(MainWindow.lowerlag, MainWindow.upperlag)) / 1000));
-          impact(ability);
+          impact(ref ability);
         }
       }
 
 
     }
-    public virtual void decrement(Ability ability) {
+    public virtual void decrement(ref Ability ability) {
 
       if (MainWindow.time == MainWindow.servertime && ability.buff > 0) {
 

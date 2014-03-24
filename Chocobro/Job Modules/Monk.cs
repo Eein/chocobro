@@ -28,61 +28,61 @@ namespace Chocobro {
 
       //Regen Mana/TP
       regen();
-      execute(feylight);
+      execute(ref feylight);
       if (perfectbalance.buff > 0) { perfectbalancebuff = true; } else { perfectbalancebuff = false; }
 
-      //Abilities - execute(ability)
+      //Abilities - execute(ref ability)
       if (perfectbalancebuff == true) {
-        if (glstacks < 1) { execute(snappunch); }
-        if (glstacks < 2) { execute(demolish); }
-        if (glstacks < 3) { execute(snappunch); }
-        if (glstacks == 3 && dragonkick.debuff < gcd) { execute(dragonkick); }
-        if (glstacks == 3 && twinsnakes.buff < gcd) { execute(twinsnakes); }
-        if (glstacks == 3 && touchofdeath.debuff < gcd) { execute(touchofdeath); }
-        if (glstacks == 3) { execute(bootshine); }
+        if (glstacks < 1) { execute(ref snappunch); }
+        if (glstacks < 2) { execute(ref demolish); }
+        if (glstacks < 3) { execute(ref snappunch); }
+        if (glstacks == 3 && dragonkick.debuff < gcd) { execute(ref dragonkick); }
+        if (glstacks == 3 && twinsnakes.buff < gcd) { execute(ref twinsnakes); }
+        if (glstacks == 3 && touchofdeath.debuff < gcd) { execute(ref touchofdeath); }
+        if (glstacks == 3) { execute(ref bootshine); }
       }
 
-      if (touchofdeath.debuff < gcd) { execute(touchofdeath); }
-      if (fracture.debuff < gcd) { execute(fracture); }
+      if (touchofdeath.debuff < gcd) { execute(ref touchofdeath); }
+      if (fracture.debuff < gcd) { execute(ref fracture); }
 
-      if (form == Form.Couerl) { if (demolish.debuff < gcd) { execute(demolish); } else { execute(snappunch); } }
+      if (form == Form.Couerl) { if (demolish.debuff < gcd) { execute(ref demolish); } else { execute(ref snappunch); } }
 
-      if (form == Form.OpoOpo) { if (dragonkick.debuff < gcd) { execute(dragonkick); } else { execute(bootshine); } }
+      if (form == Form.OpoOpo) { if (dragonkick.debuff < gcd) { execute(ref dragonkick); } else { execute(ref bootshine); } }
 
-      if (form == Form.Raptor) { if (twinsnakes.buff < gcd) { execute(twinsnakes); } else { execute(truestrike); } }
+      if (form == Form.Raptor) { if (twinsnakes.buff < gcd) { execute(ref twinsnakes); } else { execute(ref truestrike); } }
 
-      //Buffs/Cooldowns - execute(ability)
-      if (TP <= 540) { execute(invigorate); }
-      execute(perfectbalance);
-      execute(xpotionstrength);
-      execute(internalrelease);
-      execute(bloodforblood);
+      //Buffs/Cooldowns - execute(ref ability)
+      if (TP <= 540) { execute(ref invigorate); }
+      execute(ref perfectbalance);
+      execute(ref xpotionstrength);
+      execute(ref internalrelease);
+      execute(ref bloodforblood);
 
-      //Instants - execute(ability)
-      if (MainWindow.fightlength * 0.8 >= MainWindow.time) { execute(mercystroke); }
-      execute(howlingfist);
-      execute(steelpeak);
+      //Instants - execute(ref ability)
+      if (MainWindow.fightlength * 0.8 >= MainWindow.time) { execute(ref mercystroke); }
+      execute(ref howlingfist);
+      execute(ref steelpeak);
 
-      //Ticks - tick(DoTability)
-      tick(touchofdeath);
-      tick(demolish);
-      tick(dragonkick);
-      tick(fracture);
-      //AutoAttacks (not for casters!) - execute(autoattack)
-      execute(autoattack);
-      //Decrement Buffs - decrement(buff)
-      decrement(feylight);
-      decrement(perfectbalance);
-      decrement(xpotionstrength);
-      decrement(internalrelease);
-      decrement(bloodforblood);
-      decrement(twinsnakes);
+      //Ticks - tick(ref DoTability)
+      tick(ref touchofdeath);
+      tick(ref demolish);
+      tick(ref dragonkick);
+      tick(ref fracture);
+      //AutoAttacks (not for casters!) - execute(ref autoattack)
+      execute(ref autoattack);
+      //Decrement Buffs - decrement(ref buff)
+      decrement(ref feylight);
+      decrement(ref perfectbalance);
+      decrement(ref xpotionstrength);
+      decrement(ref internalrelease);
+      decrement(ref bloodforblood);
+      decrement(ref twinsnakes);
     }
 
-    public override void execute(Ability ability) {
-      base.execute(ability);
+    public override void execute(ref Ability ability) {
+      base.execute(ref ability);
     }
-    public override void impact(Ability ability) {
+    public override void impact(ref Ability ability) {
 
       if (ability.name == "Invigorate") {
         TP += 500;
@@ -112,7 +112,7 @@ namespace Chocobro {
 
           if (ability.name == "Snap Punch" || ability.name == "Demolish") { glstacks += 1; }
 
-          double thisdamage = damage(ability, ability.potency);
+          double thisdamage = damage(ref ability, ability.potency);
 
           if (MainWindow.disdebuff == true) {
             thisdamage = Math.Floor(thisdamage *= 1.12);
@@ -135,7 +135,7 @@ namespace Chocobro {
         autoattack.hits += 1;
         numberofattacks += 1;
         if (accroll < calculateACC()) {
-          var thisdamage = damage(ability, ability.potency);
+          var thisdamage = damage(ref ability, ability.potency);
           numberofhits += 1;
           totaldamage += thisdamage;
           autoattack.damage += thisdamage;
@@ -178,7 +178,7 @@ namespace Chocobro {
 
     //public virtual void expire() { } not really needed. Maybe handle expiration in ticks? hmmm.
 
-    public virtual void tick(Ability ability) {
+    public virtual void tick(ref Ability ability) {
       //schedule tick
       if (MainWindow.time == MainWindow.servertime && ability.debuff > 0) {
         ability.debuff -= 1.0;
@@ -193,7 +193,7 @@ namespace Chocobro {
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
         numberofticks += 1;
         ability.ticks += 1;
-        var tickdmg = damage(ability, ability.dotPotency, true);
+        var tickdmg = damage(ref ability, ability.dotPotency, true);
         ability.dotdamage += tickdmg;
         totaldamage += tickdmg;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickdmg + "  Damage - Time Left: " + ability.debuff);
@@ -201,7 +201,7 @@ namespace Chocobro {
       }
     }
 
-    public int damage(Ability ability, int pot, bool dot = false) {
+    public int damage(ref Ability ability, int pot, bool dot = false) {
       double damageformula = 0.0;
       double tempstr = STR;
       //potion check

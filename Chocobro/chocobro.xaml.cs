@@ -74,7 +74,7 @@ namespace Chocobro {
       }
     }
 
-    public void handler(Job p) {
+    public void handler(ref Job p) {
       p.actionmade = false; //temp
       p.rotation();
 
@@ -214,7 +214,7 @@ namespace Chocobro {
          
           debug(); //have option to disable TODO:
           while (time <= fightlength) {
-            handler(p);
+            handler(ref p);
             tickevent();
             time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto, p.OOT, p.OOM);
             //add timeline stuff

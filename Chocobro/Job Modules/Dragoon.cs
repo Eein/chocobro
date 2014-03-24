@@ -27,55 +27,55 @@ namespace Chocobro {
       //Regen Mana/TP
       regen();
 
-      //Abilities - execute(ability)
-      if (heavythrust.buff < gcd && combo == Combo.DRGNone) { execute(heavythrust); }
+      //Abilities - execute(ref ability)
+      if (heavythrust.buff < gcd && combo == Combo.DRGNone) { execute(ref heavythrust); }
 
-      if (disembowel.debuff < 2 * gcd && combo == Combo.DRGNone) { execute(impulsedrive); }
-      if (combo == Combo.Disembowel) {  execute(disembowel); }
-      if (combo == Combo.ChaosThrust) {  execute(chaosthrust); }
+      if (disembowel.debuff < 2 * gcd && combo == Combo.DRGNone) { execute(ref impulsedrive); }
+      if (combo == Combo.Disembowel) {  execute(ref disembowel); }
+      if (combo == Combo.ChaosThrust) {  execute(ref chaosthrust); }
 
-      if (phlebotomize.debuff < gcd && combo == Combo.DRGNone) {  execute(phlebotomize); }
+      if (phlebotomize.debuff < gcd && combo == Combo.DRGNone) {  execute(ref phlebotomize); }
 
-      if (combo == Combo.DRGNone) { execute(truethrust); }
-      if (combo == Combo.VorpalThrust) { execute(vorpalthrust); }
-      if (combo == Combo.VorpalThrust) { execute(lifesurge); }
-      if (combo == Combo.FullThrust) {  execute(fullthrust); }
+      if (combo == Combo.DRGNone) { execute(ref truethrust); }
+      if (combo == Combo.VorpalThrust) { execute(ref vorpalthrust); }
+      if (combo == Combo.VorpalThrust) { execute(ref lifesurge); }
+      if (combo == Combo.FullThrust) {  execute(ref fullthrust); }
 
       // NOTE: For combos do... if(combo == Combo.ChaosThrust) etc
 
-      execute(autoattack);
+      execute(ref autoattack);
 
-      //Buffs/Cooldowns - execute(ability)
-      execute(bloodforblood);
+      //Buffs/Cooldowns - execute(ref ability)
+      execute(ref bloodforblood);
       if (TP <= 440) {
-        execute(invigorate);
+        execute(ref invigorate);
       }
-      execute(xpotionstrength);
-      //Instants - execute(ability)
-      execute(dragonfiredive);
-      execute(legsweep);
-      execute(lifesurge);
-      execute(jump);
-      execute(spineshatterdive);
+      execute(ref xpotionstrength);
+      //Instants - execute(ref ability)
+      execute(ref dragonfiredive);
+      execute(ref legsweep);
+      execute(ref lifesurge);
+      execute(ref jump);
+      execute(ref spineshatterdive);
 
-      //Ticks - tick(DoTability)
-      tick(phlebotomize);
-      tick(chaosthrust);
-      tick(disembowel);
-      //AutoAttacks (not for casters!) - execute(autoattack)
-      execute(autoattack);
+      //Ticks - tick(ref DoTability)
+      tick(ref phlebotomize);
+      tick(ref chaosthrust);
+      tick(ref disembowel);
+      //AutoAttacks (not for casters!) - execute(ref autoattack)
+      execute(ref autoattack);
 
-      //Decrement Buffs - decrement(buff)
-      decrement(heavythrust);
-      decrement(lifesurge);
-      decrement(bloodforblood);
-      decrement(powersurge);
+      //Decrement Buffs - decrement(ref buff)
+      decrement(ref heavythrust);
+      decrement(ref lifesurge);
+      decrement(ref bloodforblood);
+      decrement(ref powersurge);
     }
 
-    public override void execute(Ability ability) {
-      base.execute(ability);
+    public override void execute(ref Ability ability) {
+      base.execute(ref ability);
     }
-    public override void impact(Ability ability) {
+    public override void impact(ref Ability ability) {
 
       if (ability.name == "Invigorate") {
         TP += 500;
@@ -113,7 +113,7 @@ namespace Chocobro {
 
           //
 
-          double thisdamage = damage(ability, ability.potency);
+          double thisdamage = damage(ref ability, ability.potency);
 
           if (disembowel.debuff > 0) {
             thisdamage = Math.Floor(thisdamage *= 1.12);
@@ -136,7 +136,7 @@ namespace Chocobro {
         autoattack.hits += 1;
         numberofattacks += 1;
         if (accroll < calculateACC()) {
-          var thisdamage = damage(ability, ability.potency);
+          var thisdamage = damage(ref ability, ability.potency);
           numberofhits += 1;
           totaldamage += thisdamage;
           autoattack.damage += thisdamage;
@@ -181,7 +181,7 @@ namespace Chocobro {
 
     //public virtual void expire() { } not really needed. Maybe handle expiration in ticks? hmmm.
 
-    public virtual void tick(Ability ability) {
+    public virtual void tick(ref Ability ability) {
       //schedule tick
       if (MainWindow.time == MainWindow.servertime && ability.debuff > 0) {
         ability.debuff -= 1.0;
@@ -196,7 +196,7 @@ namespace Chocobro {
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && (ability.debuff > 0 && ability.dotPotency > 0)) {
         numberofticks += 1;
         ability.ticks += 1;
-        var tickdmg = damage(ability, ability.dotPotency, true);
+        var tickdmg = damage(ref ability, ability.dotPotency, true);
         ability.dotdamage += tickdmg;
         totaldamage += tickdmg;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickdmg + "  Damage - Time Left: " + ability.debuff);
@@ -204,7 +204,7 @@ namespace Chocobro {
       }
     }
 
-    public int damage(Ability ability, int pot, bool dot = false) {
+    public int damage(ref Ability ability, int pot, bool dot = false) {
       double damageformula = 0.0;
       double tempstr = STR;
       //potion check

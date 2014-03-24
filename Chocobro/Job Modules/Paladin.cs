@@ -23,45 +23,45 @@ namespace Chocobro {
     public override void rotation() {
       var gcd = calculateGCD();
       autoattack.recastTime = AADELAY;
-      execute(feylight);
+      execute(ref feylight);
       //Regen Mana/TP
       regen();
 
-      //Abilities - execute(ability)
-      if (fracture.debuff < gcd && combo == PLDCombo.PLDNone) { execute(fracture); }
-      if (combo == PLDCombo.PLDNone) { execute(fastbalde); }
-      if (combo == PLDCombo.SavageBlade) { execute(savageblade); }
-      if (combo == PLDCombo.RageOfHalone) { execute(rageofhalone); }
-      //Buffs/Cooldowns - execute(ability)
-      execute(fightorflight);
-      execute(xpotionstrength);
+      //Abilities - execute(ref ability)
+      if (fracture.debuff < gcd && combo == PLDCombo.PLDNone) { execute(ref fracture); }
+      if (combo == PLDCombo.PLDNone) { execute(ref fastbalde); }
+      if (combo == PLDCombo.SavageBlade) { execute(ref savageblade); }
+      if (combo == PLDCombo.RageOfHalone) { execute(ref rageofhalone); }
+      //Buffs/Cooldowns - execute(ref ability)
+      execute(ref fightorflight);
+      execute(ref xpotionstrength);
 
-      //Instants - execute(ability)
+      //Instants - execute(ref ability)
       if (MainWindow.servertime >= 0.8 * MainWindow.fightlength) {
-        execute(mercystroke);
+        execute(ref mercystroke);
       }
-      execute(spiritswithin);
-      execute(circleofscorn);
+      execute(ref spiritswithin);
+      execute(ref circleofscorn);
 
-      //Ticks - tick(DoTability)
-      tick(circleofscorn);
-      tick(fracture);
+      //Ticks - tick(ref DoTability)
+      tick(ref circleofscorn);
+      tick(ref fracture);
 
-      //AutoAttacks (not for casters!) - execute(autoattack)
-      execute(autoattack);
+      //AutoAttacks (not for casters!) - execute(ref autoattack)
+      execute(ref autoattack);
 
-      //Decrement Buffs - decrement(buff)
-      decrement(fightorflight);
-      decrement(xpotionstrength);
+      //Decrement Buffs - decrement(ref buff)
+      decrement(ref fightorflight);
+      decrement(ref xpotionstrength);
 
 
 
     }
 
-    public override void execute(Ability ability) {
-      base.execute(ability);
+    public override void execute(ref Ability ability) {
+      base.execute(ref ability);
     }
-    public override void impact(Ability ability) {
+    public override void impact(ref Ability ability) {
 
       //var critchance = calculateCrit(_player);
       //set potency for now, but change to damage later.
@@ -80,7 +80,7 @@ namespace Chocobro {
           if (ability.name == "Savage Blade") { combo = PLDCombo.RageOfHalone; }
           if (ability.name == "Rage of Halone") { combo = PLDCombo.PLDNone; }
 
-          double thisdamage = damage(ability, ability.potency);
+          double thisdamage = damage(ref ability, ability.potency);
 
           if (MainWindow.disdebuff == true) {
             thisdamage = Math.Floor(thisdamage *= 1.12);
@@ -103,7 +103,7 @@ namespace Chocobro {
         autoattack.hits += 1;
         numberofattacks += 1;
         if (accroll < calculateACC()) {
-          var thisdamage = damage(ability, ability.potency);
+          var thisdamage = damage(ref ability, ability.potency);
           numberofhits += 1;
           totaldamage += thisdamage;
           autoattack.damage += thisdamage;
@@ -144,7 +144,7 @@ namespace Chocobro {
 
     //public virtual void expire() { } not really needed. Maybe handle expiration in ticks? hmmm.
 
-    public virtual void tick(Ability ability) {
+    public virtual void tick(ref Ability ability) {
       //schedule tick
       if (MainWindow.time == MainWindow.servertime && ability.debuff > 0) {
         ability.debuff -= 1.0;
@@ -158,7 +158,7 @@ namespace Chocobro {
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
         numberofticks += 1;
         ability.ticks += 1;
-        var tickdmg = damage(ability, ability.dotPotency, true);
+        var tickdmg = damage(ref ability, ability.dotPotency, true);
         ability.dotdamage += tickdmg;
         totaldamage += tickdmg;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickdmg + "  Damage - Time Left: " + ability.debuff);
@@ -166,7 +166,7 @@ namespace Chocobro {
       }
     }
 
-    public int damage(Ability ability, int pot, bool dot = false) {
+    public int damage(ref Ability ability, int pot, bool dot = false) {
       double damageformula = 0.0;
       double tempstr = STR;
       //potion check

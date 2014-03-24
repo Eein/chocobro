@@ -23,92 +23,92 @@ namespace Chocobro {
       regen();
 
       if (MainWindow.selenebuff == true) {
-        execute(feylight);
-        //if (feylight.buff <= 0) { execute(feyglow); }
+        execute(ref feylight);
+        //if (feylight.buff <= 0) { execute(ref feyglow); }
       }
 
       if (TP <= 540) {
-        execute(invigorate);
+        execute(ref invigorate);
       }
       if (heavyshot.buff > 0 && straightshot.buff <= 4) {
-        execute(straightshot);
+        execute(ref straightshot);
       }
 
       if (straightshot.buff <= gcd) {
-        execute(straightshot);
+        execute(ref straightshot);
       }
 
       if (windbite.debuff <= gcd) {
         if (MainWindow.fightlength - MainWindow.time > 9) {
-          execute(windbite);
+          execute(ref windbite);
         }
       }
 
       if (venomousbite.debuff <= gcd) {
         if (MainWindow.fightlength - MainWindow.time > 9) {
-          execute(venomousbite);
+          execute(ref venomousbite);
         }
       }
 
-      execute(heavyshot);
+      execute(ref heavyshot);
 
-      execute(ragingstrikes); //"smart" use of buffs, needs more attention
+      execute(ref ragingstrikes); //"smart" use of buffs, needs more attention
       if (ragingstrikes.buff > 0) {
-        execute(bloodforblood);
-        execute(internalrelease);
-        execute(hawkseye);
-        execute(xpotiondexterity);
-        execute(barrage);
+        execute(ref bloodforblood);
+        execute(ref internalrelease);
+        execute(ref hawkseye);
+        execute(ref xpotiondexterity);
+        execute(ref barrage);
       }
 
       if (ragingstrikes.nextCast >= MainWindow.time + 55 && ragingstrikes.nextCast <= MainWindow.time + 65) { //better use of internal release
-        execute(internalrelease);
+        execute(ref internalrelease);
       }
 
       if (MainWindow.servertime >= 0.8 * MainWindow.fightlength) {
-        execute(miserysend);
+        execute(ref miserysend);
       }
 
-      execute(bloodletter);
-      execute(flamingarrow);
-      execute(repellingshot);
-      execute(bluntarrow);
+      execute(ref bloodletter);
+      execute(ref flamingarrow);
+      execute(ref repellingshot);
+      execute(ref bluntarrow);
 
       //server actionable - ticks/decrements then server tick action
       //if tick is 3 
-      tick(windbite);
-      tick(venomousbite);
-      tick(flamingarrow);
+      tick(ref windbite);
+      tick(ref venomousbite);
+      tick(ref flamingarrow);
       //auto 
-      execute(autoattack);
+      execute(ref autoattack);
 
       //decrement buffs
-      decrement(straightshot);
-      decrement(internalrelease);
-      decrement(ragingstrikes);
-      decrement(hawkseye);
-      decrement(bloodforblood);
-      decrement(barrage);
-      decrement(heavyshot);
-      decrement(xpotiondexterity);
-      decrement(feylight);
+      decrement(ref straightshot);
+      decrement(ref internalrelease);
+      decrement(ref ragingstrikes);
+      decrement(ref hawkseye);
+      decrement(ref bloodforblood);
+      decrement(ref barrage);
+      decrement(ref heavyshot);
+      decrement(ref xpotiondexterity);
+      decrement(ref feylight);
 
     }
 
-    public override void execute(Ability ability) {
+    public override void execute(ref Ability ability) {
       //barrage interactions
       if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
         if (barrage.buff > 0) {
           MainWindow.time = MainWindow.floored(MainWindow.time);
           MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
-          impact(ability);
+          impact(ref ability);
           MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
-          impact(ability);
+          impact(ref ability);
         }
       }
-      base.execute(ability);
+      base.execute(ref ability);
     }
-    public override void impact(Ability ability) {
+    public override void impact(ref Ability ability) {
 
       //var critchance = calculateCrit(_player);
       //if (bard.straightshot.buff > 0) {  critchance += 10; }
@@ -133,7 +133,7 @@ namespace Chocobro {
         ability.attacks += 1;
         if (accroll <= calculateACC() || hawkseye.buff > 0) {
 
-          double thisdamage = damage(ability, ability.potency);
+          double thisdamage = damage(ref ability, ability.potency);
 
           if (MainWindow.disdebuff == true) {
             thisdamage = Math.Floor(thisdamage *= 1.12);
@@ -170,7 +170,7 @@ namespace Chocobro {
         autoattack.hits += 1;
         numberofattacks += 1;
         if (accroll < calculateACC()) {
-          var thisdamage = damage(ability, ability.potency);
+          var thisdamage = damage(ref ability, ability.potency);
           numberofhits += 1;
           totaldamage += thisdamage;
           autoattack.damage += thisdamage;
@@ -219,7 +219,7 @@ namespace Chocobro {
 
     //public virtual void expire() { } not really needed. Maybe handle expiration in ticks? hmmm.
 
-    public virtual void tick(Ability ability) {
+    public virtual void tick(ref Ability ability) {
       //schedule tick
       if (MainWindow.time == MainWindow.servertime && ability.debuff > 0) {
         ability.debuff -= 1.0;
@@ -237,7 +237,7 @@ namespace Chocobro {
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && (ability.debuff > 0 && ability.dotPotency > 0)) {
         numberofticks += 1;
         ability.ticks += 1;
-        var tickdmg = damage(ability, ability.dotPotency, true);
+        var tickdmg = damage(ref ability, ability.dotPotency, true);
         ability.dotdamage += tickdmg;
         totaldamage += tickdmg;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickdmg + "  Damage - Time Left: " + ability.debuff);
@@ -245,7 +245,7 @@ namespace Chocobro {
       }
     }
 
-    public int damage(Ability ability, int pot, bool dot = false) {
+    public int damage(ref Ability ability, int pot, bool dot = false) {
       double damageformula = 0.0;
       double tempdex = DEX;
       //potion check

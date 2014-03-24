@@ -22,37 +22,37 @@ namespace Chocobro {
       //Regen Mana/TP
       regen();
 
-      //Abilities - execute(ability)
-      if (bioii.debuff < gcd) { execute(bioii); }
-      if (miasma.debuff < gcd) { execute(miasma); }
-      if (bio.debuff < gcd) { execute(bio); }
-      if (shadowflare.debuff < gcd) { execute(shadowflare); }
-      if (miasmaii.debuff < gcd) { execute(miasmaii);  }
-      execute(ruin);
+      //Abilities - execute(ref ability)
+      if (bioii.debuff < gcd) { execute(ref bioii); }
+      if (miasma.debuff < gcd) { execute(ref miasma); }
+      if (bio.debuff < gcd) { execute(ref bio); }
+      if (shadowflare.debuff < gcd) { execute(ref shadowflare); }
+      if (miasmaii.debuff < gcd) { execute(ref miasmaii);  }
+      execute(ref ruin);
 
-      //Instants - execute(ability)
-      execute(ragingstrikes);
-      execute(xpotionintelligence);
-      if (bioii.debuff > 0 && bio.debuff > 0 && miasma.debuff > 0) { execute(fester); }
+      //Instants - execute(ref ability)
+      execute(ref ragingstrikes);
+      execute(ref xpotionintelligence);
+      if (bioii.debuff > 0 && bio.debuff > 0 && miasma.debuff > 0) { execute(ref fester); }
 
-      //Ticks - tick(DoTability)
-      tick(bioii);
-      tick(miasma);
-      tick(bio);
-      tick(shadowflare);
-      tick(miasmaii);
-      //AutoAttacks (not for casters!) - execute(autoattack)
+      //Ticks - tick(ref DoTability)
+      tick(ref bioii);
+      tick(ref miasma);
+      tick(ref bio);
+      tick(ref shadowflare);
+      tick(ref miasmaii);
+      //AutoAttacks (not for casters!) - execute(ref autoattack)
 
-      //Decrement Buffs - decrement(buff)
-      decrement(ragingstrikes);
-      decrement(xpotionintelligence);
+      //Decrement Buffs - decrement(ref buff)
+      decrement(ref ragingstrikes);
+      decrement(ref xpotionintelligence);
 
     }
 
-    public override void execute(Ability ability) {
-      base.execute(ability);
+    public override void execute(ref Ability ability) {
+      base.execute(ref ability);
     }
-    public override void impact(Ability ability) {
+    public override void impact(ref Ability ability) {
 
       //var critchance = calculateCrit(_player);
       //set potency for now, but change to damage later.
@@ -67,7 +67,7 @@ namespace Chocobro {
         ability.attacks += 1;
         if (accroll < calculateACC()) {
 
-          double thisdamage = damage(ability, ability.potency);
+          double thisdamage = damage(ref ability, ability.potency);
 
           if (MainWindow.disdebuff == true) {
             thisdamage = Math.Floor(thisdamage *= 1.12);
@@ -116,7 +116,7 @@ namespace Chocobro {
 
     //public virtual void expire() { } not really needed. Maybe handle expiration in ticks? hmmm.
 
-    public virtual void tick(Ability ability) {
+    public virtual void tick(ref Ability ability) {
       //schedule tick
       if (MainWindow.time == MainWindow.servertime && ability.debuff > 0) {
         ability.debuff -= 1.0;
@@ -130,7 +130,7 @@ namespace Chocobro {
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && ability.debuff > 0) {
         numberofticks += 1;
         ability.ticks += 1;
-        var tickdmg = damage(ability, ability.dotPotency, true);
+        var tickdmg = damage(ref ability, ability.dotPotency, true);
         ability.dotdamage += tickdmg;
         totaldamage += tickdmg;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickdmg + "  Damage - Time Left: " + ability.debuff);
@@ -138,7 +138,7 @@ namespace Chocobro {
       }
     }
 
-    public int damage(Ability ability, int pot, bool dot = false) {
+    public int damage(ref Ability ability, int pot, bool dot = false) {
       double damageformula = 0.0;
       double tempint = INT;
       //potion check
