@@ -18,14 +18,19 @@ namespace Chocobro {
     }
 
     public override void rotation() {
-      var gcd = calculateGCD();
+      execute(ref tpregen);
       autoattack.recastTime = AADELAY;
 
+
+      if (MainWindow.selenebuff == true) {
+        if (fglow == false) { execute(ref feylight); }
+        if (flight == false) { execute(ref feyglow); }
+      }
       //Regen Mana/TP
-      regen();
+     // regen();
 
       //Abilities - execute(ref ability)
-      if (dot1.debuff <= 0) {
+      if (dot1.debuff <= calculateGCD()) {
         execute(ref dot1);
       }
       execute(ref weaponskill1);

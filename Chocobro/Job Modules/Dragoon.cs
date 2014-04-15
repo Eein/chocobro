@@ -21,20 +21,26 @@ namespace Chocobro {
     }
 
     public override void rotation() {
-      var gcd = calculateGCD();
+      execute(ref tpregen);
       autoattack.recastTime = AADELAY;
 
+
+      if (MainWindow.selenebuff == true) {
+        if (fglow == false) { execute(ref feylight); }
+        if (flight == false) { execute(ref feyglow); }
+      }
+
       //Regen Mana/TP
-      regen();
+      //regen();
 
       //Abilities - execute(ref ability)
-      if (heavythrust.buff < gcd && combo == Combo.DRGNone) { execute(ref heavythrust); }
+      if (heavythrust.buff < calculateGCD() && combo == Combo.DRGNone) { execute(ref heavythrust); }
 
-      if (disembowel.debuff < 2 * gcd && combo == Combo.DRGNone) { execute(ref impulsedrive); }
+      if (disembowel.debuff < 2 * calculateGCD() && combo == Combo.DRGNone) { execute(ref impulsedrive); }
       if (combo == Combo.Disembowel) {  execute(ref disembowel); }
       if (combo == Combo.ChaosThrust) {  execute(ref chaosthrust); }
 
-      if (phlebotomize.debuff < gcd && combo == Combo.DRGNone) {  execute(ref phlebotomize); }
+      if (phlebotomize.debuff < calculateGCD() && combo == Combo.DRGNone) {  execute(ref phlebotomize); }
 
       if (combo == Combo.DRGNone) { execute(ref truethrust); }
       if (combo == Combo.VorpalThrust) { execute(ref vorpalthrust); }
@@ -291,6 +297,7 @@ namespace Chocobro {
       areport.Add(chaosthrust);
       areport.Add(invigorate);
       areport.Add(xpotionstrength);
+      areport.Add(tpregen);
       if (MainWindow.selenebuff) {
         areport.Add(feylight);
         areport.Add(feyglow);
@@ -316,7 +323,7 @@ namespace Chocobro {
     Ability xpotionstrength = new XPotionStrength();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
-
+    Ability tpregen = new TPRegen();
 
 
     // Set array of abilities for reportingz

@@ -18,13 +18,13 @@ namespace Chocobro {
     }
 
     public override void rotation() {
-      var gcd = calculateGCD();
+      execute(ref tpregen);
       autoattack.recastTime = AADELAY;
-      regen();
+
 
       if (MainWindow.selenebuff == true) {
-        execute(ref feylight);
-        //if (feylight.buff <= 0) { execute(ref feyglow); }
+        if (fglow == false) { execute(ref feylight); }
+        if (flight == false) { execute(ref feyglow); }
       }
 
       if (TP <= 540) {
@@ -34,17 +34,17 @@ namespace Chocobro {
         execute(ref straightshot);
       }
 
-      if (straightshot.buff <= gcd) {
+      if (straightshot.buff <= calculateGCD()) {
         execute(ref straightshot);
       }
 
-      if (windbite.debuff <= gcd) {
+      if (windbite.debuff <= calculateGCD()) {
         if (MainWindow.fightlength - MainWindow.time > 9) {
           execute(ref windbite);
         }
       }
 
-      if (venomousbite.debuff <= gcd) {
+      if (venomousbite.debuff <= calculateGCD()) {
         if (MainWindow.fightlength - MainWindow.time > 9) {
           execute(ref venomousbite);
         }
@@ -92,6 +92,7 @@ namespace Chocobro {
       decrement(ref heavyshot);
       decrement(ref xpotiondexterity);
       decrement(ref feylight);
+      decrement(ref feyglow);
 
     }
 
@@ -346,6 +347,7 @@ namespace Chocobro {
       areport.Add(xpotiondexterity);
       areport.Add(feylight);
       areport.Add(feyglow);
+      areport.Add(tpregen);
     }
     Ability heavyshot = new HeavyShot();
     Ability windbite = new Windbite();
@@ -366,6 +368,7 @@ namespace Chocobro {
     Ability xpotiondexterity = new XPotionDexterity();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
+    Ability tpregen = new TPRegen();
 
 
 

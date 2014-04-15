@@ -193,7 +193,7 @@ namespace Chocobro {
           //alt progress bar for iterations only
           if (swselected == "None") {
             this.Dispatcher.Invoke((Action)(() => {
-              this.progressBar.Value = (int)(((double)x / (double)iterations) * 100) + 1;
+              this.progressBar.Value = (int)(((double)x / (double)iterations) * 100);
             }));
           }
 
@@ -309,6 +309,7 @@ namespace Chocobro {
         this.simulateButton.IsEnabled = true;
         this.statweights.IsEnabled = true;
         this.inputlag.IsEnabled = true;
+        this.progressBar.Value = 100;
         //this.StatGrwth.IsEnabled = true; // TODO: RENAME THESE RIGHT
         //this.Delta.IsEnabled = true;
       }));

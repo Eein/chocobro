@@ -21,14 +21,19 @@ namespace Chocobro {
     }
 
     public override void rotation() {
-      var gcd = calculateGCD();
+      execute(ref tpregen);
       autoattack.recastTime = AADELAY;
-      execute(ref feylight);
+
+
+      if (MainWindow.selenebuff == true) {
+        if (fglow == false) { execute(ref feylight); }
+        if (flight == false) { execute(ref feyglow); }
+      }
       //Regen Mana/TP
-      regen();
+      //regen();
 
       //Abilities - execute(ref ability)
-      if (fracture.debuff < gcd && combo == PLDCombo.PLDNone) { execute(ref fracture); }
+      if (fracture.debuff < calculateGCD() && combo == PLDCombo.PLDNone) { execute(ref fracture); }
       if (combo == PLDCombo.PLDNone) { execute(ref fastbalde); }
       if (combo == PLDCombo.SavageBlade) { execute(ref savageblade); }
       if (combo == PLDCombo.RageOfHalone) { execute(ref rageofhalone); }
@@ -241,6 +246,7 @@ namespace Chocobro {
      areport.Add(fracture);
      areport.Add(xpotionstrength);
      areport.Add(autoattack);
+     areport.Add(tpregen);
       if (MainWindow.selenebuff) {
         areport.Add(feylight);
         areport.Add(feyglow);
@@ -259,6 +265,7 @@ namespace Chocobro {
     Ability autoattack = new AutoAttack();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
+    Ability tpregen = new TPRegen();
 
 
 

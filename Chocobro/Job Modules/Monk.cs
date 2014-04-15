@@ -23,12 +23,16 @@ namespace Chocobro {
 
     public override void rotation() {
       if (glstacks > 3) { glstacks = 3; }
-      var gcd = calculateGCD();
-      autoattack.recastTime = AADELAY * (1 - glstacks * 0.05);
+      execute(ref tpregen);
+      autoattack.recastTime = AADELAY;
+
+
+      if (MainWindow.selenebuff == true) {
+        if (fglow == false) { execute(ref feylight); }
+        if (flight == false) { execute(ref feyglow); }
+      }
 
       //Regen Mana/TP
-      regen();
-      execute(ref feylight);
       if (perfectbalance.buff > 0) { perfectbalancebuff = true; } else { perfectbalancebuff = false; }
 
       //Abilities - execute(ref ability)
@@ -36,20 +40,20 @@ namespace Chocobro {
         if (glstacks < 1) { execute(ref snappunch); }
         if (glstacks < 2) { execute(ref demolish); }
         if (glstacks < 3) { execute(ref snappunch); }
-        if (glstacks == 3 && dragonkick.debuff < gcd) { execute(ref dragonkick); }
-        if (glstacks == 3 && twinsnakes.buff < gcd) { execute(ref twinsnakes); }
-        if (glstacks == 3 && touchofdeath.debuff < gcd) { execute(ref touchofdeath); }
+        if (glstacks == 3 && dragonkick.debuff < calculateGCD()) { execute(ref dragonkick); }
+        if (glstacks == 3 && twinsnakes.buff < calculateGCD()) { execute(ref twinsnakes); }
+        if (glstacks == 3 && touchofdeath.debuff < calculateGCD()) { execute(ref touchofdeath); }
         if (glstacks == 3) { execute(ref bootshine); }
       }
 
-      if (touchofdeath.debuff < gcd) { execute(ref touchofdeath); }
-      if (fracture.debuff < gcd) { execute(ref fracture); }
+      if (touchofdeath.debuff < calculateGCD()) { execute(ref touchofdeath); }
+      if (fracture.debuff < calculateGCD()) { execute(ref fracture); }
 
-      if (form == Form.Couerl) { if (demolish.debuff < gcd) { execute(ref demolish); } else { execute(ref snappunch); } }
+      if (form == Form.Couerl) { if (demolish.debuff < calculateGCD()) { execute(ref demolish); } else { execute(ref snappunch); } }
 
-      if (form == Form.OpoOpo) { if (dragonkick.debuff < gcd) { execute(ref dragonkick); } else { execute(ref bootshine); } }
+      if (form == Form.OpoOpo) { if (dragonkick.debuff < calculateGCD()) { execute(ref dragonkick); } else { execute(ref bootshine); } }
 
-      if (form == Form.Raptor) { if (twinsnakes.buff < gcd) { execute(ref twinsnakes); } else { execute(ref truestrike); } }
+      if (form == Form.Raptor) { if (twinsnakes.buff < calculateGCD()) { execute(ref twinsnakes); } else { execute(ref truestrike); } }
 
       //Buffs/Cooldowns - execute(ref ability)
       if (TP <= 540) { execute(ref invigorate); }
@@ -289,6 +293,7 @@ namespace Chocobro {
       areport.Add(bloodforblood);
       areport.Add(autoattack);
       areport.Add(xpotionstrength);
+      areport.Add(tpregen);
       if (MainWindow.selenebuff) {
         areport.Add(feylight);
         areport.Add(feyglow);
@@ -314,6 +319,7 @@ namespace Chocobro {
     Ability xpotionstrength = new XPotionStrength();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
+    Ability tpregen = new TPRegen();
 
 
 

@@ -20,7 +20,7 @@ namespace Chocobro {
       var gcd = calculateGCD();
 
       //Regen Mana/TP
-      regen();
+      //regen();
 
       //Abilities - execute(ref ability)
       if (bioii.debuff < gcd) { execute(ref bioii); }

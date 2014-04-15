@@ -59,6 +59,8 @@ namespace Chocobro {
     public double passoverweight = 0.0;
     public string statforweights;
     public double simulationtime = 0;
+    public bool firsttp = true;
+    public double nexttptick;
 
 
     //Pots and Buffs
@@ -117,6 +119,15 @@ namespace Chocobro {
         animationDelay = 0;
         abilityType = "Cooldown";
         buffTime = 30;
+      }
+    }
+
+    public class TPRegen : Ability {
+      public TPRegen() {
+        name = "TP Regen";
+        recastTime = 3;
+        animationDelay = 0;
+        abilityType = "TP Regen";
       }
     }
 
@@ -182,6 +193,21 @@ namespace Chocobro {
         impact(ref ability);
       }
 
+      if (ability.name == "TP Regen" && MainWindow.time >= ability.nextCast) {
+        if (firsttp) {
+          ability.nextCast = (MainWindow.d100(0, 300) / 100);
+          firsttp = false;
+        } else {
+          MainWindow.time = MainWindow.floored(MainWindow.time);
+          int tpbefore = TP;
+          TP += 60;
+          if (TP > 1000) { TP = 1000; }
+          MainWindow.log(MainWindow.time.ToString("F2") + " - TP Regen tick. " + tpbefore + " => " + TP + " TP.");
+          ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+          OOT = false;
+        }
+      }
+
       if (ability.abilityType == "Weaponskill" && !OOT) {
 
         //If time >= next cast time and time >= nextability)
@@ -190,7 +216,7 @@ namespace Chocobro {
           //nextability = MainWindow.time;
           //force nextability to next server tick
           //if invigorate is used and OOM then it resets the time to now.
-          nextability = MainWindow.servertime + (3 - MainWindow.servertick);
+          nextability = nexttptick + 0.01;
           OOT = true;
         } else {
 
@@ -231,12 +257,8 @@ namespace Chocobro {
           ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
 
           //feylight/glow
-          if (ability.name == "Fey Light") {
-            flight = true;
-          } 
-          if (ability.name == "Fey Glow") {
-            fglow = true;
-          } 
+          if (ability.name == "Fey Light") { flight = true; }
+          if (ability.name == "Fey Glow") { fglow = true; }
 
           //set nextability
           if (MainWindow.time + ability.animationDelay > nextability) {
@@ -247,8 +269,6 @@ namespace Chocobro {
           impact(ref ability);
         }
       }
-
-
     }
     public virtual void decrement(ref Ability ability) {
 
@@ -297,20 +317,6 @@ namespace Chocobro {
 
     }
     public virtual void rotation() { }
-    public virtual void regen() {
-      if (MainWindow.time == MainWindow.servertime && MainWindow.servertick == 3) {
-        //TODO: SOME LOGIC HERE IS WRONG.  TP does NOT regen on the server dot tick (tested myself)
-        //TP regen
-        if (TP < 1000) {
-          TP += 60;
-          OOT = false;
-          if (TP > 1000) { TP = 1000; }
-          MainWindow.log(MainWindow.time.ToString("F2") + " - TP Regen Tick - Restored 60 TP. TP is " + (TP - 60) + " => " + TP);
-        }
-        //MP regen (add this eventually. Check old sim for reference)
-      }
-    }
-
 
 
     //function to convert percentages to multipliers (ie. 16% to 1.16)
