@@ -219,7 +219,10 @@ namespace Chocobro {
             time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto, p.OOT, p.OOM);
             //add timeline stuff
             if ((x == 0) && (y == 0 && time == servertime)) {
-              r.timeline.Add(p.totaldamage / time);
+              r.dpstimeline.Add(p.totaldamage / time);
+            }
+            if ((x == 0) && (y == 0 && time == servertime)) {
+              r.tptimeline.Add(p.TP);
             }
 
           }

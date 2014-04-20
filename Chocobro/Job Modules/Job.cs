@@ -18,7 +18,6 @@ namespace Chocobro {
     public int MND { get; set; }
     public int PIE { get; set; }
     public int WEP { get; set; }
-
     public bool flight = false;
     public bool fglow = false;
     public string statweight { get; set; }
@@ -204,6 +203,7 @@ namespace Chocobro {
           if (TP > 1000) { TP = 1000; }
           MainWindow.log(MainWindow.time.ToString("F2") + " - TP Regen tick. " + tpbefore + " => " + TP + " TP.");
           ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+          ability.hits += 1;
           OOT = false;
         }
       }
