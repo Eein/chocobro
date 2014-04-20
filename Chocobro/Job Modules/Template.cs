@@ -18,7 +18,7 @@ namespace Chocobro {
     }
 
     public override void rotation() {
-      execute(ref tpregen);
+      //execute(ref tpregen);
       autoattack.recastTime = AADELAY;
 
 

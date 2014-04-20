@@ -247,7 +247,7 @@ namespace Chocobro {
       }
       if (ability.abilityType == "Instant" || ability.abilityType == "Cooldown") {
         //If time >= next cast time and time >= nextability)
-        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant && nextability > MainWindow.time + ability.animationDelay) { //&& nextability > MainWindow.time + ability.animationDelay is what i added
+        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant) { //&& nextability > MainWindow.time + ability.animationDelay is what i added
           //Get game time (remove decimal error)
           MainWindow.time = MainWindow.floored(MainWindow.time);
           MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
