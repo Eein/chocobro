@@ -188,7 +188,7 @@ namespace Chocobro {
         }
         
         for (int x = 0; x < iterations; ++x) {
-          
+          int ticknumber = 0;
           servertick = randtick.Next(1, 4);
           //alt progress bar for iterations only
           if (swselected == "None") {
@@ -218,14 +218,19 @@ namespace Chocobro {
             tickevent();
             time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto, p.OOT, p.OOM);
             //add timeline stuff
-            if ((x == 0) && (y == 0 && time == servertime)) {
-              r.dpstimeline.Add(p.totaldamage / time);
+            if ((y == 0 && time == servertime)) {
+              if (r.dpstimeline.Count < ticknumber + 1) { r.dpstimeline.Add(0); }
+              if (r.dpstimelinecount.Count < ticknumber + 1) { r.dpstimelinecount.Add(0); }
+              if (r.tptimeline.Count < ticknumber + 1) { r.tptimeline.Add(0); }
+              if (r.tptimelinecount.Count < ticknumber + 1) { r.tptimelinecount.Add(0); }
+              r.dpstimeline[ticknumber] += p.totaldamage / time;
+              r.dpstimelinecount[ticknumber] += 1;
+              r.tptimeline[ticknumber] += p.TP;
+              r.tptimelinecount[ticknumber] += 1;
+              ticknumber += 1;
             }
-            if ((x == 0) && (y == 0 && time == servertime)) {
-              r.tptimeline.Add(p.TP);
-            }
-
           }
+
           DPSarray.Add((p.totaldamage / fightlength));
 
           if (x == 0 && y == 0) {
@@ -279,6 +284,10 @@ namespace Chocobro {
       double simulationtime = (double)stopwatch.ElapsedMilliseconds;
       p.simulationtime = simulationtime / 1000;
 
+      for (var x = 0; x < r.dpstimeline.Count; x++) {
+        r.dpstimeline[x] = r.dpstimeline[x] / r.dpstimelinecount[x];
+        r.tptimeline[x] = r.tptimeline[x] / r.tptimelinecount[x];
+      }
       // Parse HTML log
       r.parse(p);
       

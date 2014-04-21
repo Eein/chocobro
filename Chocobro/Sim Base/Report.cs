@@ -12,6 +12,9 @@ namespace Chocobro {
 
     public List<double> dpstimeline = new List<double>();
     public List<double> tptimeline = new List<double>();
+    public List<double> dpstimelinecount = new List<double>();
+    public List<double> tptimelinecount = new List<double>();
+
     string report = "";
     string dpetcolor = "006699";
     double fightlength = MainWindow.fightlength;
