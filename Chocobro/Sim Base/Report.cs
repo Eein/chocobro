@@ -14,6 +14,7 @@ namespace Chocobro {
     public List<double> tptimeline = new List<double>();
     public List<double> dpstimelinecount = new List<double>();
     public List<double> tptimelinecount = new List<double>();
+    public List<double> bucket = MainWindow.bucketlist;
 
     string report = "";
     string dpetcolor = "006699";
@@ -156,8 +157,10 @@ namespace Chocobro {
       //Add totalmissrate etc.
       report += "<tr><td>TOTAL</td><td>"+(j.totaldamage / fightlength)+"</td><td> </td><td>"+j.totaldamage+"</td><td>HIT</td><td>HIT%</td><td>CRIT</td><td>CRIT%</td><td>MISS</td><td>MISS%</td><td>UPTIME</td></tr>";
       report += "</tbody></table>";
+      report += "<img src='http://chart.googleapis.com/chart?cht=bvg&chs=400x200&chxt=x,y&chxs=1,000000,12,0,lt|1,000000,10,1,lt&chbh=5,0,1&chd=t:";
+      report += util.chartEncode(bucket) + "&chds=0,325&chxl=0:|";
+      report += MainWindow.dpsminlist + "|||||||||||||||||||||||||||||||||||||||||||||||||" + MainWindow.dpsmaxlist + "|1:|0|" + (bucket.Max()+25) +" Iterations' />";
       report += "</div></div><div class='wrapper'><div class='buffs'><h3>Buffs</h3></div><div class='debuffs'><h3>Debuffs</h3></div></div><div class='footer'>Chocobro © 2013-2014. FINAL FANTASY XIV © 2010-2014 SQUARE ENIX CO., LTD. All Rights Reserved. <div class='social'><a href='http://github.com/eein/chocobro' target='_blank'>Github</a> - <a href='http://www.twitter.com/chocobrodotcom' target='_blank'>Twitter</a> - <a href='http://www.chocobro.com' target='_blank'>Homepage</a></div></div></body></html>";
-
       write();
     }
 

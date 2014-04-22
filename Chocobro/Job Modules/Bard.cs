@@ -117,7 +117,9 @@ namespace Chocobro {
       var accroll = (MainWindow.d100(1, 10001)) / 100;
 
       if (ability.name == "Invigorate") {
+        var tpbefore = TP;
         TP += 400;
+        if (TP > 1000) { TP = 1000; tpgained += 1000 - tpbefore; } else { tpgained += 400; }
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 400 TP Restored. TP is " + (TP - 400) + " => " + TP);
         if (OOT) {
           OOT = false;

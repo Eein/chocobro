@@ -27,6 +27,13 @@ namespace Chocobro {
       return string.Join("", chartData.ToArray());
     }
 
+    public string chartEncode(List<double> valueArray) {
+      string rstring = "";
+      for (int x = 0; x <= valueArray.Count - 1; ++x) {
+        if (x < valueArray.Count - 1) { rstring += valueArray[x] + ","; } else { rstring += valueArray[x]; }
+      }
+      return rstring;
+    }
 
   }
 }

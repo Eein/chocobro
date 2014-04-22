@@ -52,6 +52,8 @@ namespace Chocobro {
     public int numberofmisses = 0;
     public int ticknumber = 0;
     public double averagedps = 0;
+    public int tpgained = 0;
+    public int tpused = 0;
     //stat weights
     public List<double> DPSarray = new List<double>();
     public double weight = 0.0;
@@ -60,7 +62,6 @@ namespace Chocobro {
     public double simulationtime = 0;
     public bool firsttp = true;
     public double nexttptick;
-
 
     //Pots and Buffs
 
@@ -200,7 +201,7 @@ namespace Chocobro {
           MainWindow.time = MainWindow.floored(MainWindow.time);
           int tpbefore = TP;
           TP += 60;
-          if (TP > 1000) { TP = 1000; }
+          if (TP > 1000) { TP = 1000; tpgained += 1000 - tpbefore; } else { tpgained += 60; }
           MainWindow.log(MainWindow.time.ToString("F2") + " - TP Regen tick. " + tpbefore + " => " + TP + " TP.");
           ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
           ability.hits += 1;
@@ -226,6 +227,7 @@ namespace Chocobro {
             MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name + ". Cost is " + ability.TPcost + "TP. TP is " + TP + " => " + (TP - ability.TPcost) + ".");
             // remove TP
             TP -= ability.TPcost;
+            tpused += ability.TPcost;
             //if doesnt miss, then impact
 
             //set nextCast.

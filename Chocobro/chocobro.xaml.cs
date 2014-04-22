@@ -43,7 +43,9 @@ namespace Chocobro {
     public static string lagstring;
     public static int upperlag = 0;
     public static int lowerlag = 0;
-
+    public static List<double> bucketlist = new List<double>(50);
+    public static double dpsminlist = 0;
+    public static double dpsmaxlist = 0;
     //Resources
     public static string logstring = "";
 
@@ -174,6 +176,9 @@ namespace Chocobro {
 
       //subtract an extra step because one gets added initially.
 
+      for (int x = 0; x < 50; x++) {
+        bucketlist.Add(0);
+      }
 
       List<double> DPSarray = new List<double>();
       List<double> WeightArray = new List<double>();
@@ -211,13 +216,14 @@ namespace Chocobro {
           p.resetAbilities();
           resetSim();
           fightlength = (Convert.ToInt16(fightlengthtext)) + (d100(0, (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.1)) - (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.05));
-         
+          if ((x == 0) && (y == 0)) { r.dpstimeline.Select(i => 0); r.dpstimelinecount.Select(i => 0); }
           debug(); //have option to disable TODO:
           while (time <= fightlength) {
             handler(ref p);
             tickevent();
             time = nextTime(p.nextinstant, p.nextability, servertime, p.nextauto, p.OOT, p.OOM);
             //add timeline stuff
+            
             if ((y == 0 && time == servertime)) {
               if (r.dpstimeline.Count < ticknumber + 1) { r.dpstimeline.Add(0); }
               if (r.dpstimelinecount.Count < ticknumber + 1) { r.dpstimelinecount.Add(0); }
@@ -244,6 +250,22 @@ namespace Chocobro {
        
         DPSarray.Sort();
         p.averagedps = DPSarray.Average();
+        var dpsmin = DPSarray.Min();
+        var dpsmax = DPSarray.Max();
+        dpsminlist = dpsmin;
+        dpsmaxlist = dpsmax;
+        var dpsdiff = dpsmax - dpsmin;
+        var numbuckets = 50;
+        var dpsdiv = dpsdiff / numbuckets;
+        
+        foreach (var it in DPSarray) {
+          for (var x = 0; x <= numbuckets; ++x) {
+            if (it >= dpsmin + (dpsdiv * x) && it <= dpsmin + (dpsdiv * (x + 1))) {
+              bucketlist[x] += 1;
+              break;
+            }
+          }
+        }
 
         // calculate last difference of array
         
