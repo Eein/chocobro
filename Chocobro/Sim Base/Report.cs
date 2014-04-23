@@ -136,7 +136,7 @@ namespace Chocobro {
       var dpsavglist = (MainWindow.dpsminlist + MainWindow.dpsmaxlist) / 2;
 
       report += "<img src=\"http://chart.googleapis.com/chart?chf=bg,s,00000000&chxl=1:|Min: " + Math.Round((MainWindow.dpsminlist * 100)) / 100 + "|Average: " + Math.Round((dpsavglist * 100)) / 100 + "|Max: " + Math.Round((MainWindow.dpsmaxlist * 100)) / 100 + "&chxp=1,10,50,90&chxr=0,0,";
-      report += MainWindow.dpsmaxlist + "&chxs=0,FFFFFF,11.5,0,lt,FFFFFF|1,FFFFFF,11.5,0,l,FFFFFF&chxt=y,x&chbh=a,1,1&chs=400x175&cht=bvg&chco=006699&chds=0," + MainWindow.dpsmaxlist + "&chd=t:" + util.chartEncode(bucket);
+      report += bucket.Max() +"&chxs=0,FFFFFF,11.5,0,lt,FFFFFF|1,FFFFFF,11.5,0,l,FFFFFF&chxt=y,x&chbh=a,1,1&chs=400x175&cht=bvg&chco=006699&chds=0," + MainWindow.dpsmaxlist + "&chd=t:" + util.chartEncode(bucket);
       report += "&chtt=Damage+Distribution&chts=FFFFFF,14\" width=\"400\" height=\"175\" alt=\"Damage Distribution\" />";
       //report += util.chartEncode(bucket) + "&chds=0,325&chxl=0:|";
       //report += MainWindow.dpsminlist + "|||||||||||||||||||||||||||||||||||||||||||||||||" + MainWindow.dpsmaxlist + "|1:|0|" + (bucket.Max() + 25) + " ' />";
