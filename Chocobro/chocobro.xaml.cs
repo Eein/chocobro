@@ -145,6 +145,8 @@ namespace Chocobro {
       var jobtext = "";
       var statweighttext = "";
       var fightlengthtext = "";
+      //bucket clear
+      bucketlist.Clear();
       this.Dispatcher.Invoke((Action)(() => {
             jobtext = job.Text;
             statweighttext = statweights.Text;
