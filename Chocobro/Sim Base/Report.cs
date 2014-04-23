@@ -130,7 +130,22 @@ namespace Chocobro {
       report += "<img src='http://chart.apis.google.com/chart?cht=lc&chs=375x225&chco=006699&chxt=x,y";
       report += "&chxl=0:|0|fightlength=" + MainWindow.fightlength + "|1:|0|avg=" + Math.Round(tptimeline.Sum() / tptimeline.Count()) + "|max=" + 1000 + "&chxp=1,1,51,100&chtt=TP+Timeline&chts=FFFFFF,18&chf=bg,s,00000000&chd=";
       report += util.simpleEncode(tptimeline, (tptimeline.Max() + 10));
-      report += "' /></div></div><div class='wrapper'>";
+      report += "' /></div><div class='damagesources'><h3>Distribution</h3>";
+      //report += "<img src='http://chart.googleapis.com/chart?cht=bvg&chs=400x200&chxt=x,y&chxs=1,000000,12,0,lt|1,000000,10,1,lt&chbh=5,0,1&chd=t:";
+      
+      var dpsavglist = (MainWindow.dpsminlist + MainWindow.dpsmaxlist) / 2;
+
+      report += "<img src=\"http://chart.googleapis.com/chart?chf=bg,s,00000000&chxl=1:|Min: " + Math.Round((MainWindow.dpsminlist * 100)) / 100 + "|Average: " + Math.Round((dpsavglist * 100)) / 100 + "|Max: " + Math.Round((MainWindow.dpsmaxlist * 100)) / 100 + "&chxp=1,10,50,90&chxr=0,0,";
+      report += MainWindow.dpsmaxlist + "&chxs=0,FFFFFF,11.5,0,lt,FFFFFF|1,FFFFFF,11.5,0,l,FFFFFF&chxt=y,x&chbh=a,1,1&chs=400x175&cht=bvg&chco=006699&chds=0," + MainWindow.dpsmaxlist + "&chd=t:" + util.chartEncode(bucket);
+      report += "&chtt=Damage+Distribution&chts=FFFFFF,14\" width=\"400\" height=\"175\" alt=\"Damage Distribution\" />";
+      //report += util.chartEncode(bucket) + "&chds=0,325&chxl=0:|";
+      //report += MainWindow.dpsminlist + "|||||||||||||||||||||||||||||||||||||||||||||||||" + MainWindow.dpsmaxlist + "|1:|0|" + (bucket.Max() + 25) + " ' />";
+    
+        
+        
+        
+        
+      report += "</div><div class='wrapper'>";
 
       report += "<div class='abilities'><h3>Ability Breakdown</h3>";
       report += "<table><thead><tr><td>Ability</td><td>DPS</td><td>DPS%</td><td>TOTAL DMG</td><td>HIT</td><td>HIT%</td><td>CRIT</td><td>CRIT%</td><td>MISS</td><td>MISS%</td><td>UPTIME</td></tr></thead><tbody>";
@@ -157,9 +172,6 @@ namespace Chocobro {
       //Add totalmissrate etc.
       report += "<tr><td>TOTAL</td><td>"+(j.totaldamage / fightlength)+"</td><td> </td><td>"+j.totaldamage+"</td><td>HIT</td><td>HIT%</td><td>CRIT</td><td>CRIT%</td><td>MISS</td><td>MISS%</td><td>UPTIME</td></tr>";
       report += "</tbody></table>";
-      report += "<img src='http://chart.googleapis.com/chart?cht=bvg&chs=400x200&chxt=x,y&chxs=1,000000,12,0,lt|1,000000,10,1,lt&chbh=5,0,1&chd=t:";
-      report += util.chartEncode(bucket) + "&chds=0,325&chxl=0:|";
-      report += MainWindow.dpsminlist + "|||||||||||||||||||||||||||||||||||||||||||||||||" + MainWindow.dpsmaxlist + "|1:|0|" + (bucket.Max()+25) +" Iterations' />";
       report += "</div></div><div class='wrapper'><div class='buffs'><h3>Buffs</h3></div><div class='debuffs'><h3>Debuffs</h3></div></div><div class='footer'>Chocobro © 2013-2014. FINAL FANTASY XIV © 2010-2014 SQUARE ENIX CO., LTD. All Rights Reserved. <div class='social'><a href='http://github.com/eein/chocobro' target='_blank'>Github</a> - <a href='http://www.twitter.com/chocobrodotcom' target='_blank'>Twitter</a> - <a href='http://www.chocobro.com' target='_blank'>Homepage</a></div></div></body></html>";
       write();
     }
