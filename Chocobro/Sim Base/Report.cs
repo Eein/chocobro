@@ -126,11 +126,11 @@ namespace Chocobro {
       // eating the last pipe off the end of the string ..
       report = report.Substring(0, report.Length - 1);
 
-      report += "&chtt=Damage+Sources' width='450 height='225'/></div><div class='dpstimeline'><h3>MP/TP Regen (NA)</h3></div></div><div class='wrapper'>";
+      report += "&chtt=Damage+Sources' width='450 height='225'/></div><div class='dpstimeline'><h3>MP/TP Regen (NA)</h3>";
       report += "<img src='http://chart.apis.google.com/chart?cht=lc&chs=375x225&chco=006699&chxt=x,y";
       report += "&chxl=0:|0|fightlength=" + MainWindow.fightlength + "|1:|0|avg=" + Math.Round(tptimeline.Sum() / tptimeline.Count()) + "|max=" + 1000 + "&chxp=1,1,51,100&chtt=TP+Timeline&chts=FFFFFF,18&chf=bg,s,00000000&chd=";
       report += util.simpleEncode(tptimeline, (tptimeline.Max() + 10));
-      report += "' />";
+      report += "' /></div></div><div class='wrapper'>";
 
       report += "<div class='abilities'><h3>Ability Breakdown</h3>";
       report += "<table><thead><tr><td>Ability</td><td>DPS</td><td>DPS%</td><td>TOTAL DMG</td><td>HIT</td><td>HIT%</td><td>CRIT</td><td>CRIT%</td><td>MISS</td><td>MISS%</td><td>UPTIME</td></tr></thead><tbody>";
