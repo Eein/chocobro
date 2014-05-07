@@ -173,9 +173,13 @@ namespace Chocobro {
         autoattack.hits += 1;
         numberofattacks += 1;
         if (accroll < calculateACC()) {
-          var thisdamage = damage(ref ability, ability.potency);
+          double thisdamage = damage(ref ability, ability.potency);
+
+          if (MainWindow.disdebuff == true) {
+            thisdamage = Math.Floor(thisdamage *= 1.12);
+          }
           numberofhits += 1;
-          totaldamage += thisdamage;
+          totaldamage += (int)thisdamage;
           autoattack.damage += thisdamage;
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next AA at: " + ability.nextCast);
         } else {
