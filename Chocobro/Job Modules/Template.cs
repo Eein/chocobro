@@ -19,39 +19,35 @@ namespace Chocobro {
 
     public override void rotation() {
       //execute(ref tpregen);
-      autoattack.recastTime = AADELAY;
-
-
+      tick(ref spelldot1);
+      decrement(ref spellbuff1);
       if (MainWindow.selenebuff == true) {
         if (fglow == false) { execute(ref feylight); }
         if (flight == false) { execute(ref feyglow); }
       }
       //Regen Mana/TP
      // regen();
-
+      execute(ref instant1);
       //Abilities - execute(ref ability)
-      if (dot1.debuff <= calculateGCD()) {
-        execute(ref dot1);
-      }
-      execute(ref weaponskill1);
+      if (MainWindow.time == spell1.endcast && spell1.casting) { impact(ref spell1); spell1.casting = false; }
+      if (MainWindow.time == spellbuff1.endcast && spellbuff1.casting) { impact(ref spellbuff1); spellbuff1.casting = false; }
+      if (MainWindow.time == spelldot1.endcast && spelldot1.casting) { impact(ref spelldot1); spelldot1.casting = false; }
+      if (spelldot1.debuff <= 2) { execute(ref spelldot1); }
+      if (spellbuff1.buff <= 2) { execute(ref spellbuff1); }
+      execute(ref spell1);
 
+      
+      //execute(ref spell1);
       //Buffs/Cooldowns - execute(ref ability)
-      execute(ref cooldown1);
-      execute(ref xpotiondexterity);
+      
 
       //Instants - execute(ref ability)
-      execute(ref instant1);
 
       //Ticks - tick(ref DoTability)
-      tick(ref dot1);
-
+      
       //AutoAttacks (not for casters!) - execute(ref autoattack)
-      execute(ref autoattack);
 
       //Decrement Buffs - decrement(ref buff)
-      decrement(ref cooldown1);
-      decrement(ref xpotiondexterity);
-
 
 
     }
@@ -93,6 +89,32 @@ namespace Chocobro {
           // Does heavyshot buff get eaten by a miss?
         }
       }
+
+      if (ability.abilityType == "Spell") {
+        numberofattacks += 1;
+        ability.attacks += 1;
+        if (accroll < calculateACC()) {
+
+          double thisdamage = damage(ref ability, ability.potency);
+
+          if (MainWindow.disdebuff == true) {
+            thisdamage = Math.Floor(thisdamage *= 1.12);
+          }
+
+          numberofhits += 1;
+          ability.hits += 1;
+
+          totaldamage += (int)thisdamage;
+          ability.damage += thisdamage;
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next ability at: " + nextability);
+        } else {
+          numberofmisses += 1;
+          ability.misses += 1;
+          MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast);
+          // Does heavyshot buff get eaten by a miss?
+        }
+      }
+
       if (ability.abilityType == "AUTOA") {
         autoattack.hits += 1;
         numberofattacks += 1;
@@ -121,7 +143,7 @@ namespace Chocobro {
 
         ability.debuff = ability.debuffTime;
 
-        if (cooldown1.buff > 0) { ability.dotbuff["cooldown1"] = true; }
+        //if (cooldown1.buff > 0) { ability.dotbuff["cooldown1"] = true; }
         if (xpotiondexterity.buff > 0) { ability.dotbuff["potion"] = true; }
 
 
@@ -177,7 +199,7 @@ namespace Chocobro {
         }
       }
       //end potion check
-      if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant") {
+      if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant" || ability.abilityType == "Spell") {
         damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempdex + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempdex + 0.050720984 * DTR);
 
       }
@@ -194,7 +216,7 @@ namespace Chocobro {
         if (ability.dotbuff["cooldown1"]) { damageformula *= 1.20; }
 
       } else {
-        if (cooldown1.buff > 0) { damageformula *= 1.20; }
+        //if (cooldown1.buff > 0) { damageformula *= 1.20; }
       }
 
       if (critroll <= critchance) {
@@ -227,7 +249,9 @@ namespace Chocobro {
       // add abilities to list used for reporting. Each ability needs to be added ;(
       areport.Add(weaponskill1);
       areport.Add(dot1);
-      areport.Add(cooldown1);
+      areport.Add(spell1);
+      areport.Add(spelldot1);
+      areport.Add(spellbuff1);
       areport.Add(instant1);
       areport.Add(autoattack);
       areport.Add(xpotiondexterity);
@@ -238,12 +262,14 @@ namespace Chocobro {
     }
     Ability weaponskill1 = new Weaponskill1();
     Ability dot1 = new Dot1();
-    Ability cooldown1 = new Cooldown1();
+    Ability spell1 = new Spell1();
+    Ability spelldot1 = new SpellDot1();
     Ability instant1 = new Instant1();
     Ability autoattack = new Autoattack();
     Ability xpotiondexterity = new XPotionDexterity();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
+    Ability spellbuff1 = new SpellBuff1();
 
 
 
@@ -293,13 +319,39 @@ namespace Chocobro {
     // End Cooldown 1 ----------------------------
 
     //Instant 1 --------------------------------
-    public class Cooldown1 : Ability {
-      public Cooldown1() {
-        name = "Cooldown 1";
-        abilityType = "Cooldown";
-        buffTime = 20;
-        recastTime = 60;
-        animationDelay = 0.8;
+    public class Spell1 : Ability {
+      public Spell1() {
+        name = "Spell 1";
+        abilityType = "Spell";
+        castTime = 1;
+        potency = 200;
+        animationDelay = 0.02;
+        MPcost = 100;
+      }
+    }
+
+    public class SpellDot1 : Ability {
+      public SpellDot1() {
+        name = "Spell Dot 1";
+        abilityType = "Spell";
+        castTime = 5;
+        potency = 50;
+        dotPotency = 50;
+        debuffTime = 18;
+        animationDelay = 0.02;
+        MPcost = 140;
+      }
+    }
+
+    public class SpellBuff1 : Ability {
+      public SpellBuff1() {
+        name = "Spell Buff 1";
+        abilityType = "Spell";
+        castTime = 2.5;
+        potency = 100;
+        buffTime = 15;
+        MPcost = 150;
+        animationDelay = 0.02;
       }
     }
     //End Instant 1 ------------------------------

@@ -53,7 +53,9 @@ namespace Chocobro {
     public int ticknumber = 0;
     public double averagedps = 0;
     public int tpgained = 0;
+    public int mpgained = 0;
     public int tpused = 0;
+    public int mpused = 0;
     //stat weights
     public List<double> DPSarray = new List<double>();
     public double weight = 0.0;
@@ -170,7 +172,7 @@ namespace Chocobro {
         nextinstant = 0.00;
         nextauto = 0.00;
         TP = 1000;
-        MP = 1000;
+        MP = 3678;
         actionmade = false;
         OOT = false;
         OOM = false;
@@ -271,19 +273,38 @@ namespace Chocobro {
           impact(ref ability);
         }
       }
+
+      if (ability.abilityType == "Spell") {
+        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
+          MainWindow.time = MainWindow.floored(MainWindow.time);
+          MainWindow.log(MainWindow.time.ToString("F2") + " - Casting " + ability.name + ". Cost is " + ability.MPcost + "MP. MP is " + MP + " => " + (MP - ability.MPcost) + ".");
+          MP -= ability.MPcost;
+          mpused += ability.MPcost;
+          double tempnextab = 0;
+          double tempnextin = 0;
+          if (calculateSGCD(ability.castTime) < calculateSGCD(2.5)) { tempnextab = calculateSGCD(2.5); tempnextin = calculateSGCD(ability.castTime); } else { tempnextab = calculateSGCD(ability.castTime); tempnextin = calculateSGCD(ability.castTime); }
+          nextability = MainWindow.floored(MainWindow.time + tempnextab);
+          nextinstant = MainWindow.floored((MainWindow.time + tempnextin));
+          ability.nextCast = nextability;
+          actionmade = true;
+          ability.casting = true;
+          ability.endcast = MainWindow.floored(MainWindow.time + calculateSGCD(ability.castTime));
+        }
+      }
     }
+
     public virtual void decrement(ref Ability ability) {
 
       if (MainWindow.time == MainWindow.servertime && ability.buff > 0) {
 
-        ability.buff -= 1.0; 
+        ability.buff -= 1.0;
         if (ability.buff <= 0.0) {
           if (ability.name == "Fey Light") {
             flight = false;
-          } 
+          }
           if (ability.name == "Fey Glow") {
             fglow = false;
-          } 
+          }
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
         }
       }
@@ -301,12 +322,13 @@ namespace Chocobro {
       return skillcalc;
     }
 
-    public void calculateSGCD(double castspeed) {
+    public double calculateSGCD(double castspeed) {
       double tempsps = SPS;
       if (fglow) {
         tempsps *= 1.30;
       }
       var skillcalc = castspeed - (Math.Round(((tempsps - 341) * 0.00095308) * 100) / 100);
+      return skillcalc;
     }
     public double calculateACC() {
       var acccalc = 84.0 + ((ACC - 341) * 0.1363636363);

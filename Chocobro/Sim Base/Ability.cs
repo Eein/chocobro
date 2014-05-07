@@ -22,7 +22,8 @@ namespace Chocobro {
     public double buffTime = 0;
     public double debuffTime = 0;
     public bool autoa = false;
-
+    public bool casting = false;
+    public double endcast = 0;
     public bool pierce = false;
     public bool blunt = false;
     public bool slash = false;
