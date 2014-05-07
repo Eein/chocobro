@@ -18,29 +18,43 @@ namespace Chocobro {
 
     public override void rotation() {
       var gcd = calculateGCD();
-
+      execute(ref tpregen);
       //Regen Mana/TP
       //regen();
 
       //Abilities - execute(ref ability)
+      if (MainWindow.time == windblade.endcast && windblade.casting) { impact(ref windblade); windblade.casting = false; }
+      if (bioii.debuff > 0 && bio.debuff > 0 && miasma.debuff > 0) {
+        execute(ref contagion);
+      }
+      execute(ref windblade);
+      if (MainWindow.time == bioii.endcast && bioii.casting) { impact(ref bioii); bioii.casting = false; }
+      if (MainWindow.time == miasma.endcast && miasma.casting) { impact(ref miasma); miasma.casting = false; }
+      if (MainWindow.time == bio.endcast && bio.casting) { impact(ref bio); bio.casting = false; }
+      if (MainWindow.time == shadowflare.endcast && shadowflare.casting) { impact(ref shadowflare); shadowflare.casting = false; }
+      if (MainWindow.time == ruin.endcast && ruin.casting) { impact(ref ruin); ruin.casting = false; }
+
       if (bioii.debuff < gcd) { execute(ref bioii); }
       if (miasma.debuff < gcd) { execute(ref miasma); }
       if (bio.debuff < gcd) { execute(ref bio); }
+      if (bioii.debuff > 0 && bio.debuff > 0 && miasma.debuff > 0) {
+        execute(ref fester);
+      }
       if (shadowflare.debuff < gcd) { execute(ref shadowflare); }
-      if (miasmaii.debuff < gcd) { execute(ref miasmaii);  }
+
+
       execute(ref ruin);
 
       //Instants - execute(ref ability)
       execute(ref ragingstrikes);
       execute(ref xpotionintelligence);
-      if (bioii.debuff > 0 && bio.debuff > 0 && miasma.debuff > 0) { execute(ref fester); }
+      
 
       //Ticks - tick(ref DoTability)
       tick(ref bioii);
       tick(ref miasma);
       tick(ref bio);
       tick(ref shadowflare);
-      tick(ref miasmaii);
       //AutoAttacks (not for casters!) - execute(ref autoattack)
 
       //Decrement Buffs - decrement(ref buff)
@@ -58,8 +72,9 @@ namespace Chocobro {
       //set potency for now, but change to damage later.
       var accroll = (MainWindow.d100(1, 10001)) / 100;
 
-      if (ability.abilityType == "Cooldown") {
+      if (ability.abilityType == "Cooldown" || ability.abilityType == "PETCOOLDOWN") {
         ability.hits += 1;
+        if (ability.name == "Contagion") { bio.debuff += 10; bioii.debuff += 10; miasma.debuff += 10; MainWindow.log(MainWindow.time.ToString("F2") + " - Contagion extended dots."); }
       }
 
       if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant")) {
@@ -78,7 +93,32 @@ namespace Chocobro {
 
           totaldamage += (int)thisdamage;
           ability.damage += thisdamage;
-          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next ability at: " + nextability);
+          if (ability.potency > 0) { MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next ability at: " + nextability); }
+        } else {
+          numberofmisses += 1;
+          ability.misses += 1;
+          MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast);
+          // Does heavyshot buff get eaten by a miss?
+        }
+      }
+
+      if (ability.abilityType == "Spell" || ability.abilityType == "PETSPELL") {
+        numberofattacks += 1;
+        ability.attacks += 1;
+        if (accroll < calculateACC()) {
+
+          double thisdamage = damage(ref ability, ability.potency);
+
+          if (MainWindow.disdebuff == true) {
+            thisdamage = Math.Floor(thisdamage *= 1.12);
+          }
+
+          numberofhits += 1;
+          ability.hits += 1;
+
+          totaldamage += (int)thisdamage;
+          ability.damage += thisdamage;
+          if (ability.potency > 0) { MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next ability at: " + nextability); }
         } else {
           numberofmisses += 1;
           ability.misses += 1;
@@ -155,7 +195,7 @@ namespace Chocobro {
         }
       }
       //end potion check
-      if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant") {
+      if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant" || ability.abilityType == "Spell" || ability.abilityType == "PETSPELL") {
         damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempint + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempint + 0.050720984 * DTR);
 
       }
@@ -212,6 +252,8 @@ namespace Chocobro {
       areport.Add(fester);
       areport.Add(ragingstrikes);
       areport.Add(xpotionintelligence);
+      areport.Add(windblade);
+      areport.Add(contagion);
       if (MainWindow.selenebuff) {
         areport.Add(feylight);
         areport.Add(feyglow);
@@ -229,6 +271,9 @@ namespace Chocobro {
     Ability xpotionintelligence = new XPotionIntelligence();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
+    Ability tpregen = new TPRegen();
+    Ability windblade = new WindBlade();
+    Ability contagion = new Contagion();
 
 
 
@@ -238,11 +283,31 @@ namespace Chocobro {
     // Ability Definition
     // -------------------
 
+    public class WindBlade : Ability {
+      public WindBlade() {
+        name = "Wind Blade";
+        abilityType = "PETSPELL";
+        potency = 105;
+        castTime = 2;
+        recastTime = 3;
+        animationDelay = 0.02;
+      }
+    }
+
+    public class Contagion : Ability {
+      public Contagion() {
+        name = "Contagion";
+        abilityType = "PETCOOLDOWN";
+        recastTime = 60;
+        animationDelay = 0.8;
+      }
+    }
+
     // Ruin ---------------------
     public class Ruin : Ability {
       public Ruin() {
         name = "Ruin";
-        abilityType = "Weaponskill";
+        abilityType = "Spell";
         potency = 80;
         MPcost = 79;
         castTime = 2.5;
@@ -256,8 +321,8 @@ namespace Chocobro {
     public class Bio : Ability {
       public Bio() {
         name = "Bio";
-        abilityType = "Weaponskill";
-        potency = 1;
+        abilityType = "Spell";
+        potency = 0;
         dotPotency = 40;
         debuffTime = 18;
         MPcost = 106;
@@ -272,7 +337,7 @@ namespace Chocobro {
     public class Miasma : Ability {
       public Miasma() {
         name = "Miasma";
-        abilityType = "Weaponskill";
+        abilityType = "Spell";
         potency = 20;
         dotPotency = 35;
         debuffTime = 24;
@@ -288,7 +353,7 @@ namespace Chocobro {
     public class RuinII : Ability {
       public RuinII() {
         name = "Ruin II";
-        abilityType = "Weaponskill";
+        abilityType = "Spell";
         potency = 80;
         MPcost = 133;
         recastTime = 2.5;
@@ -301,8 +366,8 @@ namespace Chocobro {
     public class BioII : Ability {
       public BioII() {
         name = "Bio II";
-        abilityType = "Weaponskill";
-        potency = 1;
+        abilityType = "Spell";
+        potency = 0;
         dotPotency = 35;
         debuffTime = 30;
         MPcost = 186;
@@ -317,7 +382,7 @@ namespace Chocobro {
     public class MiasmaII : Ability {
       public MiasmaII() {
         name = "Miasma II";
-        abilityType = "Weaponskill";
+        abilityType = "Spell";
         potency = 20;
         dotPotency = 10;
         debuffTime = 15;
@@ -332,8 +397,8 @@ namespace Chocobro {
     public class ShadowFlare : Ability {
       public ShadowFlare() {
         name = "Shadow Flare";
-        abilityType = "Weaponskill";
-        potency = 1;
+        abilityType = "Spell";
+        potency = 0;
         dotPotency = 25;
         debuffTime = 30;
         MPcost = 212;

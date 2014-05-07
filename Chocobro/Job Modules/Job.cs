@@ -39,7 +39,8 @@ namespace Chocobro {
     public double nextauto = 0.00;
     public bool actionmade = false;
     public int TP = 1000;
-    public int MP = 1000; // TODO: formulate.
+    public int MP = 3678; // TODO: formulate.
+    public int MPMax = 3678;
     public bool OOT = false;
     public bool OOM = false;
     public double gcd;
@@ -56,6 +57,7 @@ namespace Chocobro {
     public int mpgained = 0;
     public int tpused = 0;
     public int mpused = 0;
+    public double nextpet = 0;
     //stat weights
     public List<double> DPSarray = new List<double>();
     public double weight = 0.0;
@@ -171,6 +173,7 @@ namespace Chocobro {
         nextability = 0.00;
         nextinstant = 0.00;
         nextauto = 0.00;
+        nextpet = 0.00;
         TP = 1000;
         MP = 3678;
         actionmade = false;
@@ -195,6 +198,25 @@ namespace Chocobro {
         impact(ref ability);
       }
 
+      if (ability.abilityType == "PETSPELL" && MainWindow.time >= ability.nextCast) {
+        MainWindow.time = MainWindow.floored(MainWindow.time);
+        MainWindow.log(MainWindow.time.ToString("F2") + " - Pet Casting " + ability.name);
+        ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+        actionmade = true;
+        ability.casting = true;
+        ability.endcast = MainWindow.floored(MainWindow.time + calculateSGCD(ability.castTime));
+      }
+
+      if (ability.abilityType == "PETCOOLDOWN" && MainWindow.time >= ability.nextCast) {
+        MainWindow.time = MainWindow.floored(MainWindow.time);
+        MainWindow.log(MainWindow.time.ToString("F2") + " - Pet Executing " + ability.name);
+        //if doesnt miss, then impact
+
+        //set nextCast.
+        ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
+        impact(ref ability);
+      }
+
       if (ability.name == "TP Regen" && MainWindow.time >= ability.nextCast) {
         if (firsttp) {
           ability.nextCast = (MainWindow.d100(0, 300) / 100);
@@ -202,12 +224,16 @@ namespace Chocobro {
         } else {
           MainWindow.time = MainWindow.floored(MainWindow.time);
           int tpbefore = TP;
+          int mpbefore = MP;
           TP += 60;
+          MP += 100;
           if (TP > 1000) { TP = 1000; tpgained += 1000 - tpbefore; } else { tpgained += 60; }
-          MainWindow.log(MainWindow.time.ToString("F2") + " - TP Regen tick. " + tpbefore + " => " + TP + " TP.");
+          if (MP > MPMax) { MP = MPMax; mpgained += 1000 - mpbefore; } else { mpgained += 100; }
+          MainWindow.log(MainWindow.time.ToString("F2") + " - TP/MP Regen tick. " + tpbefore + " => " + TP + " TP. " + mpbefore + " => " + MP + " MP.");
           ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
           ability.hits += 1;
           OOT = false;
+          OOM = false;
         }
       }
 
