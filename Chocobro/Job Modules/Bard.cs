@@ -5,7 +5,7 @@ namespace Chocobro {
 
   public class Bard : Job {
     // Proc Booleans - Set all proc booleans false initially.
-
+    public bool bloodletterreset = false;
     public Bard() {
       name = "Bard";
       classname = "Archer";
@@ -18,7 +18,7 @@ namespace Chocobro {
     }
 
     public override void rotation() {
-      execute(ref tpregen);
+      execute(ref regen);
       autoattack.recastTime = AADELAY;
 
 
@@ -30,7 +30,7 @@ namespace Chocobro {
       if (TP <= 540) {
         execute(ref invigorate);
       }
-      if (heavyshot.buff > 0 && straightshot.buff <= 4) {
+      if (heavyshot.buff > 0 && straightshot.buff <= calculateGCD() * 2) {
         execute(ref straightshot);
       }
 
@@ -248,6 +248,13 @@ namespace Chocobro {
         ability.dotdamage += tickdmg;
         totaldamage += tickdmg;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickdmg + "  Damage - Time Left: " + ability.debuff);
+        if ((ability.name == "Venomous Bite" || ability.name == "Windbite") && bloodletterreset) {
+          bloodletter.nextCast = MainWindow.time;
+          MainWindow.log("!!PROC!! - Bloodletter reset!");
+          ability.procs += 1;
+          bloodletter.procs += 1;
+          bloodletterreset = false;
+        }
         //MainWindow.log("---- " + ability.name + " - Dots - RS: " + ability.dotbuff["ragingstrikes"] + " BFB: " + ability.dotbuff["bloodforblood"] + " SS: " + ability.dotbuff["straightshot"] + " HE: " + ability.dotbuff["hawkseye"] + " IR: " + ability.dotbuff["internalrelease"] + " Potion: " + ability.dotbuff["potion"]);
       }
     }
@@ -307,10 +314,7 @@ namespace Chocobro {
           if (bloodletter.nextCast > MainWindow.time && ((ability.name == "Windbite" && windbite.debuff > 0) || (ability.name == "Venomous Bite" && venomousbite.debuff > 0))) {
             var dotRoll = MainWindow.d100(1, 101);
             if (dotRoll >= 50) {
-              bloodletter.nextCast = MainWindow.time;
-              MainWindow.log("!!PROC!! - Bloodletter reset!");
-              ability.procs += 1;
-              bloodletter.procs += 1;
+              bloodletterreset = true;
             }
           }
         } else {
@@ -353,7 +357,7 @@ namespace Chocobro {
       areport.Add(xpotiondexterity);
       areport.Add(feylight);
       areport.Add(feyglow);
-      areport.Add(tpregen);
+      areport.Add(regen);
     }
     Ability heavyshot = new HeavyShot();
     Ability windbite = new Windbite();
@@ -374,7 +378,7 @@ namespace Chocobro {
     Ability xpotiondexterity = new XPotionDexterity();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
-    Ability tpregen = new TPRegen();
+    Ability regen = new TPRegen();
 
 
 

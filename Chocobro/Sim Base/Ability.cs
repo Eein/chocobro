@@ -10,6 +10,7 @@ namespace Chocobro {
     public string pet = "null";
     public int combopotency = 0;
     public int dotPotency = 0;
+    public int hotPotency = 0;
     public double recastTime = 0;
     public double animationDelay = 0;
     public int MPcost = 0;
@@ -36,9 +37,12 @@ namespace Chocobro {
     public int ticks = 0;
     public int tickcrits = 0;
     public double damage = 0;
+    public double heals = 0;
     public double dotdamage = 0;
+    public double hotheals = 0;
 
     public double dpet = 0.0;
+    public double hpet = 0.0;
 
     public int totalattacks = 0;
     public int totaldotticks = 0;
@@ -68,10 +72,13 @@ namespace Chocobro {
       this.tickcrits = 0;
       this.nextCast = 0.0;
       this.damage = 0;
+      this.heals = 0;
       this.dotdamage = 0;
+      this.hotheals = 0;
       this.totalattacks = 0;
       this.totaldotticks = 0;
       this.dpet = 0;
+      this.hpet = 0;
     }
     //public double calculateCrit(Job _player) { return (0.0693 * _player.CRIT - 18.486); }
 

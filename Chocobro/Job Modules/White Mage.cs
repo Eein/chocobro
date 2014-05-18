@@ -3,12 +3,12 @@ using System.Windows;
 
 namespace Chocobro {
 
-  public class Template : Job {
+  public class WhiteMage : Job {
     // Proc Booleans - Set all proc booleans false initially.
 
-    public Template() {
-      name = "Template";
-      classname = "Template";
+    public WhiteMage() {
+      name = "White Mage";
+      classname = "Conjurer";
     }
     public override void getStats(MainWindow cs) {
       base.getStats(cs);
@@ -27,8 +27,8 @@ namespace Chocobro {
       // regen();
       
       //Abilities - execute(ref ability)
-      if (MainWindow.time == heal1.endcast && heal1.casting) { impact(ref heal1); heal1.casting = false; }
-      execute(ref heal1);
+      if (MainWindow.time == cure.endcast && cure.casting) { impact(ref cure); cure.casting = false; }
+      execute(ref cure);
 
 
       //execute(ref spell1);
@@ -185,9 +185,13 @@ namespace Chocobro {
         numberofticks += 1;
         ability.ticks += 1;
         var tickdmg = damage(ref ability, ability.dotPotency, true);
+        var tickheal = damage(ref ability, ability.hotPotency, true);
         ability.dotdamage += tickdmg;
+        ability.hotheals += tickheal;
         totaldamage += tickdmg;
-        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickdmg + "  Damage - Time Left: " + ability.debuff);
+        totalhealed += tickheal;
+        if (ability.dotPotency > 0) { MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickdmg + "  Damage - Time Left: " + ability.debuff); }
+        if (ability.hotPotency > 0) { MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " is ticking now for " + tickheal + " HP - Time Left: " + ability.debuff); }
         //MainWindow.log("---- " + ability.name + " - Dots - RS: " + ability.dotbuff["ragingstrikes"] + " BFB: " + ability.dotbuff["bloodforblood"] + " SS: " + ability.dotbuff["straightshot"] + " HE: " + ability.dotbuff["hawkseye"] + " IR: " + ability.dotbuff["internalrelease"] + " Potion: " + ability.dotbuff["potion"]);
       }
     }
@@ -243,7 +247,7 @@ namespace Chocobro {
       }
 
       // added variance to damage.
-      damageformula = ((MainWindow.d100(-500, 500) / 10000) + 1) * (int)damageformula;
+      damageformula = ((MainWindow.d100(-300, 300) / 10000) + 1) * (int)damageformula;
       return (int)damageformula;
     }
 
@@ -265,7 +269,7 @@ namespace Chocobro {
       areport.Add(instant1);
       areport.Add(autoattack);
       areport.Add(xpotiondexterity);
-      areport.Add(heal1);
+      areport.Add(cure);
       areport.Add(regen);
       if (MainWindow.selenebuff) {
         areport.Add(feylight);
@@ -282,7 +286,7 @@ namespace Chocobro {
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
     Ability spellbuff1 = new SpellBuff1();
-    Ability heal1 = new Heal1();
+    Ability cure = new Cure();
     Ability regen = new TPRegen();
 
 
@@ -294,8 +298,8 @@ namespace Chocobro {
     // -------------------
 
     // Weaponskill 1  ---------------------
-    public class Heal1 : Ability {
-      public Heal1() {
+    public class Cure : Ability {
+      public Cure() {
         name = "Cure";
         abilityType = "HealSpell";
         castTime = 2.00;

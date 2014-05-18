@@ -46,6 +46,7 @@ namespace Chocobro {
     public double gcd;
     private const double basegcd = 2.5;
     public int totaldamage = 0;
+    public int totalhealed = 0;
     public int numberofcrits = 0;
     public int numberofattacks = 0;
     public int numberofhits = 0;
@@ -53,6 +54,7 @@ namespace Chocobro {
     public int numberofmisses = 0;
     public int ticknumber = 0;
     public double averagedps = 0;
+    public double averagehps = 0;
     public int tpgained = 0;
     public int mpgained = 0;
     public int tpused = 0;
@@ -60,6 +62,7 @@ namespace Chocobro {
     public double nextpet = 0;
     //stat weights
     public List<double> DPSarray = new List<double>();
+    public List<double> HPSarray = new List<double>();
     public double weight = 0.0;
     public double passoverweight = 0.0;
     public string statforweights;
@@ -219,16 +222,16 @@ namespace Chocobro {
 
       if (ability.name == "TP Regen" && MainWindow.time >= ability.nextCast) {
         if (firsttp) {
-          ability.nextCast = (MainWindow.d100(0, 300) / 100);
+          ability.nextCast = MainWindow.time + (MainWindow.d100(0, 300) / 100);
           firsttp = false;
         } else {
           MainWindow.time = MainWindow.floored(MainWindow.time);
           int tpbefore = TP;
           int mpbefore = MP;
           TP += 60;
-          MP += 100;
+          MP += (int)Math.Floor((double)MPMax * 0.02);
           if (TP > 1000) { TP = 1000; tpgained += 1000 - tpbefore; } else { tpgained += 60; }
-          if (MP > MPMax) { MP = MPMax; mpgained += 1000 - mpbefore; } else { mpgained += 100; }
+          if (MP > MPMax) { MP = MPMax; mpgained += MPMax - mpbefore; } else { mpgained += (int)Math.Floor((double)MP * 0.02); }
           MainWindow.log(MainWindow.time.ToString("F2") + " - TP/MP Regen tick. " + tpbefore + " => " + TP + " TP. " + mpbefore + " => " + MP + " MP.");
           ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
           ability.hits += 1;
@@ -240,13 +243,15 @@ namespace Chocobro {
       if (ability.abilityType == "Weaponskill" && !OOT) {
 
         //If time >= next cast time and time >= nextability)
-        if (TP - ability.TPcost < 0) { //attempted to not allow TP to be less than 0, needs to be remade
-          MainWindow.log("Was unable to execute " + ability.name + ". Not enough TP. Current TP is " + TP + "TP.");
+        if (TP - ability.TPcost < 0 || MP - ability.MPcost < 0) { //attempted to not allow TP to be less than 0, needs to be remade
+          if (TP - ability.TPcost < 0) { MainWindow.log("Was unable to execute " + ability.name + ". Not enough TP. Current TP is " + TP + "TP."); }
+
           //nextability = MainWindow.time;
           //force nextability to next server tick
           //if invigorate is used and OOM then it resets the time to now.
           nextability = nexttptick + 0.01;
           OOT = true;
+          OOM = true;
         } else {
 
           if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
@@ -275,7 +280,7 @@ namespace Chocobro {
           }
         }
       }
-      if (ability.abilityType == "Instant" || ability.abilityType == "Cooldown") {
+      if (ability.abilityType == "Instant" || ability.abilityType == "Cooldown" || ability.abilityType == "HealInstant") {
         //If time >= next cast time and time >= nextability)
         if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextinstant) { //&& nextability > MainWindow.time + ability.animationDelay is what i added
           //Get game time (remove decimal error)
@@ -300,22 +305,22 @@ namespace Chocobro {
         }
       }
 
-      if (ability.abilityType == "Spell") {
-        if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
-          MainWindow.time = MainWindow.floored(MainWindow.time);
-          MainWindow.log(MainWindow.time.ToString("F2") + " - Casting " + ability.name + ". Cost is " + ability.MPcost + "MP. MP is " + MP + " => " + (MP - ability.MPcost) + ".");
-          MP -= ability.MPcost;
-          mpused += ability.MPcost;
-          double tempnextab = 0;
-          double tempnextin = 0;
-          if (calculateSGCD(ability.castTime) < calculateSGCD(2.5)) { tempnextab = calculateSGCD(2.5); tempnextin = calculateSGCD(ability.castTime); } else { tempnextab = calculateSGCD(ability.castTime); tempnextin = calculateSGCD(ability.castTime); }
-          nextability = MainWindow.floored(MainWindow.time + tempnextab);
-          nextinstant = MainWindow.floored((MainWindow.time + tempnextin));
-          ability.nextCast = nextability;
-          actionmade = true;
-          ability.casting = true;
-          ability.endcast = MainWindow.floored(MainWindow.time + calculateSGCD(ability.castTime));
-        }
+      if (ability.abilityType == "Spell" || ability.abilityType == "HealSpell") {
+        if (ability.MPcost <= MP) {
+          if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
+            MainWindow.time = MainWindow.floored(MainWindow.time);
+            MainWindow.log(MainWindow.time.ToString("F2") + " - Casting " + ability.name + ". Cost is " + ability.MPcost + "MP. MP is " + MP + ".");
+            double tempnextab = 0;
+            double tempnextin = 0;
+            if (calculateSGCD(ability.castTime) < calculateSGCD(2.5)) { tempnextab = calculateSGCD(2.5); tempnextin = calculateSGCD(ability.castTime); } else { tempnextab = calculateSGCD(ability.castTime); tempnextin = calculateSGCD(ability.castTime); }
+            nextability = MainWindow.floored(MainWindow.time + tempnextab);
+            nextinstant = MainWindow.floored((MainWindow.time + tempnextin));
+            ability.nextCast = nextability;
+            actionmade = true;
+            ability.casting = true;
+            ability.endcast = MainWindow.floored(MainWindow.time + calculateSGCD(ability.castTime));
+          }
+        } else { MainWindow.log("Was unable to execute " + ability.name + ". Not enough MP. Current MP is " + MP + "MP."); }
       }
     }
 

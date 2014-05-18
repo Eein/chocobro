@@ -452,9 +452,10 @@ namespace Chocobro {
 
     }
 
-    private void console_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) {
-
+    private void Bard_Selected(object sender, RoutedEventArgs e) {
+      
     }
+
 
 
 

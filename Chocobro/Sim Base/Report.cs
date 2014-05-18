@@ -94,11 +94,11 @@ namespace Chocobro {
       }
       report += "\" /></div></div><div class='dpstimeline'><h3>Timeline</h3>";
       report += "<img src='http://chart.apis.google.com/chart?cht=lc&chs=500x250&chco=006699&chxt=x,y";
-      //report += "&chxl=0:|0|fightlength=" + MainWindow.fightlength + "|1:|0|avg=" + Math.Round((j.totaldamage / MainWindow.fightlength)) + "|max=" + Math.Round(dpstimeline.Max()) + "&chxp=1,1,51,100&chtt=DPS+Timeline&chts=FFFFFF,18&chf=bg,s,00000000&chd=";
+      report += "&chxl=0:|0|fightlength=" + MainWindow.fightlength + "|1:|0|avg=" + Math.Round((j.totaldamage / MainWindow.fightlength)) + "|max=" + Math.Round(dpstimeline.Max()) + "&chxp=1,1,51,100&chtt=DPS+Timeline&chts=FFFFFF,18&chf=bg,s,00000000&chd=";
 
       //loop through damage timeline.
-      //report += util.simpleEncode(dpstimeline, (dpstimeline.Max() + 10));
-      //report = report.Substring(0, report.Length - 1);
+      report += util.simpleEncode(dpstimeline, (dpstimeline.Max() + 10));
+      report = report.Substring(0, report.Length - 1);
       report += "' />";
 
       report += "</div></div><div class='wrapper'><div class='damagesources'><h3>Damage Sources</h3>";
@@ -129,17 +129,17 @@ namespace Chocobro {
       report += "&chtt=Damage+Sources' width='450 height='225'/></div><div class='dpstimeline'><h3>MP/TP Regen (NA)</h3>";
       report += "<img src='http://chart.apis.google.com/chart?cht=lc&chs=375x225&chco=006699&chxt=x,y";
       report += "&chxl=0:|0|fightlength=" + MainWindow.fightlength + "|1:|0|avg=" + Math.Round(tptimeline.Sum() / tptimeline.Count()) + "|max=" + 1000 + "&chxp=1,1,51,100&chtt=TP+Timeline&chts=FFFFFF,18&chf=bg,s,00000000&chd=";
-      //report += util.simpleEncode(tptimeline, (tptimeline.Max() + 10));
+      report += util.simpleEncode(tptimeline, (tptimeline.Max() + 10));
       report += "' /></div><div class='damagesources'><h3>Distribution</h3>";
-      //report += "<img src='http://chart.googleapis.com/chart?cht=bvg&chs=400x200&chxt=x,y&chxs=1,000000,12,0,lt|1,000000,10,1,lt&chbh=5,0,1&chd=t:";
+      report += "<img src='http://chart.googleapis.com/chart?cht=bvg&chs=400x200&chxt=x,y&chxs=1,000000,12,0,lt|1,000000,10,1,lt&chbh=5,0,1&chd=t:";
       
       var dpsavglist = (MainWindow.dpsminlist + MainWindow.dpsmaxlist) / 2;
 
       report += "<img src=\"http://chart.googleapis.com/chart?chf=bg,s,00000000&chxl=1:|Min: " + Math.Round((MainWindow.dpsminlist * 100)) / 100 + "|Average: " + Math.Round((dpsavglist * 100)) / 100 + "|Max: " + Math.Round((MainWindow.dpsmaxlist * 100)) / 100 + "&chxp=1,10,50,90&chxr=0,0,";
       report += bucket.Max() +"&chxs=0,FFFFFF,11.5,0,lt,FFFFFF|1,FFFFFF,11.5,0,l,FFFFFF&chxt=y,x&chbh=a,1,1&chs=400x175&cht=bvg&chco=006699&chds=0," + MainWindow.dpsmaxlist + "&chd=t:" + util.chartEncode(bucket);
       report += "&chtt=Damage+Distribution&chts=FFFFFF,14\" width=\"400\" height=\"175\" alt=\"Damage Distribution\" />";
-      //report += util.chartEncode(bucket) + "&chds=0,325&chxl=0:|";
-      //report += MainWindow.dpsminlist + "|||||||||||||||||||||||||||||||||||||||||||||||||" + MainWindow.dpsmaxlist + "|1:|0|" + (bucket.Max() + 25) + " ' />";
+      report += util.chartEncode(bucket) + "&chds=0,325&chxl=0:|";
+      report += MainWindow.dpsminlist + "|||||||||||||||||||||||||||||||||||||||||||||||||" + MainWindow.dpsmaxlist + "|1:|0|" + (bucket.Max() + 25) + " ' />";
     
         
         
@@ -153,7 +153,7 @@ namespace Chocobro {
         ability.totalattacks = ability.hits + ability.crits + ability.misses;
         if (ability.dotPotency > 0) {
           ability.totaldotticks = ability.ticks + ability.tickcrits;
-         // ability.totalattacks = ability.tickhits + 
+          //ability.totalattacks = ability.tickhits + 
           report += "<tr><td>" + ability.name + " Dot</td><td>" 
             + (Math.Floor((ability.dotdamage / fightlength) * 100) / 100) + "</td><td>" 
             + (Math.Floor(dpspercent(ability.dotdamage, dps, fightlength) * 100) / 100) + "</td><td>"
