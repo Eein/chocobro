@@ -23,14 +23,14 @@ namespace Chocobro {
     public void parse(Job j) {
       var dps = j.totaldamage / MainWindow.fightlength;
 
-      report += "<!doctype html><html class='no-js' lang='en'><head><title>Chocobro Report</title><style>";
+      report += "<!doctype html><html class='no-js' lang='en'><head><title>Chocobro Report " + " </title><style>";
       //style
       report += "meta.foundation-version {font-family:'/5.1.0/';}meta.foundation-mq-small {font-family:'/only screen and (max-width: 40em)/';width:0em;}meta.foundation-mq-medium {font-family:'/only screen and (min-width:40.063em)/';width:40.063em;}meta.foundation-mq-large {font-family:'/only screen and (min-width:64.063em)/';width:64.063em;}meta.foundation-mq-xlarge {font-family:'/only screen and (min-width:90.063em)/';width:90.063em;}meta.foundation-mq-xxlarge {font-family:'/only screen and (min-width:120.063em)/';width:120.063em;}meta.foundation-data-attribute-namespace {font-family:false;}html ,body {height:100%;}* ,*:before ,*:after {-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}html ,body {font-size:100%;}body {background:#ffffff;color:#222222;padding:0;margin:0;font-family:'Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;font-weight:normal;font-style:normal;line-height:1;position:relative;cursor:default;}a:hover {cursor:pointer;}img ,object ,embed {max-width:100%;height:auto;}object ,embed {height:100%;}img {-ms-interpolation-mode:bicubic;}#map_canvas img ,#map_canvas embed ,#map_canvas object ,.map_canvas img ,.map_canvas embed ,.map_canvas object {max-width:none !important;}.left {float:left !important;}.right {float:right !important;}.clearfix {*zoom:1;}.clearfix:before ,.clearfix:after {content:' ';display:table;}.clearfix:after {clear:both;}.hide {display:none;}.antialiased {-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}img {display:inline-block;vertical-align:middle;}textarea {height:auto;min-height:50px;}select {width:100%;}body {width:100%;background-color:#222222;color:#ffffff;font-size:14px;position:absolute;}html {width:100%;height:100%;margin:0 auto;padding:0px;overflow-x:hidden;}a {text-decoration:none;}a:visited ,a:link ,a:active {color:#006699;}a:hover {color:#ffffff;}.tile ,.info ,.stats ,.weights ,.dpet ,.dpstimeline ,.damagesources ,.blank ,.abilities ,.buffs ,.debuffs {padding:10px;display:inline-block;}.wrapper {width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:60rem;*zoom:1;height:auto;}.wrapper:before ,.wrapper:after {content:' ';display:table;}.wrapper:after {clear:both;}.header ,.footer {width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:60rem;*zoom:1;background-color:#000000;font-size:18px;padding:10px 0;}.header:before ,.header:after {content:' ';display:table;}.header:after {clear:both;}.info {padding-left:0.9375rem;padding-right:0.9375rem;width:100%;float:left;}.stats {padding-left:0.9375rem;padding-right:0.9375rem;width:50%;float:left;}.stats div {min-width:100px;padding:5px;float:left;margin-right:20px;}.weights {padding-left:0.9375rem;padding-right:0.9375rem;width:100%;float:left;min-height:300px;}.weights table {background-color:#000000;}.weights table td {padding:5px;}.weights table thead {background-color:#000000;}.weights table tbody tr:nth-child(even) {background:#444444;}.weights table tbody tr:nth-child(odd) {background:#111111;}.dpet {padding-left:0.9375rem;padding-right:0.9375rem;width:41.66667%;float:left;}.dpstimeline {padding-left:0.9375rem;padding-right:0.9375rem;width:41.66667%;float:left;}.damagesources {padding-left:0.9375rem;padding-right:0.9375rem;width:41.66667%;float:left;}.blank {padding-left:0.9375rem;padding-right:0.9375rem;width:50%;float:left;}.abilities {padding-left:0.9375rem;padding-right:0.9375rem;width:100%;float:left;min-height:300px;}.abilities table {background-color:#000000;}.abilities table td {padding:5px;}.abilities table thead {background-color:#000000;}.abilities table tbody tr:nth-child(even) {background:#444444;}.abilities table tbody tr:nth-child(odd) {background:#111111;}.buffs {padding-left:0.9375rem;padding-right:0.9375rem;width:50%;float:left;}.debuffs {padding-left:0.9375rem;padding-right:0.9375rem;width:50%;float:left;}.footer {font-size:12px;}";
-      report += "</style></head><body><div class='header'>chocobro.</div><div class='wrapper'><div class='info'><h3>Sim info</h3><div class='job'>";
+      report += "</style></head><body><div class='header'>chocobro.</div><div class='wrapper'><div class='info'><h3>Sim info "  + " </h3><div class='job'>";
       //stats
-      report += "Job:" + j.name + "</div><div class='class'>Class:"+j.classname+"</div><div class='race'>Race:N/A</div><div class='iterations'>Iterations:" + MainWindow.iterations + "</div><div class='simtime'>Sim Time Elapsed: "+ j.simulationtime +"s</div><div class='fightlength'>Fightlength (s):" + MainWindow.fightlength;
-      if (MainWindow.iterations > 1){
-         report += "<h2>Average DPS: " + (Math.Floor((j.averagedps * 1000))/1000) + "</h2>";
+      report += "Job:" + j.name + "</div><div class='class'>Class:" + j.classname + "</div><div class='race'>Race:N/A</div><div class='iterations'>Iterations:" + MainWindow.iterations + "</div><div class='simtime'>Sim Time Elapsed: " + j.simulationtime + "s</div><div class='fightlength'>Fightlength (s):" + MainWindow.fightlength;
+      if (MainWindow.iterations > 1) {
+        report += "<h2>Average DPS: " + (Math.Floor((j.averagedps * 1000)) / 1000) + "</h2>";
       }
       report += "<h3>FIRST ITERATION DPS: " + Math.Floor((j.totaldamage / fightlength)) + "</h3><h3>FIRST ITERATION DAMAGE: " + j.totaldamage + "</h3></div></div><div class='stats'><h3>Character stats</h3>";
       report += "<div class'STR'>STR:" + j.STR + "</div><div class'DEX'>DEX:" + j.DEX + "</div><div class'VIT'>VIT:" + j.VIT + "</div><div class'INT'>INT:" + j.INT + "</div><div class'MND'>MND:" + j.MND + "</div><div class'PIE'>PIE:" + j.PIE + "</div><div class'ACC'>ACC:" + j.ACC + "</div><div class'CRIT'>CRIT:" + j.CRIT + "</div><div class'DET'>DET:" + j.DTR + "</div><div class'AP'>AP:" + j.AP + "</div><div class'AMP'>AMP:" + j.AMP + "</div><div class'WEP'>WEP:" + j.WEP + "</div><div class'AADMG'>AADMG:" + j.AADMG + "</div><div class'AADELAY'>AADELAY:" + j.AADELAY + "</div></div></div>";
@@ -59,9 +59,9 @@ namespace Chocobro {
           ability.dpet = 0;
           //check if the ability has a dot component
           if (ability.dotPotency > 0) {
-            ability.dpet = ((ability.damage + ability.dotdamage) / ((double)ability.hits + (double)ability.crits));
+            ability.dpet = ((ability.damage + ability.dotdamage) / ability.swings);
           } else {
-            ability.dpet = ((ability.damage) / ((double)ability.hits + (double)ability.crits));
+            ability.dpet = ((ability.damage) / ability.swings);
           }
 
           if (ability.dpet > maxdpet) { maxdpet = ability.dpet; }
@@ -132,45 +132,46 @@ namespace Chocobro {
       report += util.simpleEncode(tptimeline, (tptimeline.Max() + 10));
       report += "' /></div><div class='damagesources'><h3>Distribution</h3>";
       report += "<img src='http://chart.googleapis.com/chart?cht=bvg&chs=400x200&chxt=x,y&chxs=1,000000,12,0,lt|1,000000,10,1,lt&chbh=5,0,1&chd=t:";
-      
+
       var dpsavglist = (MainWindow.dpsminlist + MainWindow.dpsmaxlist) / 2;
 
       report += "<img src=\"http://chart.googleapis.com/chart?chf=bg,s,00000000&chxl=1:|Min: " + Math.Round((MainWindow.dpsminlist * 100)) / 100 + "|Average: " + Math.Round((dpsavglist * 100)) / 100 + "|Max: " + Math.Round((MainWindow.dpsmaxlist * 100)) / 100 + "&chxp=1,10,50,90&chxr=0,0,";
-      report += bucket.Max() +"&chxs=0,FFFFFF,11.5,0,lt,FFFFFF|1,FFFFFF,11.5,0,l,FFFFFF&chxt=y,x&chbh=a,1,1&chs=400x175&cht=bvg&chco=006699&chds=0," + MainWindow.dpsmaxlist + "&chd=t:" + util.chartEncode(bucket);
+      report += bucket.Max() + "&chxs=0,FFFFFF,11.5,0,lt,FFFFFF|1,FFFFFF,11.5,0,l,FFFFFF&chxt=y,x&chbh=a,1,1&chs=400x175&cht=bvg&chco=006699&chds=0," + MainWindow.dpsmaxlist + "&chd=t:" + util.chartEncode(bucket);
       report += "&chtt=Damage+Distribution&chts=FFFFFF,14\" width=\"400\" height=\"175\" alt=\"Damage Distribution\" />";
       report += util.chartEncode(bucket) + "&chds=0,325&chxl=0:|";
       report += MainWindow.dpsminlist + "|||||||||||||||||||||||||||||||||||||||||||||||||" + MainWindow.dpsmaxlist + "|1:|0|" + (bucket.Max() + 25) + " ' />";
-    
-        
-        
-        
-        
+
+
+
+
+
       report += "</div><div class='wrapper'>";
 
       report += "<div class='abilities'><h3>Ability Breakdown</h3>";
-      report += "<table><thead><tr><td>Ability</td><td>DPS</td><td>DPS%</td><td>TOTAL DMG</td><td>HIT</td><td>HIT%</td><td>CRIT</td><td>CRIT%</td><td>MISS</td><td>MISS%</td><td>UPTIME</td></tr></thead><tbody>";
+      report += "<table><thead><tr><td>Ability</td><td>DPS</td><td>DPS%</td><td>TOTAL DMG</td><td>Swings</td><td>HIT</td><td>HIT%</td><td>CRIT</td><td>CRIT%</td><td>MISS</td><td>MISS%</td><td>UPTIME</td></tr></thead><tbody>";
       foreach (Ability ability in j.areport) {
-        ability.totalattacks = ability.hits + ability.crits + ability.misses;
+
         if (ability.dotPotency > 0) {
-          ability.totaldotticks = ability.ticks + ability.tickcrits;
+
           //ability.totalattacks = ability.tickhits + 
-          report += "<tr><td>" + ability.name + " Dot</td><td>" 
-            + (Math.Floor((ability.dotdamage / fightlength) * 100) / 100) + "</td><td>" 
+          report += "<tr><td>" + ability.name + " Dot</td><td>"
+            + (Math.Floor((ability.dotdamage / fightlength) * 100) / 100) + "</td><td>"
             + (Math.Floor(dpspercent(ability.dotdamage, dps, fightlength) * 100) / 100) + "</td><td>"
             + ability.dotdamage + "</td><td>"
-            + ability.ticks + "</td><td>100%</td><td>" + ability.tickcrits + "</td><td>" + (Math.Round(((double)ability.tickcrits / (double)ability.totaldotticks)*10000)/10000)*100 + "%</td><td>0</td><td>0%</td><td>UPTIME</td></tr>";
+            + ability.ticks + "</td><td></td><td>100%</td><td>" + ability.tickcrits + "</td><td>" + (Math.Round(((double)ability.tickcrits / (double)ability.ticks) * 10000) / 10000) * 100 + "%</td><td>0</td><td>0%</td><td>UPTIME</td></tr>";
         }
-        report += "<tr><td>" + ability.name + "</td><td>" 
-          + (Math.Floor((ability.damage / fightlength) * 100) / 100) + "</td><td>" 
+        report += "<tr><td>" + ability.name + "</td><td>"
+          + (Math.Floor((ability.damage / fightlength) * 100) / 100) + "</td><td>"
           + (Math.Floor(dpspercent(ability.damage, dps, fightlength) * 100) / 100) + "</td><td>"
-          + ability.damage + "</td><td>"
-          + ability.hits + "</td><td>" + (Math.Round((((double)ability.hits+(double)ability.crits) / (double)ability.totalattacks) * 10000) / 10000) * 100 + "%</td><td>" 
-          + ability.crits + "</td><td>" + (Math.Round(((double)ability.crits / (double)ability.totalattacks) * 10000) / 10000) * 100 + "%</td><td>"
-          + ability.misses + "</td><td>" + (Math.Round(((double)ability.misses / (double)ability.totalattacks) * 10000) / 10000) * 100 + "%</td><td>UPTIME</td></tr>";
+          + (ability.damage) + "</td><td>"
+          + ability.swings + "</td><td>"
+          + ability.hits + "</td><td>" + (Math.Round(((double)ability.hits / (double)ability.swings) * 10000) / 10000) * 100 + "%</td><td>"
+          + ability.crits + "</td><td>" + (Math.Round(((double)ability.crits / (double)ability.swings) * 10000) / 10000) * 100 + "%</td><td>"
+          + ability.misses + "</td><td>" + (Math.Round(((double)ability.misses / (double)ability.swings) * 10000) / 10000) * 100 + "%</td><td>UPTIME</td></tr>";
 
       }
       //Add totalmissrate etc.
-      report += "<tr><td>TOTAL</td><td>"+(j.totaldamage / fightlength)+"</td><td> </td><td>"+j.totaldamage+"</td><td>HIT</td><td>HIT%</td><td>CRIT</td><td>CRIT%</td><td>MISS</td><td>MISS%</td><td>UPTIME</td></tr>";
+      report += "<tr><td>TOTAL</td><td>" + (j.totaldamage / fightlength) + "</td><td></td><td>" + j.totaldamage + "</td><td>Swings</td><td>HIT</td><td>HIT%</td><td>CRIT</td><td>CRIT%</td><td>MISS</td><td>MISS%</td><td>UPTIME</td></tr>";
       report += "</tbody></table>";
       report += "</div></div><div class='wrapper'><div class='buffs'><h3>Buffs</h3></div><div class='debuffs'><h3>Debuffs</h3></div></div><div class='footer'>Chocobro © 2013-2014. FINAL FANTASY XIV © 2010-2014 SQUARE ENIX CO., LTD. All Rights Reserved. <div class='social'><a href='http://github.com/eein/chocobro' target='_blank'>Github</a> - <a href='http://www.twitter.com/chocobrodotcom' target='_blank'>Twitter</a> - <a href='http://www.chocobro.com' target='_blank'>Homepage</a></div></div></body></html>";
       write();

@@ -18,6 +18,7 @@ namespace Chocobro {
     public int MND { get; set; }
     public int PIE { get; set; }
     public int WEP { get; set; }
+    public int MDMG { get; set; }
     public bool flight = false;
     public bool fglow = false;
     public string statweight { get; set; }
@@ -39,14 +40,18 @@ namespace Chocobro {
     public double nextauto = 0.00;
     public bool actionmade = false;
     public int TP = 1000;
-    public int MP = 3678; // TODO: formulate.
-    public int MPMax = 3678;
+    public int MP = 3654; // TODO: formulate.
+    public int MPMax = 3654;
+    public enum Stance { BLMNone = 0, AF3 = 1, AF2 = 2, AF1 = 3, UI3 = 4, UI2 = 5, UI1 = 6 };
+    public static Stance stance;
+    public bool swift = false;
     public bool OOT = false;
     public bool OOM = false;
     public double gcd;
     private const double basegcd = 2.5;
     public int totaldamage = 0;
     public int totalhealed = 0;
+    public int flaredamage = 0;
     public int numberofcrits = 0;
     public int numberofattacks = 0;
     public int numberofhits = 0;
@@ -68,7 +73,7 @@ namespace Chocobro {
     public string statforweights;
     public double simulationtime = 0;
     public bool firsttp = true;
-    public double nexttptick;
+    public double nextregentick;
 
     //Pots and Buffs
 
@@ -129,12 +134,12 @@ namespace Chocobro {
       }
     }
 
-    public class TPRegen : Ability {
-      public TPRegen() {
-        name = "TP Regen";
+    public class Regen : Ability {
+      public Regen() {
+        name = "Regen";
         recastTime = 3;
         animationDelay = 0;
-        abilityType = "TP Regen";
+        abilityType = "Regen";
       }
     }
 
@@ -151,6 +156,7 @@ namespace Chocobro {
         PIE = Convert.ToInt32(cs.PIE.Text);
 
         WEP = Convert.ToInt32(cs.WEP.Text);
+        MDMG = Convert.ToInt32(cs.MDMG.Text);
         AADMG = Convert.ToDouble(cs.AADMG.Text);
         AADELAY = Convert.ToDouble(cs.DELAY.Text);
 
@@ -178,7 +184,8 @@ namespace Chocobro {
         nextauto = 0.00;
         nextpet = 0.00;
         TP = 1000;
-        MP = 3678;
+        MP = (3629 + 8 * (PIE - 239));
+        MPMax = MP;
         actionmade = false;
         OOT = false;
         OOM = false;
@@ -191,8 +198,7 @@ namespace Chocobro {
       // 
     }
     public virtual void execute(ref Ability ability) {
-
-
+     
       if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
         MainWindow.time = MainWindow.floored(MainWindow.time);
         MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name);
@@ -220,7 +226,7 @@ namespace Chocobro {
         impact(ref ability);
       }
 
-      if (ability.name == "TP Regen" && MainWindow.time >= ability.nextCast) {
+      if (ability.name == "Regen" && MainWindow.time >= ability.nextCast) {
         if (firsttp) {
           ability.nextCast = MainWindow.time + (MainWindow.d100(0, 300) / 100);
           firsttp = false;
@@ -229,12 +235,17 @@ namespace Chocobro {
           int tpbefore = TP;
           int mpbefore = MP;
           TP += 60;
-          MP += (int)Math.Floor((double)MPMax * 0.02);
+          int tempmpgain = 0;
+          if (name == "Black Mage" && stance == Stance.UI3) {tempmpgain = 2249;}
+          if (name == "Black Mage" && stance == Stance.AF3) { tempmpgain = 0; } 
+          if (name != "Black Mage") { tempmpgain = (int)Math.Floor((double)MPMax * 0.02); }
+          MP += tempmpgain;
           if (TP > 1000) { TP = 1000; tpgained += 1000 - tpbefore; } else { tpgained += 60; }
           if (MP > MPMax) { MP = MPMax; mpgained += MPMax - mpbefore; } else { mpgained += (int)Math.Floor((double)MP * 0.02); }
           MainWindow.log(MainWindow.time.ToString("F2") + " - TP/MP Regen tick. " + tpbefore + " => " + TP + " TP. " + mpbefore + " => " + MP + " MP.");
+          nextregentick = MainWindow.time + 3;
           ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
-          ability.hits += 1;
+          
           OOT = false;
           OOM = false;
         }
@@ -249,7 +260,7 @@ namespace Chocobro {
           //nextability = MainWindow.time;
           //force nextability to next server tick
           //if invigorate is used and OOM then it resets the time to now.
-          nextability = nexttptick + 0.01;
+          nextability = nextregentick + 0.01;
           OOT = true;
           OOM = true;
         } else {
@@ -309,16 +320,24 @@ namespace Chocobro {
         if (ability.MPcost <= MP) {
           if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
             MainWindow.time = MainWindow.floored(MainWindow.time);
-            MainWindow.log(MainWindow.time.ToString("F2") + " - Casting " + ability.name + ". Cost is " + ability.MPcost + "MP. MP is " + MP + ".");
+            string swifttext = "";
+            if (swift) { swifttext = "Swift"; } 
+            MainWindow.log(MainWindow.time.ToString("F2") + " - " + swifttext + "Casting " + ability.name + ". MP is " + MP + ".");
             double tempnextab = 0;
             double tempnextin = 0;
-            if (calculateSGCD(ability.castTime) < calculateSGCD(2.5)) { tempnextab = calculateSGCD(2.5); tempnextin = calculateSGCD(ability.castTime); } else { tempnextab = calculateSGCD(ability.castTime); tempnextin = calculateSGCD(ability.castTime); }
+            double casttime = ability.castTime;
+            if (stance == Stance.AF3 && ability.name == "Ice III") { casttime /= 2; }
+            if (stance == Stance.UI3 && ability.name == "Fire III") { casttime /= 2; }
+            if (swift == true) { casttime = 0.02; swift = false; }
+            if (calculateSGCD(casttime) < calculateSGCD(2.5)) { tempnextab = calculateSGCD(2.5); tempnextin = calculateSGCD(casttime); } else { tempnextab = calculateSGCD(casttime); tempnextin = calculateSGCD(casttime); }
+
             nextability = MainWindow.floored(MainWindow.time + tempnextab);
             nextinstant = MainWindow.floored((MainWindow.time + tempnextin));
             ability.nextCast = nextability;
             actionmade = true;
             ability.casting = true;
-            ability.endcast = MainWindow.floored(MainWindow.time + calculateSGCD(ability.castTime));
+            ability.endcast = MainWindow.floored(MainWindow.time + tempnextin);
+
           }
         } else { MainWindow.log("Was unable to execute " + ability.name + ". Not enough MP. Current MP is " + MP + "MP."); }
       }
@@ -348,8 +367,8 @@ namespace Chocobro {
       if (flight) {
         tempsks *= 1.30;
       }
-      var skillcalc = basegcd - (Math.Round(((tempsks - 341) * 0.00095308) * 100) / 100);
-      skillcalc = skillcalc - Monk.glstacks * 0.125;
+      var skillcalc = basegcd - ((tempsks - 341) * 0.00095308);
+      //skillcalc = skillcalc - Monk.glstacks * 0.125;
       return skillcalc;
     }
 
@@ -358,7 +377,7 @@ namespace Chocobro {
       if (fglow) {
         tempsps *= 1.30;
       }
-      var skillcalc = castspeed - (Math.Round(((tempsps - 341) * 0.00095308) * 100) / 100);
+      var skillcalc = castspeed - ((castspeed/2.5)*(tempsps - 341) * 0.00095308);
       return skillcalc;
     }
     public double calculateACC() {

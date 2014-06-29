@@ -283,7 +283,7 @@ namespace Chocobro {
     Ability feyglow = new FeyGlow();
     Ability spellbuff1 = new SpellBuff1();
     Ability heal1 = new Heal1();
-    Ability regen = new TPRegen();
+    Ability regen = new Regen();
 
 
 

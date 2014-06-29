@@ -37,7 +37,7 @@ namespace Chocobro {
     public static int servertime = 0;
     public static int servertick = 0;
     public static int iterations = 0;
-    public static bool logging = true;
+    public static bool logging = false;
     public static bool disdebuff = false;
     public static bool selenebuff = false;
     public static string lagstring;
@@ -63,10 +63,11 @@ namespace Chocobro {
       public Job Get(string s) {
         switch (s) {
           case "Bard": return new Bard();
-          case "Template": return new Template();
-          case "Paladin": return new Paladin();
+          //case "Archer": return new Archer();
+          //case "Template": return new Template();
+          //case "Paladin": return new Paladin();
           //case "Warrior": return new Warrior();
-          //case "Black Mage": return new Blackmage();
+          case "Black Mage": return new BlackMage();
           case "Summoner": return new Summoner();
           case "Dragoon": return new Dragoon();
           case "Monk": return new Monk();
@@ -194,7 +195,7 @@ namespace Chocobro {
           }));
         }
         
-        for (int x = 0; x < iterations; ++x) {
+        for (int x = 1; x <= iterations; ++x) {
           int ticknumber = 0;
           servertick = randtick.Next(1, 4);
           //alt progress bar for iterations only
@@ -207,18 +208,22 @@ namespace Chocobro {
           p.getStats(this);
 
           if (swselected == "Weapon Damage") { p.WEP = p.WEP - (delta - y); }
+          if (swselected == "Magic Damage") { p.MDMG = p.MDMG - (delta - y); }
           if (swselected == "Dexterity") { p.DEX = p.DEX - (delta - y); }
           if (swselected == "Strength") { p.STR = p.STR - (delta - y); }
+          if (swselected == "Piety") { p.PIE = p.PIE - (delta - y); }
+          if (swselected == "Intelligence") { p.INT = p.INT - (delta - y); }
           if (swselected == "Accuracy") { p.ACC = p.ACC - (delta - y); }
           if (swselected == "Crit") { p.CRIT = p.CRIT - (delta - y); }
           if (swselected == "Determination") { p.DTR = p.DTR - (delta - y); }
           if (swselected == "Skill Speed") { p.SKS = p.SKS - (delta - y); }
+          if (swselected == "Spell Speed") { p.SPS = p.SPS - (delta - y); }
 
 
           p.resetAbilities();
           resetSim();
           fightlength = (Convert.ToInt16(fightlengthtext)) + (d100(0, (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.1)) - (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.05));
-          if ((x == 0) && (y == 0)) { r.dpstimeline.Select(i => 0); r.dpstimelinecount.Select(i => 0); }
+          if ((x == 1) && (y == 0)) { r.dpstimeline.Select(i => 0); r.dpstimelinecount.Select(i => 0); }
           debug(); //have option to disable TODO:
           while (time <= fightlength) {
             handler(ref p);
@@ -241,7 +246,8 @@ namespace Chocobro {
 
           DPSarray.Add((p.totaldamage / fightlength));
 
-          if (x == 0 && y == 0) {
+          if (x == 1 && y == 0) {
+            
             p.report(); // first iteration of abilities
             writeLog();
             readLog();
@@ -324,6 +330,7 @@ namespace Chocobro {
         this.browser.Navigate(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "report.html"));
 
         this.WEP.IsEnabled = true;
+        this.MDMG.IsEnabled = true;
         this.AADMG.IsEnabled = true;
         this.DELAY.IsEnabled = true;
         this.STR.IsEnabled = true;
@@ -367,6 +374,7 @@ namespace Chocobro {
       } else { selenebuff = false; }
 
       WEP.IsEnabled = false;
+      MDMG.IsEnabled = false;
       AADMG.IsEnabled = false;
       DELAY.IsEnabled = false;
       STR.IsEnabled = false;
@@ -452,9 +460,13 @@ namespace Chocobro {
 
     }
 
-    private void Bard_Selected(object sender, RoutedEventArgs e) {
-      
-    }
+
+
+
+
+
+
+
 
 
 

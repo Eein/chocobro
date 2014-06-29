@@ -265,7 +265,7 @@ namespace Chocobro {
     Ability autoattack = new AutoAttack();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
-    Ability tpregen = new TPRegen();
+    Ability tpregen = new Regen();
 
 
 

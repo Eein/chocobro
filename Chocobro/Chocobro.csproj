@@ -59,14 +59,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <None Include="Job Modules\Archer.cs" />
     <Compile Include="Job Modules\Dragoon.cs" />
     <Compile Include="Job Modules\Monk.cs" />
     <Compile Include="Job Modules\Summoner.cs" />
-    <Compile Include="Job Modules\White Mage.cs" />
-    <Compile Include="Job Modules\Template.cs" />
+    <Compile Include="Job Modules\Black Mage.cs" />
+    <None Include="Job Modules\White Mage.cs" />
+    <None Include="Job Modules\Template.cs" />
     <Compile Include="Sim Base\Report.cs" />
     <Compile Include="Sim Base\Utility.cs" />
-    <Compile Include="Job Modules\Paladin.cs" />
+    <None Include="Job Modules\Paladin.cs" />
     <Compile Include="Job Modules\Bard.cs" />
     <Compile Include="Sim Base\Ability.cs" />
     <Compile Include="Job Modules\Job.cs" />

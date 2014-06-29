@@ -16,16 +16,17 @@
         
         <Button x:Name="simulateButton" Content="Sim" HorizontalAlignment="Right" VerticalAlignment="Center" Click="Button_Click" Height="20" Grid.Column="1" Grid.Row="1" Width="50" Margin="0,0,10,0" />
         <ComboBox x:Name="job" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Width="120" Height="22"  >
-            <ComboBoxItem Content="Bard" HorizontalAlignment="Left" Width="118" IsSelected="True" Selected="Bard_Selected"/>
-            <ComboBoxItem Content="Dragoon" HorizontalAlignment="Left" Width="118" IsEnabled="False" />
-            <ComboBoxItem Content="Monk" HorizontalAlignment="Left" Width="118" IsEnabled="False" />
+            <ComboBoxItem Content="Bard" HorizontalAlignment="Left" Width="118" IsSelected="True" />
+            <ComboBoxItem Content="Archer" HorizontalAlignment="Left" Width="118" IsEnabled="True"/>
+            <ComboBoxItem Content="Dragoon" HorizontalAlignment="Left" Width="118" IsEnabled="True" />
+            <ComboBoxItem Content="Monk" HorizontalAlignment="Left" Width="118" IsEnabled="True" />
             <ComboBoxItem Content="Paladin" HorizontalAlignment="Left" Width="118" IsEnabled="False"/>
             <ComboBoxItem Content="Warrior" HorizontalAlignment="Left" Width="118" IsEnabled="False"/>
-            <ComboBoxItem Content="Black Mage" HorizontalAlignment="Left" Width="118" IsEnabled="False"/>
-            <ComboBoxItem Content="Summoner" HorizontalAlignment="Left" Width="118" IsEnabled="False"/>
+            <ComboBoxItem Content="Black Mage" HorizontalAlignment="Left" Width="118" IsEnabled="True"/>
+            <ComboBoxItem Content="Summoner" HorizontalAlignment="Left" Width="118" IsEnabled="True"/>
             <ComboBoxItem Content="Scholar" HorizontalAlignment="Left" Width="118" IsEnabled="False"/>
             <ComboBoxItem Content="White Mage" HorizontalAlignment="Left" Width="118" IsEnabled="False"/>
-            <ComboBoxItem Content="Template" HorizontalAlignment="Left" Width="118" IsEnabled="True"/>
+            <ComboBoxItem Content="Template" HorizontalAlignment="Left" Width="118" IsEnabled="False"/>
         </ComboBox>
         <ComboBox x:Name="SPEC" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top" Width="120" Height="22">
             <ComboBoxItem Content="ST DPS" HorizontalAlignment="Left" Width="118" IsSelected="True"/>
@@ -66,12 +67,16 @@
                     <ComboBox x:Name="statweights" HorizontalAlignment="Left" Margin="104,12,0,0" VerticalAlignment="Top" Width="120" Height="22" ToolTip="Used with a spreadsheet to determine DPS gains/losses with certain stats."  >
                         <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="118" IsSelected="True"/>
                         <ComboBoxItem Content="Weapon Damage" HorizontalAlignment="Left" Width="118" IsEnabled="True"/>
+                        <ComboBoxItem Content="Magic Damage" HorizontalAlignment="Left" Width="118"/>
                         <ComboBoxItem Content="Strength" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="Intelligence" HorizontalAlignment="Left" Width="118"/>
                         <ComboBoxItem Content="Dexterity" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="Piety" HorizontalAlignment="Left" Width="118"/>
                         <ComboBoxItem Content="Accuracy" HorizontalAlignment="Left" Width="118"/>
                         <ComboBoxItem Content="Crit" HorizontalAlignment="Left" Width="118"/>
                         <ComboBoxItem Content="Determination" HorizontalAlignment="Left" Width="118"/>
                         <ComboBoxItem Content="Skill Speed" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="Spell Speed" HorizontalAlignment="Left" Width="118"/>
 
 
                     </ComboBox>
@@ -100,35 +105,35 @@
             </TabItem>
         </TabControl>
         <Label Content="WDMG&#xA;" HorizontalAlignment="Left" Margin="18,128,0,0" VerticalAlignment="Top" Padding="0,2,0,0"/>
-        <TextBox x:Name="WEP" HorizontalAlignment="Left" Height="20" Margin="77,128,0,0" TextWrapping="Wrap" Text="42" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="WEP" HorizontalAlignment="Left" Height="20" Margin="77,128,0,0" TextWrapping="Wrap" Text="48" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0" />
         <Label Content="MDMG&#xA;" HorizontalAlignment="Left" Margin="19,151,0,0" VerticalAlignment="Top" Padding="0,2,0,0" RenderTransformOrigin="-1.126,-0.919"/>
-        <TextBox x:Name="WEP_Copy" HorizontalAlignment="Left" Height="20" Margin="77,150,0,0" TextWrapping="Wrap" Text="42" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="MDMG" HorizontalAlignment="Left" Height="20" Margin="77,150,0,0" TextWrapping="Wrap" Text="77" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="AADMG&#xA;" HorizontalAlignment="Left" Margin="19,173,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="43"/>
-        <TextBox x:Name="AADMG" HorizontalAlignment="Left" Height="20" Margin="77,173,0,0" TextWrapping="Wrap" Text="44.80" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="AADMG" HorizontalAlignment="Left" Height="20" Margin="77,173,0,0" TextWrapping="Wrap" Text="53.76" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="AADELAY&#xA;" HorizontalAlignment="Left" Margin="19,195,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="50"/>
-        <TextBox x:Name="DELAY" HorizontalAlignment="Left" Height="20" Margin="77,195,0,0" TextWrapping="Wrap" Text="3.20" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="DELAY" HorizontalAlignment="Left" Height="20" Margin="77,195,0,0" TextWrapping="Wrap" Text="3.36" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="STR&#xA;" HorizontalAlignment="Left" Margin="19,216,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="20"/>
         <TextBox x:Name="STR" HorizontalAlignment="Left" Height="20" Margin="77,217,0,0" TextWrapping="Wrap" Text="505" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="DEX&#xA;" HorizontalAlignment="Left" Margin="19,238,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="22"/>
-        <TextBox x:Name="DEX" HorizontalAlignment="Left" Height="20" Margin="77,239,0,0" TextWrapping="Wrap" Text="505" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="DEX" HorizontalAlignment="Left" Height="20" Margin="77,239,0,0" TextWrapping="Wrap" Text="594" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="VIT&#xA;" HorizontalAlignment="Left" Margin="19,260,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="17"/>
         <TextBox x:Name="VIT" HorizontalAlignment="Left" Height="20" Margin="77,261,0,0" TextWrapping="Wrap" Text="380" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="INT&#xA;" HorizontalAlignment="Left" Margin="19,282,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="18"/>
-        <TextBox x:Name="INT" HorizontalAlignment="Left" Height="20" Margin="77,282,0,0" TextWrapping="Wrap" Text="172" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="INT" HorizontalAlignment="Left" Height="20" Margin="77,282,0,0" TextWrapping="Wrap" Text="594" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="MND&#xA;" HorizontalAlignment="Left" Margin="19,304,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" RenderTransformOrigin="4.305,9.884" Width="28"/>
         <TextBox x:Name="MND" HorizontalAlignment="Left" Height="20" Margin="77,304,0,0" TextWrapping="Wrap" Text="161" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="PIE&#xA;" HorizontalAlignment="Left" Margin="19,326,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="16"/>
-        <TextBox x:Name="PIE" HorizontalAlignment="Left" Height="20" Margin="77,326,0,0" TextWrapping="Wrap" Text="172" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="PIE" HorizontalAlignment="Left" Height="20" Margin="77,326,0,0" TextWrapping="Wrap" Text="239" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="CRIT&#xA;" HorizontalAlignment="Left" Margin="19,348,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="24"/>
-        <TextBox x:Name="CRIT" HorizontalAlignment="Left" Height="20" Margin="77,348,0,0" TextWrapping="Wrap" Text="556" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="CRIT" HorizontalAlignment="Left" Height="20" Margin="77,348,0,0" TextWrapping="Wrap" Text="496" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="DTR&#xA;" HorizontalAlignment="Left" Margin="19,370,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="22"/>
-        <TextBox x:Name="DTR" HorizontalAlignment="Left" Height="20" Margin="77,370,0,0" TextWrapping="Wrap" Text="236" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="DTR" HorizontalAlignment="Left" Height="20" Margin="77,370,0,0" TextWrapping="Wrap" Text="332" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="ACC&#xA;" HorizontalAlignment="Left" Margin="19,392,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="23"/>
-        <TextBox x:Name="ACC" HorizontalAlignment="Left" Height="20" Margin="77,392,0,0" TextWrapping="Wrap" Text="476" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="ACC" HorizontalAlignment="Left" Height="20" Margin="77,392,0,0" TextWrapping="Wrap" Text="499" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="SKSPD&#xA;" HorizontalAlignment="Left" Margin="19,414,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="35"/>
-        <TextBox x:Name="SKSPD" HorizontalAlignment="Left" Height="20" Margin="77,414,0,0" TextWrapping="Wrap" Text="428" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="SKSPD" HorizontalAlignment="Left" Height="20" Margin="77,414,0,0" TextWrapping="Wrap" Text="408" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="SPSPD&#xA;" HorizontalAlignment="Left" Margin="19,436,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="35"/>
-        <TextBox x:Name="SPSPD" HorizontalAlignment="Left" Height="20" Margin="77,436,0,0" TextWrapping="Wrap" Text="341" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
+        <TextBox x:Name="SPSPD" HorizontalAlignment="Left" Height="20" Margin="77,436,0,0" TextWrapping="Wrap" Text="519" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0" />
         <TextBox x:Name="iterationsinput" HorizontalAlignment="Left" Height="22" Margin="10,489,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="5000" ToolTip="Number of times the simulator will run a fight."/>
         <Label Content="Iterations:" HorizontalAlignment="Left" Margin="10,467,0,0" VerticalAlignment="Top" Height="30" Width="62"/>
         <TextBox x:Name="fightLengthInput" HorizontalAlignment="Left" Height="22" Margin="10,532,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="150" ToolTip="How long each fight is."/>

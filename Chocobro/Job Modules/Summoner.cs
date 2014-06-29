@@ -79,7 +79,7 @@ namespace Chocobro {
 
       if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant")) {
         numberofattacks += 1;
-        ability.attacks += 1;
+        ability.swings += 1;
         if (accroll < calculateACC()) {
 
           double thisdamage = damage(ref ability, ability.potency);
@@ -104,7 +104,7 @@ namespace Chocobro {
 
       if (ability.abilityType == "Spell" || ability.abilityType == "PETSPELL") {
         numberofattacks += 1;
-        ability.attacks += 1;
+        ability.swings += 1;
         if (accroll < calculateACC()) {
 
           double thisdamage = damage(ref ability, ability.potency);
@@ -271,7 +271,7 @@ namespace Chocobro {
     Ability xpotionintelligence = new XPotionIntelligence();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
-    Ability tpregen = new TPRegen();
+    Ability tpregen = new Regen();
     Ability windblade = new WindBlade();
     Ability contagion = new Contagion();
 

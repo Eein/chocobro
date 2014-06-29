@@ -28,13 +28,14 @@ namespace Chocobro {
     public bool pierce = false;
     public bool blunt = false;
     public bool slash = false;
+    public string aspect = "null";
 
-    public int crits = 0;
-    public int attacks = 0;
-    public int hits = 0;
-    public int misses = 0;
+    public int crits = 0; //number of times this ability successfully crits (must hit)
+    public int swings = 0; //includes every use (includes misses,crits)
+    public int hits = 0; //includes number of times successfully hit (crits and normal hits)
+    public int misses = 0; //number of times ability missed
     public int procs = 0;
-    public int ticks = 0;
+    public int ticks = 0; //total number of times dot ticks (crits or normal)
     public int tickcrits = 0;
     public double damage = 0;
     public double heals = 0;
@@ -44,8 +45,6 @@ namespace Chocobro {
     public double dpet = 0.0;
     public double hpet = 0.0;
 
-    public int totalattacks = 0;
-    public int totaldotticks = 0;
     //public bool dot = false; TODO: add this w/ smn.
     // Dots using dictionary lookup. easyyy.
     public Dictionary<String, Boolean> dotbuff = new Dictionary<String, Boolean>() {
@@ -64,7 +63,7 @@ namespace Chocobro {
     public double percent = 0; // for things that increase by percentage.
     public void resetAbility() {
       this.crits = 0;
-      this.attacks = 0;
+      this.swings = 0;
       this.hits = 0;
       this.misses = 0;
       this.procs = 0;
@@ -75,8 +74,8 @@ namespace Chocobro {
       this.heals = 0;
       this.dotdamage = 0;
       this.hotheals = 0;
-      this.totalattacks = 0;
-      this.totaldotticks = 0;
+      //this.totalattacks = 0;
+      //this.totaldotticks = 0;
       this.dpet = 0;
       this.hpet = 0;
     }

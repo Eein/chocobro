@@ -3,11 +3,11 @@ using System.Windows;
 
 namespace Chocobro {
 
-  public class Bard : Job {
+  public class Archer : Job {
     // Proc Booleans - Set all proc booleans false initially.
     public bool bloodletterreset = false;
-    public Bard() {
-      name = "Bard";
+    public Archer() {
+      name = "Archer";
       classname = "Archer";
     }
     public override void getStats(MainWindow cs) {
@@ -50,6 +50,11 @@ namespace Chocobro {
         }
       }
 
+      if (fracture.debuff <= calculateGCD()/2) {
+        if (MainWindow.fightlength - MainWindow.time > 9) {
+          execute(ref fracture);
+        }
+      }
       execute(ref heavyshot);
 
       execute(ref ragingstrikes); //"smart" use of buffs, needs more attention
@@ -67,6 +72,7 @@ namespace Chocobro {
       
       if (MainWindow.servertime >= 0.8 * MainWindow.fightlength) {
         execute(ref miserysend);
+        execute(ref mercystroke);
       }
 
       execute(ref bloodletter);
@@ -78,6 +84,7 @@ namespace Chocobro {
       //if tick is 3 
       tick(ref windbite);
       tick(ref venomousbite);
+      tick(ref fracture);
       tick(ref flamingarrow);
       //auto 
       execute(ref autoattack);
@@ -133,7 +140,7 @@ namespace Chocobro {
 
       if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant")) {
         numberofattacks += 1;
-        ability.swings += 1;
+        ability.attacks += 1;
         if (accroll <= calculateACC() || hawkseye.buff > 0) {
 
           double thisdamage = damage(ref ability, ability.potency);
@@ -171,7 +178,6 @@ namespace Chocobro {
       }
       if (ability.abilityType == "AUTOA") {
         autoattack.hits += 1;
-        ability.swings += 1;
         numberofattacks += 1;
         if (accroll < calculateACC()) {
           double thisdamage = damage(ref ability, ability.potency);
@@ -339,6 +345,8 @@ namespace Chocobro {
     public override void report() {
       base.report();
       // add abilities to list used for reporting. Each ability needs to be added ;(
+      areport.Add(fracture);
+      areport.Add(mercystroke);
       areport.Add(heavyshot);
       areport.Add(venomousbite);
       areport.Add(windbite);
@@ -360,6 +368,8 @@ namespace Chocobro {
       areport.Add(feyglow);
       areport.Add(regen);
     }
+    Ability fracture = new Fracture();
+    Ability mercystroke = new MercyStroke();
     Ability heavyshot = new HeavyShot();
     Ability windbite = new Windbite();
     Ability venomousbite = new VenomousBite();
@@ -435,6 +445,36 @@ namespace Chocobro {
     }
     // End Venomous Bite ----------------------
 
+    // Fracture -----------------------------------
+    public class Fracture : Ability {
+      public Fracture() {
+        name = "Fracture";
+        potency = 100;
+        dotPotency = 20;
+        TPcost = 80;
+        animationDelay = 1.4;
+        abilityType = "Weaponskill";
+        castTime = 0.0;
+        debuffTime = 18;
+      }
+    }
+    // End Fracture -------------------------------
+
+    // Mercy Stroke ----------------------------
+    public class MercyStroke : Ability {
+      public MercyStroke() {
+        name = "Mercy Stroke";
+        potency = 200;
+        dotPotency = 0;
+        recastTime = 90;
+        TPcost = 0;
+        animationDelay = 0.8;
+        abilityType = "Instant";
+        castTime = 0.0;
+      }
+
+    }
+    // End Mercy Stroke ----------------------------
     // Straight Shot --------------------------
 
     public class StraightShot : Ability {

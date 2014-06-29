@@ -101,7 +101,7 @@ namespace Chocobro {
 
       if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant")) {
         numberofattacks += 1;
-        ability.attacks += 1;
+        ability.swings += 1;
         if (accroll < calculateACC()) {
           
           // change states for combos here...
@@ -323,7 +323,7 @@ namespace Chocobro {
     Ability xpotionstrength = new XPotionStrength();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
-    Ability tpregen = new TPRegen();
+    Ability tpregen = new Regen();
 
 
     // Set array of abilities for reportingz

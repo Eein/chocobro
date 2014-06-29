@@ -107,7 +107,7 @@ namespace Chocobro {
 
       if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant")) {
         numberofattacks += 1;
-        ability.attacks += 1;
+        ability.swings += 1;
         if (accroll < calculateACC()) {
           //Forms
           if (ability.name == "Bootshine" || ability.name == "Dragon Kick") { form = Form.Raptor; }
@@ -319,7 +319,7 @@ namespace Chocobro {
     Ability xpotionstrength = new XPotionStrength();
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
-    Ability tpregen = new TPRegen();
+    Ability tpregen = new Regen();
 
 
 
@@ -397,6 +397,7 @@ namespace Chocobro {
       public Demolish() {
         name = "Demolish";
         potency = 70;
+        TPcost = 50;
         animationDelay = 1.2;
         abilityType = "Weaponskill";
         dotPotency = 40;
@@ -411,6 +412,7 @@ namespace Chocobro {
         name = "Dragon Kick";
         potency = 150;
         debuffTime = 15;
+        TPcost = 60;
         animationDelay = 1.2;
         abilityType = "Weaponskill";
       }
@@ -446,6 +448,7 @@ namespace Chocobro {
       public Fracture() {
         name = "Fracture";
         potency = 100;
+        TPcost = 80;
         debuffTime = 18;
         dotPotency = 20;
         animationDelay = 1.2;
