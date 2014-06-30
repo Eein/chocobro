@@ -244,6 +244,7 @@ namespace Chocobro {
             }
           }
 
+
           DPSarray.Add((p.totaldamage / fightlength));
 
           if (x == 1 && y == 0) {

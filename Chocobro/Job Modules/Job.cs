@@ -326,7 +326,7 @@ namespace Chocobro {
             double tempnextab = 0;
             double tempnextin = 0;
             double casttime = ability.castTime;
-            if (stance == Stance.AF3 && ability.name == "Ice III") { casttime /= 2; }
+            if (stance == Stance.AF3 && ability.name == "Blizzard III") { casttime /= 2; }
             if (stance == Stance.UI3 && ability.name == "Fire III") { casttime /= 2; }
             if (swift == true) { casttime = 0.02; swift = false; }
             if (calculateSGCD(casttime) < calculateSGCD(2.5)) { tempnextab = calculateSGCD(2.5); tempnextin = calculateSGCD(casttime); } else { tempnextab = calculateSGCD(casttime); tempnextin = calculateSGCD(casttime); }
@@ -381,7 +381,9 @@ namespace Chocobro {
       return skillcalc;
     }
     public double calculateACC() {
-      var acccalc = 84.0 + ((ACC - 341) * 0.1363636363);
+      var acccalc = 0.00;
+      if (name == "Black Mage") { acccalc = 0.147287 * ACC + 30.775194; }
+      if (name == "Bard" || name == "Dragoon" || name == "Monk") { acccalc = 0.12419 * ACC + 38.653595; }
       return acccalc;
     }
     public void addTP(int amount) {
