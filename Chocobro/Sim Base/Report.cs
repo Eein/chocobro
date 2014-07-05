@@ -14,6 +14,8 @@ namespace Chocobro {
     public List<double> tptimeline = new List<double>();
     public List<double> dpstimelinecount = new List<double>();
     public List<double> tptimelinecount = new List<double>();
+    public List<double> mptimeline = new List<double>();
+    public List<double> mptimelinecount = new List<double>();
     public List<double> bucket = MainWindow.bucketlist;
 
     string report = "";
@@ -126,10 +128,15 @@ namespace Chocobro {
       // eating the last pipe off the end of the string ..
       report = report.Substring(0, report.Length - 1);
 
-      report += "&chtt=Damage+Sources' width='450 height='225'/></div><div class='dpstimeline'><h3>MP/TP Regen (NA)</h3>";
+      report += "&chtt=Damage+Sources' width='450 height='225'/></div><div class='dpstimeline'><h3>MP/TP Regen</h3>";
+      report += "<br><h3>TP Recovered: " + j.tpgained + "  TP Used: " + j.tpused + " " + "<br>";
       report += "<img src='http://chart.apis.google.com/chart?cht=lc&chs=375x225&chco=006699&chxt=x,y";
       report += "&chxl=0:|0|fightlength=" + MainWindow.fightlength + "|1:|0|avg=" + Math.Round(tptimeline.Sum() / tptimeline.Count()) + "|max=" + 1000 + "&chxp=1,1,51,100&chtt=TP+Timeline&chts=FFFFFF,18&chf=bg,s,00000000&chd=";
-      report += util.simpleEncode(tptimeline, (tptimeline.Max() + 10));
+      report += util.simpleEncode(tptimeline, (tptimeline.Max()));
+      report += "' /></div>";
+      report += "<img src='http://chart.apis.google.com/chart?cht=lc&chs=375x225&chco=006699&chxt=x,y";
+      report += "&chxl=0:|0|fightlength=" + MainWindow.fightlength + "|1:|0|avg=" + Math.Round(mptimeline.Sum() / mptimeline.Count()) + "|max=" + mptimeline.Max()*1 + "&chxp=1,1,51,100&chtt=MP+Timeline&chts=FFFFFF,18&chf=bg,s,00000000&chd=";
+      report += util.simpleEncode(mptimeline, (mptimeline.Max()));
       report += "' /></div><div class='damagesources'><h3>Distribution</h3>";
       report += "<img src='http://chart.googleapis.com/chart?cht=bvg&chs=400x200&chxt=x,y&chxs=1,000000,12,0,lt|1,000000,10,1,lt&chbh=5,0,1&chd=t:";
 

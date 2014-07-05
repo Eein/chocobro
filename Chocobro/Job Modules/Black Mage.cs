@@ -6,13 +6,13 @@ namespace Chocobro {
 
   public class BlackMage : Job {
     // Proc Booleans - Set all proc booleans false initially.
-    static int AFstacks;
-    static int UIstacks;
-    static bool firestarter = false;
-    static bool thundercloud = false;
-    static string lastability = "";
-    static int opener = 0;
-    static int firestartercheck = 0;
+     int AFstacks;
+     int UIstacks;
+     bool firestarter = false;
+     bool thundercloud = false;
+     string lastability = "";
+     int opener = 0;
+     int firestartercheck = 0;
 
     public BlackMage() {
       name = "Black Mage";
@@ -31,6 +31,8 @@ namespace Chocobro {
       UIstacks = 0;
       lastability = "";
       firestartercheck = 0;
+      MPMax = 3629 + 8 * (PIE - 239);
+      MP = MPMax;
     }
 
     public override void rotation() {
@@ -65,7 +67,7 @@ namespace Chocobro {
       if (opener == 0) { execute(ref thunderii);  }
 
       if (opener == 1) { execute(ref fireiii);  }
-      execute(ref ragingstrikes);
+      //execute(ref ragingstrikes);
             
       if (opener == 2) {
         
@@ -74,7 +76,7 @@ namespace Chocobro {
         if (stance == Stance.AF3 && MP >= (938)) { execute(ref fire); }
         if (stance == Stance.AF3 && MP <= 938) { opener += 1; }
       }
-      execute(ref xpotionintelligence);
+      //execute(ref xpotionintelligence);
       if (opener == 3) {  execute(ref swiftcast); }
       if (opener == 4) {  execute(ref flare); }
       if (opener == 5) {  execute(ref convert); }
@@ -287,7 +289,7 @@ namespace Chocobro {
       if (AFstacks == 3 && ability.aspect == "Ice") { multi = 0.7; }
 
       if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant" || ability.abilityType == "Spell" || ability.abilityType == "HealSpell") {
-        damageformula = (multi * (double)pot / 100) * (MDMG * .2714745 + tempint * .1006032 + (DTR - 202) * .0241327 + MDMG * tempint * .0036167 + MDMG * (DTR - 202) * .0010800 - 1);
+        damageformula = (multi * (double)pot / 100) * ((MDMG * 0.42527 + tempint * 0.186852 + DTR * 0.015728 + MDMG * tempint * 0.007284 + MDMG * (DTR - 202) * 0.002269) / 1.5);
 
       }
 
@@ -385,9 +387,8 @@ namespace Chocobro {
         name = "Fire III";
         abilityType = "Spell";
         castTime = 3.50;
-        potency = 220;
+        potency = 240;
         MPcost = 532;
-        animationDelay = 0.08;
         aspect = "Fire";
         recastTime = 2.5;
       }
@@ -398,9 +399,8 @@ namespace Chocobro {
         name = "Fire";
         abilityType = "Spell";
         castTime = 2.5;
-        potency = 150;
+        potency = 170;
         MPcost = 319;
-        animationDelay = 0.08;
         aspect = "Fire";
         recastTime = 2.5;
       }
@@ -411,9 +411,8 @@ namespace Chocobro {
         name = "Blizzard";
         abilityType = "Spell";
         castTime = 2.5;
-        potency = 150;
+        potency = 170;
         MPcost = 106;
-        animationDelay = 0.08;
         aspect = "Ice";
         recastTime = 2.5;
       }
@@ -424,9 +423,8 @@ namespace Chocobro {
         name = "Fire III (FSP)";
         abilityType = "Spell";
         castTime = 0.02;
-        potency = 220;
+        potency = 240;
         MPcost = 0;
-        animationDelay = 0.08;
         aspect = "Fire";
         recastTime = 2.5;
       }
@@ -437,9 +435,8 @@ namespace Chocobro {
         name = "Blizzard III";
         abilityType = "Spell";
         castTime = 3.50;
-        potency = 220;
+        potency = 240;
         MPcost = 79;
-        animationDelay = 0.08;
         aspect = "Ice";
         recastTime = 2.5;
       }
@@ -454,7 +451,6 @@ namespace Chocobro {
         dotPotency = 35;
         debuffTime = 18;
         MPcost = 212;
-        animationDelay = 0.08;
       }
     }
 
@@ -467,7 +463,6 @@ namespace Chocobro {
         dotPotency = 35;
         debuffTime = 21;
         MPcost = 319;
-        animationDelay = 0.08;
       }
     }
 
@@ -480,7 +475,6 @@ namespace Chocobro {
         dotPotency = 35;
         debuffTime = 24;
         MPcost = 425;
-        animationDelay = 0.08;
       }
     }
 
@@ -493,7 +487,6 @@ namespace Chocobro {
         dotPotency = 35;
         debuffTime = 24;
         MPcost = 0;
-        animationDelay = 0.08;
       }
     }
 
@@ -504,7 +497,6 @@ namespace Chocobro {
         castTime = 4.00;
         potency = 260;
         MPcost = 0;
-        animationDelay = 0.08;
         aspect = "Fire";
         recastTime = 2.5;
       }

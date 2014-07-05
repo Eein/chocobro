@@ -222,7 +222,7 @@ namespace Chocobro {
 
           p.resetAbilities();
           resetSim();
-          fightlength = (Convert.ToInt16(fightlengthtext)) + (d100(0, (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.1)) - (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.05));
+          fightlength = (Convert.ToInt32(fightlengthtext)) + (d100(0, (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.1)) - (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.05));
           if ((x == 1) && (y == 0)) { r.dpstimeline.Select(i => 0); r.dpstimelinecount.Select(i => 0); }
           debug(); //have option to disable TODO:
           while (time <= fightlength) {
@@ -236,10 +236,14 @@ namespace Chocobro {
               if (r.dpstimelinecount.Count < ticknumber + 1) { r.dpstimelinecount.Add(0); }
               if (r.tptimeline.Count < ticknumber + 1) { r.tptimeline.Add(0); }
               if (r.tptimelinecount.Count < ticknumber + 1) { r.tptimelinecount.Add(0); }
+              if (r.mptimeline.Count < ticknumber + 1) { r.mptimeline.Add(0); }
+              if (r.mptimelinecount.Count < ticknumber + 1) { r.mptimelinecount.Add(0); }
               r.dpstimeline[ticknumber] += p.totaldamage / time;
               r.dpstimelinecount[ticknumber] += 1;
               r.tptimeline[ticknumber] += p.TP;
               r.tptimelinecount[ticknumber] += 1;
+              r.mptimeline[ticknumber] += p.MP;
+              r.mptimelinecount[ticknumber] += 1;
               ticknumber += 1;
             }
           }
@@ -318,6 +322,7 @@ namespace Chocobro {
       for (var x = 0; x < r.dpstimeline.Count; x++) {
         r.dpstimeline[x] = r.dpstimeline[x] / r.dpstimelinecount[x];
         r.tptimeline[x] = r.tptimeline[x] / r.tptimelinecount[x];
+        r.mptimeline[x] = r.mptimeline[x] / r.mptimelinecount[x];
       }
       // Parse HTML log
       r.parse(p);

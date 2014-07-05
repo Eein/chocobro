@@ -6,6 +6,9 @@ namespace Chocobro {
   public class Bard : Job {
     // Proc Booleans - Set all proc booleans false initially.
     public bool bloodletterreset = false;
+    public int opener = 0;
+    public enum Song { None = 0, ArmysPaeon = 1, MagesBallad = 2, FoesRequiem = 3 }
+    public Song song;
     public Bard() {
       name = "Bard";
       classname = "Archer";
@@ -15,13 +18,19 @@ namespace Chocobro {
       // Define AP and MP conversion.
       AP = DEX;
       AMP = INT;
+      tpused = 0;
+      tpgained = 0;
+      song = Song.None;
+      MPMax = (1949 + 8 * (PIE - 168));
+      MP = MPMax;
     }
 
     public override void rotation() {
-      execute(ref regen);
+      if (regen.nextCast <= MainWindow.time) { execute(ref regen); }
+      if (MainWindow.time == armyspaeon.endcast && armyspaeon.casting) { armyspaeon.casting = false; impact(ref armyspaeon); }
       autoattack.recastTime = AADELAY;
 
-
+      
       if (MainWindow.selenebuff == true) {
         if (fglow == false) { execute(ref feylight); }
         if (flight == false) { execute(ref feyglow); }
@@ -30,29 +39,36 @@ namespace Chocobro {
       if (TP <= 540) {
         execute(ref invigorate);
       }
-      if (heavyshot.buff > 0) {
+
+      if (TP >= 540 && song == Song.ArmysPaeon && MP > 0.3 * MPMax && invigorate.nextCast - MainWindow.time < 15 ) { MainWindow.log(MainWindow.time.ToString("F2") + "Armys Paeon off."); song = Song.None; }
+      if (ragingstrikes.buff > 0) { MainWindow.log(MainWindow.time.ToString("F2") + "Armys Paeon off."); song = Song.None; }
+      if (TP <= 160 && song == Song.None && MainWindow.time < MainWindow.fightlength * 0.9 && ragingstrikes.buff <= 0) { execute(ref armyspaeon); }
+
+      if (heavyshot.buff > 0 && TP > 70) {
         execute(ref straightshot);
       }
 
-      if (straightshot.buff <= calculateGCD()/2) {
+      if (straightshot.buff <= 2 && TP > 70) {
         execute(ref straightshot);
       }
 
-      if (windbite.debuff <= calculateGCD()/2) {
+
+
+      if (windbite.debuff <= (nextregentick - (MainWindow.time + 0.01)) && TP > 80) {
         if (MainWindow.fightlength - MainWindow.time > 9) {
           execute(ref windbite);
         }
       }
 
-      if (venomousbite.debuff <= calculateGCD()/2) {
+      if (venomousbite.debuff <= (nextregentick - (MainWindow.time + 0.01)) && TP > 80) {
         if (MainWindow.fightlength - MainWindow.time > 9) {
           execute(ref venomousbite);
         }
       }
+      
+      execute(ref heavyshot); 
 
-      execute(ref heavyshot);
-
-      execute(ref ragingstrikes); //"smart" use of buffs, needs more attention
+      if (ragingstrikes.nextCast <= MainWindow.time) { opener = 0; execute(ref ragingstrikes); } //"smart" use of buffs, needs more attention
       if (ragingstrikes.buff > 0) {
         execute(ref bloodforblood);
         execute(ref internalrelease);
@@ -98,6 +114,9 @@ namespace Chocobro {
 
     public override void execute(ref Ability ability) {
       //barrage interactions
+            
+       
+      
       if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
         if (barrage.buff > 0) {
           MainWindow.time = MainWindow.floored(MainWindow.time);
@@ -107,7 +126,24 @@ namespace Chocobro {
           impact(ref ability);
         }
       }
-      base.execute(ref ability);
+
+      if (ability.nextCast <= MainWindow.time) {
+        if (ability.name == "Regen" && song == Song.ArmysPaeon) {
+          if (MP >= 133) {
+            tpgained += 30;
+            MP -= 133;
+            MainWindow.log(MainWindow.time.ToString("F2") + " - Extra TP. " + TP + " => " + (TP + 30) + " TP.  MP is now " + MP + ".");
+            TP += 30;
+          } else {
+            tpgained += 30;
+            MP = 0;
+            MainWindow.log(MainWindow.time.ToString("F2") + " - Extra TP. " + TP + " => " + (TP + 30) + " TP.  MP is now " + 0 + ". Song is now off.");
+            TP += 30;
+            song = Song.None;
+          }
+        }
+        base.execute(ref ability);
+      }
     }
     public override void impact(ref Ability ability) {
 
@@ -116,9 +152,11 @@ namespace Chocobro {
       //set potency for now, but change to damage later.
       var accroll = (MainWindow.d100(1, 10001)) / 100;
 
+      if (ability.name == "Army's Paeon") { song = Song.ArmysPaeon; }
       if (ability.name == "Invigorate") {
         var tpbefore = TP;
         TP += 400;
+        //tpgained += 400;
         if (TP > 1000) { TP = 1000; tpgained += 1000 - tpbefore; } else { tpgained += 400; }
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used. 400 TP Restored. TP is " + (TP - 400) + " => " + TP);
         if (OOT) {
@@ -189,6 +227,12 @@ namespace Chocobro {
           MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next AA at: " + ability.nextCast);
         }
       }
+      if (ability.abilityType == "Spell") {
+        ability.hits += 1;
+        MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " now activated.");
+      }
+
+
 
       // If ability has debuff, create its timer.
       if (ability.debuffTime > 0 && accroll < calculateACC()) {
@@ -201,6 +245,7 @@ namespace Chocobro {
           ability.dotbuff["hawkseye"] = false;
           ability.dotbuff["internalrelease"] = false;
           ability.dotbuff["potion"] = false;
+          ability.dotbuff["song"] = false;  
         }
         //If dot exists and ability doesn't miss, enable its time.
 
@@ -212,6 +257,7 @@ namespace Chocobro {
         if (hawkseye.buff > 0) { ability.dotbuff["hawkseye"] = true; }
         if (internalrelease.buff > 0) { ability.dotbuff["internalrelease"] = true; }
         if (xpotiondexterity.buff > 0) { ability.dotbuff["potion"] = true; }
+        if (song == Song.ArmysPaeon) { ability.dotbuff["song"] = true; }
 
 
 
@@ -240,6 +286,7 @@ namespace Chocobro {
           ability.dotbuff["hawkseye"] = false;
           ability.dotbuff["internalrelease"] = false;
           ability.dotbuff["potion"] = false;
+          ability.dotbuff["song"] = false;
         }
       }
       if ((MainWindow.servertick == 3 && MainWindow.time == MainWindow.servertime) && (ability.debuff > 0 && ability.dotPotency > 0)) {
@@ -277,10 +324,12 @@ namespace Chocobro {
         }
       }
       //end potion check
+
+
       if (hawkseye.buff > 0 || ((dot) && ability.dotbuff["hawkseye"])) { tempdex *= 1.15; }
       if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant") {
         damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempdex + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempdex + 0.050720984 * DTR);
-
+        
       }
       if (ability.abilityType == "AUTOA") {
         damageformula = (AAPOT) * (0.408 * WEP + 0.103262731 * tempdex + 0.003029823 * WEP * tempdex + 0.003543121 * WEP * (DTR - 202));
@@ -296,6 +345,7 @@ namespace Chocobro {
         if (ability.dotbuff["bloodforblood"]) { damageformula *= 1.10; }
         if (ability.dotbuff["straightshot"]) { critchance += 10; }
         if (ability.dotbuff["internalrelease"]) { critchance += 10; }
+        if (ability.dotbuff["song"]) { damageformula *= 0.8; }
 
       } else {
         if (ragingstrikes.buff > 0 && ability.name != "Flaming Arrow") { damageformula *= 1.20; }
@@ -356,9 +406,11 @@ namespace Chocobro {
       areport.Add(invigorate);
       areport.Add(autoattack);
       areport.Add(xpotiondexterity);
+      areport.Add(armyspaeon);
       areport.Add(feylight);
       areport.Add(feyglow);
       areport.Add(regen);
+      
     }
     Ability heavyshot = new HeavyShot();
     Ability windbite = new Windbite();
@@ -380,7 +432,7 @@ namespace Chocobro {
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
     Ability regen = new Regen();
-
+    Ability armyspaeon = new ArmysPaeon();
 
 
     // Set array of abilities for reportingz
@@ -631,5 +683,13 @@ namespace Chocobro {
     }
     // End Auto Attack
 
+    public class ArmysPaeon : Ability {
+      public ArmysPaeon() {
+        name = "Army's Paeon";
+        recastTime = 2.5;
+        castTime = 3.0;
+        abilityType = "Spell";
+      }
+    }
   }
 }

@@ -134,9 +134,9 @@
         <TextBox x:Name="SKSPD" HorizontalAlignment="Left" Height="20" Margin="77,414,0,0" TextWrapping="Wrap" Text="408" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0"/>
         <Label Content="SPSPD&#xA;" HorizontalAlignment="Left" Margin="19,436,0,0" VerticalAlignment="Top" Height="20" Padding="0,2,0,0" Width="35"/>
         <TextBox x:Name="SPSPD" HorizontalAlignment="Left" Height="20" Margin="77,436,0,0" TextWrapping="Wrap" Text="519" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.652" MaxLines="1" MaxLength="6" Padding="0,1,0,0" />
-        <TextBox x:Name="iterationsinput" HorizontalAlignment="Left" Height="22" Margin="10,489,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="5000" ToolTip="Number of times the simulator will run a fight."/>
+        <TextBox x:Name="iterationsinput" HorizontalAlignment="Left" Height="22" Margin="10,489,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="2000" ToolTip="Number of times the simulator will run a fight."/>
         <Label Content="Iterations:" HorizontalAlignment="Left" Margin="10,467,0,0" VerticalAlignment="Top" Height="30" Width="62"/>
-        <TextBox x:Name="fightLengthInput" HorizontalAlignment="Left" Height="22" Margin="10,532,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="150" ToolTip="How long each fight is."/>
+        <TextBox x:Name="fightLengthInput" HorizontalAlignment="Left" Height="22" Margin="10,532,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="500" ToolTip="How long each fight is."/>
         <Label Content="Fight Length:" HorizontalAlignment="Left" Margin="10,510,0,0" VerticalAlignment="Top" Height="26" Width="79"/>
         <ProgressBar x:Name="progressBar" HorizontalAlignment="Right" Margin="0,0,20,0" Grid.Row="1" Width="200" VerticalAlignment="Center" Height="20"/>
 

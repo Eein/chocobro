@@ -40,10 +40,10 @@ namespace Chocobro {
     public double nextauto = 0.00;
     public bool actionmade = false;
     public int TP = 1000;
-    public int MP = 3654; // TODO: formulate.
-    public int MPMax = 3654;
+    public int MP = 0; // TODO: formulate.
+    public int MPMax = 0;
     public enum Stance { BLMNone = 0, AF3 = 1, AF2 = 2, AF1 = 3, UI3 = 4, UI2 = 5, UI1 = 6 };
-    public static Stance stance;
+    public Stance stance;
     public bool swift = false;
     public bool OOT = false;
     public bool OOM = false;
@@ -184,7 +184,8 @@ namespace Chocobro {
         nextauto = 0.00;
         nextpet = 0.00;
         TP = 1000;
-        MP = (3629 + 8 * (PIE - 239));
+        if (name == "BRD") { MP = (1949 + 8 * (PIE - 168)); }
+        if (name == "BLM") { MP = (3629 + 8 * (PIE - 239)); }
         MPMax = MP;
         actionmade = false;
         OOT = false;
@@ -235,6 +236,7 @@ namespace Chocobro {
           int tpbefore = TP;
           int mpbefore = MP;
           TP += 60;
+          
           int tempmpgain = 0;
           if (name == "Black Mage" && stance == Stance.UI3) {tempmpgain = 2249;}
           if (name == "Black Mage" && stance == Stance.AF3) { tempmpgain = 0; } 
@@ -244,8 +246,8 @@ namespace Chocobro {
           if (MP > MPMax) { MP = MPMax; mpgained += MPMax - mpbefore; } else { mpgained += (int)Math.Floor((double)MP * 0.02); }
           MainWindow.log(MainWindow.time.ToString("F2") + " - TP/MP Regen tick. " + tpbefore + " => " + TP + " TP. " + mpbefore + " => " + MP + " MP.");
           nextregentick = MainWindow.time + 3;
-          ability.nextCast = MainWindow.floored((MainWindow.time + ability.recastTime));
-          
+          ability.nextCast = MainWindow.floored((MainWindow.time + 3));
+          if (OOT) { nextability = MainWindow.time; }
           OOT = false;
           OOM = false;
         }
@@ -261,6 +263,7 @@ namespace Chocobro {
           //force nextability to next server tick
           //if invigorate is used and OOM then it resets the time to now.
           nextability = nextregentick + 0.01;
+          nextinstant = MainWindow.time;
           OOT = true;
           OOM = true;
         } else {

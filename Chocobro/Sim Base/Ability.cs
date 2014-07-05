@@ -29,6 +29,7 @@ namespace Chocobro {
     public bool blunt = false;
     public bool slash = false;
     public string aspect = "null";
+    public bool auraon = false;
 
     public int crits = 0; //number of times this ability successfully crits (must hit)
     public int swings = 0; //includes every use (includes misses,crits)
@@ -56,7 +57,8 @@ namespace Chocobro {
         {"fightorflight",false},
         {"cooldown1",false},
         {"heavythrust",false},
-        {"potion", false}
+        {"potion", false},
+        {"song", false}
     };
 
     public double bonus = 0; // for abilitiy specific bonuses and potions
