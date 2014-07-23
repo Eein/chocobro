@@ -1,6 +1,6 @@
 ﻿// Chocobro FFXIV Simulator
 // License: GPLv3
-// Author: William Volin - (Eein Black)
+// Author: William Volin - (Eein Black), Jason Batson - (Phyre Xia)
 // Copyright 2013-2014 Chocobro.com
 // Dont fork! Just join the team :)
 // Commit Policy: Dont ask. If it compiles and does what you want it to, commit it.
@@ -31,6 +31,7 @@ namespace Chocobro {
     Random randtick = new Random();
     Stopwatch stopwatch = new Stopwatch();
 
+    public enum StatWeight { None, WeaponDamage, MagicDamage, Dexterity, Strength, Intelligence, Mind, Piety, Accuracy, Determination, Crit, SkillSpeed, SpellSpeed }
     private static readonly Random rand = new Random();
     public static double time = 0.00;
     public static double fightlength = 0.00;
@@ -77,6 +78,7 @@ namespace Chocobro {
       }
     }
 
+    //this is important to engine...
     public void handler(ref Job p) {
       p.actionmade = false; //temp
       p.rotation();
@@ -85,6 +87,7 @@ namespace Chocobro {
 
     // Global Math
 
+    //random function
     public static double d100(int min, int max) {
       return (rand.Next(min, max));
     }
@@ -100,6 +103,8 @@ namespace Chocobro {
         servertime += 1;
       }
     }
+
+    //engine??
     public static double nextTime(double instant, double ability, double st_t, double auto, bool OOT, bool OOM) {
       var value = 0.0;
 
@@ -174,11 +179,22 @@ namespace Chocobro {
       int delta = 50;
       int newdelta = delta;
       // TODO: add negative and positive delta selection. Currently we're doing positive only.
-
-      if (swselected == "None") { newdelta = 0; } else { newdelta *= 2; }
-
+      StatWeight swenum = StatWeight.None;
+      if (swselected == "None") { swenum = StatWeight.None; newdelta = 0; } else { newdelta *= 2; }
+      if (swselected == "Weapon Damage") { swenum = StatWeight.WeaponDamage; }
+      if (swselected == "Magic Damage") { swenum = StatWeight.MagicDamage; }
+      if (swselected == "Dexterity") { swenum = StatWeight.Dexterity; }
+      if (swselected == "Strength") { swenum = StatWeight.Strength; }
+      if (swselected == "Mind") { swenum = StatWeight.Mind; }
+      if (swselected == "Piety") { swenum = StatWeight.Piety; }
+      if (swselected == "Intelligence") { swenum = StatWeight.Intelligence; }
+      if (swselected == "Accuracy") { swenum = StatWeight.Accuracy; }
+      if (swselected == "Crit") { swenum = StatWeight.Crit; }
+      if (swselected == "Determination") { swenum = StatWeight.Determination; }
+      if (swselected == "Skill Speed") { swenum = StatWeight.SkillSpeed; }
+      if (swselected == "Spell Speed") { swenum = StatWeight.SpellSpeed; }
       //subtract an extra step because one gets added initially.
-
+      //buckets for dpstimeline
       for (int x = 0; x < 50; x++) {
         bucketlist.Add(0);
       }
@@ -195,6 +211,8 @@ namespace Chocobro {
           }));
         }
         
+
+        //start iterations (needs threading!!!)
         for (int x = 1; x <= iterations; ++x) {
           int ticknumber = 0;
           servertick = randtick.Next(1, 4);
@@ -207,17 +225,44 @@ namespace Chocobro {
 
           p.getStats(this);
 
-          if (swselected == "Weapon Damage") { p.WEP = p.WEP - (delta - y); }
-          if (swselected == "Magic Damage") { p.MDMG = p.MDMG - (delta - y); }
-          if (swselected == "Dexterity") { p.DEX = p.DEX - (delta - y); }
-          if (swselected == "Strength") { p.STR = p.STR - (delta - y); }
-          if (swselected == "Piety") { p.PIE = p.PIE - (delta - y); }
-          if (swselected == "Intelligence") { p.INT = p.INT - (delta - y); }
-          if (swselected == "Accuracy") { p.ACC = p.ACC - (delta - y); }
-          if (swselected == "Crit") { p.CRIT = p.CRIT - (delta - y); }
-          if (swselected == "Determination") { p.DTR = p.DTR - (delta - y); }
-          if (swselected == "Skill Speed") { p.SKS = p.SKS - (delta - y); }
-          if (swselected == "Spell Speed") { p.SPS = p.SPS - (delta - y); }
+          switch (swenum) {
+            case StatWeight.WeaponDamage:
+              p.WEP = p.WEP - (delta - y);
+              break;
+            case StatWeight.MagicDamage:
+              p.MDMG = p.MDMG - (delta - y);
+              break;
+            case StatWeight.Dexterity:
+              p.DEX = p.DEX - (delta - y);
+              break;
+            case StatWeight.Strength:
+              p.STR = p.STR - (delta - y);
+              break;
+            case StatWeight.Intelligence:
+              p.INT = p.INT - (delta - y);
+              break;
+            case StatWeight.Mind:
+              p.MND = p.MND - (delta - y);
+              break;
+            case StatWeight.Piety:
+              p.PIE = p.PIE - (delta - y);
+              break;
+            case StatWeight.Accuracy:
+              p.ACC = p.ACC - (delta - y);
+              break;
+            case StatWeight.Determination:
+              p.DTR = p.DTR - (delta - y);
+              break;
+            case StatWeight.Crit:
+              p.CRIT = p.CRIT - (delta - y);
+              break;
+            case StatWeight.SkillSpeed:
+              p.SKS = p.SKS - (delta - y);
+              break;
+            case StatWeight.SpellSpeed:
+              p.SPS = p.SPS - (delta - y);
+              break;
+          }
 
 
           p.resetAbilities();
@@ -225,6 +270,8 @@ namespace Chocobro {
           fightlength = (Convert.ToInt32(fightlengthtext)) + (d100(0, (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.1)) - (int)Math.Floor(Convert.ToInt16(fightlengthtext) * 0.05));
           if ((x == 1) && (y == 0)) { r.dpstimeline.Select(i => 0); r.dpstimelinecount.Select(i => 0); }
           debug(); //have option to disable TODO:
+
+          //actual simming
           while (time <= fightlength) {
             handler(ref p);
             tickevent();
@@ -251,6 +298,8 @@ namespace Chocobro {
 
           DPSarray.Add((p.totaldamage / fightlength));
 
+
+          //first iteration reporting
           if (x == 1 && y == 0) {
             
             p.report(); // first iteration of abilities
