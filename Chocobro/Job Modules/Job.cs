@@ -74,11 +74,12 @@ namespace Chocobro {
     public double simulationtime = 0;
     public bool firsttp = true;
     public double nextregentick;
+    public bool isstuck = false;
 
     //Pots and Buffs
 
     public class XPotionDexterity : Ability {
-      public XPotionDexterity() {
+      public XPotionDexterity(Job parent) {
         //HQ
         name = "HQ - X-Potion of Dexterity";
         recastTime = 300;
@@ -103,7 +104,7 @@ namespace Chocobro {
     }
 
     public class XPotionStrength : Ability {
-      public XPotionStrength() {
+      public XPotionStrength(Job parent) {
         name = "HQ - X-Potion of Strength";
         recastTime = 300;
         animationDelay = 0.6;
@@ -188,6 +189,7 @@ namespace Chocobro {
         if (name == "BLM") { MP = (3629 + 8 * (PIE - 239)); }
         MPMax = MP;
         actionmade = false;
+
         OOT = false;
         OOM = false;
 
@@ -196,6 +198,7 @@ namespace Chocobro {
 
     }
     public virtual void impact(ref Ability ability) {
+      isstuck = false;
       // 
     }
     public virtual void execute(ref Ability ability) {

@@ -6,12 +6,36 @@ namespace Chocobro {
 
   public class Monk : Job {
     // Proc Booleans - Set all proc booleans false initially.
-    public static int glstacks = 0;
-    public static bool perfectbalancebuff = false;
+    public int glstacks;
+    public bool perfectbalancebuff;
     Form form;
     public Monk() {
       name = "Monk";
       classname = "Pugilist";
+      glstacks = 0;
+      perfectbalancebuff = false;
+
+      bootshine = new Bootshine(this);
+      truestrike = new TrueStrike(this);
+      snappunch = new SnapPunch(this);
+      touchofdeath = new TouchOfDeath(this);
+      twinsnakes = new TwinSnakes(this);
+      demolish = new Demolish(this);
+      dragonkick = new DragonKick(this);
+      internalrelease = new InternalRelease(this);
+      perfectbalance = new PerfectBalance(this);
+      fracture = new Fracture(this);
+      invigorate = new Invigorate(this);
+      mercystroke = new MercyStroke(this);
+      steelpeak = new SteelPeak(this);
+      howlingfist = new HowlingFist(this);
+      bloodforblood = new BloodForBlood(this);
+      autoattack = new Autoattack(this);
+      xpotionstrength = new XPotionStrength(this);
+
+      feylight = new FeyLight();
+      feyglow = new FeyGlow();
+      tpregen = new Regen();
     }
     public override void getStats(MainWindow cs) {
       base.getStats(cs);
@@ -19,6 +43,8 @@ namespace Chocobro {
       AP = STR; //or STR
       AMP = INT;
       form = Form.MNKNone;
+      MPMax = (1949 + 8 * (PIE - 168));
+      MP = MPMax;
     }
 
     public override void rotation() {
@@ -37,9 +63,10 @@ namespace Chocobro {
 
       //Abilities - execute(ref ability)
       if (perfectbalancebuff == true) {
-        if (glstacks < 1) { execute(ref snappunch); }
-        if (glstacks < 2) { execute(ref demolish); }
         if (glstacks < 3) { execute(ref snappunch); }
+        if (glstacks < 2) { execute(ref demolish); }
+        if (glstacks < 1) { execute(ref snappunch); }
+
         if (glstacks == 3 && dragonkick.debuff < calculateGCD()) { execute(ref dragonkick); }
         if (glstacks == 3 && twinsnakes.buff < calculateGCD()) { execute(ref twinsnakes); }
         if (glstacks == 3 && touchofdeath.debuff < calculateGCD()) { execute(ref touchofdeath); }
@@ -113,14 +140,9 @@ namespace Chocobro {
           if (ability.name == "Bootshine" || ability.name == "Dragon Kick") { form = Form.Raptor; }
           if (ability.name == "True Strike" || ability.name == "Twin Snakes") { form = Form.Couerl; }
           if (ability.name == "Snap Punch" || ability.name == "Demolish") { form = Form.OpoOpo; }
-
-          if (ability.name == "Snap Punch" || ability.name == "Demolish") { glstacks += 1; }
+          if (ability.name == "Snap Punch" || ability.name == "Demolish") { glstacks += 1; if (glstacks > 3) { glstacks = 3; } }
 
           double thisdamage = damage(ref ability, ability.potency);
-
-          if (MainWindow.disdebuff == true) {
-            thisdamage = Math.Floor(thisdamage *= 1.12);
-          }
 
           numberofhits += 1;
           ability.hits += 1;
@@ -136,13 +158,14 @@ namespace Chocobro {
         }
       }
       if (ability.abilityType == "AUTOA") {
-        autoattack.hits += 1;
         numberofattacks += 1;
+        ability.swings += 1;
         if (accroll < calculateACC()) {
           var thisdamage = damage(ref ability, ability.potency);
           numberofhits += 1;
+          ability.hits += 1;
           totaldamage += thisdamage;
-          autoattack.damage += thisdamage;
+          ability.damage += thisdamage;
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next AA at: " + ability.nextCast);
         } else {
           autoattack.misses += 1;
@@ -300,26 +323,26 @@ namespace Chocobro {
       }
     }
 
-    Ability bootshine = new Bootshine();
-    Ability truestrike = new TrueStrike();
-    Ability snappunch = new SnapPunch();
-    Ability touchofdeath = new TouchOfDeath();
-    Ability twinsnakes = new TwinSnakes();
-    Ability demolish = new Demolish();
-    Ability dragonkick = new DragonKick();
-    Ability internalrelease = new InternalRelease();
-    Ability perfectbalance = new PerfectBalance();
-    Ability fracture = new Fracture();
-    Ability invigorate = new Invigorate();
-    Ability mercystroke = new MercyStroke();
-    Ability steelpeak = new SteelPeak();
-    Ability howlingfist = new HowlingFist();
-    Ability bloodforblood = new BloodForBlood();
-    Ability autoattack = new Autoattack();
-    Ability xpotionstrength = new XPotionStrength();
-    Ability feylight = new FeyLight();
-    Ability feyglow = new FeyGlow();
-    Ability tpregen = new Regen();
+    Ability bootshine;
+    Ability truestrike;
+    Ability snappunch;
+    Ability touchofdeath;
+    Ability twinsnakes;
+    Ability demolish;
+    Ability dragonkick;
+    Ability internalrelease;
+    Ability perfectbalance;
+    Ability fracture;
+    Ability invigorate;
+    Ability mercystroke;
+    Ability steelpeak;
+    Ability howlingfist;
+    Ability bloodforblood;
+    Ability autoattack;
+    Ability xpotionstrength;
+    Ability feylight;
+    Ability feyglow;
+    Ability tpregen;
 
 
 
@@ -331,7 +354,7 @@ namespace Chocobro {
 
     //Bootshine
     public class  Bootshine: Ability {
-      public Bootshine() {
+      public Bootshine(Monk parent) {
         name = "Bootshine";
         potency = 150;
         animationDelay = 1.2;
@@ -343,7 +366,7 @@ namespace Chocobro {
 
     //True Strike
     public class TrueStrike : Ability {
-      public TrueStrike() {
+      public TrueStrike(Monk parent) {
         name = "True Strike";
         potency = 190;
         animationDelay = 1.2;
@@ -355,7 +378,7 @@ namespace Chocobro {
 
     //Snap Punch
     public class SnapPunch : Ability {
-      public SnapPunch() {
+      public SnapPunch(Monk parent) {
         name = "Snap Punch";
         potency = 180;
         animationDelay = 1.2;
@@ -367,7 +390,7 @@ namespace Chocobro {
 
     //Touch of Death
     public class TouchOfDeath : Ability {
-      public TouchOfDeath() {
+      public TouchOfDeath(Monk parent) {
         name = "Touch of Death";
         potency = 20;
         dotPotency = 25;
@@ -381,7 +404,7 @@ namespace Chocobro {
 
     //Twin Snakes
     public class TwinSnakes : Ability {
-      public TwinSnakes() {
+      public TwinSnakes(Monk parent) {
         name = "Twin Snakes";
         potency = 140;
         animationDelay = 1.2;
@@ -394,7 +417,7 @@ namespace Chocobro {
 
     //Demolish
     public class Demolish : Ability {
-      public Demolish() {
+      public Demolish(Monk parent) {
         name = "Demolish";
         potency = 70;
         TPcost = 50;
@@ -408,7 +431,7 @@ namespace Chocobro {
 
     //Dragon Kick
     public class DragonKick : Ability {
-      public DragonKick() {
+      public DragonKick(Monk parent) {
         name = "Dragon Kick";
         potency = 150;
         debuffTime = 15;
@@ -421,7 +444,7 @@ namespace Chocobro {
 
     //Internal Release
     public class InternalRelease : Ability {
-      public InternalRelease() {
+      public InternalRelease(Monk parent) {
         name = "Internal Release";
         buffTime = 15;
         recastTime = 60;
@@ -433,7 +456,7 @@ namespace Chocobro {
  
     //Perfect Balance
     public class PerfectBalance : Ability {
-      public PerfectBalance() {
+      public PerfectBalance(Monk parent) {
         name = "Perfect Balance";
         animationDelay = 0.6;
         buffTime = 10;
@@ -445,7 +468,7 @@ namespace Chocobro {
 
     //Fracture
     public class Fracture : Ability {
-      public Fracture() {
+      public Fracture(Monk parent) {
         name = "Fracture";
         potency = 100;
         TPcost = 80;
@@ -459,7 +482,7 @@ namespace Chocobro {
 
     //Invigorate
     public class Invigorate : Ability {
-      public Invigorate() {
+      public Invigorate(Monk parent) {
         name = "Invigorate";
         animationDelay = 0.6;
         recastTime = 120;
@@ -470,7 +493,7 @@ namespace Chocobro {
 
     //Mercy Stroke
     public class MercyStroke : Ability {
-      public MercyStroke() {
+      public MercyStroke(Monk parent) {
         name = "Mercy Stroke";
         potency = 200;
         recastTime = 90;
@@ -482,7 +505,7 @@ namespace Chocobro {
 
     //Steel Peak
     public class SteelPeak : Ability {
-      public SteelPeak() {
+      public SteelPeak(Monk parent) {
         name = "Steel Peek";
         potency = 150;
         recastTime = 40;
@@ -494,7 +517,7 @@ namespace Chocobro {
 
     //Howling Fist
     public class HowlingFist : Ability {
-      public HowlingFist() {
+      public HowlingFist(Monk parent) {
         name = "Howling Fist";
         potency = 170;
         recastTime = 60;
@@ -506,7 +529,7 @@ namespace Chocobro {
 
     //Blood for Blood
     public class BloodForBlood : Ability {
-      public BloodForBlood() {
+      public BloodForBlood(Monk parent) {
         name = "Fracture";
         recastTime = 80;
         buffTime = 20;
@@ -517,10 +540,10 @@ namespace Chocobro {
     //End Blood for Blood
 
     //Auto Attack
-    public class Autoattack : Ability {
-      public Autoattack() {
+     class Autoattack : Ability {
+       public Autoattack(Monk parent) {
         name = "Auto Attack";
-        recastTime = (MainWindow.AADELAY - (1 - 0.05 * glstacks));
+        recastTime = (MainWindow.AADELAY - (1 - 0.05 * parent.glstacks));
         animationDelay = 0;
         abilityType = "AUTOA";
       }

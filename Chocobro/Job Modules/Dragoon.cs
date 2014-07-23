@@ -11,6 +11,7 @@ namespace Chocobro {
     public Dragoon() {
       name = "Dragoon";
       classname = "Lancer";
+      xpotionstrength = new XPotionStrength(this);
     }
     public override void getStats(MainWindow cs) {
       base.getStats(cs);
@@ -320,7 +321,7 @@ namespace Chocobro {
     Ability dragonfiredive = new DragonfireDive();
     Ability chaosthrust = new ChaosThrust();
     Ability invigorate = new Invigorate();
-    Ability xpotionstrength = new XPotionStrength();
+    Ability xpotionstrength;
     Ability feylight = new FeyLight();
     Ability feyglow = new FeyGlow();
     Ability tpregen = new Regen();

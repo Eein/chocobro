@@ -382,13 +382,15 @@ namespace Chocobro {
 
     // Auto Attack
     public class Autoattack : Ability {
-      public Autoattack() {
+      public Autoattack(Job template) {
         name = "Auto Attack";
         recastTime = MainWindow.AADELAY;
         animationDelay = 0;
         abilityType = "AUTOA";
       }
     }
+  
+  
     //End Auto Attack
    
   }

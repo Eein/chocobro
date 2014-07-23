@@ -9,10 +9,36 @@ namespace Chocobro {
     public int opener = 0;
     public enum Song { None = 0, ArmysPaeon = 1, MagesBallad = 2, FoesRequiem = 3 }
     public Song song;
+
     public Bard() {
       name = "Bard";
       classname = "Archer";
+
+      heavyshot = new HeavyShot(this);
+      windbite = new Windbite(this);
+      venomousbite = new VenomousBite(this);
+      straightshot = new StraightShot(this);
+      bloodletter = new Bloodletter(this);
+      miserysend = new MiserysEnd(this);
+      bluntarrow = new BluntArrow(this);
+      repellingshot = new RepellingShot(this);
+      flamingarrow = new FlamingArrow(this);
+      internalrelease = new InternalRelease(this);
+      bloodforblood = new BloodForBlood(this);
+      ragingstrikes = new RagingStrikes(this);
+      hawkseye = new HawksEye(this);
+      barrage = new Barrage(this);
+      invigorate = new Invigorate(this);
+      autoattack = new AutoAttack(this);
+      armyspaeon = new ArmysPaeon(this);
+
+      xpotiondexterity = new XPotionDexterity(this);
+      feylight = new FeyLight();
+      feyglow = new FeyGlow();
+      regen = new Regen();
+
     }
+
     public override void getStats(MainWindow cs) {
       base.getStats(cs);
       // Define AP and MP conversion.
@@ -32,8 +58,8 @@ namespace Chocobro {
 
       
       if (MainWindow.selenebuff == true) {
-        if (fglow == false) { execute(ref feylight); }
-        if (flight == false) { execute(ref feyglow); }
+        if (feyglow.buff <= 0 && MainWindow.time >= feylight.nextCast) { execute(ref feylight); }
+        if (feylight.buff <= 0 && MainWindow.time >= feyglow.nextCast) { execute(ref feyglow); }
       }
 
       if (TP <= 540) {
@@ -41,7 +67,7 @@ namespace Chocobro {
       }
 
       if (TP >= 540 && song == Song.ArmysPaeon && MP > 0.3 * MPMax && invigorate.nextCast - MainWindow.time < 15 ) { MainWindow.log(MainWindow.time.ToString("F2") + "Armys Paeon off."); song = Song.None; }
-      if (ragingstrikes.buff > 0) { MainWindow.log(MainWindow.time.ToString("F2") + "Armys Paeon off."); song = Song.None; }
+      if (ragingstrikes.buff > 0 && song == Song.ArmysPaeon) { MainWindow.log(MainWindow.time.ToString("F2") + "Armys Paeon off."); song = Song.None; }
       if (TP <= 160 && song == Song.None && MainWindow.time < MainWindow.fightlength * 0.9 && ragingstrikes.buff <= 0) { execute(ref armyspaeon); }
 
       if (heavyshot.buff > 0 && TP > 70) {
@@ -328,11 +354,11 @@ namespace Chocobro {
 
       if (hawkseye.buff > 0 || ((dot) && ability.dotbuff["hawkseye"])) { tempdex *= 1.15; }
       if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant") {
-        damageformula = ((double)pot / 100) * (0.005126317 * WEP * tempdex + 0.000128872 * WEP * DTR + 0.049531324 * WEP + 0.087226457 * tempdex + 0.050720984 * DTR);
+        damageformula = ((double)pot / 100) * (WEP * .2714745 + tempdex * .1006032 + (DTR - 202) * .0241327 + WEP * tempdex * .0036167 + WEP * (DTR - 202) * .0010800 - 1);
         
       }
       if (ability.abilityType == "AUTOA") {
-        damageformula = (AAPOT) * (0.408 * WEP + 0.103262731 * tempdex + 0.003029823 * WEP * tempdex + 0.003543121 * WEP * (DTR - 202));
+        damageformula = (AADELAY / 3.00) * (WEP * .2714745 + tempdex * .1006032 + (DTR - 202) * .0241327 + WEP * tempdex * .0036167 + WEP * (DTR - 202) * .0010800 - 1);
       }
 
       //crit
@@ -412,27 +438,27 @@ namespace Chocobro {
       areport.Add(regen);
       
     }
-    Ability heavyshot = new HeavyShot();
-    Ability windbite = new Windbite();
-    Ability venomousbite = new VenomousBite();
-    Ability straightshot = new StraightShot();
-    Ability bloodletter = new Bloodletter();
-    Ability miserysend = new MiserysEnd();
-    Ability bluntarrow = new BluntArrow();
-    Ability repellingshot = new RepellingShot();
-    Ability flamingarrow = new FlamingArrow();
-    Ability internalrelease = new InternalRelease();
-    Ability bloodforblood = new BloodForBlood();
-    Ability ragingstrikes = new RagingStrikes();
-    Ability hawkseye = new HawksEye();
-    Ability barrage = new Barrage();
-    Ability invigorate = new Invigorate();
-    Ability autoattack = new AutoAttack();
-    Ability xpotiondexterity = new XPotionDexterity();
-    Ability feylight = new FeyLight();
-    Ability feyglow = new FeyGlow();
-    Ability regen = new Regen();
-    Ability armyspaeon = new ArmysPaeon();
+    Ability heavyshot;
+    Ability windbite;
+    Ability venomousbite;
+    Ability straightshot;
+    Ability bloodletter;
+    Ability miserysend;
+    Ability bluntarrow;
+    Ability repellingshot;
+    Ability flamingarrow;
+    Ability internalrelease;
+    Ability bloodforblood;
+    Ability ragingstrikes;
+    Ability hawkseye;
+    Ability barrage;
+    Ability invigorate;
+    Ability autoattack;
+    Ability xpotiondexterity;
+    Ability feylight;
+    Ability feyglow;
+    Ability regen;
+    Ability armyspaeon;
 
 
     // Set array of abilities for reportingz
@@ -440,7 +466,7 @@ namespace Chocobro {
     // Heavy Shot ---------------------
 
     public class HeavyShot : Ability {
-      public HeavyShot() {
+      public HeavyShot(Bard parent) {
         name = "Heavy Shot";
         potency = 150;
         dotPotency = 0;
@@ -457,7 +483,7 @@ namespace Chocobro {
     // Windbite --------------------------
 
     public class Windbite : Ability {
-      public Windbite() {
+      public Windbite(Bard parent) {
         name = "Windbite";
         potency = 60;
         dotPotency = 45;
@@ -474,7 +500,7 @@ namespace Chocobro {
     // Venomous Bite -------------------------
 
     public class VenomousBite : Ability {
-      public VenomousBite() {
+      public VenomousBite(Bard parent) {
         name = "Venomous Bite";
         potency = 100;
         dotPotency = 35;
@@ -490,7 +516,7 @@ namespace Chocobro {
     // Straight Shot --------------------------
 
     public class StraightShot : Ability {
-      public StraightShot() {
+      public StraightShot(Bard parent) {
         name = "Straight Shot";
         potency = 140;
         dotPotency = 0;
@@ -507,7 +533,7 @@ namespace Chocobro {
     // Bloodletter --------------------------------
 
     public class Bloodletter : Ability {
-      public Bloodletter() {
+      public Bloodletter(Bard parent) {
         name = "Bloodletter";
         potency = 150;
         dotPotency = 0;
@@ -524,7 +550,7 @@ namespace Chocobro {
     // Miserys End -------------------------------
 
     public class MiserysEnd : Ability {
-      public MiserysEnd() {
+      public MiserysEnd(Bard parent) {
         name = "Miserys End";
         potency = 190;
         dotPotency = 0;
@@ -541,7 +567,7 @@ namespace Chocobro {
     // Blunt Arrow ------------------------------------
 
     public class BluntArrow : Ability {
-      public BluntArrow() {
+      public BluntArrow(Bard parent) {
         name = "Blunt Arrow";
         potency = 50;
         dotPotency = 0;
@@ -557,7 +583,7 @@ namespace Chocobro {
     // Repelling Shot ---------------------------------
 
     public class RepellingShot : Ability {
-      public RepellingShot() {
+      public RepellingShot(Bard parent) {
         name = "Repelling Shot";
         potency = 80;
         dotPotency = 0;
@@ -573,7 +599,7 @@ namespace Chocobro {
     //Flaming Arrow
 
     public class FlamingArrow : Ability {
-      public FlamingArrow() {
+      public FlamingArrow(Bard parent) {
         name = "Flaming Arrow";
         potency = 0;
         dotPotency = 35;
@@ -591,7 +617,7 @@ namespace Chocobro {
     // Internal Release
 
     public class InternalRelease : Ability {
-      public InternalRelease() {
+      public InternalRelease(Bard parent) {
         name = "Internal Release";
         recastTime = 60;
         animationDelay = 0.8;
@@ -605,7 +631,7 @@ namespace Chocobro {
     // Blood for Blood
 
     public class BloodForBlood : Ability {
-      public BloodForBlood() {
+      public BloodForBlood(Bard parent) {
         name = "Blood for Blood";
         recastTime = 80;
         animationDelay = 0.8;
@@ -619,7 +645,7 @@ namespace Chocobro {
     // Raging Strikes
 
     public class RagingStrikes : Ability {
-      public RagingStrikes() {
+      public RagingStrikes(Bard parent) {
         name = "Raging Strikes";
         recastTime = 120;
         animationDelay = 0.8;
@@ -634,7 +660,7 @@ namespace Chocobro {
     // Hawks Eye
 
     public class HawksEye : Ability {
-      public HawksEye() {
+      public HawksEye(Bard parent) {
         name = "Hawks Eye";
         recastTime = 90;
         animationDelay = 0.8;
@@ -648,7 +674,7 @@ namespace Chocobro {
     // Barrage
 
     public class Barrage : Ability {
-      public Barrage() {
+      public Barrage(Bard parent) {
         name = "Barrage";
         recastTime = 90;
         animationDelay = 0.8;
@@ -662,7 +688,7 @@ namespace Chocobro {
     // Invigorate
 
     public class Invigorate : Ability {
-      public Invigorate() {
+      public Invigorate(Bard parent) {
         name = "Invigorate";
         recastTime = 120;
         animationDelay = 0.8;
@@ -674,7 +700,7 @@ namespace Chocobro {
     // Auto Attack
 
     public class AutoAttack : Ability {
-      public AutoAttack() {
+      public AutoAttack(Bard parent) {
         name = "Auto Attack";
         recastTime = MainWindow.AADELAY;
         animationDelay = 0;
@@ -684,7 +710,7 @@ namespace Chocobro {
     // End Auto Attack
 
     public class ArmysPaeon : Ability {
-      public ArmysPaeon() {
+      public ArmysPaeon(Bard parent) {
         name = "Army's Paeon";
         recastTime = 2.5;
         castTime = 3.0;

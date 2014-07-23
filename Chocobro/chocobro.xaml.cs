@@ -463,20 +463,6 @@ namespace Chocobro {
       sr.Close();
     }));
 
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
   }
-
 }

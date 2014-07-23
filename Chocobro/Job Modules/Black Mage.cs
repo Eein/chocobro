@@ -38,8 +38,8 @@ namespace Chocobro {
     public override void rotation() {
       execute(ref regen);
       if (MainWindow.selenebuff == true) {
-        if (fglow == false) { execute(ref feylight); }
-        if (flight == false) { execute(ref feyglow); }
+        if (feyglow.buff <= 0 && MainWindow.time >= feylight.nextCast) { execute(ref feylight); }
+        if (feylight.buff <= 0 && MainWindow.time >= feyglow.nextCast) { execute(ref feyglow); }
       }
 
       //Impact
@@ -49,7 +49,10 @@ namespace Chocobro {
       if (MainWindow.time == blizzardiii.endcast && blizzardiii.casting) { blizzardiii.casting = false; impact(ref blizzardiii);  UIstacks = 3; stance = Stance.UI3;}
       if (MainWindow.time == thunder.endcast && thunder.casting) { thunder.casting = false; impact(ref thunder); }
       if (MainWindow.time == thunderii.endcast && thunderii.casting) { thunderii.casting = false; impact(ref thunderii); }
-      if (MainWindow.time == thunderiiitcp.endcast && thunderiiitcp.casting) { thunderiiitcp.casting = false; thundercloud = false; thunder.debuff = 0; impact(ref thunderiiitcp); }
+      if (MainWindow.time == thunderiiitcp.endcast && thunderiiitcp.casting) {
+        if (firestarter) { firestartercheck = 1; }
+        thunderiiitcp.casting = false; thundercloud = false; thunder.debuff = 0; impact(ref thunderiiitcp); 
+      }
       if (MainWindow.time == flare.endcast && flare.casting) { flare.casting = false; impact(ref flare); }
       if (MainWindow.time == blizzard.endcast && blizzard.casting) { blizzard.casting = false;  impact(ref blizzard); }
 
@@ -105,7 +108,8 @@ namespace Chocobro {
       //Decrement Buffs - decrement(ref buff)
       decrement(ref xpotionintelligence);
       decrement(ref ragingstrikes);
-
+      decrement(ref feyglow);
+      decrement(ref feylight);
     }
 
     public override void execute(ref Ability ability) {
@@ -289,7 +293,7 @@ namespace Chocobro {
       if (AFstacks == 3 && ability.aspect == "Ice") { multi = 0.7; }
 
       if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant" || ability.abilityType == "Spell" || ability.abilityType == "HealSpell") {
-        damageformula = (multi * (double)pot / 100) * ((MDMG * 0.42527 + tempint * 0.186852 + DTR * 0.015728 + MDMG * tempint * 0.007284 + MDMG * (DTR - 202) * 0.002269) / 1.5);
+        damageformula = (multi * (double)pot / 100) * ((MDMG * 0.353554382 + tempint * 0.176111019 + DTR * 0.00911378 + MDMG * tempint * 0.00739962 + MDMG * (DTR - 202) * 0.002393685) / 1.5);
 
       }
 
