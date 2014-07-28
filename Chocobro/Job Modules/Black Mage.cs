@@ -6,13 +6,14 @@ namespace Chocobro {
 
   public class BlackMage : Job {
     // Proc Booleans - Set all proc booleans false initially.
-     int AFstacks;
-     int UIstacks;
-     bool firestarter = false;
-     bool thundercloud = false;
-     string lastability = "";
-     int opener = 0;
-     int firestartercheck = 0;
+    int AFstacks;
+    int UIstacks;
+    bool firestarter = false;
+    bool thundercloud = false;
+    string lastability = "";
+    int opener = 0;
+    int firestartercheck = 0;
+    bool MPFix = false;
 
     public BlackMage() {
       name = "Black Mage";
@@ -31,11 +32,11 @@ namespace Chocobro {
       UIstacks = 0;
       lastability = "";
       firestartercheck = 0;
-      MPMax = 3629 + 8 * (PIE - 239);
-      MP = MPMax;
+      MPFix = true;
     }
 
     public override void rotation() {
+      if (MPFix) { MPMax = (3629 + 8 * (PIE - 239)); MP = MPMax; MPFix = false; }
       execute(ref regen);
       if (MainWindow.selenebuff == true) {
         if (feyglow.buff <= 0 && MainWindow.time >= feylight.nextCast) { execute(ref feylight); }
@@ -46,15 +47,16 @@ namespace Chocobro {
       if (MainWindow.time == fireiii.endcast && fireiii.casting) { fireiii.casting = false; impact(ref fireiii); stance = Stance.AF3; AFstacks = 3; }
       if (MainWindow.time == fire.endcast && fire.casting) { fire.casting = false; impact(ref fire); }
       if (MainWindow.time == fireiiifsp.endcast && fireiiifsp.casting) { impact(ref fireiiifsp); fireiiifsp.casting = false; firestarter = false; }
-      if (MainWindow.time == blizzardiii.endcast && blizzardiii.casting) { blizzardiii.casting = false; impact(ref blizzardiii);  UIstacks = 3; stance = Stance.UI3;}
+      if (MainWindow.time == blizzardiii.endcast && blizzardiii.casting) { blizzardiii.casting = false; impact(ref blizzardiii); UIstacks = 3; stance = Stance.UI3; }
       if (MainWindow.time == thunder.endcast && thunder.casting) { thunder.casting = false; impact(ref thunder); }
       if (MainWindow.time == thunderii.endcast && thunderii.casting) { thunderii.casting = false; impact(ref thunderii); }
+      if (MainWindow.time == thunderiii.endcast && thunderiii.casting) { thunderiii.casting = false; impact(ref thunderiii); }
       if (MainWindow.time == thunderiiitcp.endcast && thunderiiitcp.casting) {
         if (firestarter) { firestartercheck = 1; }
-        thunderiiitcp.casting = false; thundercloud = false; thunder.debuff = 0; impact(ref thunderiiitcp); 
+        thunderiiitcp.casting = false; thundercloud = false; thunder.debuff = 0; impact(ref thunderiiitcp);
       }
       if (MainWindow.time == flare.endcast && flare.casting) { flare.casting = false; impact(ref flare); }
-      if (MainWindow.time == blizzard.endcast && blizzard.casting) { blizzard.casting = false;  impact(ref blizzard); }
+      if (MainWindow.time == blizzard.endcast && blizzard.casting) { blizzard.casting = false; impact(ref blizzard); }
 
       //Abilities - execute(ref ability)
       if (convert.nextCast <= MainWindow.time && swiftcast.nextCast <= MainWindow.time && stance == Stance.AF3 && opener > 6) { opener = 2; }
@@ -67,33 +69,39 @@ namespace Chocobro {
       if (stance == Stance.UI3 && firestarter && MP >= MPMax * 0.9) { execute(ref transpose); }
       if (AFstacks == 1) { execute(ref fireiiifsp); }
 
-      if (opener == 0) { execute(ref thunderii);  }
+      if (opener == 0) { execute(ref thunderii); }
 
-      if (opener == 1) { execute(ref fireiii);  }
+      if (opener == 1) { execute(ref fireiii); }
       //execute(ref ragingstrikes);
-            
+
       if (opener == 2) {
-        
+
         if (stance == Stance.AF3 && MP >= (938) && lastability != "Fire") { execute(ref fire); }
         execute(ref xpotionintelligence);
         if (stance == Stance.AF3 && MP >= (938)) { execute(ref fire); }
         if (stance == Stance.AF3 && MP <= 938) { opener += 1; }
       }
       //execute(ref xpotionintelligence);
-      if (opener == 3) {  execute(ref swiftcast); }
-      if (opener == 4) {  execute(ref flare); }
-      if (opener == 5) {  execute(ref convert); }
+      if (opener == 3) { execute(ref swiftcast); }
+      if (opener == 4) { execute(ref flare); }
+      if (opener == 5) { execute(ref convert); }
       if (opener == 6) { opener += 1; execute(ref fire); }
 
       if (stance == Stance.BLMNone) { execute(ref fireiii); }
       if (thundercloud && (lastability == "Fire" || lastability == "Blizzard III" && !firestarter)) { execute(ref thunderiiitcp); }
       if (stance == Stance.AF3 && firestarter && lastability != "Fire" && MP >= (638 + 79 + 212)) { execute(ref fire); }
 
-      if (stance == Stance.AF3 && MP >= (638 + 79 + 212)) { execute(ref fire); }
-      if (stance == Stance.AF3 && MP < (638 + 79 + 212) && opener > 6) {  execute(ref blizzardiii); }
-      if (stance == Stance.UI3 && MP >= 212 && thunder.debuff <= calculateSGCD(2.5) && thunderiiitcp.debuff <= calculateSGCD(2.5) && thunderii.debuff <= calculateSGCD(2.5)) { execute(ref thunder); }
-      if (stance == Stance.UI3 && (MainWindow.time  <= nextregentick - calculateSGCD(3)) || (firestarter && MainWindow.time <= nextregentick - calculateSGCD(1.25))) { execute(ref blizzard); }
-      if ((stance == Stance.UI3 && MP >= (MPMax * 0.95) || (MP > MPMax * 0.5 && (MainWindow.time + calculateSGCD(1.75) + 0.01) > nextregentick)) && !firestarter) { execute(ref fireiii); }
+      if (stance == Stance.AF3 && MP >= (638 + 79 + 212)) {
+        execute(ref fire);
+      }
+
+      if (stance == Stance.AF3 && MP < (638 + 79 + 425) && opener > 6) { execute(ref blizzardiii); }
+
+      if ((stance == Stance.UI3 && MP >= 212 && thunder.debuff <= calculateSGCD(2.5) && thunderiiitcp.debuff <= calculateSGCD(2.5) && thunderii.debuff <= calculateSGCD(2.5) && thunderiii.debuff <= calculateSGCD(2.5))) { execute(ref thunder); }
+
+
+      if (stance == Stance.UI3 && (MainWindow.time <= nextregentick - calculateSGCD(3.25)) || (firestarter && MainWindow.time < nextregentick - calculateSGCD(1.75))) { execute(ref blizzard); }
+      if ((stance == Stance.UI3 && MP >= MPMax || (MP > MPMax * 0.5 && (MainWindow.time + calculateSGCD(1.75) + 0.01) > nextregentick)) && !firestarter) { execute(ref fireiii); }
 
       //Buffs/Cooldowns - execute(ref ability)
 
@@ -103,6 +111,7 @@ namespace Chocobro {
       tick(ref thunder);
       tick(ref thunderii);
       tick(ref thunderiiitcp);
+      tick(ref thunderiii);
       //AutoAttacks (not for casters!) - execute(ref autoattack)
 
       //Decrement Buffs - decrement(ref buff)
@@ -124,35 +133,35 @@ namespace Chocobro {
         opener += 1;
         swift = true;
         MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " used.");
-        
+
       }
-      if (ability.name == "Transpose" && stance == Stance.UI3) { UIstacks = 0;  AFstacks = 1; stance = Stance.AF1; }
-      
+      if (ability.name == "Transpose" && stance == Stance.UI3) { UIstacks = 0; AFstacks = 1; stance = Stance.AF1; }
+
       if (ability.name == "Convert") { opener += 1; MP += (int)(0.3 * MPMax); ; }
       if (opener <= 6 && ability.name == "Thunder II") { opener += 1; }
       if (opener <= 6 && ability.name == "Flare") { opener += 1; }
       if (opener <= 6 && ability.name == "Convert") { opener += 1; }
-      if (opener <= 6 && ability.name == "Fire III") {opener += 1; }
-      if (opener <= 6 && ability.name == "Fire" && MP >= 938 && MP <= 1576) {opener +=1;}
-      
+      if (opener <= 6 && ability.name == "Fire III") { opener += 1; }
+      if (opener <= 6 && ability.name == "Fire" && MP >= 938 && MP <= 1576) { opener += 1; }
+
       //var critchance = calculateCrit(_player);
       //set potency for now, but change to damage later.
       var accroll = (MainWindow.d100(1, 10001)) / 100;
 
       if (ability.abilityType == "Cooldown") {
-        
+
       }
 
       if (ability.abilityType == "Weaponskill" || (ability.abilityType == "Instant")) {
-        
+
         if (accroll < calculateACC()) {
-          
-          
+
+
           double thisdamage = damage(ref ability, ability.potency);
 
           totaldamage += (int)thisdamage;
           ability.damage += thisdamage;
-          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next ability at: " + nextability); 
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next ability at: " + nextability);
         } else {
           ability.misses += 1;
           MainWindow.log("!!MISS!! - " + MainWindow.time.ToString("F2") + " - " + ability.name + " missed! Next ability at: " + ability.nextCast);
@@ -164,7 +173,7 @@ namespace Chocobro {
 
         if (accroll < calculateACC()) {
           ability.hits += 1;
-          
+
           double thisdamage = damage(ref ability, ability.potency);
           int mpbefore = MP;
           int mpcost = 0;
@@ -181,7 +190,7 @@ namespace Chocobro {
           if (ability.name == "Fire III") { AFstacks = 3; UIstacks = 0; stance = Stance.AF3; }
           if (ability.name == "Ice III") { UIstacks = 3; AFstacks = 0; stance = Stance.UI3; }
           if (ability.name == "Fire III (FSP)") { UIstacks = 0; stance = Stance.AF3; AFstacks = 3; firestarter = false; firestartercheck = 0; }
-          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next ability at: " + nextability + ". MP is now " + MP + ". Times used: " + ability.swings + "Times hit: " + ability.hits  + " Total Damage: " + totaldamage + ". Opener: " + opener);
+          MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " Deals " + thisdamage + " Damage. Next ability at: " + nextability + ". MP is now " + MP + ". Times used: " + ability.swings + "Times hit: " + ability.hits + " Total Damage: " + totaldamage + ". Opener: " + opener);
 
           if (ability.name == "Fire") {
             if (MainWindow.d100(1, 100) <= 40) {
@@ -201,7 +210,7 @@ namespace Chocobro {
 
       if (ability.abilityType == "HealSpell") {
 
-        
+
         double thisheal = damage(ref ability, ability.potency);
         int mpbefore = MP;
         mpused += ability.MPcost;
@@ -246,7 +255,7 @@ namespace Chocobro {
         ability.debuff -= 1.0;
         if (ability.debuff <= 0.0) {
           MainWindow.log(MainWindow.time.ToString("F2") + " - " + ability.name + " has fallen off.");
-          //clear buffs from object.
+          //clear buffs from object.  
           ability.dotbuff["raginstrikes"] = false;
           ability.dotbuff["potion"] = false;
         }
@@ -349,6 +358,7 @@ namespace Chocobro {
       areport.Add(blizzardiii);
       areport.Add(thunder);
       areport.Add(thunderii);
+      areport.Add(thunderiii);
       areport.Add(blizzard);
       areport.Add(thunderiiitcp);
       areport.Add(transpose);
@@ -368,6 +378,7 @@ namespace Chocobro {
     Ability blizzardiii = new BlizzardIII();
     Ability thunder = new Thunder();
     Ability thunderii = new ThunderII();
+    Ability thunderiii = new ThunderIII();
     Ability thunderiiitcp = new ThunderIIItcp();
     Ability flare = new Flare();
     Ability swiftcast = new Swiftcast();
