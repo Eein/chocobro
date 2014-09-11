@@ -40,6 +40,7 @@ namespace Chocobro {
     public enum StatWeight { None, WeaponDamage, MagicDamage, Dexterity, Strength, Intelligence, Mind, Piety, Accuracy, Determination, Crit, SkillSpeed, SpellSpeed }
     private static readonly Random rand = new Random();
     public static double time = 0.00;
+    public static int statchange = 0;
     public static double fightlength = 0.00;
     public static int servertime = 0;
     public static int servertick = 0;
@@ -55,7 +56,6 @@ namespace Chocobro {
     public static double dpsmaxlist = 0;
     public static int iterationum = 0;
     public List<Simulator_Object_Struct> plist = new List<Simulator_Object_Struct>();
-
     //Resources
     public static string logstring = "";
 
@@ -81,6 +81,7 @@ namespace Chocobro {
           case "Summoner": return new Summoner();
           case "Dragoon": return new Dragoon();
           case "Monk": return new Monk();
+          case "White Mage": return new WhiteMage();
           default: return new Job();
         }
 
@@ -229,6 +230,7 @@ namespace Chocobro {
         //start iterations (needs threading!!!)
         for (int x = 1; x <= iterations; ++x) {
           int ticknumber = 0;
+          iterationum = x;
           servertick = randtick.Next(1, 4);
           //alt progress bar for iterations only
           if (swselected == "None") {

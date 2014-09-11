@@ -42,6 +42,8 @@ namespace Chocobro {
     public double heals = 0;
     public double dotdamage = 0;
     public double hotheals = 0;
+    public double hot = 0;
+    public double hotTime = 0;
 
     public double dpet = 0.0;
     public double hpet = 0.0;
@@ -76,6 +78,8 @@ namespace Chocobro {
       this.heals = 0;
       this.dotdamage = 0;
       this.hotheals = 0;
+      this.hot = 0;
+      this.buff = 0;
       //this.totalattacks = 0;
       //this.totaldotticks = 0;
       this.dpet = 0;
