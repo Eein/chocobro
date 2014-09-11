@@ -187,7 +187,6 @@ namespace Chocobro {
         TP = 1000;
         if (name == "BRD") { MP = (1949 + 8 * (PIE - 168)); }
         if (name == "BLM") { MP = (3629 + 8 * (PIE - 239)); }
-        if (name == "White Mage") { MPMax = (3523 + 8 * (PIE - 244)); }
         MPMax = MP;
         actionmade = false;
 
@@ -241,9 +240,8 @@ namespace Chocobro {
           int mpbefore = MP;
           TP += 60;
           
-
           int tempmpgain = 0;
-          if (name == "Black Mage" && stance == Stance.UI3) { tempmpgain = 2249;}
+          if (name == "Black Mage" && stance == Stance.UI3) {tempmpgain = 2249;}
           if (name == "Black Mage" && stance == Stance.AF3) { tempmpgain = 0; } 
           if (name != "Black Mage") { tempmpgain = (int)Math.Floor((double)MPMax * 0.02); }
           MP += tempmpgain;
@@ -276,9 +274,8 @@ namespace Chocobro {
           if (MainWindow.time >= ability.nextCast && MainWindow.time >= nextability && actionmade == false) {
             //Get game time (remove decimal error)
             MainWindow.time = MainWindow.floored(MainWindow.time);
-            if (ability.TPcost > 0) { MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name + ". Cost is " + ability.TPcost + "TP. TP is " + TP + " => " + (TP - ability.TPcost) + "."); }
-            if (ability.MPcost > 0) { MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name + ". Cost is " + ability.MPcost + "MP. MP is " + MP + " => " + (MP - ability.MPcost) + "."); }
-
+            MainWindow.log(MainWindow.time.ToString("F2") + " - Executing " + ability.name + ". Cost is " + ability.TPcost + "TP. TP is " + TP + " => " + (TP - ability.TPcost) + ".");
+            // remove TP
             TP -= ability.TPcost;
             tpused += ability.TPcost;
             //if doesnt miss, then impact

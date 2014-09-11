@@ -9,8 +9,6 @@ namespace Chocobro {
     public int opener = 0;
     public enum Song { None = 0, ArmysPaeon = 1, MagesBallad = 2, FoesRequiem = 3 }
     public Song song;
-    public enum CDstrat { wait, liberal }
-    public CDstrat cdstrat;
 
     public Bard() {
       name = "Bard";
@@ -49,7 +47,8 @@ namespace Chocobro {
       tpused = 0;
       tpgained = 0;
       song = Song.None;
-      cdstrat = CDstrat.wait;
+      MPMax = (1949 + 8 * (PIE - 168));
+      MP = MPMax;
     }
 
     public override void rotation() {
@@ -57,7 +56,7 @@ namespace Chocobro {
       if (MainWindow.time == armyspaeon.endcast && armyspaeon.casting) { armyspaeon.casting = false; impact(ref armyspaeon); }
       autoattack.recastTime = AADELAY;
 
-
+      
       if (MainWindow.selenebuff == true) {
         if (feyglow.buff <= 0 && MainWindow.time >= feylight.nextCast) { execute(ref feylight); }
         if (feylight.buff <= 0 && MainWindow.time >= feyglow.nextCast) { execute(ref feyglow); }
@@ -67,9 +66,9 @@ namespace Chocobro {
         execute(ref invigorate);
       }
 
-      //if (TP >= 540 && song == Song.ArmysPaeon && MP > 0.3 * MPMax && invigorate.nextCast - MainWindow.time < 15 ) { MainWindow.log(MainWindow.time.ToString("F2") + "Armys Paeon off."); song = Song.None; }
-      //if (ragingstrikes.buff > 0 && song == Song.ArmysPaeon) { MainWindow.log(MainWindow.time.ToString("F2") + "Armys Paeon off."); song = Song.None; }
-      //if (TP <= 160 && song == Song.None && MainWindow.time < MainWindow.fightlength * 0.9 && ragingstrikes.buff <= 0) { execute(ref armyspaeon); }
+      if (TP >= 540 && song == Song.ArmysPaeon && MP > 0.3 * MPMax && invigorate.nextCast - MainWindow.time < 15 ) { MainWindow.log(MainWindow.time.ToString("F2") + "Armys Paeon off."); song = Song.None; }
+      if (ragingstrikes.buff > 0 && song == Song.ArmysPaeon) { MainWindow.log(MainWindow.time.ToString("F2") + "Armys Paeon off."); song = Song.None; }
+      if (TP <= 160 && song == Song.None && MainWindow.time < MainWindow.fightlength * 0.9 && ragingstrikes.buff <= 0) { execute(ref armyspaeon); }
 
       if (heavyshot.buff > 0 && TP > 70) {
         execute(ref straightshot);
@@ -92,49 +91,22 @@ namespace Chocobro {
           execute(ref venomousbite);
         }
       }
-
-      execute(ref heavyshot);
+      
+      execute(ref heavyshot); 
 
       if (ragingstrikes.nextCast <= MainWindow.time) { opener = 0; execute(ref ragingstrikes); } //"smart" use of buffs, needs more attention
-
-      if (cdstrat == CDstrat.wait) {
-        if (ragingstrikes.buff > 0) {
-          execute(ref bloodforblood);
-          execute(ref internalrelease);
-          execute(ref hawkseye);
-          execute(ref xpotiondexterity);
-          execute(ref barrage);
-        }
-
-        if (ragingstrikes.nextCast >= MainWindow.time + 55 && ragingstrikes.nextCast <= MainWindow.time + 65) { //better use of internal release
-          execute(ref internalrelease);
-        }
+      if (ragingstrikes.buff > 0) {
+        execute(ref bloodforblood);
+        execute(ref internalrelease);
+        execute(ref hawkseye);
+        execute(ref xpotiondexterity);
+        execute(ref barrage);
       }
 
-      if (cdstrat == CDstrat.liberal) {
-
-        if (MainWindow.time < 30) {
-          execute(ref bloodletter);
-          execute(ref internalrelease);
-          execute(ref hawkseye);
-          execute(ref ragingstrikes);
-          execute(ref bloodforblood);
-          execute(ref barrage);
-        }
-
-        if (barrage.nextCast < MainWindow.time && hawkseye.buff > 0) {
-          execute(ref hawkseye);
-          execute(ref bloodforblood);
-          execute(ref barrage);
-        }
-
-
-        if (ragingstrikes.nextCast < MainWindow.time || ragingstrikes.buff > 0) {
-          execute(ref ragingstrikes);
-          execute(ref internalrelease);
-        }
+      if (ragingstrikes.nextCast >= MainWindow.time + 55 && ragingstrikes.nextCast <= MainWindow.time + 65) { //better use of internal release
+        execute(ref internalrelease);
       }
-
+      
       if (MainWindow.servertime >= 0.8 * MainWindow.fightlength) {
         execute(ref miserysend);
       }
@@ -168,9 +140,9 @@ namespace Chocobro {
 
     public override void execute(ref Ability ability) {
       //barrage interactions
-
-
-
+            
+       
+      
       if (ability.abilityType == "AUTOA" && MainWindow.time >= ability.nextCast) {
         if (barrage.buff > 0) {
           MainWindow.time = MainWindow.floored(MainWindow.time);
@@ -299,7 +271,7 @@ namespace Chocobro {
           ability.dotbuff["hawkseye"] = false;
           ability.dotbuff["internalrelease"] = false;
           ability.dotbuff["potion"] = false;
-          ability.dotbuff["song"] = false;
+          ability.dotbuff["song"] = false;  
         }
         //If dot exists and ability doesn't miss, enable its time.
 
@@ -383,7 +355,7 @@ namespace Chocobro {
       if (hawkseye.buff > 0 || ((dot) && ability.dotbuff["hawkseye"])) { tempdex *= 1.15; }
       if (ability.abilityType == "Weaponskill" || ability.abilityType == "Instant") {
         damageformula = ((double)pot / 100) * (WEP * .2714745 + tempdex * .1006032 + (DTR - 202) * .0241327 + WEP * tempdex * .0036167 + WEP * (DTR - 202) * .0010800 - 1);
-
+        
       }
       if (ability.abilityType == "AUTOA") {
         damageformula = (AADELAY / 3.00) * (WEP * .2714745 + tempdex * .1006032 + (DTR - 202) * .0241327 + WEP * tempdex * .0036167 + WEP * (DTR - 202) * .0010800 - 1);
@@ -429,7 +401,7 @@ namespace Chocobro {
       }
 
       // added variance to damage.
-      damageformula = ((MainWindow.d100(-300, 300) / 10000) + 1) * (int)damageformula;
+      damageformula = ((MainWindow.d100(-500, 500) / 10000) + 1) * (int)damageformula;
       return (int)damageformula;
     }
 
@@ -464,7 +436,7 @@ namespace Chocobro {
       areport.Add(feylight);
       areport.Add(feyglow);
       areport.Add(regen);
-
+      
     }
     Ability heavyshot;
     Ability windbite;

@@ -60,9 +60,8 @@ namespace Chocobro {
 
           ability.dpet = 0;
           //check if the ability has a dot component
-          if (ability.dotPotency > 0 || ability.hotPotency > 0) {
-            if (ability.dotPotency > 0) {ability.dpet = ((ability.damage + ability.dotdamage) / ability.swings);}
-            if (ability.hotPotency > 0) {ability.dpet = ((ability.damage + ability.hotheals) / ability.swings);}
+          if (ability.dotPotency > 0) {
+            ability.dpet = ((ability.damage + ability.dotdamage) / ability.swings);
           } else {
             ability.dpet = ((ability.damage) / ability.swings);
           }
@@ -108,9 +107,9 @@ namespace Chocobro {
       report += "<img src='http://chart.googleapis.com/chart?chxs=0,FFFFFF,11.5&&chco=006699&&chxt=x&&chs=500x225&chts=FFFFFF,18&chf=bg,s,00000000&cht=p&chd=t:";
 
       foreach (Ability ability in j.areport) {
-        if (ability.damage > 0 || ability.dotdamage + ability.hotheals > 0) { //checks to make sure abilities do damage....
-          if (ability.dotPotency + ability.hotheals > 0) {
-            report += dpspercent(ability.dotdamage + ability.hotheals, dps, fightlength) + ",";
+        if (ability.damage > 0) { //checks to make sure abilities do damage....
+          if (ability.dotPotency > 0) {
+            report += dpspercent(ability.dotdamage, dps, fightlength) + ",";
           }
           report += dpspercent(ability.damage, dps, fightlength) + ",";
         }
@@ -119,8 +118,8 @@ namespace Chocobro {
       report = report.Substring(0, report.Length - 1);
       report += "&chl=";
       foreach (Ability ability in j.areport) {
-        if (ability.damage + ability.hotheals > 0) { //checks to make sure abilities do damage....
-          if (ability.dotPotency > 0 || ability.hotPotency > 0) {
+        if (ability.damage > 0) { //checks to make sure abilities do damage....
+          if (ability.dotPotency > 0) {
             report += ability.name + " Dot|";
           }
           report += ability.name + "|";
@@ -133,11 +132,11 @@ namespace Chocobro {
       report += "<br><h3>TP Recovered: " + j.tpgained + "  TP Used: " + j.tpused + " " + "<br>";
       report += "<img src='http://chart.apis.google.com/chart?cht=lc&chs=375x225&chco=006699&chxt=x,y";
       report += "&chxl=0:|0|fightlength=" + MainWindow.fightlength + "|1:|0|avg=" + Math.Round(tptimeline.Sum() / tptimeline.Count()) + "|max=" + 1000 + "&chxp=1,1,51,100&chtt=TP+Timeline&chts=FFFFFF,18&chf=bg,s,00000000&chd=";
-      report += util.simpleEncode(tptimeline, (tptimeline.Max() + 10));
+      report += util.simpleEncode(tptimeline, (tptimeline.Max()));
       report += "' /></div>";
       report += "<img src='http://chart.apis.google.com/chart?cht=lc&chs=375x225&chco=006699&chxt=x,y";
       report += "&chxl=0:|0|fightlength=" + MainWindow.fightlength + "|1:|0|avg=" + Math.Round(mptimeline.Sum() / mptimeline.Count()) + "|max=" + mptimeline.Max()*1 + "&chxp=1,1,51,100&chtt=MP+Timeline&chts=FFFFFF,18&chf=bg,s,00000000&chd=";
-      report += util.simpleEncode(mptimeline, (mptimeline.Max() +  10));
+      report += util.simpleEncode(mptimeline, (mptimeline.Max()));
       report += "' /></div><div class='damagesources'><h3>Distribution</h3>";
       report += "<img src='http://chart.googleapis.com/chart?cht=bvg&chs=400x200&chxt=x,y&chxs=1,000000,12,0,lt|1,000000,10,1,lt&chbh=5,0,1&chd=t:";
 
@@ -159,13 +158,13 @@ namespace Chocobro {
       report += "<table><thead><tr><td>Ability</td><td>DPS</td><td>DPS%</td><td>TOTAL DMG</td><td>Swings</td><td>HIT</td><td>HIT%</td><td>CRIT</td><td>CRIT%</td><td>MISS</td><td>MISS%</td><td>UPTIME</td></tr></thead><tbody>";
       foreach (Ability ability in j.areport) {
 
-        if (ability.dotPotency > 0 || ability.hotPotency > 0) {
+        if (ability.dotPotency > 0) {
 
           //ability.totalattacks = ability.tickhits + 
           report += "<tr><td>" + ability.name + " Dot</td><td>"
-            + (Math.Floor(((ability.dotdamage + ability.hotheals) / fightlength) * 100) / 100) + "</td><td>"
-            + (Math.Floor(dpspercent(ability.dotdamage+ability.hotheals, dps, fightlength) * 100) / 100) + "</td><td>"
-            + (ability.dotdamage + ability.hotheals) + "</td><td>"
+            + (Math.Floor((ability.dotdamage / fightlength) * 100) / 100) + "</td><td>"
+            + (Math.Floor(dpspercent(ability.dotdamage, dps, fightlength) * 100) / 100) + "</td><td>"
+            + ability.dotdamage + "</td><td>"
             + ability.ticks + "</td><td></td><td>100%</td><td>" + ability.tickcrits + "</td><td>" + (Math.Round(((double)ability.tickcrits / (double)ability.ticks) * 10000) / 10000) * 100 + "%</td><td>0</td><td>0%</td><td>UPTIME</td></tr>";
         }
         report += "<tr><td>" + ability.name + "</td><td>"
