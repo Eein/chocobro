@@ -13,7 +13,7 @@
             <RowDefinition Height="751*"/>
             <RowDefinition Height="65*"/>
         </Grid.RowDefinitions>
-
+        
         <Button x:Name="simulateButton" Content="Sim" HorizontalAlignment="Right" VerticalAlignment="Center" Click="Button_Click" Height="20" Grid.Column="1" Grid.Row="1" Width="50" Margin="0,0,10,0" />
         <ComboBox x:Name="job" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Width="120" Height="22"  >
             <ComboBoxItem Content="Bard" HorizontalAlignment="Left" Width="118" IsSelected="True" />
@@ -96,11 +96,6 @@
                         <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="118" IsSelected="True"/>
                         <ComboBoxItem Content="Small (50-150ms)" HorizontalAlignment="Left" Width="118" IsEnabled="True"/>
                         <ComboBoxItem Content="Med (125-225ms)" HorizontalAlignment="Left" Width="118"/>
-                    </ComboBox>
-                    <Label Content="Players:" HorizontalAlignment="Left" Margin="18,140,0,0" VerticalAlignment="Top" Height="30" IsEnabled="False"/>
-                    <ComboBox x:Name="PLAYERS" HorizontalAlignment="Left" Margin="58,142,0,0" VerticalAlignment="Top" Width="50" Height="22" BorderBrush="White" IsEnabled="True"  >
-                        <ComboBoxItem Content="1" HorizontalAlignment="Left" Width="32" IsEnabled="True" IsSelected="True"/>
-                        <ComboBoxItem Content="2" HorizontalAlignment="Left" Width="32" IsEnabled="True"/>
                     </ComboBox>
                 </Grid>
             </TabItem>
