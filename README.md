@@ -1,3 +1,4 @@
+<a href="http://www.wtfpl.net/download/wtfpl-badge-1/" rel="attachment wp-att-49"><img alt="wtfpl-badge-1" src="http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png" width="88" height="31"></a>
 Chocobro
 =========
 
