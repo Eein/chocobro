@@ -47,6 +47,5 @@ Everyone else who contributes!
 License
 ----
 
-[GPLv3](https://raw.github.com/Eein/chocobro/master/LICENSE)
-
+I hereby declare all source code in this project as WTFYW. <3 :3
     
