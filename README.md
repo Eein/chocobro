@@ -2,6 +2,9 @@
 Chocobro
 =========
 
+THIS HASNT BEEN UPDATED IN A LONG TIME. 
+============================
+
 A FFXIV 2.0 Combat Simulator
 
 Chocobro is heavily influenced by [Simulationcraft](http://www.simulationcraft.org) for World of Warcraft (albiet, not build from the same source).
