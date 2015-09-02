@@ -2,7 +2,7 @@
 Chocobro
 =========
 
-THIS HASNT BEEN UPDATED IN A LONG TIME. 
+!!!!!!!! THIS HASNT BEEN UPDATED IN A LONG TIME. !!!!!!!!
 ============================
 
 A FFXIV 2.0 Combat Simulator
